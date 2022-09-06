@@ -1,0 +1,390 @@
+*{
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    
+    /* border: 1px solid red; */
+    min-height: 100vh;
+    /* background-color: red; */
+}
+
+/*Etiqueta href de los botonos sin decoración*/
+a{
+    text-decoration: none;
+}
+
+/*Contenedor principal
+::Le dice al body que tome un tamaño mínmo de toda la pantalla
+*/
+#background-container-mainsite{
+    width: 100%;
+    height: 100vh;
+    /*border: 2px solid blue;*/
+    background: url(../../img/layouts/loginfoto.jpg);
+}
+
+/*Home*/
+
+#megacontainer{
+
+    height: 100%;
+    display: flex;
+    /*border: 1px solid yellow;*/
+    flex-wrap: wrap;
+    align-content: space-between;
+
+} 
+
+
+
+
+/*SideVar*/
+.sidevaron{
+    /*border: 1px solid blue;*/
+   
+    animation-name: sidevaron-animation;
+    animation-fill-mode: forwards;
+    animation-duration: 200ms;
+    z-index: +1;
+    content-visibility: visible;
+    
+}
+
+@keyframes sidevaron-animation {
+    0%{
+        width: 0%;
+    }
+    100%{
+        width: 85%;
+        box-shadow: 10px 0px 8px #3E7A12;
+        position: relative;
+    }
+}
+
+@media only screen and (min-width: 640px){
+    @keyframes sidevaron-animation {
+        0%{
+            width: 0%;
+        }
+        100%{
+            width: 30%;
+            box-shadow: 10px 0px 8px #3E7A12;
+        }
+    }
+    
+}
+
+@media only screen and (min-width: 850px){
+    @keyframes sidevaron-animation {
+        0%{
+            width: 0%;
+        }
+        100%{
+            width: 25%;
+            box-shadow: 10px 0px 8px #3E7A12;
+        }
+    }
+    
+}
+
+.sidevaroff{
+    /*border: 1px solid blue;*/
+    height: 100%;
+
+    animation-name: sidevaroff-animation;
+    animation-fill-mode: forwards;
+    animation-duration: 200ms;
+    content-visibility: hidden;
+    
+}
+
+@keyframes sidevaroff-animation {
+    0%{
+        width: 15%;
+    }
+    100%{
+        width: 0%;
+        box-shadow: 10px 0px 3px #3E7A12;
+        background-color: #679447 ;
+    }
+}
+
+/*Fin Sidevar*/
+
+.main-area{
+    width: 100%;
+    position: fixed;
+}
+
+/*Contenido*/
+
+.contentsiteblockon{
+    border: 1px solid green;
+
+    animation-name: contentsiteblockon-animation;
+    animation-fill-mode: forwards;
+    animation-duration: 180ms;
+    
+
+}
+/* 
+@keyframes contentsiteblockon-animation{
+    0%{
+        width: 99%;
+    }
+    100%{
+        width: 100%;
+    }
+}
+
+@media only screen and (min-width: 640px){
+    @keyframes contentsiteblockon-animation{
+        0%{
+            width: 99%;
+        }
+        100%{
+            width: 100%;
+        }
+    }
+    
+} */
+
+
+.contentsiteblockoff{
+    /*border: 1px solid green;*/
+    height: 100%;
+    margin-left: 10px;
+    animation-name: contentsiteblockoff-animation;
+    animation-fill-mode: forwards;
+    animation-duration: 220ms;
+
+}
+
+@keyframes contentsiteblockoff-animation{
+    0%{
+        width: 85%;
+    }
+    100%{
+        width: 99%;
+    }
+}
+
+/*Fin Contenido*/
+
+/*MainSite>>Sidevar Grid*/
+.grid-sidevar{
+    display: grid;
+    width: 100%;
+    height: 100vh;
+    grid-template-columns: auto 90% auto;
+    background-image: url("../../img/layouts/sidevarwallpaper.jpg");
+    background-size: contain;
+    overflow: hidden;
+    align-content: flex-start;
+}
+
+.main-sidevar-title{
+
+    width: 100%;
+    height: fit-content;
+    /*background-color: rgb(255, 0, 85);*/
+    grid-column: 1 / 4;
+    gap: 10px;
+    text-align: center;
+}
+
+
+.main-sidevar-area{
+    display: grid;
+    top:0;
+    width: 100%;
+    height: 65vh;
+    /*background-color: aqua;*/
+    grid-column: 2 / 3;
+    gap: 10px;
+    text-align: center;
+    grid-template-columns: 1fr;
+    overflow: scroll;
+    align-content: flex-start;
+    border-radius: 2%;
+    
+}
+
+/*Mainsite->Modificacion de scroll inicio*/
+.main-sidevar-area::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
+
+.main-sidevar-area::-webkit-scrollbar:vertical {
+    width:10px;
+}
+
+.main-sidevar-area::-webkit-scrollbar-button:increment,.main-sidevar-area::-webkit-scrollbar-button {
+    display: none;
+} 
+
+.main-sidevar-area::-webkit-scrollbar:horizontal {
+    height: 10px;
+}
+
+.main-sidevar-area::-webkit-scrollbar-thumb {
+    background-color: #797979;
+    border-radius: 20px;
+    /*border: 2px solid #f1f2f3;*/
+}
+
+.main-sidevar-area::-webkit-scrollbar-track {
+    border-radius: 10px;  
+}
+
+/*mainsite->Modificacion de scroll end*/
+
+.main-sidevar-item{
+    background-color: antiquewhite;
+    position: relative;
+    height: fit-content;
+    border-radius: 5%;
+    margin-right: 3px;
+    margin-bottom: 8%;
+}
+
+.sidevar-btn-title{
+    background-color:#3E7A12;
+    color: white;
+    border: 1px solid white;
+}
+
+/* Sidevar-> Logo */
+
+
+/*Sidevar->Botón que contrae el Sidevar 
+    Botón que contrae el sidevar cuando  
+    este mide menos de 640 px */
+#backrow{
+    width: 100%;
+    background-color: #3E7A12;
+    margin-bottom: 4%;
+    cursor: pointer;
+}
+
+@media only screen and (min-width: 640px){
+    #backrow{
+        content-visibility: hidden;
+    }
+}
+/* Sidevar-> FINAL Botón que contrae el Sidevar  */
+
+#logout{
+    padding-top:4%;
+    overflow: hidden;
+}
+
+/*Sidevar->INICIO Animaciones lista desplegable*/
+.main-sidevar-item-links-on{
+
+    animation-name: main-sidevar-item-links-on-animation;
+    animation-fill-mode: forwards;
+    animation-duration: 200ms;
+
+    content-visibility: visible;
+}
+
+@keyframes main-sidevar-item-links-on-animation{
+    0%{
+        height: 0;
+    }
+
+    100%{
+        height: 1;
+    }
+}
+
+.main-sidevar-item-links-off{
+
+    content-visibility: hidden;
+    animation-name: main-sidevar-item-links-off-animation;
+    animation-fill-mode: forwards;
+    animation-duration: 200ms;
+
+    
+}
+
+@keyframes main-sidevar-item-links-off-animation{
+    0%{
+        height: 1;
+    }
+    100%{
+        height: 0;
+    }
+}
+/*Sidevar->FINAL Animaciones lista desplegable*/
+
+/*mainsite->Zona de contenido principal*/
+
+#content-site-block{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 10% auto;
+    max-height: 100%;
+    overflow: hidden;
+   
+}
+
+.zonaalta{
+    display:grid;
+    grid-template-columns: 100% auto;
+    align-content: space-between;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    margin-left: 40%;
+}
+
+.superiorboton{
+   
+    margin-left: 0%;
+    
+}
+
+.contenido{
+    width: 100%;
+    
+    overflow-y: scroll;
+    font-size: medium;
+    display: flex;
+}
+
+/*Table*/
+.table-fut{
+    
+    width: 80px;
+    
+}
+
+.btnEditar{
+text-align: center;
+
+}
+.btnCerrar{
+    text-align: right;
+}
+
+.btnCerrar{
+    text-align: right;
+}
+
+
+
+.form-label{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-align: justify;
+    color: black;
+    -webkit-text-stroke: 0.5px grey !important;
+  }
+
+
+  .adicion_title {
+    text-align: center;
+  }

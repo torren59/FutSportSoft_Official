@@ -1,0 +1,87 @@
+body { 
+    font-size: 140%; 
+  }
+  
+  h2 {
+  
+    text-align: center;
+    padding: 20px 0;
+    color: black;
+  -webkit-text-stroke: 0.9px grey !important;
+    
+  }
+  
+  table caption {
+      padding: .5em 0;
+  }
+  
+  table.dataTable th,
+  table.dataTable td {
+    white-space: nowrap;
+  }
+  
+  .p {
+    text-align: center;
+    padding-top: 140px;
+    font-size: 14px;
+  }
+  
+  .dataTable-selector {
+    padding: 6px;
+    padding-top: 6px;
+    padding-right: 6px;
+    padding-bottom: 6px;
+    padding-left: 6px;
+    border-radius: 5px;
+    
+    background-color: rgba(0, 0, 0, 0.1);
+    border: 0ch;
+  }
+  label{
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  text-align: justify;
+  color: black;
+  -webkit-text-stroke: 0.5px grey !important;
+  }
+  
+  .dataTable-input{
+  font-family: 'Times New Roman', Times, serif;
+  text-align: justify;
+  color: black;
+  -webkit-text-stroke: 0.5px grey !important;
+  border: 0ch;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  width: 100%;
+  }
+  
+  a{
+  color:black;
+  -webkit-text-stroke: 0.5px #3E7A12 !important;
+  }
+  
+  .form-check-input:checked{
+  background-color: #3E7A12;
+  color: #3E7A12; 
+  }
+  
+  .dataTable-info{
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  text-align: justify;
+  color: black;
+  -webkit-text-stroke: 0.5px grey !important;
+  }
+  
+  .service_list{
+  background-color: rgba(228, 222, 215, 0.158);
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.2);
+  }
+  
+  .service_list_on{
+  background-color: rgba(228, 222, 215, 0.158);
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.2);
+  }
+  
+  

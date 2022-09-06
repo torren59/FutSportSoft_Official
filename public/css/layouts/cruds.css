@@ -1,0 +1,199 @@
+.floatwindow{
+    position: relative;
+    top: 0px;
+    left: 0px;
+    width: 40%;
+    height: 50%;
+    /*border: 2px solid green;*/
+}
+
+/*Ventana en la que se imprime la tabla para los diferentes listados*/
+.service_list{
+    /*border: 2px solid greenyellow;*/
+    padding-left: 1%;
+    height: fit-content;
+    margin: none;
+    animation-name: servicelistoff;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    
+}
+
+.service_list_on{
+    overflow-y: scroll;
+    animation-name: serviceliston;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+
+    height: 100%;
+}
+
+@keyframes serviceliston {
+    0%{
+        width: 100%;
+    }
+    100%{
+        width: 70%;
+    }
+}
+
+@keyframes servicelistoff {
+    0%{
+        width: 70%;
+    }
+    100%{
+        width: 100%;
+    }
+}
+
+.service_edit{
+    /*border:1px solid black;*/
+    height: 100%;
+    content-visibility: hidden;
+    animation-name: serviceeditoff;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    
+}
+
+.service_edit_on{
+    text-justify: center;
+    padding-left: 10px;
+    padding-right: 10px;
+    content-visibility: visible;
+    animation-name: serviceediton;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes serviceediton {
+    0%{
+        width: 0%;
+    }
+    100%{
+        width: 30%;
+    }
+}
+
+@keyframes serviceeditoff {
+    0%{
+        width: 30%;
+    }
+    100%{
+        width: 0%;
+    }
+}
+
+.textloco{
+    color: green;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: larger;
+}
+
+.adicion{
+    position: absolute;
+    display: grid;
+    border-radius: 10px;
+    grid-template-rows: 10% auto;
+    top: 10%;
+    left: 25%;
+    border: 2px solid rgba(0, 0, 0, 0,2);
+    background-color: rgba(248, 248, 247, 0.699);
+    width: 60%;
+    height: 80vh;
+    justify-items: center;
+    overflow-y: scroll;
+}
+
+h1{
+    text-align: center;
+  padding: 20px 0;
+  color: black;
+-webkit-text-stroke: 0.9px grey !important;
+}
+
+#deporteadicion{
+    position: absolute;
+    display: grid;
+    border-radius: 10px;
+    grid-template-rows: 20% auto;
+    top: 10%;
+    left: 25%;
+    border: 2px solid rgba(0, 0, 0, 0,2);
+    background-color: rgba(248, 248, 247, 0.699);
+    width: 60%;
+    height: 40vh;
+    justify-items: center;
+}
+
+
+.adicion_off{
+    visibility: hidden;
+}
+
+.adicion_title{
+    width: 90%;
+   
+
+}
+
+.adicion_content{
+    width: 90%;
+   
+}
+
+
+#addsed{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+   
+}
+
+.table{
+    width: auto;
+}
+
+#estadopago{
+    display: flex;
+    justify-content: space-around;
+}
+
+#dashboard_by_category{
+    width: 100%;
+    height: fit-content;
+    /*border: 2px solid yellow;*/
+    display: grid;
+    grid-template-columns: auto auto;
+}
+
+.dashboardcategory{
+    grid-column: span 1;
+    /*border: 2px solid green;*/
+}
+
+#dashcatselect{
+    grid-column: span 2;
+    justify-content: center;
+    text-align: center;
+}
+
+.dash_hide{
+    visibility: hidden;
+    height: 0;
+    width: 0;
+}
+
+#cat_1{
+    grid-column: span 2;
+}
+
+#cat_2{
+    grid-column: span 2;
+}
+
+.addbtn{
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 10px;
+  }
