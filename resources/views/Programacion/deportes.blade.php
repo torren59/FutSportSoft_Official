@@ -55,66 +55,34 @@
         </tbody>
     </table>
     <div class="addbtn">
-    <button class="btn btn-success col-3" onclick="switchadicion('roladicion')">Nuevo Rol <i class="fa-solid fa-circle-plus"></i></button>
+    <button class="btn btn-success col-3" onclick="switchadicion('roladicion')">Nuevo Deporte <i class="fa-solid fa-circle-plus"></i></button>
     </div>
 
-    {{-- Creacion de roles --}}
+    {{-- Creacion de deportes --}}
     <div class="adicion adicion_off" id="roladicion">
+        <form action={{ url('deporte/crear') }} method="post">
+            
+            @csrf
+
         <div class="adicion_title">
-            <h1>Nuevo Rol</h1>
+            <h1>Nuevo Deporte</h1>
         </div>
-        <div class="adicion_content" id="addsed">
 
-            <div class="mb-3  col-5">
-                <label for="exampleInputEmail1" class="form-label">Nombre Rol</label>
-                <input type="email" class="form-control" aria-describedby="emailHelp">
+        
+            <div class="adicion_content" id="addsed">
+
+                <div class="mb-3  col-5">
+                    <label class="form-label">Nombre Deporte</label>
+                    <input type="text" class="form-control">
+                </div>
+               
             </div>
-            <div class="adicion_title">
-            <h2>Lista de Permisos</h2>
+            <div class="mb-3 col-7">
+                <button type="submit" class="btn btn-primary btn-success" onclick="swal_savecreation(), switchadicion('roladicion')">Guardar</i></button>
+                <button type="button" class="btn btn-primary btn-danger" onclick="switchadicion('roladicion')">Cancelar</i></button>
             </div>
 
-            <table class="table">
-                <thead class="thead-dark">
-                    <tr>
-
-                        <th scope="col">#</th>
-                        <th scope="col">Descripciòn</th>
-
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td><input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-                            <label class="form-check-label" for="flexSwitchCheckDefault">Visualizaciòn de deportistas</label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td><input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-                            <label class="form-check-label" for="flexSwitchCheckDefault">Visualizaciòn por grupos</label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td><input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-                            <label class="form-check-label" for="flexSwitchCheckDefault">Adiciòn de deportistas</label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">4</th>
-                        <td><input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-                            <label class="form-check-label" for="flexSwitchCheckDefault">Ediciòn de deportistas</label>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-
-        </div>
-        <div class="mb-3 col-7">
-            <button type="button" class="btn btn-primary btn-success" onclick="swal_savecreation(), switchadicion('roladicion')">Guardar</i></button>
-            <button type="button" class="btn btn-primary btn-danger" onclick="switchadicion('roladicion')">Cancelar</i></button>
-        </div>
+        </form>
     </div>
 
 </div>

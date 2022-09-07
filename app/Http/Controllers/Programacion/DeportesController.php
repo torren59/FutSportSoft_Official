@@ -24,7 +24,7 @@ class DeportesController extends Controller
      */
     public function create()
     {
-        
+        return 'melo so';
     }
 
     /**

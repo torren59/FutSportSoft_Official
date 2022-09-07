@@ -43,6 +43,7 @@ return view('layouts.home');
  Route::controller(DeportesController::class)->group(
     function(){
         Route::get('deporte/listar', 'index');
+        Route::post('deporte/crear', 'create');
     }
  );
 
