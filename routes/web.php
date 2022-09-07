@@ -3,6 +3,7 @@
 use App\Http\Controllers\ConfiguracionController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\InicialController;
+use App\Http\Controllers\Programacion\DeportesController;
 use App\Http\Controllers\RolesController;
 use Illuminate\Support\Facades\Route;
 
@@ -36,6 +37,12 @@ return view('layouts.home');
  Route::controller(RolesController::class)->group(
     function(){
     Route::get('roles','listar');
+    }
+ );
+
+ Route::controller(DeportesController::class)->group(
+    function(){
+        Route::get('deporte/listar', 'index');
     }
  );
 

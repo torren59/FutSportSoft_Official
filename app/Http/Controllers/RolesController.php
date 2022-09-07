@@ -9,6 +9,6 @@ class RolesController extends Controller
 {
     function listar(){
         $proveedores = DB::select('select NombreEmpresa from proveedores');
-        return view('configuracion.roles', $proveedores);
+        return view('configuracion.roles', ['proveedores' => $proveedores]);
     }
 }
