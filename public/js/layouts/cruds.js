@@ -40,6 +40,15 @@ function swal_saveedition(){
     });
 }
 
+function swal_warning(Alerta){
+    swal.fire({
+        title: 'Alerta',
+        text: Alerta,
+        icon: 'warning',
+        
+    });
+}
+
 function swal_savecreation(){
     swal.fire({  
         title: 'Guardado',

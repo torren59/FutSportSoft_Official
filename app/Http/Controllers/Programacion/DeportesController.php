@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Programacion;
 
 use App\Http\Controllers\Controller;
+use App\Models\Programacion\Deporte;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules\Unique;
 
 class DeportesController extends Controller
 {
@@ -22,9 +25,26 @@ class DeportesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        return 'melo so';
+        $Deporte = new Deporte();
+        $nomb = strtoupper($request->NombreDeporte);
+        $validator = Validator::make( $request->all(), ['NombreDeporte'=>'unique:deportes,NombreDeporte'],
+        ['unique'=>'Deporte ya se encuentra registrado']);
+    
+        if($validator->fails()){
+            return back()->withErrors($validator);
+        }
+
+        return 'TodoMelo';
+        
+        // if($Deporte::where('NombreDeporte',strtoupper($request->NombreDeporte))->get()->count()>0){
+        //     return back()
+        //     ->withInput()
+        //     ->withErrors([
+        //         'errordeporte' => 'Campo faltante'
+        //     ]);
+        // }
     }
 
     /**

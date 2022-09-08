@@ -11,19 +11,23 @@ class Deporte extends Model
     
     protected $table = 'deportes';
 
-    protected $PrimaryKey = 'DeporteId';
-
-    protected $NombreDeporte;
-
-    Protected $Estado;
+    protected $primaryKey = 'DeporteId';
 
     public $incrementing = false;
 
-    protected $KeyType = 'string';
+    protected $keyType = 'string';
 
     public $timestamp = false;
+
+  public $Nombr;
+
+    protected $fillable = [
+        'NombreDeporte',
+        'Estado',
+    ];
 
     protected $attributes = [
         'Estado' => true,
     ];
+
 }

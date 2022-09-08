@@ -1,6 +1,7 @@
 @extends('../layouts/home')
 
 
+
 @section('title', 'Deportes')
 
 @push('styles')
@@ -58,22 +59,37 @@
     <button class="btn btn-success col-3" onclick="switchadicion('roladicion')">Nuevo Deporte <i class="fa-solid fa-circle-plus"></i></button>
     </div>
 
+    AQUI
+
+    @if ($errors->any())
+
+    @foreach ($errors->get('NombreDeporte') as $item)
+    
+    {{$item}}
+
+    @endforeach
+        
+    @endif
+
+    <div class="float_window">
+        H
+    </div>
+
     {{-- Creacion de deportes --}}
     <div class="adicion adicion_off" id="roladicion">
         <form action={{ url('deporte/crear') }} method="post">
             
             @csrf
-
-        <div class="adicion_title">
-            <h1>Nuevo Deporte</h1>
-        </div>
+            <div class="adicion_title">
+                <h1>Nuevo Deporte</h1>
+            </div>
 
         
             <div class="adicion_content" id="addsed">
 
                 <div class="mb-3  col-5">
                     <label class="form-label">Nombre Deporte</label>
-                    <input type="text" class="form-control">
+                    <input type="text" class="form-control" name="NombreDeporte">
                 </div>
                
             </div>

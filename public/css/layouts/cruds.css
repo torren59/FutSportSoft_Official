@@ -1,5 +1,5 @@
 .floatwindow{
-    position: relative;
+    position: absolute;
     top: 0px;
     left: 0px;
     width: 40%;
@@ -9,7 +9,7 @@
 
 /*Ventana en la que se imprime la tabla para los diferentes listados*/
 .service_list{
-    /*border: 2px solid greenyellow;*/
+    /* border: 2px solid greenyellow; */
     padding-left: 1%;
     height: fit-content;
     margin: none;
@@ -19,14 +19,14 @@
     
 }
 
-.service_list_on{
+/* .service_list_on{
     overflow-y: scroll;
     animation-name: serviceliston;
     animation-duration: 1s;
     animation-fill-mode: forwards;
 
     height: 100%;
-}
+} */
 
 @keyframes serviceliston {
     0%{
@@ -90,19 +90,30 @@
     font-size: larger;
 }
 
+.float_window{
+    position: absolute;
+    min-width: 10%;
+    min-height: 10%;
+   
+    border: 2px solid green;
+}
+
 .adicion{
     position: absolute;
     display: grid;
     border-radius: 10px;
     grid-template-rows: 10% auto;
-    top: 10%;
-    left: 25%;
+    /* top: 10%;
+    left: 25%; */
+    align-self: center;
+    justify-items: center;
     border: 2px solid rgba(0, 0, 0, 0,2);
     background-color: rgba(248, 248, 247, 0.699);
     width: 60%;
     height: 80vh;
     justify-items: center;
     overflow-y: scroll;
+    /* border: 2px solid red; */
 }
 
 h1{
