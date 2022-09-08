@@ -97,12 +97,17 @@
             <!--Fin SideVar-->
             <!--Inicio zona de contenido-->
 
-            <div class="main-area">
+            <div class="main_area">
                 <div class="zonaalta">
-                    <div class="superiorboton">
+                    <div>
                         <button type="button" class="btn btn-warning" onclick="sidevar()"><i class="fa-solid fa-grip-lines"></i></button>
+                    </div>
+                    <div>
                         <button type="submit" class="btn btn-warning" id="seg_dashboard" name="sended" value="13">Dashboard</i></button>
+                    </div>
+                    <div>
                         <button type="submit" class="btn btn-warning" name="sended" value="14">Ayuda</button>
+
                     </div>
                 </div>
 

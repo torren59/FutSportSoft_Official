@@ -8,6 +8,8 @@ body{
     
     /* border: 1px solid red; */
     min-height: 100vh;
+    overflow-y: hidden;
+    overflow-x: hidden;
     /* background-color: red; */
 }
 
@@ -20,31 +22,17 @@ a{
 ::Le dice al body que tome un tamaño mínmo de toda la pantalla
 */
 #background-container-mainsite{
-    width: 100%;
+    width: 100vw;
     height: 100vh;
-    /*border: 2px solid blue;*/
+    border: 2px solid red;
     background: url(../../img/layouts/loginfoto.jpg);
+    position: relative;
 }
-
-/*Home*/
-
-#megacontainer{
-
-    height: 100%;
-    display: flex;
-    /*border: 1px solid yellow;*/
-    flex-wrap: wrap;
-    align-content: space-between;
-
-} 
-
-
-
 
 /*SideVar*/
 .sidevaron{
     /*border: 1px solid blue;*/
-   
+    position: absolute;
     animation-name: sidevaron-animation;
     animation-fill-mode: forwards;
     animation-duration: 250ms;
@@ -102,12 +90,10 @@ a{
 .sidevaroff{
     /*border: 1px solid blue;*/
     height: 100%;
-
     animation-name: sidevaroff-animation;
     animation-fill-mode: forwards;
     animation-duration: 200ms;
     content-visibility: hidden;
-    
 }
 
 @keyframes sidevaroff-animation {
@@ -123,65 +109,17 @@ a{
 
 /*Fin Sidevar*/
 
-.main-area{
+.main_area{
     width: 100%;
-    position: fixed;
-}
-
-/*Contenido*/
-
-.contentsiteblockon{
-    border: 1px solid green;
-
-    animation-name: contentsiteblockon-animation;
-    animation-fill-mode: forwards;
-    animation-duration: 180ms;
-    
-
-}
-/* 
-@keyframes contentsiteblockon-animation{
-    0%{
-        width: 99%;
-    }
-    100%{
-        width: 100%;
-    }
-}
-
-@media only screen and (min-width: 640px){
-    @keyframes contentsiteblockon-animation{
-        0%{
-            width: 99%;
-        }
-        100%{
-            width: 100%;
-        }
-    }
-    
-} */
-
-
-.contentsiteblockoff{
-    /*border: 1px solid green;*/
     height: 100%;
-    margin-left: 10px;
-    animation-name: contentsiteblockoff-animation;
-    animation-fill-mode: forwards;
-    animation-duration: 220ms;
-
+    overflow-y: hidden;
+    top: 0;
+    left: 0;
+    position: fixed;
+    border: 2px solid green;
+    display: grid;
+    grid-template-rows: auto 93%;
 }
-
-@keyframes contentsiteblockoff-animation{
-    0%{
-        width: 85%;
-    }
-    100%{
-        width: 99%;
-    }
-}
-
-/*Fin Contenido*/
 
 /*MainSite>>Sidevar Grid*/
 .grid-sidevar{
@@ -343,18 +281,13 @@ a{
 }
 
 .zonaalta{
-    display:grid;
-    grid-template-columns: 100% auto;
-    align-content: space-between;
-    padding-top: 1%;
-    padding-bottom: 1%;
-    margin-left: 40%;
-}
-
-.superiorboton{
-   
-    margin-left: 0%;
-    
+    display: flex;
+    width: 100%;
+    /* display:grid;
+    grid-template-columns: 100% auto; */
+    justify-content: center;
+    gap: 1%;
+    border: 2px solid darkblue;
 }
 
 .contenido{
@@ -362,9 +295,11 @@ a{
     
     overflow-y: scroll;
     font-size: medium;
-    display: flex;
+    /* display: flex;
+    flex-wrap: wrap; */
+    position: relative;
 
-    /* border: 2px solid violet; */
+    border: 2px solid violet;
 }
 
 /*Table*/
