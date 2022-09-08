@@ -103,8 +103,8 @@
     display: grid;
     border-radius: 10px;
     grid-template-rows: 10% auto;
-    /* top: 10%;
-    left: 25%; */
+    top: 10%;
+    left: 25%;
     align-self: center;
     justify-items: center;
     border: 2px solid rgba(0, 0, 0, 0,2);

@@ -61,6 +61,59 @@
 
     AQUI
 
+    a 
+    <br>
+    a 
+    <br>
+    a 
+    <br>
+    a 
+    <br>
+    a 
+    <br>
+    a 
+    <br>
+    a 
+    <br>
+    a 
+    <br>
+    a 
+    <br>
+    a 
+    <br>
+    a 
+    <br>
+    a 
+    <br>
+    a 
+    <br>
+    a 
+    <br>
+    a 
+    <br>
+    a 
+    <br>
+    a 
+    <br>
+    a 
+    <br>
+    a 
+    <br>
+    a 
+    <br>
+    a 
+    <br>
+    a 
+    <br>
+    a 
+    <br>
+    a 
+    <br>
+    a 
+    <br>
+    a 
+    <br>
+
     @if ($errors->any())
 
     @foreach ($errors->get('NombreDeporte') as $item)
@@ -76,7 +129,7 @@
     </div>
 
     {{-- Creacion de deportes --}}
-    <div class="adicion adicion_off" id="roladicion">
+    <div class="adicion adicion_on" id="roladicion">
         <form action={{ url('deporte/crear') }} method="post">
             
             @csrf
