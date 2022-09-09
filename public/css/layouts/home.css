@@ -24,7 +24,7 @@ a{
 #background-container-mainsite{
     width: 100vw;
     height: 100vh;
-    border: 2px solid red;
+    /* border: 2px solid red; */
     background: url(../../img/layouts/loginfoto.jpg);
     position: relative;
 }
@@ -108,18 +108,6 @@ a{
 }
 
 /*Fin Sidevar*/
-
-.main_area{
-    width: 100%;
-    height: 100%;
-    overflow-y: hidden;
-    top: 0;
-    left: 0;
-    position: fixed;
-    border: 2px solid green;
-    display: grid;
-    grid-template-rows: auto 93%;
-}
 
 /*MainSite>>Sidevar Grid*/
 .grid-sidevar{
@@ -280,26 +268,33 @@ a{
    
 }
 
+.main_area{
+    width: 100%;
+    height: 100%;
+    overflow-y: hidden;
+    top: 0;
+    left: 0;
+    position: fixed;
+    /* border: 2px solid green; */
+    display: grid;
+    grid-template-rows: auto 93%;
+}
+
 .zonaalta{
     display: flex;
     width: 100%;
-    /* display:grid;
-    grid-template-columns: 100% auto; */
     justify-content: center;
     gap: 1%;
-    border: 2px solid darkblue;
+    padding-top: 1%;
+    /* border: 2px solid darkblue; */
 }
 
 .contenido{
     width: 100%;
-    
     overflow-y: scroll;
     font-size: medium;
-    /* display: flex;
-    flex-wrap: wrap; */
     position: relative;
-
-    border: 2px solid violet;
+    /* border: 2px solid orangered; */
 }
 
 /*Table*/

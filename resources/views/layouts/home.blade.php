@@ -119,7 +119,7 @@
                   @stack('scripts')
                     {{-- <script src="../root/servicios/service.js"></script>  --}}
                     <script src="https://kit.fontawesome.com/bd2541fe3a.js" crossorigin="anonymous"></script>
-                    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                    
 
                 </div>
             </div>

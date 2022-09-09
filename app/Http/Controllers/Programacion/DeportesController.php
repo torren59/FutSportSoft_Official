@@ -30,7 +30,7 @@ class DeportesController extends Controller
         $Deporte = new Deporte();
         $nomb = strtoupper($request->NombreDeporte);
         $validator = Validator::make( $request->all(), ['NombreDeporte'=>'unique:deportes,NombreDeporte'],
-        ['unique'=>'Deporte ya se encuentra registrado']);
+        ['unique'=>'Deporte ya se encuentra registrado el sistema']);
     
         if($validator->fails()){
             return back()->withErrors($validator);

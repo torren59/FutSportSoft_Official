@@ -9,14 +9,15 @@
 <link rel="stylesheet" href="{{asset('./css/layouts/cruds.css')}} ">
 <link href="https://unpkg.com/vanilla-datatables@latest/dist/vanilla-dataTables.min.css" rel="stylesheet" type="text/css">
 <script src="https://unpkg.com/vanilla-datatables@latest/dist/vanilla-dataTables.min.js" type="text/javascript"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @endpush
 
 @section('content')
 
 
+{{-- class="service_list" --}}
 
-
-<div class="service_list" id="listadorol">
+<div class="service_list">
     <center>
     <div class="tituloTabla">
             <h1>DEPORTES</h1>
@@ -55,81 +56,13 @@
             </tr>
         </tbody>
     </table>
+
     <div class="addbtn">
-    <button class="btn btn-success col-3" onclick="switchadicion('roladicion')">Nuevo Deporte <i class="fa-solid fa-circle-plus"></i></button>
-    </div>
-
-    AQUI
-
-    a 
-    <br>
-    a 
-    <br>
-    a 
-    <br>
-    a 
-    <br>
-    a 
-    <br>
-    a 
-    <br>
-    a 
-    <br>
-    a 
-    <br>
-    a 
-    <br>
-    a 
-    <br>
-    a 
-    <br>
-    a 
-    <br>
-    a 
-    <br>
-    a 
-    <br>
-    a 
-    <br>
-    a 
-    <br>
-    a 
-    <br>
-    a 
-    <br>
-    a 
-    <br>
-    a 
-    <br>
-    a 
-    <br>
-    a 
-    <br>
-    a 
-    <br>
-    a 
-    <br>
-    a 
-    <br>
-    a 
-    <br>
-
-    @if ($errors->any())
-
-    @foreach ($errors->get('NombreDeporte') as $item)
-    
-    {{$item}}
-
-    @endforeach
-        
-    @endif
-
-    <div class="float_window">
-        H
+        <button class="btn btn-success col-3" onclick="switchadicion('roladicion')">Nuevo Deporte <i class="fa-solid fa-circle-plus"></i></button>
     </div>
 
     {{-- Creacion de deportes --}}
-    <div class="adicion adicion_on" id="roladicion">
+    <div class="adicion adicion_off" id="roladicion">
         <form action={{ url('deporte/crear') }} method="post">
             
             @csrf
@@ -147,20 +80,33 @@
                
             </div>
             <div class="mb-3 col-7">
-                <button type="submit" class="btn btn-primary btn-success" onclick="swal_savecreation(), switchadicion('roladicion')">Guardar</i></button>
+                <button type="submit" class="btn btn-primary btn-success" onclick="switchadicion('roladicion')">Guardar</i></button>
                 <button type="button" class="btn btn-primary btn-danger" onclick="switchadicion('roladicion')">Cancelar</i></button>
             </div>
 
         </form>
     </div>
 
+    @if ($errors->any())
+    @foreach ($errors->get('NombreDeporte') as $item)
+
+    <script>
+       document.onload = Swal.fire(
+        {
+            title: 'Operacion cancelada',
+            text: '{{$item}}',
+            icon: 'warning',
+        }
+       );
+    </script>
+
+    @endforeach
+    @endif
+
 </div>
 
-
-
-
-
 @endsection
+
 
 @push('scripts')
 

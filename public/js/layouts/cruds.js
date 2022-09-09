@@ -30,6 +30,11 @@ function switchcategory(iddashobj1,iddashobj2){
 
 }
 
+function hide(clase){
+  var elemento = document.getElementById(clase);
+  elemento.style.visibility = 'hidden';
+}
+
 function swal_saveedition(){
     swal.fire({  
         title: 'Guardado',
