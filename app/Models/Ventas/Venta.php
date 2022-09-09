@@ -1,32 +1,35 @@
 <?php
 
-namespace App\Models\Programacion;
+namespace App\Models\Ventas;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Deporte extends Model
+class Venta extends Model
 {
     use HasFactory;
-    
-    protected $table = 'deportes';
 
-    protected $primaryKey = 'DeporteId';
+    protected $table = 'ventas';
+
+    protected $primaryKey = 'VentaId';
 
     public $incrementing = false;
 
-    protected $keyType = 'string';
+    protected $keyType = 'varchar';
 
     public $timestamp = false;
 
-
     protected $fillable = [
-        'NombreDeporte',
+        'Documento',
+        'FechaVenta',
+        'ValorVenta',
+        'SubTotal',
+        'IVA',
+        'Descuento',
         'Estado',
     ];
 
     protected $attributes = [
         'Estado' => true,
     ];
-
 }

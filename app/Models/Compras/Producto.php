@@ -1,32 +1,34 @@
 <?php
 
-namespace App\Models\Programacion;
+namespace App\Models\Compras;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Deporte extends Model
+class Producto extends Model
 {
     use HasFactory;
-    
-    protected $table = 'deportes';
 
-    protected $primaryKey = 'DeporteId';
+    protected $table = 'productos';
+
+    protected $primaryKey = 'ProductoId';
 
     public $incrementing = false;
 
-    protected $keyType = 'string';
+    protected $keyType = 'varchar';
 
     public $timestamp = false;
 
-
     protected $fillable = [
-        'NombreDeporte',
+        'NombreProducto',
+        'TipoProducto',
+        'Talla',
+        'PrecioVenta',
+        'Cantidad',
         'Estado',
     ];
 
     protected $attributes = [
         'Estado' => true,
     ];
-
 }

@@ -5,28 +5,33 @@ namespace App\Models\Programacion;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Deporte extends Model
+class Deportista extends Model
 {
     use HasFactory;
-    
-    protected $table = 'deportes';
 
-    protected $primaryKey = 'DeporteId';
+    protected $table = 'deportistas';
+
+    protected $primaryKey = 'Documento';
 
     public $incrementing = false;
 
-    protected $keyType = 'string';
+    protected $keyType = 'varchar';
 
     public $timestamp = false;
 
-
     protected $fillable = [
-        'NombreDeporte',
+        'DocumentoAcudiente',
+        'TipoDocumento',
+        'Nombre',
+        'FechaNacimiento',
+        'Direccion',
+        'Celular',
+        'Correo',
         'Estado',
+        'UltimoPago',
     ];
 
     protected $attributes = [
         'Estado' => true,
     ];
-
 }
