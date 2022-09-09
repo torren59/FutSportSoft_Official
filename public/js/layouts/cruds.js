@@ -13,6 +13,21 @@ function switchadicion(idadicionobj){
 
 }
 
+function switchadicion2(idadicionobj){
+    let adicion = document.getElementById(idadicionobj);
+    estado=adicion.classList.contains('adicion_off');
+
+    if(estado==true){
+        adicion.classList.remove('adicion_off');
+        adicion.classList.add('floatmodal');
+    }
+    else{
+        adicion.classList.add('adicion_off');
+        adicion.classList.remove('floatmodal');
+    }
+
+}
+
 function switchcategory(iddashobj1,iddashobj2){
     let dash1 = document.getElementById(iddashobj1);
     let dash2 = document.getElementById(iddashobj2)

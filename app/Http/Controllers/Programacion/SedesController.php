@@ -1,14 +1,11 @@
 <?php
-
 namespace App\Http\Controllers\Programacion;
 
 use App\Http\Controllers\Controller;
-use App\Models\Programacion\Deporte;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rules\Unique;
+use Illuminate\Support\Facades\Validator;
 
-class DeportesController extends Controller
+class SedesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,7 +14,7 @@ class DeportesController extends Controller
      */
     public function index()
     {
-        return view('Programacion.deportes');
+        return view('Programacion.Sedes');
     }
 
     /**
@@ -27,21 +24,21 @@ class DeportesController extends Controller
      */
     public function create(Request $request)
     {
-        $validator = Validator::make( $request->all(), ['NombreDeporte'=>'unique:deportes,NombreDeporte'],
-        ['unique'=>'Deporte ya se encuentra registrado el sistema']);
+        $validator = Validator::make($request->all(), ['Nombre'=>'min:1|unique:sedes,NombreSede']);
+        // $validdator = Validator::make( $request->all(), ['NombreDeporte'=>'unique:deportes,NombreDeporte'],
+        // ['unique'=>'Deporte ya se encuentra registrado el sistema']);
     
-        if($validator->fails()){
-            return back()->withErrors($validator);
-        }
+        // if($validator->fails()){
+        //     return back()->withErrors($validator);
+        // }
 
-        $Deporte = new Deporte();
-        $Id = $Deporte::creadorPK($Deporte,10);
-        $Deporte->DeporteId = $Id;
-        $Deporte->NombreDeporte = $request->NombreDeporte;
-        $Deporte->save();
+        // $Deporte = new Deporte();
+        // $Id = $Deporte::creadorPK($Deporte,10);
+        // $Deporte->DeporteId = $Id;
+        // $Deporte->NombreDeporte = $request->NombreDeporte;
+        // $Deporte->save();
 
-        return redirect('deporte/listar');
-        
+        // return redirect('deporte/listar');
     }
 
     /**

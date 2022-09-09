@@ -5,13 +5,13 @@ namespace App\Models\Programacion;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Deporte extends Model
+class Sede extends Model
 {
     use HasFactory;
-    
-    protected $table = 'deportes';
 
-    protected $primaryKey = 'DeporteId';
+    protected $table = 'sedes';
+
+    protected $primaryKey = 'SedeId';
 
     public $incrementing = false;
 
@@ -21,12 +21,14 @@ class Deporte extends Model
 
 
     protected $fillable = [
-        'NombreDeporte',
+        'NombreSede',
+        'Municipio',
+        'Barrio',
+        'Direccion',
         'Estado',
     ];
 
     protected $attributes = [
         'Estado' => true,
     ];
-
 }

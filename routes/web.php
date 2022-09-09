@@ -4,6 +4,7 @@ use App\Http\Controllers\ConfiguracionController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\InicialController;
 use App\Http\Controllers\Programacion\DeportesController;
+use App\Http\Controllers\Programacion\SedesController;
 use App\Http\Controllers\RolesController;
 use Illuminate\Support\Facades\Route;
 
@@ -45,6 +46,13 @@ return view('layouts.home');
         Route::get('deporte/listar', 'index');
         Route::post('deporte/crear', 'create');
     }
+ );
+
+ Route::controller(SedesController::class)->group(
+function(){
+    Route::get('sede/listar', 'index');
+    Route::post('sede/crear', 'create');
+}
  );
 
 

@@ -20,7 +20,7 @@
 <div class="service_list">
     <center>
     <div class="tituloTabla">
-            <h1>DEPORTES</h1>
+            <h1>SEDES</h1>
         </div>
     </center>
     <table id="tabla">
@@ -58,16 +58,18 @@
     </table>
 
     <div class="addbtn">
-        <button class="btn btn-success col-3" onclick="switchadicion('roladicion')">Nuevo Deporte <i class="fa-solid fa-circle-plus"></i></button>
+        <button class="btn btn-success col-3" onclick="switchadicion2('sedeadicion')">Nuevo Deporte <i class="fa-solid fa-circle-plus"></i></button>
     </div>
 
-    {{-- Creacion de deportes --}}
-    <div class="adicion adicion_off" id="roladicion">
+
+
+    {{-- Creacion de sedes --}}
+    {{-- <div class="adicion adicion_off" id="roladicion">
         <form action={{ url('deporte/crear') }} method="post">
             
             @csrf
             <div class="adicion_title">
-                <h1>Nuevo Deporte</h1>
+                <h1>Nueva Sede</h1>
             </div>
 
         
@@ -85,24 +87,51 @@
             </div>
 
         </form>
+    </div> --}}
+
+
+    <div id="sedeadicion" class="adicion_off" style="width:600px;height:400px">
+        <div class="floatcontent">
+            <h4 style="padding-top:5%;" >Nueva Sede</h4> <hr>
+
+            <form action={{ url('sede/crear') }} method="post"> @csrf
+
+                <label for="NombreSede" class="form-label">Nombre</label>
+                <input type="text" class="form-control" name="NombreSede">
+
+                <div class="row">
+                    <div class="col-6">
+                        <label for="Municipio" class="form-label">Municipio</label>
+                        <input type="text" class="form-control" name="Municipio">
+                    </div>
+                    <div class="col-6">
+                        <label for="Barrio" class="form-label">Barrio</label>
+                        <input type="text" class="form-control" name="Barrio">
+                    </div>
+                </div>
+
+                <label for="Direccion" class="form-label">Direccion</label>
+                <input type="text" class="form-control" name="Direccion">
+                <br>
+                <button type="submit" class="btn btn-primary btn-success" onclick="switchadicion('roladicion')">Guardar</i></button>
+                <button type="button" class="btn btn-primary btn-danger" onclick="switchadicion2('sedeadicion')">Cancelar</i></button>
+
+            </form>
+        </div>
     </div>
 
-    
-
-    @if ($errors->any())
-    @foreach ($errors->get('NombreDeporte') as $item)
-
     <script>
-       document.onload = Swal.fire(
-        {
-            title: 'Operacion cancelada',
-            text: '{{$item}}',
-            icon: 'warning',
-        }
-       );
+        setTimeout(() => {
+            switchadicion('roladicion');
+        }, 2000);
     </script>
 
-    @endforeach
+    @if ($errors->any())
+    <script>
+        setTimeout(() => {
+            switchadicion2('sedeadicion');
+        }, 1000);
+    </script>
     @endif
 
 </div>
