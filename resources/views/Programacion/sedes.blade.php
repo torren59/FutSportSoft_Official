@@ -13,9 +13,7 @@
 @endpush
 
 @section('content')
-
-
-{{-- class="service_list" --}}
+{{-- Listado --}}
 
 <div class="service_list">
     <center>
@@ -58,37 +56,12 @@
     </table>
 
     <div class="addbtn">
-        <button class="btn btn-success col-3" onclick="switchadicion2('sedeadicion')">Nuevo Deporte <i class="fa-solid fa-circle-plus"></i></button>
+        <button class="btn btn-success col-3" onclick="switchadicion2('sedeadicion')">Nueva Sede <i class="fa-solid fa-circle-plus"></i></button>
     </div>
 
 
 
     {{-- Creacion de sedes --}}
-    {{-- <div class="adicion adicion_off" id="roladicion">
-        <form action={{ url('deporte/crear') }} method="post">
-            
-            @csrf
-            <div class="adicion_title">
-                <h1>Nueva Sede</h1>
-            </div>
-
-        
-            <div class="adicion_content" id="addsed">
-
-                <div class="mb-3  col-5">
-                    <label class="form-label">Nombre Deporte</label>
-                    <input type="text" class="form-control" name="NombreDeporte">
-                </div>
-               
-            </div>
-            <div class="mb-3 col-7">
-                <button type="submit" class="btn btn-primary btn-success" onclick="switchadicion('roladicion')">Guardar</i></button>
-                <button type="button" class="btn btn-primary btn-danger" onclick="switchadicion('roladicion')">Cancelar</i></button>
-            </div>
-
-        </form>
-    </div> --}}
-
 
     <div id="sedeadicion" class="adicion_off" style="width:600px;height:400px">
         <div class="floatcontent">
@@ -97,55 +70,74 @@
             <form action={{ url('sede/crear') }} method="post"> @csrf
 
                 <label for="NombreSede" class="form-label">Nombre</label>
-                <input type="text" class="form-control" name="NombreSede">
+                <input type="text" class="form-control" name="NombreSede" value="{{ old('NombreSede') }}">
+                @error('NombreSede')
+                    <div>
+                        @foreach ($errors->get('NombreSede') as $item)
+                        <small> {{$item}} </small>
+                        @endforeach
+                    </div>
+                @enderror
 
                 <div class="row">
                     <div class="col-6">
                         <label for="Municipio" class="form-label">Municipio</label>
-                        <input type="text" class="form-control" name="Municipio">
+                        <input type="text" class="form-control" name="Municipio" value=" {{old('Municipio')}} " >
+                        @error('Municipio')
+                        <div>
+                            @foreach ($errors->get('Municipio') as $item)
+                            <small> {{$item}} </small>
+                            @endforeach
+                        </div>
+                        @enderror
                     </div>
                     <div class="col-6">
                         <label for="Barrio" class="form-label">Barrio</label>
-                        <input type="text" class="form-control" name="Barrio">
+                        <input type="text" class="form-control" name="Barrio" value=" {{old('Barrio')}} " >
+                        @error('Barrio')
+                            <div>
+                                @foreach ($errors as $item)
+                                    <small> {{$item}} </small>
+                                @endforeach
+                            </div>
+                        @enderror
                     </div>
                 </div>
 
                 <label for="Direccion" class="form-label">Direccion</label>
-                <input type="text" class="form-control" name="Direccion">
+                <input type="text" class="form-control" name="Direccion" value=" {{old('Direccion')}} ">
+                @error('Direccion')
+                    <div>
+                        @foreach ($errors as $item)
+                            <small> {{$item}} </small>
+                        @endforeach
+                    </div>
+                @enderror
                 <br>
-                <button type="submit" class="btn btn-primary btn-success" onclick="switchadicion('roladicion')">Guardar</i></button>
+                <button type="submit" class="btn btn-primary btn-success">Guardar</i></button>
                 <button type="button" class="btn btn-primary btn-danger" onclick="switchadicion2('sedeadicion')">Cancelar</i></button>
 
             </form>
         </div>
     </div>
 
-    <script>
-        setTimeout(() => {
-            switchadicion('roladicion');
-        }, 2000);
-    </script>
-
     @if ($errors->any())
     <script>
         setTimeout(() => {
             switchadicion2('sedeadicion');
-        }, 1000);
+        }, 500);
     </script>
     @endif
 
 </div>
-
 @endsection
 
 
 @push('scripts')
-
 <script>
     let tabla = document.getElementById("tabla");
     let datatable = new DataTable(tabla);
 </script>
 
 <script src=" {{asset('./js/layouts/cruds.js')}} "></script>
-
 @endpush

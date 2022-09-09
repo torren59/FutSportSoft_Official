@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Programacion;
 
 use App\Http\Controllers\Controller;
+use App\Models\Programacion\Sede;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -24,7 +25,30 @@ class SedesController extends Controller
      */
     public function create(Request $request)
     {
-        $validator = Validator::make($request->all(), ['Nombre'=>'min:1|unique:sedes,NombreSede']);
+        $validator = Validator::make($request->all(), 
+        ['NombreSede'=>'min:1|unique:sedes,NombreSede','Municipio'=>'min:1','Barrio'=>'min:1','Direccion'=>'min:1|unique:sedes,Direccion'],
+        ['unique'=>'Este campo no acepta información que ya se ha registrado','min'=>'No puedes enviar este campo vacío']);
+        $NombreSede = $request->old('NombreSede');
+        if($validator->fails()){
+            return back()->withErrors($validator)->withInput();
+        }
+        $Sede = new Sede();
+        $id = $Sede::creadorPK($Sede,100);
+        $Sede->SedeId = $id;
+        $Campos = ['NombreSede','Municipio','Barrio','Direccion'];
+
+        foreach($Campos as $item){
+            $Sede->$item = $request->$item;
+        }
+
+        $Sede->save();
+        return redirect('sede/listar');
+
+        // $Sede->NombreSede = $request->NombreSede;
+        // $Sede->Municipio = $request->Municipio;
+        // $Sede->Barrio = $request->Barrio;
+        // $Sede->Direccion = $request->Direccion;
+
         // $validdator = Validator::make( $request->all(), ['NombreDeporte'=>'unique:deportes,NombreDeporte'],
         // ['unique'=>'Deporte ya se encuentra registrado el sistema']);
     
