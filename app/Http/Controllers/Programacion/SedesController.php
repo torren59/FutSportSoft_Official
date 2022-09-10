@@ -28,7 +28,6 @@ class SedesController extends Controller
         $validator = Validator::make($request->all(), 
         ['NombreSede'=>'min:1|unique:sedes,NombreSede','Municipio'=>'min:1','Barrio'=>'min:1','Direccion'=>'min:1|unique:sedes,Direccion'],
         ['unique'=>'Este campo no acepta información que ya se ha registrado','min'=>'No puedes enviar este campo vacío']);
-        $NombreSede = $request->old('NombreSede');
         if($validator->fails()){
             return back()->withErrors($validator)->withInput();
         }
@@ -43,26 +42,6 @@ class SedesController extends Controller
 
         $Sede->save();
         return redirect('sede/listar');
-
-        // $Sede->NombreSede = $request->NombreSede;
-        // $Sede->Municipio = $request->Municipio;
-        // $Sede->Barrio = $request->Barrio;
-        // $Sede->Direccion = $request->Direccion;
-
-        // $validdator = Validator::make( $request->all(), ['NombreDeporte'=>'unique:deportes,NombreDeporte'],
-        // ['unique'=>'Deporte ya se encuentra registrado el sistema']);
-    
-        // if($validator->fails()){
-        //     return back()->withErrors($validator);
-        // }
-
-        // $Deporte = new Deporte();
-        // $Id = $Deporte::creadorPK($Deporte,10);
-        // $Deporte->DeporteId = $Id;
-        // $Deporte->NombreDeporte = $request->NombreDeporte;
-        // $Deporte->save();
-
-        // return redirect('deporte/listar');
     }
 
     /**

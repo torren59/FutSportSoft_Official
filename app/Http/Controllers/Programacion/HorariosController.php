@@ -3,12 +3,11 @@
 namespace App\Http\Controllers\Programacion;
 
 use App\Http\Controllers\Controller;
-use App\Models\Programacion\Deporte;
-use Illuminate\Support\Facades\Validator;
+use App\Models\Programacion\Horario;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rules\Unique;
+use Illuminate\Support\Facades\Validator;
 
-class DeportesController extends Controller
+class HorariosController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,7 +16,7 @@ class DeportesController extends Controller
      */
     public function index()
     {
-        return view('Programacion.deportes');
+        return view('Programacion.horarios');
     }
 
     /**
@@ -27,21 +26,23 @@ class DeportesController extends Controller
      */
     public function create(Request $request)
     {
-        $validator = Validator::make( $request->all(), ['NombreDeporte'=>'unique:deportes,NombreDeporte'],
-        ['unique'=>'Deporte ya se encuentra registrado el sistema']);
-    
+        $validator = Validator::make($request->all(),
+        ['NombreHorario'=>'min:1','Horario'=>'min:1'],
+        ['min'=>'No puedes enviar este campo vacío']);
         if($validator->fails()){
-            return back()->withErrors($validator);
+            return back()->withErrors($validator)->withInput();
+        }
+        $Horario = new Horario();
+        $id = $Horario::creadorPK($Horario,10000);
+        $Horario->HorarioId = $id;
+        $Campos = ['NombreHorario','Horario'];
+
+        foreach($Campos as $item){
+            $Horario->$item = $request->$item;
         }
 
-        $Deporte = new Deporte();
-        $Id = $Deporte::creadorPK($Deporte,10);
-        $Deporte->DeporteId = $Id;
-        $Deporte->NombreDeporte = strtoupper($request->NombreDeporte);
-        $Deporte->save();
-
-        return redirect('deporte/listar');
-        
+        $Horario->save();
+        return redirect('horario/listar');
     }
 
     /**

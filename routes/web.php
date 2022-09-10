@@ -4,9 +4,11 @@ use App\Http\Controllers\ConfiguracionController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\InicialController;
 use App\Http\Controllers\Programacion\DeportesController;
+use App\Http\Controllers\Programacion\HorariosController;
 use App\Http\Controllers\Programacion\SedesController;
 use App\Http\Controllers\RolesController;
 use Illuminate\Support\Facades\Route;
+use Whoops\RunInterface;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,6 +55,13 @@ function(){
     Route::get('sede/listar', 'index');
     Route::post('sede/crear', 'create');
 }
+ );
+
+ Route::controller(HorariosController::class)->group(
+    function(){
+        Route::get('horario/listar','index');
+        Route::post('horario/crear','create');
+    }
  );
 
 

@@ -2,7 +2,7 @@
 
 
 
-@section('title', 'Sedes')
+@section('title', 'Horarios')
 
 @push('styles')
 <link rel="stylesheet" href=" {{asset('./css/layouts/datatable.css')}} ">
@@ -18,7 +18,7 @@
 <div class="service_list">
     <center>
     <div class="tituloTabla">
-            <h1>SEDES</h1>
+            <h1>HORARIOS</h1>
         </div>
     </center>
     <table id="tabla">
@@ -56,66 +56,41 @@
     </table>
 
     <div class="addbtn">
-        <button class="btn btn-success col-3" onclick="switchadicion2('sedeadicion')">Nueva Sede <i class="fa-solid fa-circle-plus"></i></button>
+        <button class="btn btn-success col-3" onclick="switchadicion2('horarioadicion')">Nuevo Horario <i class="fa-solid fa-circle-plus"></i></button>
     </div>
 
 
 
     {{-- Creacion de sedes --}}
 
-    <div id="sedeadicion" class="adicion_off" style="width:600px;height:400px">
+    <div id="horarioadicion" class="adicion_off" style="width:500px;height:300px">
         <div class="floatcontent">
-            <h4 style="padding-top:5%;" >Nueva Sede</h4> <hr>
+            <h4 style="padding-top:5%;" >Nuevo Horario</h4> <hr>
 
-            <form action={{ url('sede/crear') }} method="post"> @csrf
+            <form action={{ url('horario/crear') }} method="post"> @csrf
 
-                <label for="NombreSede" class="form-label">Nombre</label>
-                <input type="text" class="form-control" name="NombreSede" value="{{ old('NombreSede') }}">
-                @error('NombreSede')
+                <label for="NombreHorario" class="form-label">Nombre</label>
+                <input type="text" class="form-control" name="NombreHorario" value="{{ old('NombreHorario') }}">
+                @error('NombreHorario')
                     <div>
-                        @foreach ($errors->get('NombreSede') as $item)
+                        @foreach ($errors->get('NombreHorario') as $item)
                         <small> {{$item}} </small>
                         @endforeach
                     </div>
                 @enderror
 
-                <div class="row">
-                    <div class="col-6">
-                        <label for="Municipio" class="form-label">Municipio</label>
-                        <input type="text" class="form-control" name="Municipio" value=" {{old('Municipio')}} " >
-                        @error('Municipio')
-                        <div>
-                            @foreach ($errors->get('Municipio') as $item)
-                            <small> {{$item}} </small>
-                            @endforeach
-                        </div>
-                        @enderror
-                    </div>
-                    <div class="col-6">
-                        <label for="Barrio" class="form-label">Barrio</label>
-                        <input type="text" class="form-control" name="Barrio" value=" {{old('Barrio')}} " >
-                        @error('Barrio')
-                            <div>
-                                @foreach ($errors->get('Barrio') as $item)
-                                    <small> {{$item}} </small>
-                                @endforeach
-                            </div>
-                        @enderror
-                    </div>
-                </div>
-
-                <label for="Direccion" class="form-label">Direccion</label>
-                <input type="text" class="form-control" name="Direccion" value=" {{old('Direccion')}} ">
-                @error('Direccion')
+                <label for="Horario" class="form-label">Horario</label>
+                <input type="text" class="form-control" name="Horario" value=" {{old('Horario')}} ">
+                @error('Horario')
                     <div>
-                        @foreach ($errors->get('Direccion') as $item)
+                        @foreach ($errors->get('Horario') as $item)
                             <small> {{$item}} </small>
                         @endforeach
                     </div>
                 @enderror
                 <br>
                 <button type="submit" class="btn btn-primary btn-success">Guardar</i></button>
-                <button type="button" class="btn btn-primary btn-danger" onclick="switchadicion2('sedeadicion')">Cancelar</i></button>
+                <button type="button" class="btn btn-primary btn-danger" onclick="switchadicion2('horarioadicion')">Cancelar</i></button>
 
             </form>
         </div>
@@ -124,7 +99,7 @@
     @if ($errors->any())
     <script>
         setTimeout(() => {
-            switchadicion2('sedeadicion');
+            switchadicion2('horarioadicion');
         }, 500);
     </script>
     @endif

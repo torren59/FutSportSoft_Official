@@ -5,13 +5,13 @@ namespace App\Models\Programacion;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Sede extends Model
+class Horario extends Model
 {
     use HasFactory;
 
-    protected $table = 'sedes';
+    protected $table = 'horarios';
 
-    protected $primaryKey = 'SedeId';
+    protected $primaryKey = 'HorarioId';
 
     public $incrementing = false;
 
@@ -21,10 +21,8 @@ class Sede extends Model
 
 
     protected $fillable = [
-        'NombreSede',
-        'Municipio',
-        'Barrio',
-        'Direccion',
+        'NombreHorario',
+        'Horario',
         'Estado'
     ];
 
