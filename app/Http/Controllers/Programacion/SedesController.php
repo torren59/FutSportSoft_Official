@@ -26,8 +26,9 @@ class SedesController extends Controller
     public function create(Request $request)
     {
         $validator = Validator::make($request->all(), 
-        ['NombreSede'=>'min:1|unique:sedes,NombreSede','Municipio'=>'min:1','Barrio'=>'min:1','Direccion'=>'min:1|unique:sedes,Direccion'],
-        ['unique'=>'Este campo no acepta información que ya se ha registrado','min'=>'No puedes enviar este campo vacío']);
+        ['NombreSede'=>'min:1|unique:sedes,NombreSede|max:50','Municipio'=>'min:1|max:70','Barrio'=>'min:1|max:70','Direccion'=>'min:1|unique:sedes,Direccion|max:100'],
+        ['unique'=>'Este campo no acepta información que ya se ha registrado','min'=>'No puedes enviar este campo vacío','max'=>'Máximo de :max dígitos']);
+        // ,'Municipio'=>70,'Barrio'=>70,'Direccion'=>100
         if($validator->fails()){
             return back()->withErrors($validator)->withInput();
         }

@@ -27,8 +27,8 @@ class DeportesController extends Controller
      */
     public function create(Request $request)
     {
-        $validator = Validator::make( $request->all(), ['NombreDeporte'=>'unique:deportes,NombreDeporte'],
-        ['unique'=>'Deporte ya se encuentra registrado el sistema']);
+        $validator = Validator::make( $request->all(), ['NombreDeporte'=>'unique:deportes,NombreDeporte|min:1|max:50'],
+        ['unique'=>'Deporte ya se encuentra registrado el sistema','min'=>'No es posible enviar este campo vacío','max'=>'Máximo de :max dígitos']);
     
         if($validator->fails()){
             return back()->withErrors($validator);

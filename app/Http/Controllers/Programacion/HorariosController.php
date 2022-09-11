@@ -27,8 +27,8 @@ class HorariosController extends Controller
     public function create(Request $request)
     {
         $validator = Validator::make($request->all(),
-        ['NombreHorario'=>'min:1','Horario'=>'min:1'],
-        ['min'=>'No puedes enviar este campo vacío']);
+        ['NombreHorario'=>'min:1|max:50','Horario'=>'min:1|max:8'],
+        ['min'=>'No puedes enviar este campo vacío','max'=>'Máximo de :max dígitos']);
         if($validator->fails()){
             return back()->withErrors($validator)->withInput();
         }
