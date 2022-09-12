@@ -1,12 +1,11 @@
 <?php
+
 namespace App\Http\Controllers\Programacion;
 
 use App\Http\Controllers\Controller;
-use App\Models\Programacion\Sede;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
-class SedesController extends Controller
+class ProgramacionesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +14,7 @@ class SedesController extends Controller
      */
     public function index()
     {
-        return view('Programacion.Sedes');
+        return view('Programacion.Programacion');
     }
 
     /**
@@ -23,25 +22,9 @@ class SedesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create()
     {
-        $validator = Validator::make($request->all(), 
-        ['NombreSede'=>'min:1|unique:sedes,NombreSede|max:50','Municipio'=>'min:1|max:70','Barrio'=>'min:1|max:70','Direccion'=>'min:1|unique:sedes,Direccion|max:100'],
-        ['unique'=>'Este campo no acepta información que ya se ha registrado','min'=>'No puedes enviar este campo vacío','max'=>'Máximo de :max dígitos']);
-        // ,'Municipio'=>70,'Barrio'=>70,'Direccion'=>100
-        if($validator->fails()){
-            return back()->withErrors($validator)->withInput();
-        }
-        $Sede = new Sede();
-        $id = $Sede::creadorPK($Sede,100);
-        $Sede->SedeId = $id;
-        $Campos = ['NombreSede','Municipio','Barrio','Direccion'];
-        foreach($Campos as $item){
-            $Sede->$item = $request->$item;
-        }
-
-        $Sede->save();
-        return redirect('sede/listar');
+        //
     }
 
     /**

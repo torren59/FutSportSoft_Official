@@ -72,12 +72,12 @@
                                 </button>
                                 <div class="main-sidevar-item-links-off" id="servdeportivos">
                                     <a href={{ url('horario/listar') }}><button class="btn col-12" id="seg_servdep_sedes" name="sended" value="7">Horarios</button></a>
-
                                     <a href={{ url('sede/listar') }}><button class="btn col-12" id="seg_servdep_sedes" name="sended" value="7">Sedes</button></a>
                                     <a href= {{ url('deporte/listar') }} ><button  class="btn col-12" id="seg_servdep_deportes" name="sended" value="8">Gestion de deportes</button></a>
                                     <button  class="btn col-12" id="seg_servdep_categorias" name="sended" value="9">Gestion de categorías</button>
-                                    <button  class="btn col-12" name="sended" value="10">Gestion de servicio deportivo</button>
+                                    <button  class="btn col-12" name="sended" value="10">Gestion de grupos</button>
                                     <button  class="btn col-12" name="sended" value="11">Gestion de deporitstas</button>
+                                    <a href=" {{url('programacion/listar')}} "><button  class="btn col-12" name="sended" value="11">Gestion de programación</button></a>
                                 </div>
                             </div>
 

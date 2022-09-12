@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\InicialController;
 use App\Http\Controllers\Programacion\DeportesController;
 use App\Http\Controllers\Programacion\HorariosController;
+use App\Http\Controllers\Programacion\ProgramacionesController;
 use App\Http\Controllers\Programacion\SedesController;
 use App\Http\Controllers\RolesController;
 use Illuminate\Support\Facades\Route;
@@ -61,6 +62,13 @@ function(){
     function(){
         Route::get('horario/listar','index');
         Route::post('horario/crear','create');
+    }
+ );
+
+ Route::controller(ProgramacionesController::class)->group(
+    function(){
+        Route::get('programacion/listar','index');
+        Route::post('programacion/crear', 'create');
     }
  );
 
