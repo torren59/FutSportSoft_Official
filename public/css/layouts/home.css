@@ -15,7 +15,7 @@ body{
 
 /*Etiqueta href de los botonos sin decoración*/
 a{
-    text-decoration: none;
+ text-decoration: none; 
 }
 
 /*Contenedor principal

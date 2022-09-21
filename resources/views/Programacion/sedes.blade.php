@@ -59,8 +59,6 @@
         <button class="btn btn-success col-3" onclick="switchadicion2('sedeadicion')">Nueva Sede <i class="fa-solid fa-circle-plus"></i></button>
     </div>
 
-
-
     {{-- Creacion de sedes --}}
 
     <div id="sedeadicion" class="adicion_off" style="width:600px;height:400px">

@@ -8,6 +8,8 @@ use App\Http\Controllers\Programacion\HorariosController;
 use App\Http\Controllers\Programacion\ProgramacionesController;
 use App\Http\Controllers\Programacion\SedesController;
 use App\Http\Controllers\RolesController;
+use App\Http\Controllers\Ventas\VentasController;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 use Whoops\RunInterface;
 
@@ -22,54 +24,59 @@ use Whoops\RunInterface;
 |*/
 
 Route::get('/', function () {
-    return view('welcome');
+    return Redirect('home');
 });
 
 Route::controller(InicialController::class)->group(
-function(){
-    Route::get('inicio','index')->name('LoginForm');
-    Route::post('aut','login')->name('login');
-}
+    function () {
+        Route::get('inicio', 'index')->name('LoginForm');
+        Route::post('aut', 'login')->name('login');
+    }
 );
 
 
-Route::get('home',function(){
-return view('layouts.home');
+Route::get('home', function () {
+    return view('layouts.home');
 });
 
 
- Route::controller(RolesController::class)->group(
-    function(){
-    Route::get('roles','listar');
+Route::controller(RolesController::class)->group(
+    function () {
+        Route::get('roles', 'listar');
     }
- );
+);
 
- Route::controller(DeportesController::class)->group(
-    function(){
+Route::controller(DeportesController::class)->group(
+    function () {
         Route::get('deporte/listar', 'index');
         Route::post('deporte/crear', 'create');
     }
- );
+);
 
- Route::controller(SedesController::class)->group(
-function(){
-    Route::get('sede/listar', 'index');
-    Route::post('sede/crear', 'create');
-}
- );
-
- Route::controller(HorariosController::class)->group(
-    function(){
-        Route::get('horario/listar','index');
-        Route::post('horario/crear','create');
+Route::controller(SedesController::class)->group(
+    function () {
+        Route::get('sede/listar', 'index');
+        Route::post('sede/crear', 'create');
     }
- );
+);
 
- Route::controller(ProgramacionesController::class)->group(
-    function(){
-        Route::get('programacion/listar','index');
+Route::controller(HorariosController::class)->group(
+    function () {
+        Route::get('horario/listar', 'index');
+        Route::post('horario/crear', 'create');
+    }
+);
+
+Route::controller(ProgramacionesController::class)->group(
+    function () {
+        Route::get('programacion/listar', 'index');
         Route::post('programacion/crear', 'create');
     }
- );
+);
 
-
+Route::controller(VentasController::class)->group(
+    function(){
+        Route::get('venta/listar', 'index');
+        Route::get('venta/crear', 'create');
+    }
+);
