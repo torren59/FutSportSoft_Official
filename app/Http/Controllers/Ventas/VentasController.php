@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Ventas;
 
 use App\Http\Controllers\Controller;
+use App\Models\Compras\Producto;
 use Illuminate\Http\Request;
 
 class VentasController extends Controller
@@ -24,7 +25,9 @@ class VentasController extends Controller
      */
     public function create()
     {
-        return view('Ventas.crearventa');
+        $ProductModel= new Producto();
+        $Productos = $ProductModel->all();
+        return view('Ventas.crearventa')->with('productos',$Productos);
     }
 
     /**
@@ -36,6 +39,13 @@ class VentasController extends Controller
     public function store(Request $request)
     {
         //
+    }
+
+
+    public function listselected(Request $request){
+        $Selecteds = json_decode($request->seleccionados);
+        
+        return json_encode($Selecteds);
     }
 
     /**

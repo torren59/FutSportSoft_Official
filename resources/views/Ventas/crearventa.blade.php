@@ -3,6 +3,7 @@
 @section('title', 'Crear venta')
 
 @push('styles')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href=" {{ asset('./css/layouts/datatable.css') }} ">
     <link rel="stylesheet" href="{{ asset('./css/layouts/cruds.css') }} ">
     <link href="https://unpkg.com/vanilla-datatables@latest/dist/vanilla-dataTables.min.css" rel="stylesheet" type="text/css">
@@ -12,25 +13,122 @@
 @endpush
 
 @section('content')
-<form action="" method="post">
-    @csrf
-    <div class="grid_triple_center">
-        <div class="grid_span_2a3">
+    <form action="" method="post">
+        @csrf
+        <div class="grid_triple_center">
+            <div class="grid_span_2a3">
 
-            <div class="grid_doble_simetrico">
-                <div class="grid_span_1">
-                    a
+                <div class="grid_doble_simetrico">
+                    <div class="grid_span_1">
+                        <div class="col-12 lista_selects" style="display:grid;gap:5px;">
+                            <div class="col-md-12 btn btn-success">
+                                UnidadesDisp || Nombre Producto || Proveedor
+                            </div>
+                            <div class="col-md-12 btn btn-success">
+                                a
+                            </div>
+                            <div class="col-md-12 btn btn-success">
+                                a
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid_span_1">
+                        <input type="number" name="totalproduct" id="total_venta_article" hidden value="0">
+
+                        <table id="tabla">
+                            <thead>
+                                <tr>
+                                    <td>Producto</td>
+                                    <td>Cantidad</td>
+                                    <td>Disponibles</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+                                    @foreach ($productos as $item)
+                                        <tr>
+                                            <td>
+                                                <div class="lista_productos">
+                                                <input type="checkbox" class="form-check-input productcheck"
+                                                    id="{{ $item->ProductoId }}" name="productos[]"
+                                                    value="{{ $item->ProductoId }}">
+                                                <label class="form-check-label"
+                                                    for="{{ $item->ProductoId }}">{{ $item->NombreProducto }}
+                                                </label>
+                                            </div>
+                                            </td>
+
+                                            <td><input type="number" name="{{ $item->ProductoId }}"></td>
+
+                                            <td>{{ $item->Cantidad }}</td>
+                                        </tr>
+                                    @endforeach
+
+                                
+                            </tbody>
+                        </table>
+
+
+
+                    </div>
                 </div>
-                <div class="grid_span_1">
-                    b
-                </div>
+
             </div>
-
         </div>
-    </div>
 
-</form>
+    </form>
 @endsection
+
+{{-- <div class="lista_productos">
+                            @foreach ($productos as $item)
+                                <div class="col-md-12">
+                                    <input type="checkbox" class="form-check-input productcheck"
+                                        id="{{ $item->ProductoId }}" name="productos[]" value="{{ $item->ProductoId }}">
+                                    <label class="form-check-label"
+                                        for="{{ $item->ProductoId }}">{{ $item->NombreProducto }}</label>
+                                    Cantidad <input type="number" name="{{ $item->ProductoId }}">
+                                </div>
+                            @endforeach
+</div> --}}
+
+
+
+
+{{-- TABLE
+<table id="tabla">
+    <thead>
+        <tr>
+            <td>Producto</td>
+            <td>Cantidad</td>
+            <td>Disponibles</td>
+        </tr>
+    </thead>
+    <tbody>
+        <div class="lista_productos">
+            @foreach ($productos as $item)
+                <tr>
+                    <td>
+
+                        <input type="checkbox" class="form-check-input productcheck" 
+                        id="{{ $item->ProductoId }}" name="productos[]"
+                            value="{{ $item->ProductoId }}">
+                        <label class="form-check-label"
+                            for="{{ $item->ProductoId }}">{{ $item->NombreProducto }}
+                        </label>
+
+                    </td>
+
+                    <td><input type="number" name="{{ $item->ProductoId }}"></td>
+
+                    <td>{{ $item->Cantidad }}</td>
+                </tr>
+            @endforeach
+           
+        </div>
+    </tbody>
+</table> --}}
+
 
 @push('scripts')
     <script>

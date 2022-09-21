@@ -78,5 +78,6 @@ Route::controller(VentasController::class)->group(
     function(){
         Route::get('venta/listar', 'index');
         Route::get('venta/crear', 'create');
+        Route::post('venta/listaseleccionados','listselected');
     }
 );
