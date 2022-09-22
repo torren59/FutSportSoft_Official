@@ -66,6 +66,7 @@ grid-column: 2 / 3;
 display: flex;
 flex-wrap: wrap;
 justify-content: center;
+gap: 5px;
 /* background-color: green; */
 }
 /*FIN CONTENEDORES GRID*/

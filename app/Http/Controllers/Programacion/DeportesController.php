@@ -17,7 +17,9 @@ class DeportesController extends Controller
      */
     public function index()
     {
-        return view('Programacion.deportes');
+        $Deporte = new Deporte();
+        $ListadoDeporte = $Deporte->all();
+        return view('Programacion.deportes')->with('listado',$ListadoDeporte);
     }
 
     /**
@@ -74,7 +76,8 @@ class DeportesController extends Controller
      */
     public function edit($id)
     {
-        //
+        $Selected =  Deporte::all()->where('DeporteId','=',$id);
+        return view('Programacion.editardeporte')->with('deportedata',$Selected);
     }
 
     /**
@@ -86,7 +89,15 @@ class DeportesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validator = Validator::make( $request->all(), ['NombreDeporte'=>'unique:deportes,NombreDeporte|min:1|max:50'],
+        ['unique'=>'Deporte ya se encuentra registrado el sistema','min'=>'No es posible enviar este campo vacío','max'=>'Máximo de :max dígitos']);
+        if($validator->fails()){
+            return back()->withErrors($validator)->withInput();
+        }
+        $deporte = Deporte::find($id);
+        $deporte->NombreDeporte = strtoupper($request->NombreDeporte);
+        $deporte->save();
+        return redirect('deporte/listar');
     }
 
     /**
