@@ -25,33 +25,28 @@
         <thead>
             <tr>
                 <td>Acción</td>
-                <td>Estado</td>
+                <td>Horario Id</td>
                 <td>Nombre</td>
-                <td>Permiso</td>
+                <td>Horario</td>
+                <td>Estado</td>
             </tr>
         </thead>
         <tbody>
+            @foreach ($listado as $item)
             <tr>
-                <td><button class="btn btn-primary" onclick="activaedicion('listadorol','edicionrol')"><i class="fa-solid fa-pen"></i></button></td>
+                <td><a href="{{ url('horario/editar/'.$item->HorarioId) }}"><button class="btn btn-primary"><i class="fa-solid fa-pen"></i></button></a></td>
+                <td>{{ $item->HorarioId }}</td>
+                <td>{{ $item->NombreHorario }}</td>
+                <td> {{ $item->Horario }} </td>
                 <td>
                     <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
+                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked"
+                            checked>
                     </div>
                 </td>
-                <td>Entrenador</td>
-                <td>Adiciòn de roles</td>
-            </tr>
-            <tr>
-                <td><button class="btn btn-primary" onclick="activaedicion('listadorol','edicionrol')"><i class="fa-solid fa-pen"></i></button></td>
-                <td>
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
-                    </div>
-                </td>
-                <td>Director tecnico</td>
-                <td>Ediciòn de usuarios</td>
 
             </tr>
+        @endforeach
         </tbody>
     </table>
 

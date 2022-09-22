@@ -5,118 +5,111 @@
 @section('title', 'Deportes')
 
 @push('styles')
-<link rel="stylesheet" href=" {{asset('./css/layouts/datatable.css')}} ">
-<link rel="stylesheet" href="{{asset('./css/layouts/cruds.css')}} ">
-<link href="https://unpkg.com/vanilla-datatables@latest/dist/vanilla-dataTables.min.css" rel="stylesheet" type="text/css">
-<script src="https://unpkg.com/vanilla-datatables@latest/dist/vanilla-dataTables.min.js" type="text/javascript"></script>
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href=" {{ asset('./css/layouts/datatable.css') }} ">
+    <link rel="stylesheet" href="{{ asset('./css/layouts/cruds.css') }} ">
+    <link href="https://unpkg.com/vanilla-datatables@latest/dist/vanilla-dataTables.min.css" rel="stylesheet" type="text/css">
+    <script src="https://unpkg.com/vanilla-datatables@latest/dist/vanilla-dataTables.min.js" type="text/javascript">
+    </script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @endpush
 
 @section('content')
 
 
-{{-- class="service_list" --}}
+    {{-- class="service_list" --}}
 
-<div class="service_list">
-    <center>
-    <div class="tituloTabla">
-            <h1>DEPORTES</h1>
+    <div class="service_list">
+        <center>
+            <div class="tituloTabla">
+                <h1>DEPORTES</h1>
+            </div>
+        </center>
+        <table id="tabla">
+            <thead>
+                <tr>
+                    <td>Acción</td>
+                    <td>Deporte Id</td>
+                    <td>Nombre</td>
+                    <td>Estado</td>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach ($listado as $item)
+                    <tr>
+                        <td><a href="{{ url('deporte/editar/'.$item->DeporteId) }}"><button class="btn btn-primary"><i class="fa-solid fa-pen"></i></button></a></td>
+                        <td>{{ $item->DeporteId }}</td>
+                        <td>{{ $item->NombreDeporte }}</td>
+                        <td>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked"
+                                    checked>
+                            </div>
+                        </td>
+
+                    </tr>
+                @endforeach
+
+            </tbody>
+        </table>
+
+        <div class="addbtn">
+            <button class="btn btn-success col-3" onclick="switchadicion('roladicion')">Nuevo Deporte <i
+                    class="fa-solid fa-circle-plus"></i></button>
         </div>
-    </center>
-    <table id="tabla">
-        <thead>
-            <tr>
-                <td>Acción</td>
-                <td>Estado</td>
-                <td>Nombre</td>
-                <td>Permiso</td>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><button class="btn btn-primary" onclick="activaedicion('listadorol','edicionrol')"><i class="fa-solid fa-pen"></i></button></td>
-                <td>
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
-                    </div>
-                </td>
-                <td>Entrenador</td>
-                <td>Adiciòn de roles</td>
-            </tr>
-            <tr>
-                <td><button class="btn btn-primary" onclick="activaedicion('listadorol','edicionrol')"><i class="fa-solid fa-pen"></i></button></td>
-                <td>
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
-                    </div>
-                </td>
-                <td>Director tecnico</td>
-                <td>Ediciòn de usuarios</td>
 
-            </tr>
-        </tbody>
-    </table>
+        {{-- Creacion de deportes --}}
+        <div class="adicion adicion_off" id="roladicion">
+            <form action={{ url('deporte/crear') }} method="post">
 
-    <div class="addbtn">
-        <button class="btn btn-success col-3" onclick="switchadicion('roladicion')">Nuevo Deporte <i class="fa-solid fa-circle-plus"></i></button>
-    </div>
-
-    {{-- Creacion de deportes --}}
-    <div class="adicion adicion_off" id="roladicion">
-        <form action={{ url('deporte/crear') }} method="post">
-            
-            @csrf
-            <div class="adicion_title">
-                <h1>Nuevo Deporte</h1>
-            </div>
-
-        
-            <div class="adicion_content" id="addsed">
-
-                <div class="mb-3  col-5">
-                    <label class="form-label">Nombre Deporte</label>
-                    <input type="text" class="form-control" name="NombreDeporte">
+                @csrf
+                <div class="adicion_title">
+                    <h1>Nuevo Deporte</h1>
                 </div>
-               
-            </div>
-            <div class="mb-3 col-7">
-                <button type="submit" class="btn btn-primary btn-success" onclick="switchadicion('roladicion')">Guardar</i></button>
-                <button type="button" class="btn btn-primary btn-danger" onclick="switchadicion('roladicion')">Cancelar</i></button>
-            </div>
 
-        </form>
+
+                <div class="adicion_content" id="addsed">
+
+                    <div class="mb-3  col-5">
+                        <label class="form-label">Nombre Deporte</label>
+                        <input type="text" class="form-control" name="NombreDeporte">
+                    </div>
+
+                </div>
+                <div class="mb-3 col-7">
+                    <button type="submit" class="btn btn-primary btn-success"
+                        onclick="switchadicion('roladicion')">Guardar</i></button>
+                    <button type="button" class="btn btn-primary btn-danger"
+                        onclick="switchadicion('roladicion')">Cancelar</i></button>
+                </div>
+
+            </form>
+        </div>
+
+
+
+        @if ($errors->any())
+            @foreach ($errors->get('NombreDeporte') as $item)
+                <script>
+                    document.onload = Swal.fire({
+                        title: 'Operacion cancelada',
+                        text: '{{ $item }}',
+                        icon: 'warning',
+                    });
+                </script>
+            @endforeach
+        @endif
+
     </div>
-
-    
-
-    @if ($errors->any())
-    @foreach ($errors->get('NombreDeporte') as $item)
-
-    <script>
-       document.onload = Swal.fire(
-        {
-            title: 'Operacion cancelada',
-            text: '{{$item}}',
-            icon: 'warning',
-        }
-       );
-    </script>
-
-    @endforeach
-    @endif
-
-</div>
 
 @endsection
 
 
 @push('scripts')
+    <script>
+        let tabla = document.getElementById("tabla");
+        let datatable = new DataTable(tabla);
+    </script>
 
-<script>
-    let tabla = document.getElementById("tabla");
-    let datatable = new DataTable(tabla);
-</script>
-
-<script src=" {{asset('./js/layouts/cruds.js')}} "></script>
-
+    <script src=" {{ asset('./js/layouts/cruds.js') }} "></script>
 @endpush

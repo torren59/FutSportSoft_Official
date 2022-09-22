@@ -15,7 +15,8 @@ class SedesController extends Controller
      */
     public function index()
     {
-        return view('Programacion.Sedes');
+        $ListadoSede = Sede::all();
+        return view('Programacion.Sedes')->with('listado',$ListadoSede);
     }
 
     /**
@@ -28,7 +29,7 @@ class SedesController extends Controller
         $validator = Validator::make($request->all(), 
         ['NombreSede'=>'min:1|unique:sedes,NombreSede|max:50','Municipio'=>'min:1|max:70','Barrio'=>'min:1|max:70','Direccion'=>'min:1|unique:sedes,Direccion|max:100'],
         ['unique'=>'Este campo no acepta información que ya se ha registrado','min'=>'No puedes enviar este campo vacío','max'=>'Máximo de :max dígitos']);
-        // ,'Municipio'=>70,'Barrio'=>70,'Direccion'=>100
+        
         if($validator->fails()){
             return back()->withErrors($validator)->withInput();
         }
@@ -74,7 +75,8 @@ class SedesController extends Controller
      */
     public function edit($id)
     {
-        //
+        $Selected =  Sede::all()->where('SedeId','=',$id);
+        return view('Programacion.editarsede')->with('sededata',$Selected);
     }
 
     /**
@@ -86,7 +88,22 @@ class SedesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        $validator = Validator::make($request->all(), 
+        ['NombreSede'=>'min:1','Municipio'=>'min:1|max:70','Barrio'=>'min:1|max:70','Direccion'=>'min:1|max:100'],
+        ['unique'=>'Este campo no acepta información que ya se ha registrado','min'=>'No puedes enviar este campo vacío','max'=>'Máximo de :max dígitos']);
+ 
+        if($validator->fails()){
+            return back()->withErrors($validator)->withInput();
+            
+        }
+        $sede = Sede::find($id);
+        $Campos = ['NombreSede','Municipio','Barrio','Direccion'];
+        foreach($Campos as $item){
+            $sede->$item = $request->$item;
+        }
+        $sede->save();
+        return redirect('sede/listar');
     }
 
     /**

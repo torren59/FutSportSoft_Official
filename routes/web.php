@@ -50,6 +50,8 @@ Route::controller(DeportesController::class)->group(
     function () {
         Route::get('deporte/listar', 'index');
         Route::post('deporte/crear', 'create');
+        Route::get('deporte/editar/{id}', 'edit');
+        Route::post('deporte/actualizar/{id}','update');
     }
 );
 
@@ -57,6 +59,8 @@ Route::controller(SedesController::class)->group(
     function () {
         Route::get('sede/listar', 'index');
         Route::post('sede/crear', 'create');
+        Route::get('sede/editar/{id}','edit');
+        Route::post('sede/actualizar/{id}','update');
     }
 );
 
@@ -64,6 +68,8 @@ Route::controller(HorariosController::class)->group(
     function () {
         Route::get('horario/listar', 'index');
         Route::post('horario/crear', 'create');
+        Route::get('horario/editar/{id}', 'edit');
+        Route::post('horario/actualizar/{id}', 'update');
     }
 );
 

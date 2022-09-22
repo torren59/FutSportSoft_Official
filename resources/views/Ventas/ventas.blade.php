@@ -70,7 +70,7 @@
         </a>
 
 
-        {{-- Formulario Temporal, no utilizar --}}
+         {{-- Formulario Temporal, no utilizar 
 
         <div>
             <div class="form-check">
@@ -79,7 +79,7 @@
                     Selecciona
                 </label>
             </div>
-        </div>
+        </div> --}}
 
     </div>
 @endsection
