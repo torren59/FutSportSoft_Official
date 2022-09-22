@@ -20,16 +20,8 @@
 
                 <div class="grid_doble_simetrico">
                     <div class="grid_span_1">
-                        <div class="col-12 lista_selects" style="display:grid;gap:5px;">
-                            <div class="col-md-12 btn btn-success">
-                                UnidadesDisp || Nombre Producto || Proveedor
-                            </div>
-                            <div class="col-md-12 btn btn-success">
-                                a
-                            </div>
-                            <div class="col-md-12 btn btn-success">
-                                a
-                            </div>
+                        <div class="col-12 lista_selects">
+                            
                         </div>
                     </div>
 

@@ -43,9 +43,10 @@ class VentasController extends Controller
 
 
     public function listselected(Request $request){
+        $ProductModel = new Producto(); 
         $Selecteds = json_decode($request->seleccionados);
-        
-        return json_encode($Selecteds);
+        $checkeds = $ProductModel->whereIn('ProductoId',$Selecteds)->select('NombreProducto')->get();
+        return json_encode($checkeds);
     }
 
     /**

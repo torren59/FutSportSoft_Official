@@ -1,8 +1,8 @@
-$('.productcheck').on('change', Avisad);
+$('.productcheck').on('change', listar);
 
 
 
-function Avisad(){
+function listar(){
     let checks = $('.lista_productos').find('.productcheck');
     let arr = new Array();
     arr = checks.toArray();
@@ -27,10 +27,19 @@ function Avisad(){
         dataType: 'json',
         data: {'seleccionados': JSON.stringify(Seleccionados)},
         success: function(data) {
-            console.log(data);
+            let lista_selects = ""
+            // let receptor = JSON.parse(data);
+            data.forEach(element => {
+                 lista_selects +='<div class="col-md-12 btn btn-success" style="height:80px;margin-bottom:5px;">'+
+                 element.NombreProducto+'</div>';
+                 console.log(element.NombreProducto);
+            });
+            
+            $('.lista_selects').html(lista_selects);
         },
         error: function(data) {
           alert('Error '+data);
         }
     });
 }
+
