@@ -9,6 +9,10 @@ use App\Http\Controllers\Programacion\ProgramacionesController;
 use App\Http\Controllers\Programacion\SedesController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\Ventas\VentasController;
+use App\Http\Controllers\Compras\ProductosController;
+use App\Http\Controllers\Compras\ProveedoresController;
+use App\Http\Controllers\Programacion\DeportistasController;
+use App\Http\Controllers\Ayudas\AyudasController;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 use Whoops\RunInterface;
@@ -79,5 +83,32 @@ Route::controller(VentasController::class)->group(
         Route::get('venta/listar', 'index');
         Route::get('venta/crear', 'create');
         Route::post('venta/listaseleccionados','listselected');
+    }
+);
+
+Route::controller(ProveedoresController::class)->group(
+    function () {
+        Route::get('proveedor/listar', 'index');
+        Route::post('proveedor/crear', 'create');
+    }
+);
+
+Route::controller(ProductosController::class)->group(
+    function () {
+        Route::get('producto/listar', 'index');
+        Route::post('producto/crear', 'create');
+    }
+);
+
+Route::controller(DeportistasController::class)->group(
+    function () {
+        Route::get('deportista/listar', 'index');
+        Route::post('deportista/crear', 'create');
+    }
+);
+
+Route::controller(AyudasController::class)->group(
+    function () {
+        Route::get('ayudas', 'listar');
     }
 );

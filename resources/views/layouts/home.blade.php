@@ -62,17 +62,8 @@
                                         value="4">Proveedores</button>
                                     <button type="submit" class="btn col-12" name="sended" value="5">Gestion de
                                         compras</button>
-                                </div>
-                            </div>
-
-                            <div class="main-sidevar-item" id="seg_existencia">
-                                <button type="button" class="btn primary-btn col-12 sidevar-btn-title"
-                                    onclick="items('existencia')">
-                                    EXISTENCIAS
-                                </button>
-                                <div class="main-sidevar-item-links-off" id="existencia">
                                     <button type="submit" class="btn col-12" name="sended" value="6">Gestion de
-                                        existencias</button>
+                                        productos</button>
                                 </div>
                             </div>
 
@@ -93,8 +84,9 @@
                                         value="9">Gestion de categorías</button>
                                     <button class="btn col-12" name="sended" value="10">Gestion de
                                         grupos</button>
-                                    <button class="btn col-12" name="sended" value="11">Gestion de
-                                        deporitstas</button>
+                                    <a href={{ url('deportista/listar') }}><button class="btn col-12" id="seg_servdep_sedes"
+                                            name="sended" value="7">Gestion de
+                                        deporitsta</button></a>
                                     <a href=" {{ url('programacion/listar') }} "><button class="btn col-12"
                                             name="sended" value="11">Gestion de programación</button></a>
                                 </div>
