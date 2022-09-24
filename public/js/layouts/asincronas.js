@@ -30,7 +30,7 @@ function listar(){
             let lista_selects = ""
             // let receptor = JSON.parse(data);
             data.forEach(element => {
-                 lista_selects +='<div class="col-md-12 btn btn-success" style="height:80px;margin-bottom:5px;">'+
+                 lista_selects +='<div class="col-md-12 btn btn-success" style="width:100%;height:80px;margin-bottom:5px;">'+
                  element.NombreProducto+'</div>';
                  console.log(element.NombreProducto);
             });

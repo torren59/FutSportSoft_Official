@@ -19,9 +19,13 @@
             <div class="grid_span_2a3">
 
                 <div class="grid_doble_simetrico">
-                    <div class="grid_span_1">
+
+                    <div class="grid_span_1" id="product_added">
+                        <div>
+                            <h3>PRODUCTOS AGREGADOS</h3>
+                        </div>
                         <div class="col-12 lista_selects">
-                            
+                            {{-- Aqui se inserta con js los productos seleccionados --}}
                         </div>
                     </div>
 
@@ -37,11 +41,11 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                
-                                    @foreach ($productos as $item)
-                                        <tr>
-                                            <td>
-                                                <div class="lista_productos">
+
+                                @foreach ($productos as $item)
+                                    <tr>
+                                        <td>
+                                            <div class="lista_productos">
                                                 <input type="checkbox" class="form-check-input productcheck"
                                                     id="{{ $item->ProductoId }}" name="productos[]"
                                                     value="{{ $item->ProductoId }}">
@@ -49,19 +53,16 @@
                                                     for="{{ $item->ProductoId }}">{{ $item->NombreProducto }}
                                                 </label>
                                             </div>
-                                            </td>
+                                        </td>
 
-                                            <td><input type="number" name="{{ $item->ProductoId }}"></td>
+                                        <td><input type="number" name="{{ $item->ProductoId }}"></td>
 
-                                            <td>{{ $item->Cantidad }}</td>
-                                        </tr>
-                                    @endforeach
+                                        <td>{{ $item->Cantidad }}</td>
+                                    </tr>
+                                @endforeach
 
-                                
                             </tbody>
                         </table>
-
-
 
                     </div>
                 </div>
@@ -71,56 +72,6 @@
 
     </form>
 @endsection
-
-{{-- <div class="lista_productos">
-                            @foreach ($productos as $item)
-                                <div class="col-md-12">
-                                    <input type="checkbox" class="form-check-input productcheck"
-                                        id="{{ $item->ProductoId }}" name="productos[]" value="{{ $item->ProductoId }}">
-                                    <label class="form-check-label"
-                                        for="{{ $item->ProductoId }}">{{ $item->NombreProducto }}</label>
-                                    Cantidad <input type="number" name="{{ $item->ProductoId }}">
-                                </div>
-                            @endforeach
-</div> --}}
-
-
-
-
-{{-- TABLE
-<table id="tabla">
-    <thead>
-        <tr>
-            <td>Producto</td>
-            <td>Cantidad</td>
-            <td>Disponibles</td>
-        </tr>
-    </thead>
-    <tbody>
-        <div class="lista_productos">
-            @foreach ($productos as $item)
-                <tr>
-                    <td>
-
-                        <input type="checkbox" class="form-check-input productcheck" 
-                        id="{{ $item->ProductoId }}" name="productos[]"
-                            value="{{ $item->ProductoId }}">
-                        <label class="form-check-label"
-                            for="{{ $item->ProductoId }}">{{ $item->NombreProducto }}
-                        </label>
-
-                    </td>
-
-                    <td><input type="number" name="{{ $item->ProductoId }}"></td>
-
-                    <td>{{ $item->Cantidad }}</td>
-                </tr>
-            @endforeach
-           
-        </div>
-    </tbody>
-</table> --}}
-
 
 @push('scripts')
     <script>
