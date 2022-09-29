@@ -84,11 +84,11 @@
                                         value="9">Gestion de categorías</button>
                                     <button class="btn col-12" name="sended" value="10">Gestion de
                                         grupos</button>
-                                    <a href={{ url('deportista/listar') }}><button class="btn col-12" id="seg_servdep_sedes"
-                                            name="sended" value="7">Gestion de
-                                        deporitsta</button></a>
+                                    <a href={{ url('deportista/listar') }}><button class="btn col-12"
+                                            id="seg_servdep_sedes" name="sended" value="7">Gestion de
+                                            deporitsta</button></a>
                                     <a href=" {{ url('programacion/listar') }} "><button class="btn col-12"
-                                            name="sended" value="11">Gestion de programación</button></a>
+                                            name="sended">Gestion de programación</button></a>
                                 </div>
                             </div>
 
@@ -111,7 +111,7 @@
 
                 </div>
                 <!--Fin SideVar-->
-                
+
                 <!--Inicio zona de contenido-->
 
                 <div class="main_area">

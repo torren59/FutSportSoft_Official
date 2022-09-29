@@ -1,5 +1,4 @@
 <?php
-
 use App\Http\Controllers\ConfiguracionController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\InicialController;
@@ -13,6 +12,7 @@ use App\Http\Controllers\Compras\ProductosController;
 use App\Http\Controllers\Compras\ProveedoresController;
 use App\Http\Controllers\Programacion\DeportistasController;
 use App\Http\Controllers\Ayudas\AyudasController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 use Whoops\RunInterface;
@@ -56,6 +56,8 @@ Route::controller(DeportesController::class)->group(
         Route::post('deporte/crear', 'create');
         Route::get('deporte/editar/{id}', 'edit');
         Route::post('deporte/actualizar/{id}','update');
+        Route::get('select/getcategoria/{DeporteId?}','getcategorias');
+        Route::get('select/getgrupo/{CategoriaId?}','getgrupos');
     }
 );
 

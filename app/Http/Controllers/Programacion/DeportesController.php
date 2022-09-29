@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Programacion;
 
 use App\Http\Controllers\Controller;
+use App\Models\Programacion\Categorias;
 use App\Models\Programacion\Deporte;
+use App\Models\Programacion\Grupos;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Unique;
@@ -109,5 +111,17 @@ class DeportesController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function getcategorias(Request $request){
+        $DeporteId = $request->DeporteId;
+        $categorias = Categorias::select(['CategoriaId','NombreCategoria'])->where('DeporteId','=',$DeporteId)->get();
+        return json_encode($categorias);   
+    }
+
+    public function getgrupos(Request $request){
+        $CategoriaId = $request->CategoriaId;
+        $grupos = Grupos::select(['GrupoId','NombreGrupo'])->where('CategoriaId','=',$CategoriaId)->get();
+        return json_encode($grupos);   
     }
 }

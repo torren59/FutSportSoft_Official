@@ -1,5 +1,6 @@
 $('.productcheck').on('change', listar);
-
+$('.deporte_select').on('change',push_categorias);
+$('.categoria_select').on('change',push_grupos);    
 
 
 function listar(){
@@ -13,7 +14,6 @@ function listar(){
             Seleccionados.push($(element).val());
         }
     });
-
    
     $.ajaxSetup({
         headers: {
@@ -28,7 +28,7 @@ function listar(){
         data: {'seleccionados': JSON.stringify(Seleccionados)},
         success: function(data) {
             let lista_selects = ""
-            // let receptor = JSON.parse(data);
+
             data.forEach(element => {
                  lista_selects +='<div class="col-md-12 btn btn-success" style="width:100%;height:80px;margin-bottom:5px;">'+
                  element.NombreProducto+'</div>';
@@ -42,4 +42,59 @@ function listar(){
         }
     });
 }
+
+
+function push_categorias(){
+    let DeporteId = parseInt($('.deporte_select').val());
+    console.log(DeporteId);
+    categoria_select = "<option value=''>Selecciona categoria</option>";
+
+    $.ajax({
+        type: 'get',
+        url: '/select/getcategoria/',
+        dataType: 'json',
+        data: {'DeporteId': JSON.stringify(DeporteId)},
+
+        success: function(data) {
+            categorias = Object.entries(data);
+            categorias.forEach(element => {
+                categoria_select += "<option value='"+element[1]['CategoriaId']+"'>"+ element[1]['NombreCategoria'] +"</option>"
+            });
+            $('.categoria_select').html(categoria_select);
+        },
+
+        error: function(data) {
+          alert('Error '+data);
+        }
+
+    });
+}
+
+
+function push_grupos(){
+    let CategoriaId = parseInt($('.categoria_select').val());
+    console.log(CategoriaId);
+    grupo_select = "<option value=''>Selecciona grupo</option>";
+
+    $.ajax({
+        type: 'get',
+        url: '/select/getgrupo/',
+        dataType: 'json',
+        data: {'CategoriaId': JSON.stringify(CategoriaId)},
+
+        success: function(data) {
+            grupos = Object.entries(data);
+            grupos.forEach(element => {
+                grupo_select += "<option value='"+element[1]['GrupoId']+"'>"+ element[1]['NombreGrupo'] +"</option>"
+            });
+            $('.grupo_select').html(grupo_select);
+        },
+
+        error: function(data) {
+          alert('Error '+data);
+        }
+
+    });
+}
+
 
