@@ -6,12 +6,16 @@ use App\Http\Controllers\Programacion\DeportesController;
 use App\Http\Controllers\Programacion\HorariosController;
 use App\Http\Controllers\Programacion\ProgramacionesController;
 use App\Http\Controllers\Programacion\SedesController;
-use App\Http\Controllers\RolesController;
+
 use App\Http\Controllers\Ventas\VentasController;
 use App\Http\Controllers\Compras\ProductosController;
 use App\Http\Controllers\Compras\ProveedoresController;
 use App\Http\Controllers\Programacion\DeportistasController;
 use App\Http\Controllers\Ayudas\AyudasController;
+use App\Http\Controllers\Configuracion\RolesController;
+use App\Http\Controllers\Programacion\CategoriaController;
+use App\Http\Controllers\Usuarios\UsuarioController;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
@@ -46,7 +50,31 @@ Route::get('home', function () {
 
 Route::controller(RolesController::class)->group(
     function () {
-        Route::get('roles', 'listar');
+        Route::get('roles/listar', 'index');
+        Route::post('roles/crear', 'create');
+        Route::get('roles/editar/{id}','edit');
+        Route::post('roles/actualizar/{id}','update');
+
+    }
+);
+
+Route::controller(UsuarioController::class)->group(
+    function () {
+        Route::get('usuario/listar', 'index');
+        Route::post('usuario/crear', 'create');
+        Route::get('usuario/editar/{id}','edit');
+        Route::post('usuario/actualizar/{id}','update');
+
+    }
+);
+
+Route::controller(CategoriaController::class)->group(
+    function () {
+        Route::get('categoria/listar', 'index');
+        Route::post('categoria/crear', 'create');
+        Route::get('categoria/editar/{id}','edit');
+        Route::post('categoria/actualizar/{id}','update');
+
     }
 );
 
