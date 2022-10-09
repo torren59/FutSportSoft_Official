@@ -35,14 +35,6 @@ Route::get('/', function () {
     return Redirect('home');
 });
 
-Route::controller(InicialController::class)->group(
-    function () {
-        Route::get('inicio', 'index')->name('LoginForm');
-        Route::post('aut', 'login')->name('login');
-    }
-);
-
-
 Route::get('home', function () {
     return view('layouts.home');
 });
