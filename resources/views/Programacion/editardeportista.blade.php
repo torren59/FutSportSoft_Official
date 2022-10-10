@@ -60,7 +60,7 @@
                         <div class="mb-3  col-5">
                             <label class="form-label">Nombre</label>
                             <input type="text" class="form-control" name="Nombre"
-                                value=" {{ old('Nombre', $item->Nombre) }} ">
+                                value="{{ old('Nombre',$item->Nombre) }}">
                                 @error('Nombre')
                                 <div>
                                     @foreach ($errors->get('Nombre') as $item)
@@ -100,7 +100,7 @@
                         <div class="mb-3  col-5">
                             <label class="form-label">Celular</label>
                             <input type="text" class="form-control" name="Celular"
-                                value=" {{ old('Celular', $item->Celular) }} ">
+                                value="{{ old('Celular', $item->Celular) }}">
                                 @error('Celular')
                                 <div>
                                     @foreach ($errors->get('Celular') as $item)
@@ -125,11 +125,11 @@
 
                         <div class="mb-3  col-5">
                             <label class="form-label">Ultimo Pago</label>
-                            <input type="text" class="form-control" name="UltumoPago"
-                                value=" {{ old('UltumoPago', $item->UltumoPago) }} ">
+                            <input type="date" class="form-control" name="UltimoPago"
+                                value="{{ old('UltimoPago', $item->UltimoPago) }}">
                                 @error('UltumoPago')
                                 <div>
-                                    @foreach ($errors->get('UltumoPago') as $item)
+                                    @foreach ($errors->get('UltimoPago') as $item)
                                         <small> {{$item}} </small>
                                     @endforeach
                                 </div>
