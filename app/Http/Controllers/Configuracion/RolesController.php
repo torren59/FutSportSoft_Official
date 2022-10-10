@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Configuracion;
 
 use App\Http\Controllers\Controller;
 use App\Models\Configuracion\Roles;
+use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class RolesController extends Controller
 {
@@ -16,7 +18,7 @@ class RolesController extends Controller
     public function index()
     {
         $ListadoRoles = Roles::all();
-        return view('Configuracion.Roles')->with('listado',$ListadoRoles);
+        return view('configuracion.Roles')->with('listado', $ListadoRoles);
     }
 
     /**
@@ -24,9 +26,28 @@ class RolesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $validator = Validator::make(
+            $request->all(),
+            ['NombreRol' => 'min:1|unique:roles,NombreRol|max:50'],
+            ['unique' => 'Este campo no acepta información que ya se ha registrado', 'min' => 'No puedes enviar este campo vacío', 'max' => 'Máximo de :max dígitos']
+        );
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        $Roles = new Roles();
+        $id = $Roles::creadorPK($Roles, 100);
+        $Roles->RolId = $id;
+        $Campos = ['NombreRol'];
+        foreach ($Campos as $item) {
+            $Roles->$item = $request->$item;
+        }
+
+        $Roles->save();
+        return redirect('roles/listar');
     }
 
     /**
@@ -59,7 +80,8 @@ class RolesController extends Controller
      */
     public function edit($id)
     {
-        //
+        $Selected =  Roles::all()->where('RolId', '=', $id);
+        return view('configuracion.editarroles')->with('roldata', $Selected);
     }
 
     /**
@@ -71,8 +93,23 @@ class RolesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validator = Validator::make($request->all(),
+        ['NombreRol'=>'min:1|max:50'],
+        ['unique'=>'Este campo no acepta información que ya se ha registrado','min'=>'No puedes enviar este campo vacío','max'=>'Máximo de :max dígitos']);
+
+        if($validator->fails()){
+            return back()->withErrors($validator)->withInput();
+
+        }
+        $Roles = Roles::find($id);
+        $Campos = ['NombreRol'];
+        foreach($Campos as $item){
+            $Roles->$item = $request->$item;
+        }
+        $Roles->save();
+        return redirect('roles/listar');
     }
+
 
     /**
      * Remove the specified resource from storage.

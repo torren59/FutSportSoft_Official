@@ -30,29 +30,34 @@
             </tr>
         </thead>
         <tbody>
+            @foreach ($listado as $item)
             <tr>
-                <td><button class="btn btn-primary" onclick="activaedicion('listadorol','edicionrol')"><i class="fa-solid fa-pen"></i></button></td>
+                <td><a href="{{ url('roles/editar/'.$item->RolId) }}"><button class="btn btn-primary"><i
+                                class="fa-solid fa-pen"></i></button></a></td>
+                <td>{{ $item->RolId }}</td>
+                <td>{{ $item->NombreRol }}</td>
+                <td>{{ $item->Estado }}</td>
+
+
                 <td>
+                    {{-- Definiendo estado --}}
+                    @php
+                        $checkstate = '';
+                        if ($item->Estado == true) {
+                            $checkstate = 'checked';
+                        }
+                    @endphp
+
                     <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
+                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked"
+                            {{ $checkstate }} >
                     </div>
                 </td>
-                <td>Entrenador</td>
-                <td>Adiciòn de roles</td>
-            </tr>
-            <tr>
-                <td><button class="btn btn-primary" onclick="activaedicion('listadorol','edicionrol')"><i class="fa-solid fa-pen"></i></button></td>
-                <td>
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
-                    </div>
-                </td>
-                <td>Director tecnico</td>
-                <td>Ediciòn de usuarios</td>
 
             </tr>
-        </tbody>
-    </table>
+        @endforeach
+    </tbody>
+</table>
     <div class="addbtn">
     <button class="btn btn-success col-3" onclick="switchadicion('roladicion')">Nuevo Rol <i class="fa-solid fa-circle-plus"></i></button>
     </div>
@@ -66,10 +71,17 @@
         </div>
         <div class="adicion_content" id="addsed">
 
-            <div class="mb-3  col-5">
-                <label for="exampleInputEmail1" class="form-label">Nombre Rol</label>
-                <input type="email" class="form-control" aria-describedby="emailHelp">
-            </div>
+            <form action={{ url('roles/crear') }} method="post"> @csrf
+
+                <label for="NombreRol" class="form-label">Nombre del Rol</label>
+                <input type="text" class="form-control" name="NombreRol" value="{{ old('NombreRol') }}">
+                @error('NombreRol')
+                    <div>
+                        @foreach ($errors->get('NombreSede') as $item)
+                            <small> {{ $item }} </small>
+                        @endforeach
+                    </div>
+                @enderror
             <div class="adicion_title">
             <h2>Lista de Permisos</h2>
             </div>
@@ -113,10 +125,17 @@
 
         </div>
         <div class="mb-3 col-7">
-            <button type="button" class="btn btn-primary btn-success" onclick="swal_savecreation(), switchadicion('roladicion')">Guardar</i></button>
+            <button type="submit" class="btn btn-primary btn-success" >Guardar</i></button>
             <button type="button" class="btn btn-primary btn-danger" onclick="switchadicion('roladicion')">Cancelar</i></button>
         </div>
     </div>
+    @if ($errors->any())
+            <script>
+                setTimeout(() => {
+                    switchadicion2('rolesadicion');
+                }, 500);
+            </script>
+        @endif
 
 </div>
 

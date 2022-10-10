@@ -47,7 +47,9 @@
                         <td> {{ $item->RolId }} </td>
 
 
-                        <td> {{ $item->Estado }} </td>
+
+
+
                         <td>
                             {{-- Definiendo estado --}}
                             @php
