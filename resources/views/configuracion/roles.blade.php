@@ -57,9 +57,7 @@
     <button class="btn btn-success col-3" onclick="switchadicion('roladicion')">Nuevo Rol <i class="fa-solid fa-circle-plus"></i></button>
     </div>
 
-    @foreach ($proveedores as $item)
-        {{$item->NombreEmpresa}}
-    @endforeach
+
 
     {{-- Creacion de roles --}}
     <div class="adicion adicion_off" id="roladicion">
@@ -142,6 +140,6 @@
 
 
 
-    
 
-    
+
+

@@ -3,6 +3,13 @@
 namespace App\Http\Controllers\Programacion;
 
 use App\Http\Controllers\Controller;
+use App\Models\Programacion\Deporte;
+use App\Models\Programacion\Grupo;
+use App\Models\Programacion\Grupos;
+use App\Models\Programacion\Horario;
+use App\Models\Programacion\Programacion;
+use App\Models\Programacion\Sede;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
 class ProgramacionesController extends Controller
@@ -14,7 +21,18 @@ class ProgramacionesController extends Controller
      */
     public function index()
     {
-        return view('Programacion.Programacion');
+
+        $programaciones = Programacion::select(['ProgramacionId','sedes.NombreSede','grupos.NombreGrupo','horarios.Horario','FechaInicio','FechaFinalizacion'])
+        ->join('sedes','sedes.SedeId','=','Programacion.SedeId')
+        ->join('grupos','grupos.GrupoId','=','Programacion.GrupoId')
+        ->join('horarios','horarios.HorarioId','=','Programacion.HorarioId')
+        ->orderbydesc('ProgramacionId')->get();
+
+        $sedes = Sede::all(['SedeId','NombreSede']);
+        $deportes = Deporte::all(['DeporteId','NombreDeporte']);
+        $horarios = Horario::all(['HorarioId','NombreHorario','Horario']);
+        $progData = ['sedes'=>$sedes, 'horarios'=>$horarios, 'deportes'=>$deportes, 'horarios'=>$horarios,'programaciones'=>$programaciones];
+        return view('Programacion.Programaciones')->with('progData',$progData);
     }
 
     /**
@@ -22,9 +40,24 @@ class ProgramacionesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(),['GrupoId'=>'required','SedeId'=>'required','HorarioId'=>'required','FechaInicio'=>'required','FechaFinalizacion'=>'required'],
+        ['required'=>'Evite enviar el campo vacío']);
+
+        if($validator->fails()){
+            return back()->withErrors($validator)->withInput();
+        }
+
+        $campos = ['SedeId','GrupoId','HorarioId','FechaInicio','FechaFinalizacion'];
+        $programacion = new Programacion();
+        $ProgramacionId = Programacion::creadorPK($programacion,1000);
+        $programacion->ProgramacionId = $ProgramacionId;
+        foreach ($campos as $item) {
+            $programacion->$item = $request->$item;
+        }
+        $programacion->save();
+        return redirect('programacion/listar');
     }
 
     /**
