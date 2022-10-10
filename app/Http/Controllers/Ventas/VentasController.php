@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Ventas;
 use App\Http\Controllers\Controller;
 use App\Models\Compras\Producto;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rules\Unique;
 
 class VentasController extends Controller
 {
@@ -68,7 +70,8 @@ class VentasController extends Controller
      */
     public function edit($id)
     {
-        //
+        $Selected =  Venta::all()->where('VentaId','=',$id);
+        return view('Ventas.editarventas')->with('ventadata',$Selected);
     }
 
     /**

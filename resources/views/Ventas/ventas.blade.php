@@ -26,60 +26,142 @@
             <thead>
                 <tr>
                     <td>Acción</td>
+                    <td>VentaId</td>
+                    <td>Documento</td>
+                    <td>FechaVenta</td>
+                    <td>ValorVenta</td>
+                    <td>SubTotal</td>
+                    <td>IVA</td>
+                    <td>Descuento</td>
                     <td>Estado</td>
-                    <td>Nombre</td>
-                    <td>Permiso</td>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td><button class="btn btn-primary" onclick="activaedicion('listadorol','edicionrol')"><i
-                                class="fa-solid fa-pen"></i></button></td>
-                    <td>
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked"
-                                checked>
-                        </div>
-                    </td>
-                    <td>Entrenador</td>
-                    <td>Adiciòn de roles</td>
-                </tr>
-                <tr>
-                    <td><button class="btn btn-primary" onclick="activaedicion('listadorol','edicionrol')"><i
-                                class="fa-solid fa-pen"></i></button></td>
-                    <td>
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked"
-                                checked>
-                        </div>
-                    </td>
-                    <td>Director tecnico</td>
-                    <td>Ediciòn de usuarios</td>
+                @foreach ($listado as $item)
+                    <tr>
+                        <td><a href="{{ url('venta/editar/' . $item->VentaId) }}"><button class="btn btn-primary"><i
+                                        class="fa-solid fa-pen"></i></button></a></td>
+                        <td>{{ $item->VentaId }}</td>
+                        <td>{{ $item->Documento }}</td>
+                        <td> {{ $item->FechaVenta }} </td>
+                        <td> {{ $item->ValorVenta }} </td>
+                        <td> {{ $item->SubTotal }} </td>
+                        <td> {{ $item->IVA }} </td>
+                        <td> {{ $item->Descuento }} </td>
+                        <td>
+                            {{-- Definiendo estado --}}
+                            @php
+                                $checkstate = '';
+                                if ($item->Estado == true) {
+                                    $checkstate = 'checked';
+                                }
+                            @endphp
 
-                </tr>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked"
+                                    {{ $checkstate }} >
+                            </div>
+                        </td>
+
+                    </tr>
+                @endforeach
             </tbody>
         </table>
 
+        <div class="addbtn">
+            <button class="btn btn-success col-3" onclick="switchadicion2('ventaadicion')">Nueva Venta <i
+                    class="fa-solid fa-circle-plus"></i></button>
+        </div>
 
+        {{-- Creacion de ventas --}}
 
-        <a href=" {{ url('venta/crear') }} ">
-            <div class="addbtn">
-                <button class="btn btn-success col-3" onclick="switchadicion2('sedeadicion')">Nueva Venta <i
-                        class="fa-solid fa-circle-plus"></i></button>
+        <div id="ventaadicion" class="adicion_off" style="width:600px;height:400px">
+            <div class="floatcontent">
+                <h4 style="padding-top:5%;">Nueva Venta</h4>
+                <hr>
+
+                <form action={{ url('venta/crear') }} method="post"> @csrf
+
+                    <label for="Documento" class="form-label">Documento</label>
+                    <input type="text" class="form-control" name="Documento" value="{{ old('Documento') }}">
+                    @error('Documento')
+                        <div>
+                            @foreach ($errors->get('Documento') as $item)
+                                <small> {{ $item }} </small>
+                            @endforeach
+                        </div>
+                    @enderror
+
+                    <div class="row">
+                        <div class="col-6">
+                            <label for="FechaVenta" class="form-label">FechaVenta</label>
+                            <input type="text" class="form-control" name="FechaVenta" value=" {{ old('FechaVenta') }} ">
+                            @error('FechaVenta')
+                                <div>
+                                    @foreach ($errors->get('FechaVenta') as $item)
+                                        <small> {{ $item }} </small>
+                                    @endforeach
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="col-6">
+                            <label for="FechaValor" class="form-label">FechaValor</label>
+                            <input type="text" class="form-control" name="FechaValor" value=" {{ old('FechaValor') }} ">
+                            @error('FechaValor')
+                                <div>
+                                    @foreach ($errors->get('FechaValor') as $item)
+                                        <small> {{ $item }} </small>
+                                    @endforeach
+                                </div>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <label for="SubTotal" class="form-label">SubTotal</label>
+                    <input type="text" class="form-control" name="SubTotal" value=" {{ old('SubTotal') }} ">
+                    @error('SubTotal')
+                        <div>
+                            @foreach ($errors->get('SubTotal') as $item)
+                                <small> {{ $item }} </small>
+                            @endforeach
+                        </div>
+                    @enderror
+
+                    <label for="IVA" class="form-label">IVA</label>
+                    <input type="text" class="form-control" name="IVA" value="{{ old('IVA') }}">
+                    @error('IVA')
+                        <div>
+                            @foreach ($errors->get('IVA') as $item)
+                                <small> {{ $item }} </small>
+                            @endforeach
+                        </div>
+                    @enderror
+
+                    <label for="Descuento" class="form-label">Descuento</label>
+                    <input type="text" class="form-control" name="Descuento" value="{{ old('Descuento') }}">
+                    @error('Descuento')
+                        <div>
+                            @foreach ($errors->get('Descuento') as $item)
+                                <small> {{ $item }} </small>
+                            @endforeach
+                        </div>
+                    @enderror
+                    <br>
+                    <button type="submit" class="btn btn-primary btn-success">Guardar</i></button>
+                    <button type="button" class="btn btn-primary btn-danger"
+                        onclick="switchadicion2('ventaadicion')">Cancelar</i></button>
+
+                </form>
             </div>
-        </a>
+        </div>
 
-
-         {{-- Formulario Temporal, no utilizar 
-
-        <div>
-            <div class="form-check">
-                <input class="form-check-input watchcheck" type="checkbox" value="1" id="flexCheckDefault">
-                <label class="form-check-label" for="flexCheckDefault">
-                    Selecciona
-                </label>
-            </div>
-        </div> --}}
+        @if ($errors->any())
+            <script>
+                setTimeout(() => {
+                    switchadicion2('ventaadicion');
+                }, 500);
+            </script>
+        @endif
 
     </div>
 @endsection

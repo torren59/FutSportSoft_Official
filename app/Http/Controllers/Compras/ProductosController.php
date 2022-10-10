@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Compras;
 
+use App\Models\Compras\Producto;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rules\Unique;
 
 class ProductosController extends Controller
 {
@@ -14,7 +17,9 @@ class ProductosController extends Controller
      */
     public function index()
     {
-        return view('Compras.productos');
+        $Producto = new Producto();
+        $ListadoProducto = $Producto->all();
+        return view('Compras.productos')->with('listado',$ListadoProducto);
     }
 
     /**
@@ -73,7 +78,8 @@ class ProductosController extends Controller
      */
     public function edit($id)
     {
-        //
+        $Selected =  Producto::all()->where('ProductoId','=',$id);
+        return view('Compras.editarproducto')->with('productodata',$Selected);
     }
 
     /**
@@ -85,7 +91,21 @@ class ProductosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validator = Validator::make($request->all(), 
+        ['Nit'=>'min:1|unique:productos,Nit|max:11','NombreProducto'=>'min:1|max:100','TipoProducto'=>'min:1|max:2','Talla'=>'min:1|max:6','PrecioVenta'=>'min:1|max:8','Cantidad'=>'min:1|max:4'],
+        ['unique'=>'Este campo no acepta información que ya se ha registrado','min'=>'No puedes enviar este campo vacío','max'=>'Máximo de :max dígitos']);
+        // ,'Municipio'=>70,'Barrio'=>70,'Direccion'=>100
+        if($validator->fails()){
+            return back()->withErrors($validator)->withInput();
+        
+        }
+        $Producto = Producto::find($id);
+        $Campos = ['Nit','NombreProducto','TipoProducto','Talla','PrecioVenta','Cantidad'];
+        foreach($Campos as $item){
+            $Producto->$item = $request->$item;
+        }
+        $Producto->save();
+        return redirect('productos/listar');
     }
 
     /**

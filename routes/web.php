@@ -89,6 +89,8 @@ Route::controller(VentasController::class)->group(
         Route::get('venta/listar', 'index');
         Route::get('venta/crear', 'create');
         Route::post('venta/listaseleccionados','listselected');
+        Route::get('proveedor/editar/{id}', 'edit');
+        Route::post('proveedor/actualizar/{id}','update');
     }
 );
 
@@ -96,6 +98,8 @@ Route::controller(ProveedoresController::class)->group(
     function () {
         Route::get('proveedor/listar', 'index');
         Route::post('proveedor/crear', 'create');
+        Route::get('proveedor/editar/{id}', 'edit');
+        Route::post('proveedor/actualizar/{id}','update');
     }
 );
 
@@ -103,6 +107,8 @@ Route::controller(ProductosController::class)->group(
     function () {
         Route::get('producto/listar', 'index');
         Route::post('producto/crear', 'create');
+        Route::get('producto/editar/{id}', 'edit');
+        Route::post('producto/actualizar/{id}','update');
     }
 );
 
@@ -110,6 +116,8 @@ Route::controller(DeportistasController::class)->group(
     function () {
         Route::get('deportista/listar', 'index');
         Route::post('deportista/crear', 'create');
+        Route::get('deportista/editar/{id}', 'edit');
+        Route::post('deportista/actualizar/{id}','update');
     }
 );
 

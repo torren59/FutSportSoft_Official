@@ -58,12 +58,14 @@
                                     COMPRAS
                                 </button>
                                 <div class="main-sidevar-item-links-off" id="compras">
-                                    <button type="submit" class="btn col-12" id="seg_compras_prov" name="sended"
-                                        value="4">Proveedores</button>
                                     <button type="submit" class="btn col-12" name="sended" value="5">Gestion de
                                         compras</button>
-                                    <button type="submit" class="btn col-12" name="sended" value="6">Gestion de
-                                        productos</button>
+                                        <a href={{ url('proveedor/listar') }}><button class="btn col-12" id="seg_servdep_sedes"
+                                            name="sended" value="7">Gestion de
+                                        proveedores</button></a>
+                                        <a href={{ url('producto/listar') }}><button class="btn col-12" id="seg_servdep_sedes"
+                                            name="sended" value="7">Gestion de
+                                        productos</button></a>
                                 </div>
                             </div>
 

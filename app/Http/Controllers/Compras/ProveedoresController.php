@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Compras;
 
+use App\Models\Compras\Proveedor;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rules\Unique;
 
 class ProveedoresController extends Controller
 {
@@ -14,7 +17,9 @@ class ProveedoresController extends Controller
      */
     public function index()
     {
-        return view('Compras.proveedores');
+        $Proveedor = new Proveedor();
+        $ListadoProveedor = $Proveedor->all();
+        return view('Compras.proveedores')->with('listado',$ListadoProveedor);
     }
 
     /**
@@ -32,8 +37,8 @@ class ProveedoresController extends Controller
             return back()->withErrors($validator)->withInput();
         }
         $Proveedor = new Proveedor();
-        $Nit = $Proveedor::creadorPK($Proveedor,100);
-        $Proveedor->Nit = $Nit;
+        $Id = $Proveedor::creadorPK($Proveedor,100);
+        $Proveedor->Nit = $Id;
         $Campos = ['NombreEmpresa','Titular','NumeroContacto','Correo','Direccion'];
         foreach($Campos as $item){
             $Proveedor->$item = $request->$item;
@@ -73,7 +78,8 @@ class ProveedoresController extends Controller
      */
     public function edit($id)
     {
-        //
+        $Selected =  Proveedor::all()->where('Nit','=',$id);
+        return view('Compras.editarproveedores')->with('proveedordata',$Selected);
     }
 
     /**
@@ -85,7 +91,21 @@ class ProveedoresController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validator = Validator::make($request->all(), 
+        ['NombreEmpresa'=>'min:1|unique:proveedores,NombreEmpresa|max:100','Titular'=>'min:1|max:100','NumeroContacto'=>'min:1|max:15','Correo'=>'min:1|max:70','Direccion'=>'min:1|unique:proveedores,Direccion|max:100'],
+        ['unique'=>'Este campo no acepta información que ya se ha registrado','min'=>'No puedes enviar este campo vacío','max'=>'Máximo de :max dígitos']);
+        // ,'Municipio'=>70,'Barrio'=>70,'Direccion'=>100
+        if($validator->fails()){
+            return back()->withErrors($validator)->withInput();
+
+        }
+        $Proveedor = Proveedor::find($id);
+        $Campos = ['NombreEmpresa','Titular','NumeroContacto','Correo','Direccion'];
+        foreach($Campos as $item){
+            $Proveedor->$item = $request->$item;
+        }
+        $Proveedor->save();
+        return redirect('Proveedores/listar');
     }
 
     /**

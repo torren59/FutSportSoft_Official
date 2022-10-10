@@ -21,102 +21,150 @@
             <div class="tituloTabla">
                 <h1>PRODUCTOS</h1>
             </div>
-            </center>
-    <table id="tabla" >
-        <thead>
-            <tr>
-                <td>Acción</td>
-                <td>IDProducto</td>
-                <td>Tipo</td>
-                <td>Nombre</td>
-                <td>Cantidad</td>
-                <td>Talla</td>
-                <td>Precio</td>
-            </tr>
-        </thead>
-        <tbody>
-        <tr>
-                <td>
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
-                    </div>
-                </td>
-            <td>CASMAN55</td>
-            <td>U</td>
-            <td>Camisa manchester</td>
-            <td>23</td>
-            <td>XL</td>
-            <td>$ 33.000</td>
-        </tr>
-        <tr>
-                <td>
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
-                    </div>
-            </td>
-            <td>PANTMAN55</td>
-            <td>U</td>
-            <td>Pantaloneta manchester</td>
-            <td>25</td>
-            <td>M</td>
-            <td>$ 23.000</td>
-        </tr>
-        <tr>
-                <td>
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
-                    </div>
-            </td>
-            <td>MEDMAN55</td>
-            <td>U</td>
-            <td>Medias manchester</td>
-            <td>20</td>
-            <td>10 - 12</td>
-            <td>$ 8.000</td>
-        </tr>
-        </tbody>
-    </table>
-    <div class="addbtn">
-    <button class="btn btn-success col-4" onclick="switchadicion('sedeadicion')">Crear articulo <i class="fa-solid fa-circle-plus"></i></button>
-        </div>
-        <div class="adicion adicion_off" id="sedeadicion">
-        <div class="adicion_title">
-            <h1>Crear Articulo</h1>
-        </div>
-        <div class="adicion_content" id="addsed">
+        </center>
+        <table id="tabla">
+            <thead>
+                <tr>
+                    <td>Acción</td>
+                    <td>ProductoId</td>
+                    <td>Nit</td>
+                    <td>Nombre Producto</td>
+                    <td>Tipo Producto</td>
+                    <td>Talla</td>
+                    <td>Precio Venta</td>
+                    <td>Cantidad</td>
+                    <td>Estado</td>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($listado as $item)
+                    <tr>
+                        <td><a href="{{ url('producto/editar/' . $item->ProductoId) }}"><button class="btn btn-primary"><i
+                                        class="fa-solid fa-pen"></i></button></a></td>
+                        <td>{{ $item->ProductoId }}</td>
+                        <td>{{ $item->Nit }}</td>
+                        <td> {{ $item->NombreProducto }} </td>
+                        <td> {{ $item->TipoProducto }} </td>
+                        <td> {{ $item->Talla }} </td>
+                        <td> {{ $item->PrecioVenta }} </td>
+                        <td> {{ $item->Cantidad }} </td>
+                        <td>
+                            {{-- Definiendo estado --}}
+                            @php
+                                $checkstate = '';
+                                if ($item->Estado == true) {
+                                    $checkstate = 'checked';
+                                }
+                            @endphp
 
-            <div class="mb-3  col-7">
-                <label for="exampleInputEmail1" class="form-label">IDProducto</label>
-                <input type="email" class="form-control" aria-describedby="emailHelp">
-            </div>
-            <div class="mb-3 col-7">
-                <label for="exampleInputEmail1" class="form-label">Tipo</label>
-                <input type="email" class="form-control" aria-describedby="emailHelp">
-            </div>
-            <div class="mb-3 col-7">
-                <label for="exampleInputEmail1" class="form-label">Nombre</label>
-                <input type="email" class="form-control" aria-describedby="emailHelp">
-            </div>
-            <div class="mb-3 col-7">
-                <label for="exampleInputEmail1" class="form-label">Cantidad</label>
-                <input type="email" class="form-control" aria-describedby="emailHelp">
-            </div>
-            <div class="mb-3 col-7">
-                <label for="exampleInputEmail1" class="form-label">Talla</label>
-                <input type="email" class="form-control" aria-describedby="emailHelp">
-            </div>
-            <div class="mb-3 col-7">
-                <label for="exampleInputEmail1" class="form-label">Precio</label>
-                <input type="email" class="form-control" aria-describedby="emailHelp">
-            </div>
-            <div class="mb-3 col-7">
-                <button type="button" class="btn btn-primary btn-success" onclick="swal_savecreation(), switchadicion('sedeadicion')">Guardar</i></button>
-                <button type="button" class="btn btn-primary btn-danger" onclick="switchadicion('sedeadicion')">Cancelar</i></button>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked"
+                                    {{ $checkstate }} >
+                            </div>
+                        </td>
+
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+
+        <div class="addbtn">
+            <button class="btn btn-success col-3" onclick="switchadicion2('productoadicion')">Nuevo Producto <i
+                    class="fa-solid fa-circle-plus"></i></button>
+        </div>
+
+        {{-- Creacion de productos --}}
+
+        <div id="productoadicion" class="adicion_off" style="width:600px;height:400px">
+            <div class="floatcontent">
+                <h4 style="padding-top:5%;">Nuevo Producto</h4>
+                <hr>
+
+                <form action={{ url('producto/crear') }} method="post"> @csrf
+
+                    <label for="Nit" class="form-label">Nit</label>
+                    <input type="text" class="form-control" name="Nit" value="{{ old('Nit') }}">
+                    @error('Nit')
+                        <div>
+                            @foreach ($errors->get('Nit') as $item)
+                                <small> {{ $item }} </small>
+                            @endforeach
+                        </div>
+                    @enderror
+
+                    <div class="row">
+                        <div class="col-6">
+                            <label for="NombreProducto" class="form-label">NombreProducto</label>
+                            <input type="text" class="form-control" name="NombreProducto" value=" {{ old('NombreProducto') }} ">
+                            @error('NombreProducto')
+                                <div>
+                                    @foreach ($errors->get('NombreProducto') as $item)
+                                        <small> {{ $item }} </small>
+                                    @endforeach
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="col-6">
+                            <label for="TipoProducto" class="form-label">TipoProducto</label>
+                            <input type="text" class="form-control" name="TipoProducto" value=" {{ old('TipoProducto') }} ">
+                            @error('TipoProducto')
+                                <div>
+                                    @foreach ($errors->get('TipoProducto') as $item)
+                                        <small> {{ $item }} </small>
+                                    @endforeach
+                                </div>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <label for="Talla" class="form-label">Talla</label>
+                    <input type="text" class="form-control" name="Talla" value=" {{ old('Talla') }} ">
+                    @error('Talla')
+                        <div>
+                            @foreach ($errors->get('Talla') as $item)
+                                <small> {{ $item }} </small>
+                            @endforeach
+                        </div>
+                    @enderror
+
+                    <label for="PrecioVenta" class="form-label">PrecioVenta</label>
+                    <input type="text" class="form-control" name="PrecioVenta" value=" {{ old('PrecioVenta') }} ">
+                    @error('PrecioVenta')
+                        <div>
+                            @foreach ($errors->get('PrecioVenta') as $item)
+                                <small> {{ $item }} </small>
+                            @endforeach
+                        </div>
+                    @enderror
+
+                    <label for="Cantidad" class="form-label">Cantidad</label>
+                    <input type="text" class="form-control" name="Cantidad" value=" {{ old('Cantidad') }} ">
+                    @error('Cantidad')
+                        <div>
+                            @foreach ($errors->get('Cantidad') as $item)
+                                <small> {{ $item }} </small>
+                            @endforeach
+                        </div>
+                    @enderror
+                    <br>
+                    <button type="submit" class="btn btn-primary btn-success">Guardar</i></button>
+                    <button type="button" class="btn btn-primary btn-danger"
+                        onclick="switchadicion2('productoadicion')">Cancelar</i></button>
+
+                </form>
             </div>
         </div>
+
+        @if ($errors->any())
+            <script>
+                setTimeout(() => {
+                    switchadicion2('productoadicion');
+                }, 500);
+            </script>
+        @endif
+
     </div>
-
-</div>
 @endsection
 
 
