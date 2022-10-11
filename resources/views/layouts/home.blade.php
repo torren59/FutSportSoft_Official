@@ -34,8 +34,8 @@
                                     CONFIGURACION
                                 </button>
                                 <div class="main-sidevar-item-links-off" id="configuracion">
-                                    <button type="submit" class="btn col-12" name="sended" value="1">Gestion de
-                                        roles</button>
+                                    <a href={{ url('roles/listar') }}><button class="btn col-12"
+                                        id="seg_servdep_sedes" name="sended" value="7">Roles</button></a>
                                 </div>
                             </div>
 
