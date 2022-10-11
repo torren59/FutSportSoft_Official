@@ -39,10 +39,18 @@
                 <td>{{ $item->NombreHorario }}</td>
                 <td> {{ $item->Horario }} </td>
                 <td>
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked"
-                            checked>
-                    </div>
+                      {{-- Definiendo estado --}}
+                      @php
+                      $checkstate = '';
+                      if ($item->Estado == true) {
+                          $checkstate = 'checked';
+                      }
+                  @endphp
+
+                  <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked"
+                          {{ $checkstate }} >
+                  </div>
                 </td>
 
             </tr>

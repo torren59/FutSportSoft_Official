@@ -97,4 +97,14 @@ function push_grupos(){
     });
 }
 
+function changeState(Nombre, Id){
+    swal.fire(
+        {title: 'Guardado',
+        icon: 'success',
+        text: 'Deseas desactivar '+Nombre+'Con ID'+Id,
+    }
+    )
+}
+
+
 
