@@ -13,6 +13,7 @@ use App\Http\Controllers\Compras\ProveedoresController;
 use App\Http\Controllers\Programacion\DeportistasController;
 use App\Http\Controllers\Ayudas\AyudasController;
 use App\Http\Controllers\Configuracion\RolesController;
+use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Programacion\CategoriaController;
 use App\Http\Controllers\Usuarios\UsuarioController;
 
@@ -39,6 +40,11 @@ Route::get('home', function () {
     return view('layouts.home');
 });
 
+Route::controller(DashboardController::class)->group(
+    function(){
+        Route::get('dashboard/panel','index');
+    }
+);
 
 Route::controller(RolesController::class)->group(
     function () {

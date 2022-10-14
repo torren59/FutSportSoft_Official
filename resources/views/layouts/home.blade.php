@@ -34,7 +34,7 @@
                                     CONFIGURACION
                                 </button>
                                 <div class="main-sidevar-item-links-off" id="configuracion">
-                                    <button type="submit" class="btn col-12" name="sended" value="1">Gestion de
+                                    <button type="submit" class="btn col-12" value="1">Gestion de
                                         roles</button>
                                 </div>
                             </div>
@@ -45,9 +45,9 @@
                                     USUARIOS
                                 </button>
                                 <div class="main-sidevar-item-links-off" id="usuario">
-                                    <button type="submit" class="btn col-12" name="sended" value="2">Gestion de
+                                    <button type="submit" class="btn col-12" value="2">Gestion de
                                         usuario</button>
-                                    <button type="submit" class="btn col-12" name="sended" value="3">Gestion de
+                                    <button type="submit" class="btn col-12" value="3">Gestion de
                                         acceso</button>
                                 </div>
                             </div>
@@ -58,11 +58,11 @@
                                     COMPRAS
                                 </button>
                                 <div class="main-sidevar-item-links-off" id="compras">
-                                    <button type="submit" class="btn col-12" id="seg_compras_prov" name="sended"
+                                    <button type="submit" class="btn col-12" id="seg_compras_prov"
                                         value="4">Proveedores</button>
-                                    <button type="submit" class="btn col-12" name="sended" value="5">Gestion de
+                                    <button type="submit" class="btn col-12" value="5">Gestion de
                                         compras</button>
-                                    <button type="submit" class="btn col-12" name="sended" value="6">Gestion de
+                                    <button type="submit" class="btn col-12" value="6">Gestion de
                                         productos</button>
                                 </div>
                             </div>
@@ -73,22 +73,30 @@
                                     PROGRAMACION
                                 </button>
                                 <div class="main-sidevar-item-links-off" id="servdeportivos">
+
                                     <a href={{ url('horario/listar') }}><button class="btn col-12"
-                                            id="seg_servdep_sedes" name="sended" value="7">Horarios</button></a>
+                                            id="seg_servdep_sedes" value="7">Horarios</button></a>
+
                                     <a href={{ url('sede/listar') }}><button class="btn col-12" id="seg_servdep_sedes"
-                                            name="sended" value="7">Sedes</button></a>
+                                            value="7">Sedes</button></a>
+
                                     <a href={{ url('deporte/listar') }}><button class="btn col-12"
-                                            id="seg_servdep_deportes" name="sended" value="8">Gestion de
+                                            id="seg_servdep_deportes" value="8">Gestion de
                                             deportes</button></a>
-                                    <button class="btn col-12" id="seg_servdep_categorias" name="sended"
-                                        value="9">Gestion de categorías</button>
-                                    <button class="btn col-12" name="sended" value="10">Gestion de
+
+                                    <button class="btn col-12" id="seg_servdep_categorias" value="9">Gestion de
+                                        categorías</button>
+
+                                    <button class="btn col-12" value="10">Gestion de
                                         grupos</button>
+
                                     <a href={{ url('deportista/listar') }}><button class="btn col-12"
-                                            id="seg_servdep_sedes" name="sended" value="7">Gestion de
+                                            id="seg_servdep_sedes" value="7">Gestion de
                                             deporitsta</button></a>
-                                    <a href=" {{ url('programacion/listar') }} "><button class="btn col-12"
-                                            name="sended">Gestion de programación</button></a>
+
+                                    <a href=" {{ url('programacion/listar') }} "><button class="btn col-12">Gestion de
+                                            programación</button></a>
+
                                 </div>
                             </div>
 
@@ -98,7 +106,7 @@
                                     VENTAS
                                 </button>
                                 <div class="main-sidevar-item-links-off" id="ventas">
-                                    <a href=" {{ url('venta/listar') }} "><button class="btn col-12" name="sended"
+                                    <a href=" {{ url('venta/listar') }} "><button class="btn col-12"
                                             value="12">Gestion de ventas</button></a>
                                 </div>
                             </div>
@@ -110,41 +118,43 @@
                     </div>
 
                 </div>
-                <!--Fin SideVar-->
+            </div>
+            <!--Fin SideVar-->
 
-                <!--Inicio zona de contenido-->
+            <!--Inicio zona de contenido-->
 
-                <div class="main_area">
-                    <div class="zonaalta">
-                        <div>
-                            <button type="button" class="btn btn-warning" onclick="sidevar()"><i
-                                    class="fa-solid fa-grip-lines"></i></button>
-                        </div>
-                        <div>
-                            <button type="submit" class="btn btn-warning" id="seg_dashboard" name="sended"
-                                value="13">Dashboard</i></button>
-                        </div>
-                        <div>
-                            <button type="submit" class="btn btn-warning" name="sended"
-                                value="14">Ayuda</button>
+            <div class="main_area">
+                <div class="zonaalta">
 
-                        </div>
+                    <div>
+                        <button type="button" class="btn btn-warning" onclick="sidevar()"><i
+                                class="fa-solid fa-grip-lines"></i></button>
                     </div>
 
-                    <div class="contenido">
-
-                        @yield('content')
-
-                        <script src=" {{ asset('js/layouts/home.js') }} "></script>
-                        <script src=" {{ asset('js/jquery/dist/jquery.js') }} "></script>
-                        @stack('scripts')
-                        {{-- <script src="../root/servicios/service.js"></script> --}}
-                        <script src="https://kit.fontawesome.com/bd2541fe3a.js" crossorigin="anonymous"></script>
-
-
+                    <div>
+                        <a href={{ url('dashboard/panel') }}><button  class="btn btn-warning"
+                                id="seg_dashboard" value="13">Dashboard</i></button></a>
                     </div>
+
+                    <div>
+                        <button type="submit" class="btn btn-warning" value="14">Ayuda</button>
+                    </div>
+
+                </div>
+
+                <div class="contenido">
+
+                    @yield('content')
+
+                    <script src=" {{ asset('js/layouts/home.js') }} "></script>
+                    <script src=" {{ asset('js/jquery/dist/jquery.js') }} "></script>
+                    @stack('scripts')
+                    {{-- <script src="../root/servicios/service.js"></script> --}}
+                    <script src="https://kit.fontawesome.com/bd2541fe3a.js" crossorigin="anonymous"></script>
+
                 </div>
             </div>
+
         </div>
     </div>
 
