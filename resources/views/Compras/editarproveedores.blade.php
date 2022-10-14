@@ -2,7 +2,7 @@
 
 
 
-@section('title', 'Editar venta')
+@section('title', 'Editar proveedor')
 
 @push('styles')
     <link rel="stylesheet" href=" {{ asset('./css/layouts/datatable.css') }} ">
@@ -14,24 +14,24 @@
 @endpush
 
 @section('content')
-    @foreach ($ventadata as $item)
-        <form action={{ url('venta/actualizar/'.$item->VentaId) }} method="post">
+    @foreach ($proveedordata as $item)
+        <form action={{ url('proveedor/actualizar/'.$item->Nit) }} method="post">
     @endforeach
 
     @csrf
     <div class="grid_triple_center">
         <div class="grid_span_2a3">
             <div class="adicion_title">
-                <h1>Editar Venta</h1>
+                <h1>Editar Proveedor</h1>
             </div>
 
-            @foreach ($ventadata as $item)
+            @foreach ($proveedordata as $item)
             <div class="col-12">
-                <label for="Documento" class="form-label">Documento</label>
-                <input type="text" class="form-control" name="Documento" value="{{ old('Documento',$item->Documento) }}">
-                @error('Documento')
+                <label for="NombreEmpresa" class="form-label">NombreEmpresa</label>
+                <input type="text" class="form-control" name="NombreEmpresa" value="{{ old('NombreEmpresa',$item->NombreEmpresa) }}">
+                @error('NombreEmpresa')
                     <div>
-                        @foreach ($errors->get('Documento') as $item)
+                        @foreach ($errors->get('NombreEmpresa') as $item)
                             <small> {{ $item }} </small>
                         @endforeach
                     </div>
@@ -40,22 +40,22 @@
 
             <div class="row col-12">
                 <div class="col-6">
-                    <label for="FechaVenta" class="form-label">FechaVenta</label>
-                    <input type="date" class="form-control" name="FechaVenta" value=" {{ old('FechaVenta') }} ">
-                    @error('FechaVenta')
+                    <label for="Titular" class="form-label">Titular</label>
+                    <input type="text" class="form-control" name="Titular" value=" {{ old('Titular') }} ">
+                    @error('Titular')
                         <div>
-                            @foreach ($errors->get('FechaVenta') as $item)
+                            @foreach ($errors->get('Titular') as $item)
                                 <small> {{ $item }} </small>
                             @endforeach
                         </div>
                     @enderror
                 </div>
                 <div class="col-6">
-                    <label for="ValorVenta" class="form-label">ValorVenta</label>
-                    <input type="text" class="form-control" name="ValorVenta" value=" {{ old('ValorVenta') }} ">
-                    @error('ValorVenta')
+                    <label for="NumeroContacto" class="form-label">NumeroContacto</label>
+                    <input type="text" class="form-control" name="NumeroContacto" value=" {{ old('NumeroContacto') }} ">
+                    @error('NumeroContacto')
                         <div>
-                            @foreach ($errors->get('ValorVenta') as $item)
+                            @foreach ($errors->get('NumeroContacto') as $item)
                                 <small> {{ $item }} </small>
                             @endforeach
                         </div>
@@ -64,11 +64,23 @@
             </div>
 
             <div class="col-12">
-                <label for="SubTotal" class="form-label">SubTotal</label>
-                <input type="text" class="form-control" name="SubTotal" value=" {{ old('SubTotal') }} ">
-                @error('SubTotal')
+                <label for="Correo" class="form-label">Correo</label>
+                <input type="text" class="form-control" name="Correo" value=" {{ old('Correo') }} ">
+                @error('Correo')
                     <div>
-                        @foreach ($errors->get('SubTotal') as $item)
+                        @foreach ($errors->get('Correo') as $item)
+                            <small> {{ $item }} </small>
+                        @endforeach
+                    </div>
+                @enderror
+            </div>
+
+            <div class="col-12">
+                <label for="Direccion" class="form-label">Direccion</label>
+                <input type="text" class="form-control" name="Direccion" value=" {{ old('Direccion') }} ">
+                @error('Direccion')
+                    <div>
+                        @foreach ($errors->get('Direccion') as $item)
                             <small> {{ $item }} </small>
                         @endforeach
                     </div>
@@ -77,32 +89,8 @@
             @endforeach
 
             <div class="col-12">
-                <label for="IVA" class="form-label">IVA</label>
-                <input type="text" class="form-control" name="IVA" value="{{ old('IVA') }}">
-                @error('IVA')
-                    <div>
-                        @foreach ($errors->get('IVA') as $item)
-                            <small> {{ $item }} </small>
-                        @endforeach
-                    </div>
-                @enderror
-            </div>
-
-            <div class="col-12">
-                <label for="Descuento" class="form-label">Descuento</label>
-                <input type="text" class="form-control" name="Descuento" value="{{ old('Descuento') }}">
-                @error('Descuento')
-                    <div>
-                        @foreach ($errors->get('Descuento') as $item)
-                            <small> {{ $item }} </small>
-                        @endforeach
-                    </div>
-                @enderror
-            </div>
-
-            <div class="col-12">
                 <button type="submit" class="btn btn-primary btn-success">Guardar</i></button>
-                <a href=" {{ url('venta/listar') }} "><button type="button"
+                <a href=" {{ url('proveedor/listar') }} "><button type="button"
                         class="btn btn-primary btn-danger">Cancelar</i></button></a>
             </div>
 

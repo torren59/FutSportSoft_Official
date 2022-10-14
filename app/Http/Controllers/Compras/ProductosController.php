@@ -27,7 +27,7 @@ class ProductosController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         $validator = Validator::make($request->all(), 
         ['Nit'=>'min:1|unique:productos,Nit|max:11','NombreProducto'=>'min:1|max:100','TipoProducto'=>'min:1|max:2','Talla'=>'min:1|max:6','PrecioVenta'=>'min:1|max:8','Cantidad'=>'min:1|max:4'],
@@ -45,7 +45,7 @@ class ProductosController extends Controller
         }
 
         $Producto->save();
-        return redirect('Producto/listar');
+        return redirect('producto/listar');
     }
 
     /**
@@ -79,7 +79,7 @@ class ProductosController extends Controller
     public function edit($id)
     {
         $Selected =  Producto::all()->where('ProductoId','=',$id);
-        return view('Compras.editarproducto')->with('productodata',$Selected);
+        return view('Compras.editarproductos')->with('productodata',$Selected);
     }
 
     /**
@@ -105,7 +105,7 @@ class ProductosController extends Controller
             $Producto->$item = $request->$item;
         }
         $Producto->save();
-        return redirect('productos/listar');
+        return redirect('producto/listar');
     }
 
     /**

@@ -41,7 +41,7 @@
             <div class="row col-12">
                 <div class="col-6">
                     <label for="NombreProducto" class="form-label">NombreProducto</label>
-                    <input type="text" class="form-control" name="NombreProducto" value=" {{ old('NombreProducto',$item->NombreProducto) }} ">
+                    <input type="text" class="form-control" name="NombreProducto" value=" {{ old('NombreProducto') }} ">
                     @error('NombreProducto')
                         <div>
                             @foreach ($errors->get('NombreProducto') as $item)
@@ -52,7 +52,7 @@
                 </div>
                 <div class="col-6">
                     <label for="TipoProducto" class="form-label">TipoProducto</label>
-                    <input type="text" class="form-control" name="TipoProducto" value=" {{ old('TipoProducto',$item->TipoProducto) }} ">
+                    <input type="text" class="form-control" name="TipoProducto" value=" {{ old('TipoProducto') }} ">
                     @error('TipoProducto')
                         <div>
                             @foreach ($errors->get('TipoProducto') as $item)
@@ -65,7 +65,7 @@
 
             <div class="col-12">
                 <label for="Talla" class="form-label">Talla</label>
-                <input type="text" class="form-control" name="Talla" value=" {{ old('Talla',$item->Talla) }} ">
+                <input type="text" class="form-control" name="Talla" value=" {{ old('Talla') }} ">
                 @error('Talla')
                     <div>
                         @foreach ($errors->get('Talla') as $item)
@@ -77,7 +77,7 @@
 
             <div class="col-12">
                 <label for="PrecioVenta" class="form-label">PrecioVenta</label>
-                <input type="text" class="form-control" name="PrecioVenta" value=" {{ old('PrecioVenta',$item->PrecioVenta) }} ">
+                <input type="text" class="form-control" name="PrecioVenta" value=" {{ old('PrecioVenta') }} ">
                 @error('PrecioVenta')
                     <div>
                         @foreach ($errors->get('PrecioVenta') as $item)
@@ -89,7 +89,7 @@
 
             <div class="col-12">
                 <label for="Cantidad" class="form-label">Cantidad</label>
-                <input type="text" class="form-control" name="Cantidad" value=" {{ old('Cantidad',$item->Cantidad) }} ">
+                <input type="text" class="form-control" name="Cantidad" value=" {{ old('Cantidad') }} ">
                 @error('Cantidad')
                     <div>
                         @foreach ($errors->get('Cantidad') as $item)

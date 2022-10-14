@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Ventas;
 
 use App\Http\Controllers\Controller;
 use App\Models\Compras\Producto;
+use App\Models\Ventas\Venta;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Unique;
@@ -17,7 +18,8 @@ class VentasController extends Controller
      */
     public function index()
     {
-        return view('Ventas.ventas');
+        $ListadoVenta = Venta::all();
+        return view('Ventas.ventas')->with('listado',$ListadoVenta);
     }
 
     /**
@@ -25,11 +27,25 @@ class VentasController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        $ProductModel= new Producto();
-        $Productos = $ProductModel->all();
-        return view('Ventas.crearventa')->with('productos',$Productos);
+         $validator = Validator::make($request->all(), 
+         ['Documento'=>'min:1|unique:ventas,Documento|max:11','FechaVenta'=>'min:1|max:20','ValorVenta'=>'min:1|max:20','SubTotal'=>'min:1|unique:ventas,SubTotal|max:20','IVA'=>'min:1|max:20','Descuento'=>'min:1|max:20'],
+         ['unique'=>'Este campo no acepta información que ya se ha registrado','min'=>'No puedes enviar este campo vacío','max'=>'Máximo de :max dígitos']);
+        
+         if($validator->fails()){
+             return back()->withErrors($validator)->withInput();
+         }
+         $Venta = new Venta();
+         $id = $Venta::creadorPK($Venta,100);
+         $Venta->VentaId = $id;
+         $Campos = ['Documento','FechaVenta','ValorVenta','SubTotal','IVA','Descuento'];
+         foreach($Campos as $item){
+             $Venta->$item = $request->$item;
+         }
+
+         $Venta->save();
+         return redirect('venta/listar');
     }
 
     /**
@@ -83,7 +99,21 @@ class VentasController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validator = Validator::make($request->all(), 
+        ['Documento'=>'min:1|unique:ventas,Documento|max:11','FechaVenta'=>'min:1|max:20','ValorVenta'=>'min:1|max:20','SubTotal'=>'min:1|unique:ventas,SubTotal|max:20','IVA'=>'min:1|max:20','Descuento'=>'min:1|max:20'],
+        ['unique'=>'Este campo no acepta información que ya se ha registrado','min'=>'No puedes enviar este campo vacío','max'=>'Máximo de :max dígitos']);
+        
+        if($validator->fails()){
+            return back()->withErrors($validator)->withInput();
+            
+        }
+        $venta = Venta::find($id);
+        $Campos = ['Documento','FechaVenta','ValorVenta','SubTotal','IVA','Descuento'];
+        foreach($Campos as $item){
+            $venta->$item = $request->$item;
+        }
+        $venta->save();
+        return redirect('venta/listar');
     }
 
     /**
