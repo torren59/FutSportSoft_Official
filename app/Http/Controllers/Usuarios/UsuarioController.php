@@ -78,8 +78,8 @@ class UsuarioController extends Controller
      */
     public function edit($id)
     {
-        $Selected =  Usuario::all()->where('SedeId', '=', $id);
-        return view('Programacion.editarusuario')->with('sededata', $Selected);
+        $Selected =  Usuario::all()->where('Documento', '=', $id);
+        return view('Programacion.editarusuario')->with('usuariodata', $Selected);
     }
 
     /**

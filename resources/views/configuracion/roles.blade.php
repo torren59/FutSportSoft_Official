@@ -18,9 +18,14 @@
     <div class="service_list" id="listadorol">
         <center>
             <div class="tituloTabla">
-                <h1>ROLES</h1>
+                <h1>Gestión de Roles</h1>
             </div>
         </center>
+        <br>
+        <div class="addbtn">
+            <button class="btn btn-outline-secondary col-2" onclick="switchadicion('roladicion')">Crear <i
+                    class="fa-solid fa-circle-plus"></i></button>
+        </div>
         <table id="tabla">
             <thead>
                 <tr>
@@ -34,10 +39,10 @@
                 @foreach ($listado as $item)
                     <tr>
                         <td><abbr title="Editar"><a href="{{ url('roles/editar/' . $item->RolId) }}"><button
-                                        class="btn btn-primary"><i class="fa-solid fa-pen"></i></button></a></abbr>
+                                        class="btn btn-outline-primary"><i class="fa-solid fa-pen"></i></button></a></abbr>
 
                             <abbr title="Detalles"><a href="{{ url('roles/detalle/' . $item->RolId) }}"><button
-                                        class="btn btn-primary"><i class="fa-solid fa-circle-info"></i></button></a></abbr>
+                                        class="btn btn-outline-secondary"><i class="fa-solid fa-circle-info"></i></button></a></abbr>
                         </td>
                         <td>{{ $item->RolId }}</td>
                         <td>{{ $item->NombreRol }}</td>
@@ -61,10 +66,7 @@
                 @endforeach
             </tbody>
         </table>
-        <div class="addbtn">
-            <button class="btn btn-success col-3" onclick="switchadicion('roladicion')">Nuevo Rol <i
-                    class="fa-solid fa-circle-plus"></i></button>
-        </div>
+
 
 
 
@@ -89,47 +91,21 @@
                     <div class="adicion_title">
                         <h2>Lista de Permisos</h2>
                     </div>
+                    <label>Selecciona los permisos que deseas asignarle al rol</label>
+                    <select class="select" multiple>
+                        <optgroup label="Label 1">
+                          <option value="1" data-mdb-secondary-text="Secondary text">One</option>
+                          <option value="2" data-mdb-secondary-text="Secondary text">Two</option>
+                          <option value="3" data-mdb-secondary-text="Secondary text">Three</option>
+                        </optgroup>
+                        <optgroup label="Label 2">
+                          <option value="4" data-mdb-secondary-text="Secondary text">Four</option>
+                          <option value="5" data-mdb-secondary-text="Secondary text">Five</option>
+                          <option value="6" data-mdb-secondary-text="Secondary text">Six</option>
+                        </optgroup>
+                      </select>
 
-                    <table class="table">
-                        <thead class="thead-dark">
-                            <tr>
 
-                                <th scope="col">#</th>
-                                <th scope="col">Descripciòn</th>
-
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td><input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-                                    <label class="form-check-label" for="flexSwitchCheckDefault">Visualizaciòn de
-                                        deportistas</label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td><input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-                                    <label class="form-check-label" for="flexSwitchCheckDefault">Visualizaciòn por
-                                        grupos</label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td><input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-                                    <label class="form-check-label" for="flexSwitchCheckDefault">Adiciòn de
-                                        deportistas</label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">4</th>
-                                <td><input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-                                    <label class="form-check-label" for="flexSwitchCheckDefault">Ediciòn de
-                                        deportistas</label>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
 
             </div>
             <div class="mb-3 col-7">

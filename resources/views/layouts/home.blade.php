@@ -8,6 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/layouts/home.css') }} ">
+
     @stack('styles')
     <title> @yield('title') </title>
 </head>
@@ -29,7 +30,7 @@
                         <div class="main-sidevar-area">
 
                             <div class="main-sidevar-item" id="seg_configuracion">
-                                <button type="button" class="btn primary-btn col-12 sidevar-btn-title"
+                                <button type="button" class="btn col-12 sidevar-btn-title"
                                     onclick="items('configuracion')">
                                     CONFIGURACION
                                 </button>
@@ -40,7 +41,7 @@
                             </div>
 
                             <div class="main-sidevar-item" id="seg_usuario">
-                                <button type="button" class="btn primary-btn col-12 sidevar-btn-title"
+                                <button type="button" class="btn col-12 sidevar-btn-title"
                                     onclick="items('usuario')">
                                     USUARIOS
                                 </button>
@@ -53,7 +54,7 @@
                             </div>
 
                             <div class="main-sidevar-item" id="seg_compras">
-                                <button type="button" class="btn primary-btn col-12 sidevar-btn-title"
+                                <button type="button" class="btn col-12 sidevar-btn-title"
                                     onclick="items('compras')">
                                     COMPRAS
                                 </button>
@@ -68,7 +69,7 @@
                             </div>
 
                             <div class="main-sidevar-item" id="seg_servdep">
-                                <button type="button" class="btn primary-btn col-12 sidevar-btn-title"
+                                <button type="button" class="btn col-12 sidevar-btn-title"
                                     onclick="items('servdeportivos')">
                                     PROGRAMACION
                                 </button>
@@ -93,7 +94,7 @@
                             </div>
 
                             <div class="main-sidevar-item" id="seg_venta">
-                                <button type="button" class="btn primary-btn col-12 sidevar-btn-title"
+                                <button type="button" class="btn col-12 sidevar-btn-title"
                                     onclick="items('ventas')">
                                     VENTAS
                                 </button>
@@ -104,7 +105,7 @@
                             </div>
                         </div>
                         <div class="main-sidevar-area" id="logout">
-                            <a href="./login.php"><button type="button" class="btn btn-warning">Cerrar
+                            <a href="./login.php"><button type="button" class=" btn  btn-outline-dark">Cerrar
                                     sesión</button></a>
                         </div>
                     </div>
@@ -117,15 +118,15 @@
                 <div class="main_area">
                     <div class="zonaalta">
                         <div>
-                            <button type="button" class="btn btn-warning" onclick="sidevar()"><i
+                            <button type="button" class="btn btn-dark" onclick="sidevar()"><i
                                     class="fa-solid fa-grip-lines"></i></button>
                         </div>
                         <div>
-                            <button type="submit" class="btn btn-warning" id="seg_dashboard" name="sended"
+                            <button type="submit" class="btn btn-dark" id="seg_dashboard" name="sended"
                                 value="13">Dashboard</i></button>
                         </div>
                         <div>
-                            <button type="submit" class="btn btn-warning" name="sended"
+                            <button type="submit" class="btn btn-dark" name="sended"
                                 value="14">Ayuda</button>
 
                         </div>

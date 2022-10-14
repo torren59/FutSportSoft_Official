@@ -1,11 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@1,200&display=swap');
 *{
+
     margin:0;
     padding: 0;
     box-sizing: border-box;
 }
 
 body{
-    
+
     /* border: 1px solid red; */
     min-height: 100vh;
     overflow-y: hidden;
@@ -15,7 +17,7 @@ body{
 
 /*Etiqueta href de los botonos sin decoración*/
 a{
- text-decoration: none; 
+ text-decoration: none;
 }
 
 /*Contenedor principal
@@ -25,7 +27,7 @@ a{
     width: 100vw;
     height: 100vh;
     /* border: 2px solid red; */
-    background: url(../../img/layouts/loginfoto.jpg);
+    background: white;
     position: relative;
 }
 
@@ -38,9 +40,9 @@ a{
     animation-duration: 250ms;
     z-index: +1;
     content-visibility: visible;
-    background-image: url("../../img/layouts/sidevarwallpaper.jpg");
+    background-image: url("../../img/layouts/neymarproyecto.jpg");
     background-size: contain;
-    border-radius: 20px;
+     border-radius: 5px;
     /* border: 2px solid yellow; */
 }
 
@@ -52,7 +54,7 @@ a{
     100%{
         width: 85%;
         height: 100%;
-        box-shadow: 10px 0px 8px #3E7A12;
+
         position: relative;
     }
 }
@@ -66,10 +68,10 @@ a{
         100%{
             width: 30%;
             height: 100%;
-            box-shadow: 10px 0px 8px #3E7A12;
+            /* box-shadow: 10px 0px 8px #3E7A12; */
         }
     }
-    
+
 }
 
 @media only screen and (min-width: 850px){
@@ -81,10 +83,10 @@ a{
         100%{
             width: 25%;
             height: 100%;
-            box-shadow: 10px 0px 8px #3E7A12;
+            /* box-shadow: 10px 0px 8px #3E7A12; */
         }
     }
-    
+
 }
 
 .sidevaroff{
@@ -144,7 +146,7 @@ a{
     overflow: scroll;
     align-content: flex-start;
     border-radius: 2%;
-    
+
 }
 
 /*Mainsite->Modificacion de scroll inicio*/
@@ -158,7 +160,7 @@ a{
 
 .main-sidevar-area::-webkit-scrollbar-button:increment,.main-sidevar-area::-webkit-scrollbar-button {
     display: none;
-} 
+}
 
 .main-sidevar-area::-webkit-scrollbar:horizontal {
     height: 10px;
@@ -171,7 +173,7 @@ a{
 }
 
 .main-sidevar-area::-webkit-scrollbar-track {
-    border-radius: 10px;  
+    border-radius: 10px;
 }
 
 /*mainsite->Modificacion de scroll end*/
@@ -186,7 +188,7 @@ a{
 }
 
 .sidevar-btn-title{
-    background-color:#3E7A12;
+    background-color:wheat;
     color: white;
     border: 1px solid white;
 }
@@ -194,12 +196,12 @@ a{
 /* Sidevar-> Logo */
 
 
-/*Sidevar->Botón que contrae el Sidevar 
-    Botón que contrae el sidevar cuando  
+/*Sidevar->Botón que contrae el Sidevar
+    Botón que contrae el sidevar cuando
     este mide menos de 640 px */
 #backrow{
     width: 100%;
-    background-color: #3E7A12;
+    background-color: white;
     margin-bottom: 4%;
     cursor: pointer;
     border-radius: 15px;
@@ -244,7 +246,7 @@ a{
     animation-fill-mode: forwards;
     animation-duration: 200ms;
 
-    
+
 }
 
 @keyframes main-sidevar-item-links-off-animation{
@@ -265,7 +267,7 @@ a{
     grid-template-rows: 10% auto;
     max-height: 100%;
     overflow: hidden;
-   
+
 }
 
 .main_area{
@@ -294,14 +296,14 @@ a{
     overflow-y: scroll;
     font-size: medium;
     position: relative;
-    /* border: 2px solid orangered; */
+
 }
 
 /*Table*/
 .table-fut{
-    
+
     width: 80px;
-    
+
 }
 
 .btnEditar{
@@ -328,4 +330,9 @@ text-align: center;
 
   .adicion_title {
     text-align: center;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  }
+
+  .btn-outline-dark{
+    color: whitesmoke;
   }
