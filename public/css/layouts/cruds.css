@@ -13,18 +13,25 @@
     display: grid;
     grid-template-columns: auto 90% auto;
     /* border: 4px solid green; */
+    padding-top: 10px;
     border-radius: 15px;
     background-color: #EEF0F2;
     animation-name: open_float;
     animation-duration: 0.5s;
     animation-fill-mode: forwards;
 }
+
 .floatcontent{
     grid-column: 2/3;
     text-align: center;
     align-items: center;
     /*align-content: center; */
     /* border: 2px solid salmon; */
+}
+
+.error_subtitle{
+    font-size: small;
+    color: red;
 }
 
 @keyframes open_float{

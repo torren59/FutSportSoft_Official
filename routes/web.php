@@ -15,6 +15,7 @@ use App\Http\Controllers\Ayudas\AyudasController;
 use App\Http\Controllers\Configuracion\RolesController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Programacion\CategoriaController;
+use App\Http\Controllers\Usuarios\AccesoController;
 use App\Http\Controllers\Usuarios\UsuarioController;
 
 use Illuminate\Http\Request;
@@ -40,13 +41,21 @@ Route::get('home', function () {
     return view('layouts.home');
 });
 
-Route::controller(DashboardController::class)->group(
+Route::controller(AccesoController::class)->group(
+    function(){
+        Route::get('login','index')->name('login');
+        Route::post('acceso/validar','isValid');
+        Route::get('marcha','creaUsuario');
+    }
+);
+
+Route::controller(DashboardController::class)->middleware('auth')->group(
     function(){
         Route::get('dashboard/panel','index');
     }
 );
 
-Route::controller(RolesController::class)->group(
+Route::controller(RolesController::class)->middleware('auth')->group(
     function () {
         Route::get('roles/listar', 'index');
         Route::post('roles/crear', 'create');
@@ -56,7 +65,7 @@ Route::controller(RolesController::class)->group(
     }
 );
 
-Route::controller(UsuarioController::class)->group(
+Route::controller(UsuarioController::class)->middleware('auth')->group(
     function () {
         Route::get('usuario/listar', 'index');
         Route::post('usuario/crear', 'create');
@@ -66,7 +75,7 @@ Route::controller(UsuarioController::class)->group(
     }
 );
 
-Route::controller(CategoriaController::class)->group(
+Route::controller(CategoriaController::class)->middleware('auth')->group(
     function () {
         Route::get('categoria/listar', 'index');
         Route::post('categoria/crear', 'create');
@@ -76,7 +85,7 @@ Route::controller(CategoriaController::class)->group(
     }
 );
 
-Route::controller(DeportesController::class)->group(
+Route::controller(DeportesController::class)->middleware('auth')->group(
     function () {
         Route::get('deporte/listar', 'index');
         Route::post('deporte/crear', 'create');
@@ -87,7 +96,7 @@ Route::controller(DeportesController::class)->group(
     }
 );
 
-Route::controller(SedesController::class)->group(
+Route::controller(SedesController::class)->middleware('auth')->group(
     function () {
         Route::get('sede/listar', 'index');
         Route::post('sede/crear', 'create');
@@ -96,7 +105,7 @@ Route::controller(SedesController::class)->group(
     }
 );
 
-Route::controller(HorariosController::class)->group(
+Route::controller(HorariosController::class)->middleware('auth')->group(
     function () {
         Route::get('horario/listar', 'index');
         Route::post('horario/crear', 'create');
@@ -105,14 +114,14 @@ Route::controller(HorariosController::class)->group(
     }
 );
 
-Route::controller(ProgramacionesController::class)->group(
+Route::controller(ProgramacionesController::class)->middleware('auth')->group(
     function () {
         Route::get('programacion/listar', 'index');
         Route::post('programacion/crear', 'create');
     }
 );
 
-Route::controller(VentasController::class)->group(
+Route::controller(VentasController::class)->middleware('auth')->group(
     function(){
         Route::get('venta/listar', 'index');
         Route::get('venta/crear', 'create');
@@ -120,28 +129,28 @@ Route::controller(VentasController::class)->group(
     }
 );
 
-Route::controller(ProveedoresController::class)->group(
+Route::controller(ProveedoresController::class)->middleware('auth')->group(
     function () {
         Route::get('proveedor/listar', 'index');
         Route::post('proveedor/crear', 'create');
     }
 );
 
-Route::controller(ProductosController::class)->group(
+Route::controller(ProductosController::class)->middleware('auth')->group(
     function () {
         Route::get('producto/listar', 'index');
         Route::post('producto/crear', 'create');
     }
 );
 
-Route::controller(DeportistasController::class)->group(
+Route::controller(DeportistasController::class)->middleware('auth')->group(
     function () {
         Route::get('deportista/listar', 'index');
         Route::post('deportista/crear', 'create');
     }
 );
 
-Route::controller(AyudasController::class)->group(
+Route::controller(AyudasController::class)->middleware('auth')->group(
     function () {
         Route::get('ayudas', 'listar');
     }
