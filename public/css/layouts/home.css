@@ -27,7 +27,7 @@ a{
     width: 100vw;
     height: 100vh;
     /* border: 2px solid red; */
-    background: white;
+    background: url(../../img/layouts/newback.png);
     position: relative;
 }
 

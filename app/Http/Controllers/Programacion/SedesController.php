@@ -34,7 +34,7 @@ class SedesController extends Controller
             return back()->withErrors($validator)->withInput();
         }
         $Sede = new Sede();
-        $id = $Sede::creadorPK($Sede,100);
+        $id = Sede::creadorPK($Sede,100);
         $Sede->SedeId = $id;
         $Campos = ['NombreSede','Municipio','Barrio','Direccion'];
         foreach($Campos as $item){

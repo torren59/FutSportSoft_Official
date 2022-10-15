@@ -103,4 +103,12 @@ function swal_eliminacion(){
     });
 }
 
+function swal_warning(msg){
+    Swal.fire({
+        title: 'Alerta',
+        icon: 'warning',
+        text: msg,
+    });
+}
+
 

@@ -5,13 +5,13 @@ namespace App\Models\Programacion;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Categoria extends Model
+class Grupo extends Model
 {
     use HasFactory;
 
-    protected $table = 'categorias';
+    protected $table = 'grupos';
 
-    protected $primaryKey = 'CategoriaId';
+    protected $primaryKey = 'GrupoId';
 
     public $incrementing = false;
 
@@ -21,9 +21,9 @@ class Categoria extends Model
 
 
     protected $fillable = [
-        'DeporteId',
-        'NombreCategoria',
-        'RangoEdad',
+        'CategoriaId',
+        'Documento',
+        'NombreGrupo',
         'Estado'
     ];
 
