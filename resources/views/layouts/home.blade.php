@@ -5,10 +5,19 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+
+        {{-- Estilos propios --}}
     <link rel="stylesheet" type="text/css" href="{{ asset('css/layouts/home.css') }} ">
+
+        {{-- Data Table --}}
+        <link rel="stylesheet" href=" {{ asset('./css/dataTable/dataTables.min.css') }} ">
+        <script src=" {{ asset('./js/dataTable/dataTables.min.js') }} "></script>
+
     @stack('styles')
+
     <title> @yield('title') </title>
 </head>
 
@@ -111,9 +120,11 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="main-sidevar-area" id="logout">
-                            <a href="./login.php"><button type="button" class="btn btn-warning">Cerrar
-                                    sesión</button></a>
+                            <form action="/acceso/salir" method="post"> @csrf
+                                <a><button type="submit" class="btn btn-warning">Cerrar sesión</button></a>
+                            </form>
                         </div>
                     </div>
 
