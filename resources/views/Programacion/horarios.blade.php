@@ -5,11 +5,16 @@
 @section('title', 'Horarios')
 
 @push('styles')
-<link rel="stylesheet" href=" {{asset('./css/layouts/datatable.css')}} ">
-<link rel="stylesheet" href="{{asset('./css/layouts/cruds.css')}} ">
-<link href="https://unpkg.com/vanilla-datatables@latest/dist/vanilla-dataTables.min.css" rel="stylesheet" type="text/css">
-<script src="https://unpkg.com/vanilla-datatables@latest/dist/vanilla-dataTables.min.js" type="text/javascript"></script>
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+{{-- Estilos propios --}}
+    <link rel="stylesheet" href=" {{ asset('./css/layouts/datatable.css') }} ">
+    <link rel="stylesheet" href="{{ asset('./css/layouts/cruds.css') }} ">
+    
+    {{-- Data Table --}}
+    <link rel="stylesheet" href=" {{ asset('./css/dataTable/dataTables.min.css') }} ">
+    <script src=" {{ asset('./js/dataTable/dataTables.min.js') }} "></script>
+
+    {{-- sweetalert --}}
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @endpush
 
 @section('content')
