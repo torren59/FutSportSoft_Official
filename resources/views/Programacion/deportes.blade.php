@@ -5,7 +5,7 @@
 @section('title', 'Deportes')
 
 @push('styles')
-{{-- Estilos propios --}}
+    {{-- Estilos propios --}}
     <link rel="stylesheet" href=" {{ asset('./css/layouts/datatable.css') }} ">
     <link rel="stylesheet" href="{{ asset('./css/layouts/cruds.css') }} ">
 
@@ -21,9 +21,16 @@
     <div class="service_list">
         <center>
             <div class="tituloTabla">
-                <h1>DEPORTES</h1>
+                <h1>Deportes</h1>
             </div>
         </center>
+        <br>
+
+        <div class="addbtn">
+            <button class="btn btn-outline-secondary col-2" onclick="switchadicion2('deporteadicion')">Nuevo Deporte <i
+                    class="fa-solid fa-circle-plus"></i></button>
+        </div>
+
         <table id="tabla">
             <thead>
                 <tr>
@@ -51,8 +58,10 @@
                             @endphp
 
                             <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" role="switch" id="{{$item->DeporteId}}state"
-                                    onclick="changeState('{{ $item->NombreDeporte }}', {{$item->DeporteId}})" {{ $checkstate }}>
+                                <input class="form-check-input" type="checkbox" role="switch"
+                                    id="{{ $item->DeporteId }}state"
+                                    onclick="changeState('{{ $item->NombreDeporte }}', {{ $item->DeporteId }})"
+                                    {{ $checkstate }}>
                             </div>
                         </td>
 
@@ -62,13 +71,37 @@
             </tbody>
         </table>
 
-        <div class="addbtn">
-            <button class="btn btn-success col-3" onclick="switchadicion('roladicion')">Nuevo Deporte <i
-                    class="fa-solid fa-circle-plus"></i></button>
+        {{-- Creacion de deportes --}}
+
+        <div id="deporteadicion" class="adicion_off" style="width:600px;height:300px">
+            <div class="floatcontent">
+                <h4 style="padding-top:5%;">Nuevo Deporte</h4>
+                <hr>
+
+                <form action={{ url('sede/crear') }} method="post"> @csrf
+
+                    <label for="NombreSede" class="form-label">Nombre deporte</label>
+                    <input type="text" class="form-control" name="NombreDeporte" value="{{ old('NombreDeporte') }}">
+                    @error('NombreDeporte')
+                        <div>
+                            @foreach ($errors->get('NombreDeporte') as $item)
+                                <small> {{ $item }} </small>
+                            @endforeach
+                        </div>
+                    @enderror
+
+                    <br>
+                    <button type="submit" class="btn btn-primary btn-success">Guardar</i></button>
+                    <button type="button" class="btn btn-primary btn-danger"
+                        onclick="switchadicion2('deporteadicion')">Cancelar</i></button>
+
+                </form>
+            </div>
         </div>
 
+
         {{-- Creacion de deportes --}}
-        <div class="adicion adicion_off" id="roladicion">
+        {{-- <div class="adicion adicion_off" id="roladicion">
             <form action={{ url('deporte/crear') }} method="post">
 
                 @csrf
@@ -93,7 +126,7 @@
                 </div>
 
             </form>
-        </div>
+        </div> --}}
 
 
 
@@ -121,5 +154,4 @@
     </script>
 
     <script src=" {{ asset('./js/layouts/cruds.js') }} "></script>
-    <script src=" {{ asset('./js/layouts/asincronas.js') }} "></script>
 @endpush

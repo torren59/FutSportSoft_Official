@@ -1,9 +1,5 @@
 @extends('../layouts/home')
 
-    {{-- <link href="https://unpkg.com/vanilla-datatables@latest/dist/vanilla-dataTables.min.css" rel="stylesheet" type="text/css"> --}}
-    {{-- <script src="https://unpkg.com/vanilla-datatables@latest/dist/vanilla-dataTables.min.js" type="text/javascript"></script> --}}
-
-
 @section('title', 'Sedes')
 
 @push('styles')
@@ -24,6 +20,12 @@
                 <h1>SEDES</h1>
             </div>
         </center>
+
+        <div class="addbtn">
+            <button class="btn btn-outline-secondary col-2" onclick="switchadicion2('sedeadicion')">Nueva Sede <i
+                    class="fa-solid fa-circle-plus"></i></button>
+        </div>
+
         <table id="tabla">
             <thead>
                 <tr>
@@ -66,10 +68,7 @@
             </tbody>
         </table>
 
-        <div class="addbtn">
-            <button class="btn btn-success col-3" onclick="switchadicion2('sedeadicion')">Nueva Sede <i
-                    class="fa-solid fa-circle-plus"></i></button>
-        </div>
+        
 
         {{-- Creacion de sedes --}}
 
