@@ -44,6 +44,13 @@ class AccesoController extends Controller
     }
 
 
+    public function logOut(Request $request){
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect('/login');
+    }
+
     public function creaUsuario()
     {
         $user = new User();
@@ -59,4 +66,6 @@ class AccesoController extends Controller
 
         return 'Hola fifi';
     }
+
+    
 }

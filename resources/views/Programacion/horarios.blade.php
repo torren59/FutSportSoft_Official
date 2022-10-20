@@ -5,11 +5,12 @@
 @section('title', 'Horarios')
 
 @push('styles')
-<link rel="stylesheet" href=" {{asset('./css/layouts/datatable.css')}} ">
-<link rel="stylesheet" href="{{asset('./css/layouts/cruds.css')}} ">
-<link href="https://unpkg.com/vanilla-datatables@latest/dist/vanilla-dataTables.min.css" rel="stylesheet" type="text/css">
-<script src="https://unpkg.com/vanilla-datatables@latest/dist/vanilla-dataTables.min.js" type="text/javascript"></script>
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+{{-- Estilos propios --}}
+    <link rel="stylesheet" href=" {{ asset('./css/layouts/datatable.css') }} ">
+    <link rel="stylesheet" href="{{ asset('./css/layouts/cruds.css') }} ">
+
+    {{-- sweetalert --}}
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @endpush
 
 @section('content')
@@ -83,7 +84,14 @@
                 @enderror
 
                 <label for="Horario" class="form-label">Horario</label>
-                <input type="text" class="form-control" name="Horario" value=" {{old('Horario')}} ">
+                <div class="row">
+                    <div class="col-6">
+                        <input type="time" class="form-control" name="HorarioInicial" value=" {{old('Horario')}} ">
+                    </div>
+                    <div class="col-6">
+                        <input type="time" class="form-control" name="HorarioFinal" value=" {{old('Horario')}} ">
+                    </div>
+                </div>
                 @error('Horario')
                     <div>
                         @foreach ($errors->get('Horario') as $item)
@@ -91,6 +99,9 @@
                         @endforeach
                     </div>
                 @enderror
+
+
+
                 <br>
                 <button type="submit" class="btn btn-primary btn-success">Guardar</i></button>
                 <button type="button" class="btn btn-primary btn-danger" onclick="switchadicion2('horarioadicion')">Cancelar</i></button>

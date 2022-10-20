@@ -5,11 +5,11 @@
 @section('title', 'Deportes')
 
 @push('styles')
+{{-- Estilos propios --}}
     <link rel="stylesheet" href=" {{ asset('./css/layouts/datatable.css') }} ">
     <link rel="stylesheet" href="{{ asset('./css/layouts/cruds.css') }} ">
-    <link href="https://unpkg.com/vanilla-datatables@latest/dist/vanilla-dataTables.min.css" rel="stylesheet" type="text/css">
-    <script src="https://unpkg.com/vanilla-datatables@latest/dist/vanilla-dataTables.min.js" type="text/javascript">
-    </script>
+
+    {{-- sweetalert --}}
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @endpush
 
