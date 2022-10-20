@@ -41,7 +41,11 @@
                 @foreach ($listado['ListadoUsuario'] as $item)
                     <tr>
                         <td><a href="{{ url('usuario/editar/' . $item->Documento) }}"><button
-                                    class="btn btn-outline-primary"><i class="fa-solid fa-pen"></i></button></a></td>
+                                    class="btn btn-outline-primary"><i class="fa-solid fa-pen"></i></button></a>
+                                    <abbr title="Detalles"><a href="{{ url('usuario/detalle/' . $item->RolId) }}"><button
+                                        class="btn btn-outline-secondary"><i
+                                            class="fa-solid fa-circle-info"></i></button></a></abbr></td>
+
                         <td>{{ $item->Documento }}</td>
 
                         <td> {{ $item->Nombre }} </td>
