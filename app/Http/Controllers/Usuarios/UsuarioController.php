@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Usuarios;
 
 use App\Http\Controllers\Controller;
-use App\Models\Usuarios\Usuario;
+use App\Models\Configuracion\Roles;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -16,9 +17,17 @@ class UsuarioController extends Controller
      */
     public function index()
     {
-        $ListadoUsuario = Usuario::all();
-        return view('Usuarios.Usuario')->with('listado', $ListadoUsuario);
+        $ListadoUsuario = User::select(['Documento','Nombre','Estado','roles.name'])
+        ->join('roles','users.RolId','=','roles.id')
+        ->get();
+        $ListadoRoles = Roles::all();
+        $Listados = ['ListadoUsuario'=>$ListadoUsuario,'ListadoRoles'=>$ListadoRoles];
+         return view('Usuarios.Usuario')->with('listado', $Listados);
+
+
+
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -29,17 +38,18 @@ class UsuarioController extends Controller
     {
         $validator = Validator::make(
             $request->all(),
-            ['Documento' => 'min:1|unique:usuario,Nombre|max:50', 'RolId' => 'min:1|max:30', 'Direccion' => 'min:1|unique:sedes,Direccion|max:100', 'FechaNacimiento' => 'min:1|max:30', 'Clave' => 'min:1|max:30'],
-            ['unique' => 'Este campo no acepta información que ya se ha registrado', 'min' => 'No puedes enviar este campo vacío', 'max' => 'Máximo de :max dígitos']
+             ['Documento' => 'min:1|unique:users,Documento|max:11','Nombre' => 'min:1|max:30', 'RolId' => 'min:1|max:5|required', 'Direccion' => 'min:1|unique:sedes,Direccion|max:100', 'FechaNacimiento' => 'min:1|max:30', 'password' => 'min:1|max:30'],
+             ['unique' => 'Este campo no acepta información que ya se ha registrado', 'min' => 'No puedes enviar este campo vacío', 'max' => 'Máximo de :max dígitos']
+
         );
 
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
-        $Usuario = new Usuario();
+        $Usuario = new User();
         $id = $Usuario::creadorPK($Usuario, 100);
         $Usuario->Documento = $id;
-        $Campos = ['Documento', 'Nombre', 'RolId', 'Direccion', 'Celular', 'Correo', 'Direccion', 'FechaNacimiento', 'Clave'];
+        $Campos = ['Documento', 'Nombre', 'RolId', 'Direccion', 'Celular', 'email', 'Direccion', 'FechaNacimiento', 'password'];
         foreach ($Campos as $item) {
             $Usuario->$item = $request->$item;
         }
@@ -78,7 +88,7 @@ class UsuarioController extends Controller
      */
     public function edit($id)
     {
-        $Selected =  Usuario::all()->where('Documento', '=', $id);
+        $Selected =  User::all()->where('Documento', '=', $id);
         return view('Programacion.editarusuario')->with('usuariodata', $Selected);
     }
 
@@ -92,15 +102,15 @@ class UsuarioController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(),
-        ['Nombre'=>'min:1|max:50','RolId'=>'min:1|max:50','Direccion'=>'min:1|max:70','Celular'=>'min:1|max:50','Correo'=>'min:1|max:70','Direccion'=>'min:1|max:70','FechaNacimiento'=>'min:1|max:50','Clave'=>'min:1|max:30'],
+        ['Nombre'=>'min:1|max:30','RolId'=>'min:1|max:50','Direccion'=>'min:1|max:70','Celular'=>'min:1|max:50','emaiil'=>'min:1|max:70','Direccion'=>'min:1|max:70','FechaNacimiento'=>'min:1|max:50','password'=>'min:1|max:30'],
         ['unique'=>'Este campo no acepta información que ya se ha registrado','min'=>'No puedes enviar este campo vacío','max'=>'Máximo de :max dígitos']);
 
         if($validator->fails()){
             return back()->withErrors($validator)->withInput();
 
         }
-        $Usuario = Usuario::find($id);
-        $Campos = ['Documento', 'Nombre', 'RolId', 'Direccion', 'Celular', 'Correo', 'Direccion', 'FechaNacimiento', 'Clave'];
+        $Usuario = User::find($id);
+        $Campos = ['Documento', 'Nombre', 'RolId', 'Direccion', 'Celular', 'email', 'Direccion', 'FechaNacimiento', 'password'];
         foreach($Campos as $item){
             $Usuario->$item = $request->$item;
         }

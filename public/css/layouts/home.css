@@ -27,7 +27,7 @@ a{
     width: 100vw;
     height: 100vh;
     /* border: 2px solid red; */
-    background: url(../../img/layouts/newback.png);
+    background: white;
     position: relative;
 }
 
@@ -41,7 +41,7 @@ a{
     z-index: +1;
     content-visibility: visible;
     background-image: url("../../img/layouts/neymarproyecto.jpg");
-    background-size: contain;
+    background-size: cover;
      border-radius: 5px;
     /* border: 2px solid yellow; */
 }
@@ -104,8 +104,8 @@ a{
     }
     100%{
         width: 0%;
-        box-shadow: 10px 0px 3px #3E7A12;
-        background-color: #679447 ;
+
+
     }
 }
 
@@ -179,7 +179,7 @@ a{
 /*mainsite->Modificacion de scroll end*/
 
 .main-sidevar-item{
-    background-color: antiquewhite;
+
     position: relative;
     height: fit-content;
     border-radius: 5%;
@@ -188,9 +188,9 @@ a{
 }
 
 .sidevar-btn-title{
-    background-color:wheat;
     color: white;
-    border: 1px solid white;
+
+
 }
 
 /* Sidevar-> Logo */
@@ -225,6 +225,7 @@ a{
     animation-name: main-sidevar-item-links-on-animation;
     animation-fill-mode: forwards;
     animation-duration: 200ms;
+
 
     content-visibility: visible;
 }
@@ -321,10 +322,11 @@ text-align: center;
 
 
 .form-label{
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    -webkit-text-stroke: 0.9px grey !important;
+font-family: 'Source Sans Pro', sans-serif;
     text-align: justify;
     color: black;
-    -webkit-text-stroke: 0.5px grey !important;
+
   }
 
 

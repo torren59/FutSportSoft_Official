@@ -9,7 +9,9 @@ body {
     text-align: center;
     padding: 20px 0;
     color: black;
-  -webkit-text-stroke: 0.9px grey !important;
+    -webkit-text-stroke: 0.9px grey !important;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 1.5rem;
 
   }
 
@@ -42,7 +44,7 @@ body {
   label{
     font-family: 'Source Sans Pro', sans-serif;
   text-align: justify;
-  color: black !important;
+
     font-weight: bold;
 
 

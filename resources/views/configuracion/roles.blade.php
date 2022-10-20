@@ -23,7 +23,7 @@
         </center>
         <br>
         <div class="addbtn">
-            <button class="btn btn-outline-secondary col-2" onclick="switchadicion('roladicion')">Crear <i
+            <button class="btn btn-outline-secondary col-2" onclick="switchadicion2('roladicion')">Crear <i
                     class="fa-solid fa-circle-plus"></i></button>
         </div>
         <table id="tabla">
@@ -42,7 +42,8 @@
                                         class="btn btn-outline-primary"><i class="fa-solid fa-pen"></i></button></a></abbr>
 
                             <abbr title="Detalles"><a href="{{ url('roles/detalle/' . $item->RolId) }}"><button
-                                        class="btn btn-outline-secondary"><i class="fa-solid fa-circle-info"></i></button></a></abbr>
+                                        class="btn btn-outline-secondary"><i
+                                            class="fa-solid fa-circle-info"></i></button></a></abbr>
                         </td>
                         <td>{{ $item->RolId }}</td>
                         <td>{{ $item->NombreRol }}</td>
@@ -71,64 +72,95 @@
 
 
         {{-- Creacion de roles --}}
-        <div class="adicion adicion_off" id="roladicion">
-            <div class="adicion_title">
-                <h1>Nuevo Rol</h1>
-            </div>
-            <div class="adicion_content" id="addsed">
+
+        <div id="roladicion" class="adicion_off" style="width:600px;height:400px">
+            <div class="floatcontent">
+                <h1 style="padding-top:5%;">Nuevo Rol</h1>
+                <hr>
 
                 <form action={{ url('roles/crear') }} method="post"> @csrf
 
-                    <label for="NombreRol" class="form-label">Nombre del Rol</label>
+                    <label for="NombreRol" class="form-label">Nombre</label>
                     <input type="text" class="form-control" name="NombreRol" value="{{ old('NombreRol') }}">
                     @error('NombreRol')
                         <div>
-                            @foreach ($errors->get('NombreSede') as $item)
+                            @foreach ($errors->get('NombreRol') as $item)
                                 <small> {{ $item }} </small>
                             @endforeach
                         </div>
                     @enderror
-                    <div class="adicion_title">
-                        <h2>Lista de Permisos</h2>
-                    </div>
-                    <label>Selecciona los permisos que deseas asignarle al rol</label>
-                    <select class="select" multiple>
-                        <optgroup label="Label 1">
-                          <option value="1" data-mdb-secondary-text="Secondary text">One</option>
-                          <option value="2" data-mdb-secondary-text="Secondary text">Two</option>
-                          <option value="3" data-mdb-secondary-text="Secondary text">Three</option>
-                        </optgroup>
-                        <optgroup label="Label 2">
-                          <option value="4" data-mdb-secondary-text="Secondary text">Four</option>
-                          <option value="5" data-mdb-secondary-text="Secondary text">Five</option>
-                          <option value="6" data-mdb-secondary-text="Secondary text">Six</option>
-                        </optgroup>
-                      </select>
+
+                    <table class="table table-striped">
+                        <thead>
+                          <tr>
+                            <th scope="col">Seleciona</th>
+                            <th scope="col">Permiso</th>
+                            <th scope="col">Descripción</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                              <td>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck1" checked>
+                                    <label class="custom-control-label" for="customCheck1">1</label>
+                                </div>
+                              </td>
+                              <td>permiso1</td>
+                              <td>permite visualizar la lista de roles</td>
+
+                            </tr>
+                            <tr>
+                              <td>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck2">
+                                    <label class="custom-control-label" for="customCheck2">2</label>
+                                </div>
+                              </td>
+                              <td>Bootstrap Grid 4 Tutorial and Examples</td>
+                              <td>Cristina</td>
+
+                            </tr>
+                            <tr>
+                              <td>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck3">
+                                    <label class="custom-control-label" for="customCheck3">3</label>
+                                </div>
+                              </td>
+                              <td>Bootstrap Flexbox Tutorial and Examples</td>
+                              <td>Cristina</td>
+
+                            </tr>
+                          </tbody>
+                      </table>
 
 
+                    <br>
+                    <button type="submit" class="btn btn-outline-primary">Guardar</i></button>
+                    <button type="button" class="btn btn-outline-secondary"
+                        onclick="switchadicion2('roladicion')">Cancelar</i></button>
+
+                </form>
 
             </div>
-            <div class="mb-3 col-7">
-                <button type="submit" class="btn btn-primary btn-success">Guardar</i></button>
-                <button type="button" class="btn btn-primary btn-danger"
-                    onclick="switchadicion('roladicion')">Cancelar</i></button>
-            </div>
+
+
+
         </div>
-        @if ($errors->any())
-            <script>
-                setTimeout(() => {
-                    switchadicion2('rolesadicion');
-                }, 500);
-            </script>
-        @endif
-
     </div>
 
+    @if ($errors->any())
+        <script>
+            setTimeout(() => {
+                switchadicion2('roladicion');
+            }, 500);
+        </script>
+    @endif
 
-
-
-
+    </div>
 @endsection
+
 
 @push('scripts')
     <script>

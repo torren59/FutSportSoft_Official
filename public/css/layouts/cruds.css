@@ -15,10 +15,11 @@
     /* border: 4px solid green; */
     padding-top: 10px;
     border-radius: 15px;
-    background-color: #EEF0F2;
+    background-color: white;
     animation-name: open_float;
     animation-duration: 0.5s;
     animation-fill-mode: forwards;
+    box-shadow: 0px 10px 10px black;
 }
 
 .floatcontent{
@@ -95,12 +96,13 @@ gap: 5px;
     display: grid;
     border-radius: 10px;
     grid-template-rows: 10% auto;
-    top: 10%;
+    top: 5%;
     left: 25%;
     align-self: center;
     justify-items: center;
     border: 2px solid rgba(0, 0, 0, 0,2);
-    background-color: rgba(248, 248, 247, 0.699);
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     width: 60%;
     height: 80vh;
      justify-items: center;
@@ -203,3 +205,6 @@ font-family: 'Source Sans Pro', sans-serif;
     justify-content: center;
     margin-right: 10px;
   }
+
+
+

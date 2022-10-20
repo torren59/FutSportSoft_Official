@@ -19,32 +19,33 @@
     <div class="service_list">
         <center>
             <div class="tituloTabla">
-                <h1>USUARIOS</h1>
+                <h1> Gestión de Usuarios</h1>
             </div>
         </center>
+        <br>
+        <div class="addbtn">
+            <button class="btn btn-outline-secondary col-2" onclick="switchadicion2('usuarioadicion')">Nuevo Usuario <i
+                    class="fa-solid fa-circle-plus"></i></button>
+        </div>
         <table id="tabla">
             <thead>
                 <tr>
                     <td>Acción</td>
                     <td>Documento</td>
-
                     <td>Nombre</td>
                     <td>Rol</td>
-
-                    <td>Correo</td>
-
                     <td>Estado</td>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($listado as $item)
+                @foreach ($listado['ListadoUsuario'] as $item)
                     <tr>
-                        <td><a href="{{ url('usuario/editar/' . $item->Documento) }}"><button class="btn btn-primary"><i
-                                        class="fa-solid fa-pen"></i></button></a></td>
+                        <td><a href="{{ url('usuario/editar/' . $item->Documento) }}"><button
+                                    class="btn btn-outline-primary"><i class="fa-solid fa-pen"></i></button></a></td>
                         <td>{{ $item->Documento }}</td>
 
                         <td> {{ $item->Nombre }} </td>
-                        <td> {{ $item->RolId }} </td>
+                        <td> {{ $item->name }} </td>
 
 
 
@@ -61,7 +62,7 @@
 
                             <div class="form-check form-switch">
                                 <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked"
-                                    {{ $checkstate }} >
+                                    {{ $checkstate }}>
                             </div>
                         </td>
 
@@ -70,37 +71,35 @@
             </tbody>
         </table>
 
-        <div class="addbtn">
-            <button class="btn btn-success col-3" onclick="switchadicion2('usuarioadicion')">Nuevo Usuario <i
-                    class="fa-solid fa-circle-plus"></i></button>
-        </div>
+
 
         {{-- Creacion de Usuarios --}}
 
         <div id="usuarioadicion" class="adicion_off" style="width:600px;height:400px">
             <div class="floatcontent">
-                <h4 style="padding-top:5%;">Nuevo Usuario</h4>
+                <h1 style="padding-top:5%;">Nuevo Usuario</h1>
                 <hr>
 
                 <form action={{ url('usuario/crear') }} method="post"> @csrf
 
-                    <label for="Documento" class="form-label">Documento</label>
-                    <input type="text" class="form-control" name="Documento" value="{{ old('Documento') }}">
-                    @error('Documento')
+                    <label for="Nombre" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" name="Nombre" value=" {{ old('Nombre') }} ">
+                    @error('Nombre')
                         <div>
-                            @foreach ($errors->get('Documento') as $item)
+                            @foreach ($errors->get('Nombre') as $item)
                                 <small> {{ $item }} </small>
                             @endforeach
                         </div>
                     @enderror
 
+
                     <div class="row">
                         <div class="col-6">
-                            <label for="Nombre" class="form-label">Nombre</label>
-                            <input type="text" class="form-control" name="Nombre" value=" {{ old('Nombre') }} ">
-                            @error('Nombre')
+                            <label for="Documento" class="form-label">Documento</label>
+                            <input type="text" class="form-control" name="Documento" value="{{ old('Documento') }}">
+                            @error('Documento')
                                 <div>
-                                    @foreach ($errors->get('Nombre') as $item)
+                                    @foreach ($errors->get('Documento') as $item)
                                         <small> {{ $item }} </small>
                                     @endforeach
                                 </div>
@@ -118,67 +117,71 @@
                             @enderror
                         </div>
                         <div class="col-6">
-                            <label for="Correo" class="form-label">Correo</label>
-                            <input type="text" class="form-control" name="Correo" value=" {{ old('Correo') }} ">
-                            @error('Correo')
+                            <label for="Direccion" class="form-label">Dirección</label>
+                            <input type="text" class="form-control" name="Direccion" value=" {{ old('Direccion') }} ">
+                            @error('Direccion')
                                 <div>
-                                    @foreach ($errors->get('Correo') as $item)
+                                    @foreach ($errors->get('Direccion') as $item)
                                         <small> {{ $item }} </small>
                                     @endforeach
                                 </div>
                             @enderror
                         </div>
-                        <select class="form-select" aria-label="Default select example">
-                            <option selected>Seleciona un Rol</option>
-                            @foreach ($listado as $item)
-                            <option value="	{{$item->RolId}}">{{$item->NombreRol}}</option>
-                            @endforeach
-                          </select>
-                    </div>
 
-                    <label for="Direccion" class="form-label">Direccion</label>
-                    <input type="text" class="form-control" name="Direccion" value=" {{ old('Direccion') }} ">
-                    @error('Direccion')
-                        <div>
-                            @foreach ($errors->get('Direccion') as $item)
-                                <small> {{ $item }} </small>
-                            @endforeach
+                        <div class="col-6">
+                            <label for="password" class="form-label">Contraseña</label>
+                            <input type="text" class="form-control" name="password" value=" {{ old('password') }} ">
+                            @error('password')
+                                <div>
+                                    @foreach ($errors->get('password') as $item)
+                                        <small> {{ $item }} </small>
+                                    @endforeach
+                                </div>
+                            @enderror
                         </div>
-                    @enderror
 
-                    <div class="col-6">
-                        <label for="FechaNacimiento" class="form-label">FechaNacimiento</label>
-                        <input type="text" class="form-control" name="FechaNacimiento" value=" {{ old('FechaNacimiento') }} ">
-                        @error('FechaNacimiento')
-                            <div>
-                                @foreach ($errors->get('FechaNacimiento') as $item)
-                                    <small> {{ $item }} </small>
-                                @endforeach
-                            </div>
-                            <div class="col-6">
-                                <label for="Clave" class="form-label">Clave</label>
-                                <input type="text" class="form-control" name="Celular" value=" {{ old('Clave') }} ">
-                                @error('Clave')
-                                    <div>
-                                        @foreach ($errors->get('Clave') as $item)
-                                            <small> {{ $item }} </small>
-                                        @endforeach
-                                    </div>
-                                @enderror
-                            </div>
+                        <div class="col-12">
+                            <label for="email" class="form-label">Correo electrónico</label>
+                            <input type="text" class="form-control" name="email" value=" {{ old('email') }} ">
+                            @error('email')
+                                <div>
+                                    @foreach ($errors->get('email') as $item)
+                                        <small> {{ $item }} </small>
+                                    @endforeach
+                                </div>
+                            @enderror
+                        </div>
+
+                        <div class="col-6">
+                            <label for="FechaNacimiento" class="form-label">FechaNacimiento</label>
+                            <input type="date" class="form-control" name="FechaNacimiento"
+                                value=" {{ old('FechaNacimiento') }} ">
+                            @error('FechaNacimiento')
+                                <div>
+                                    @foreach ($errors->get('FechaNacimiento') as $item)
+                                        <small> {{ $item }} </small>
+                                    @endforeach
+                                </div>
+                            @enderror
+                        </div>
+
+
+                        <div class="col-6">
+                            <label for="roles" class="form-label">Roles</label>
                             <select class="form-select" aria-label="Default select example">
-                                <option selected>Seleciona un Rol</option>
-                                @foreach ($listado as $item)
-                                <option value="	{{$item->RolId}}">{{$item->NombreRol}}</option>
+                                <option selected>Selecione un rol</option>
+                                @foreach ($listado['ListadoRoles'] as $item)
+                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
                                 @endforeach
+                            </select>
+                        </div>
 
 
-                              </select>
-                        @enderror
+
                     </div>
                     <br>
-                    <button type="submit" class="btn btn-primary btn-success">Guardar</i></button>
-                    <button type="button" class="btn btn-primary btn-danger"
+                    <button type="submit" class="btn btn-outline-primary">Guardar</i></button>
+                    <button type="button" class="btn btn-outline-secondary"
                         onclick="switchadicion2('usuarioadicion')">Cancelar</i></button>
 
                 </form>
