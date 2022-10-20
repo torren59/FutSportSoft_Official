@@ -34,17 +34,14 @@ use Whoops\RunInterface;
 |*/
 
 Route::get('/', function () {
-    return Redirect('home');
-});
-
-Route::get('home', function () {
-    return view('layouts.home');
+    return Redirect('login');
 });
 
 Route::controller(AccesoController::class)->group(
     function(){
         Route::get('login','index')->name('login');
         Route::post('acceso/validar','isValid');
+        Route::post('acceso/salir','logOut');
         Route::get('marcha','creaUsuario');
     }
 );
@@ -61,7 +58,6 @@ Route::controller(RolesController::class)->middleware('auth')->group(
         Route::post('roles/crear', 'create');
         Route::get('roles/editar/{id}','edit');
         Route::post('roles/actualizar/{id}','update');
-
     }
 );
 
@@ -71,7 +67,6 @@ Route::controller(UsuarioController::class)->middleware('auth')->group(
         Route::post('usuario/crear', 'create');
         Route::get('usuario/editar/{id}','edit');
         Route::post('usuario/actualizar/{id}','update');
-
     }
 );
 
@@ -81,7 +76,6 @@ Route::controller(CategoriaController::class)->middleware('auth')->group(
         Route::post('categoria/crear', 'create');
         Route::get('categoria/editar/{id}','edit');
         Route::post('categoria/actualizar/{id}','update');
-
     }
 );
 
