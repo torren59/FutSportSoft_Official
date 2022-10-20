@@ -84,7 +84,14 @@
                 @enderror
 
                 <label for="Horario" class="form-label">Horario</label>
-                <input type="text" class="form-control" name="Horario" value=" {{old('Horario')}} ">
+                <div class="row">
+                    <div class="col-6">
+                        <input type="time" class="form-control" name="HorarioInicial" value=" {{old('Horario')}} ">
+                    </div>
+                    <div class="col-6">
+                        <input type="time" class="form-control" name="HorarioFinal" value=" {{old('Horario')}} ">
+                    </div>
+                </div>
                 @error('Horario')
                     <div>
                         @foreach ($errors->get('Horario') as $item)
@@ -92,6 +99,9 @@
                         @endforeach
                     </div>
                 @enderror
+
+
+
                 <br>
                 <button type="submit" class="btn btn-primary btn-success">Guardar</i></button>
                 <button type="button" class="btn btn-primary btn-danger" onclick="switchadicion2('horarioadicion')">Cancelar</i></button>

@@ -21,29 +21,54 @@ class HorariosController extends Controller
     }
 
     /**
+     * Toma el un time y lo traduce a string
+     */
+    public function timeToString($time){
+
+        $Hora = substr($time,0,2);
+
+        if($Hora < 12){
+            return $time.' am';
+        }
+
+        if($Hora == 12){
+            return $time.' pm';
+        }
+
+        $Hora =  $Hora - 12;
+
+        if(strlen($Hora) < 2){
+            $Min = substr($time,2,3);
+            return '0'.$Hora.$Min.' pm';
+        }
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function create(Request $request)
     {
+        
         $validator = Validator::make($request->all(),
-        ['NombreHorario'=>'min:1|max:50','Horario'=>'min:1|max:20'],
-        ['min'=>'No puedes enviar este campo vacío','max'=>'Máximo de :max dígitos']);
+        ['NombreHorario'=>'required|max:50','HorarioInicial'=>'required','HorarioFinal'=>'required'],
+        ['required'=>'No puedes enviar este campo vacío','max'=>'Máximo de :max dígitos']);
+
         if($validator->fails()){
             return back()->withErrors($validator)->withInput();
         }
+
         $Horario = new Horario();
         $id = $Horario::creadorPK($Horario,10000);
+        $HorarioTot = $this->timeToString($request->HorarioInicial).' - '.$this->timeToString($request->HorarioFinal);
+
         $Horario->HorarioId = $id;
-        $Campos = ['NombreHorario','Horario'];
-
-        foreach($Campos as $item){
-            $Horario->$item = $request->$item;
-        }
-
+        $Horario->NombreHorario = $request->NombreHorario;
+        $Horario->Horario = $HorarioTot;
         $Horario->save();
-        return redirect('horario/listar');
+
+        return redirect('horario/listar'); 
     }
 
     /**

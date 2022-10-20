@@ -210,8 +210,6 @@
             </script>
         @endif
 
-        <button onclick="elevet(4)">Presiona</button>
-
     </div>
 @endsection
 
