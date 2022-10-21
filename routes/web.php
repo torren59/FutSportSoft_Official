@@ -119,6 +119,7 @@ Route::controller(VentasController::class)->middleware('auth')->group(
     function(){
         Route::get('venta/listar', 'index');
         Route::get('venta/crear', 'create');
+        Route::post('venta/store', 'store');
         Route::post('venta/listaseleccionados','listselected');
     }
 );

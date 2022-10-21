@@ -13,11 +13,15 @@
 @endpush
 
 @section('content')
-    <form action="" method="post">
+    <form action="/venta/store" method="post">
         @csrf
         <div class="grid_triple_center">
             <div class="grid_span_2a3">
 
+                <label for="NumeroFactura" class="form-label">Numero de Factura</label>
+                            <input type="text" class="form-control" name="NumeroFactura"
+                                value="{{ old('NumeroFactura') }}">
+                                
                 <div class="grid_doble_simetrico">
 
                     <div class="grid_span_1" id="product_added">
@@ -37,6 +41,7 @@
                                 <tr>
                                     <td>Producto</td>
                                     <td>Cantidad</td>
+                                    <td>Valor Unitario</td>
                                     <td>Disponibles</td>
                                 </tr>
                             </thead>
@@ -55,7 +60,8 @@
                                             </div>
                                         </td>
 
-                                        <td><input type="number" name="{{ $item->ProductoId }}"></td>
+                                        <td><input type="number" name="{{ $item->ProductoId }}_cantidad"></td>
+                                        <td><input type="number" name=" {{ $item->ProductoId }}_unitValue"></td>
 
                                         <td>{{ $item->Cantidad }}</td>
                                     </tr>
@@ -67,10 +73,19 @@
                     </div>
                 </div>
 
+                <br>
+                <button type="submit">Enviar</button>
+
             </div>
         </div>
 
     </form>
+
+    @if ($errors->any())
+        <h1>Es necesario que cantidades y valores unitarios de los productos seleccionados tengan valores mínimos de 1 y 0 
+            respectivamente</h1>
+    @endif
+
 @endsection
 
 @push('scripts')
