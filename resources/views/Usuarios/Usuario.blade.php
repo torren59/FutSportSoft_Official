@@ -24,7 +24,7 @@
         </center>
         <br>
         <div class="addbtn">
-            <button class="btn btn-outline-secondary col-2" onclick="switchadicion2('usuarioadicion')">Nuevo Usuario <i
+            <button class="btn btn-outline-secondary col-2" onclick="switchadicion2('usuarioadicion')">Crear <i
                     class="fa-solid fa-circle-plus"></i></button>
         </div>
         <table id="tabla">

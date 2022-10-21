@@ -44,7 +44,7 @@
                                 </button>
                                 <div class="main-sidevar-item-links-off" id="configuracion">
                                     <a href={{ url('roles/listar') }}><button class="btn col-12 btn-outline-light"
-                                        id="seg_servdep_roles" name="sended" value="7">Roles</button></a>
+                                        id="seg_servdep_roles"  >Roles</button></a>
                                 </div>
                             </div>
 
@@ -55,7 +55,7 @@
                                 </button>
                                 <div class="main-sidevar-item-links-off" id="usuario">
                                     <a href={{ url('usuario/listar') }}><button class="btn col-12 btn-outline-light"
-                                        id="seg_servdep_usuario" name="sended" value="7">Gestión de
+                                        id="seg_servdep_usuario"  >Gestión de
                                         usuarios</button></a>
                                     <button type="submit" class="btn col-12 btn-outline-light" value="3">Gestión de
                                         acceso</button>
@@ -70,8 +70,9 @@
                                 <div class="main-sidevar-item-links-off" id="compras">
                                     <button type="submit" class="btn col-12 btn-outline-light" id="seg_compras_prov"
                                         value="4">Proveedores</button>
-                                    <button type="submit" class="btn col-12 btn-outline-light" value="5">Gestión de
-                                        compras</button>
+                                        <a href={{ url('compras/listar') }}><button class="btn col-12 btn-outline-light"
+                                            id="seg_servdep_compras" >Gestión de
+                                        compras</button></a>
                                     <button type="submit" class="btn col-12 btn-outline-light" value="6">Gestión de
                                         productos</button>
                                 </div>
@@ -85,23 +86,23 @@
                                 <div class="main-sidevar-item-links-off" id="servdeportivos">
 
                                     <a href={{ url('horario/listar') }}><button class="btn col-12 btn-outline-light"
-                                            id="seg_servdep_sedes" value="7">Horarios</button></a>
+                                            id="seg_servdep_sedes" >Horarios</button></a>
 
                                     <a href={{ url('sede/listar') }}><button class="btn col-12 btn-outline-light" id="seg_servdep_sedes"
                                             value="7">Sedes</button></a>
 
                                     <a href={{ url('deporte/listar') }}><button class="btn col-12 btn-outline-light"
-                                            id="seg_servdep_deportes" value="8">Gestión de
+                                            id="seg_servdep_deportes" >Gestión de
                                             deportes</button></a>
 
-                                    <button class="btn col-12 btn-outline-light" id="seg_servdep_categorias" value="9">Gestión de
+                                    <button class="btn col-12 btn-outline-light" id="seg_servdep_categorias" >Gestión de
                                         categorías</button>
 
-                                    <button class="btn col-12 btn-outline-light" value="10">Gestión de
+                                    <button class="btn col-12 btn-outline-light" >Gestión de
                                         grupos</button>
 
                                     <a href={{ url('deportista/listar') }}><button class="btn col-12 btn-outline-light"
-                                            id="seg_servdep_sedes" value="7">Gestión de
+                                            id="seg_servdep_deportistas" >Gestión de
                                             deporitstas</button></a>
 
                                     <a href=" {{ url('programacion/listar') }} "><button class="btn col-12 btn-outline-light">Gestión de

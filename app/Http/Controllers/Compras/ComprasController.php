@@ -3,7 +3,12 @@
 namespace App\Http\Controllers\Compras;
 
 use App\Http\Controllers\Controller;
+use App\Models\Compras\articulo_comprado;
+use App\Models\Compras\Compras;
+use App\Models\Compras\Producto;
+use App\Models\Programacion\Deporte;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ComprasController extends Controller
 {
@@ -14,7 +19,9 @@ class ComprasController extends Controller
      */
     public function index()
     {
-        //
+        $ListadoCompras = Compras::all();
+        return view('Compras.compras')->with('listado', $ListadoCompras);
+
     }
 
     /**
@@ -24,7 +31,11 @@ class ComprasController extends Controller
      */
     public function create()
     {
-        //
+
+
+        $ProductModel= new Producto();
+        $Productos = $ProductModel->all();
+        return view('Compras.crearcompra')->with('productos',$Productos);
     }
 
     /**
@@ -35,8 +46,80 @@ class ComprasController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(),
+        ['NumeroFactura'=>'min:1|unique:compras,NumeroFactura|max:20','Nit'=>'min:1|max:12','FechaCompra'=>'min:1|max:20','ValorCompra'=>'min:1||max:20','SubTotal'=>'min:1||max:20','Iva'=>'min:1||max:20','Descuento'=>'min:1||max:20'],
+        ['unique'=>'Este campo no acepta información que ya se ha registrado','min'=>'No puedes enviar este campo vacío','max'=>'Máximo de :max dígitos']);
+
+        if($validator->fails()){
+            return back()->withErrors($validator)->withInput();
+        }
+        $Compras = new Compras();
+        $id = Compras::creadorPK($Compras,100);
+        $Compras->NumeroFactura = $id;
+        $Campos = ['NumeroFactura','Nit','FechaCompra','FechaCompra','ValorCompra','SubTotal','Iva','Descuento'];
+        foreach($Campos as $item){
+            $Compras->$item = $request->$item;
+        }
+
+        $Compras->save();
+        // return redirect('compras/listar');
+
+        $productos = $request->productos;
+        $articulosComprados = [];
+
+        if($productos == null){
+            return 'Evite enviar productos vacío';
+        }
+
+        foreach($productos as $item){
+            // Crea las rutas para rescatar datos del request
+            $rutaCantidad = strval($item.'_cantidad');
+            $rutaValorUnitario = strval($item.'_unitValue');
+
+            // Llena el objeto con los datos de un producto adicionado
+            $articulos = new articulo_comprado();
+            $articulos->ProductoId = $item;
+            $articulos->Cantidad = $request->$rutaCantidad;
+            $articulos->PrecioCompra = $request->$rutaValorUnitario;
+
+            // Llena el array de validable con los datos del objeto
+            $validable = ['ProductoId'=>$item, 'Cantidad' => $request->$rutaCantidad, 'PrecioCompra' => $request->$rutaValorUnitario];
+
+            // Valida que el objeto no tenga campos vacíos
+            $validator = Validator::make($validable,
+            ['Cantidad'=>'required|min:1','PrecioCompra'=>'required|min:0']);
+            if($validator->fails()){
+                return back()
+                ->withErrors($validator)
+                ->withInput();
+            }
+
+            // Guarda Objeto en array si este pasa la validación
+            array_push($articulosComprados,$articulos);
+        }
+
+
+
+        foreach($articulosComprados as $item){
+            // Crea registros en la tabla de artículos comprados
+            $articulo = new articulo_comprado();
+            $articulo->ArticulosCompradosId = articulo_comprado::creadorPK($articulo, 1000);
+            $articulo->ProductoId = $item->ProductoId;
+            $articulo->NumeroFactura = $request->NumeroFactura;
+            $articulo->Cantidad = $item->Cantidad;
+            $articulo->PrecioCompra = $item->PrecioCompra;
+            $articulo->save();
+
+            // Modifica la cantidad en los registros de los productos
+            $deporte = Deporte::find($item->ProductoId);
+            $Cantidad = $deporte->Cantidad + $item->Cantidad;
+            $deporte->Cantidad = $Cantidad;
+            $deporte->save();
+        }
+        return view('compras/listar');
     }
+
+
 
     /**
      * Display the specified resource.
@@ -57,7 +140,7 @@ class ComprasController extends Controller
      */
     public function edit($id)
     {
-        //
+       //
     }
 
     /**
@@ -69,7 +152,7 @@ class ComprasController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+       //
     }
 
     /**

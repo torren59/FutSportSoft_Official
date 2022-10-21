@@ -12,6 +12,7 @@ use App\Http\Controllers\Compras\ProductosController;
 use App\Http\Controllers\Compras\ProveedoresController;
 use App\Http\Controllers\Programacion\DeportistasController;
 use App\Http\Controllers\Ayudas\AyudasController;
+use App\Http\Controllers\Compras\ComprasController;
 use App\Http\Controllers\Configuracion\RolesController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Programacion\CategoriaController;
@@ -58,6 +59,16 @@ Route::controller(RolesController::class)->middleware('auth')->group(
         Route::post('roles/crear', 'create');
         Route::get('roles/editar/{id}','edit');
         Route::post('roles/actualizar/{id}','update');
+    }
+);
+
+Route::controller(ComprasController::class)->middleware('auth')->group(
+    function () {
+        Route::get('compras/listar', 'index');
+        Route::get('compras/crear', 'create');
+        Route::post('compras/store', 'store');
+        Route::get('compras/editar/{id}','edit');
+        Route::post('compras/actualizar/{id}','update');
     }
 );
 
