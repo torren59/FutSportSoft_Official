@@ -5,9 +5,7 @@
 @push('styles')
     <link rel="stylesheet" href=" {{ asset('./css/layouts/datatable.css') }} ">
     <link rel="stylesheet" href="{{ asset('./css/layouts/cruds.css') }} ">
-    <link href="https://unpkg.com/vanilla-datatables@latest/dist/vanilla-dataTables.min.css" rel="stylesheet" type="text/css">
-    <script src="https://unpkg.com/vanilla-datatables@latest/dist/vanilla-dataTables.min.js" type="text/javascript">
-    </script>
+
 @endpush
 
 @section('content')
@@ -38,15 +36,15 @@
             <tbody>
                 @foreach ($listado as $item)
                     <tr>
-                        <td><abbr title="Editar"><a href="{{ url('roles/editar/' . $item->RolId) }}"><button
+                        <td><abbr title="Editar"><a href="{{ url('roles/editar/' . $item->id) }}"><button
                                         class="btn btn-outline-primary"><i class="fa-solid fa-pen"></i></button></a></abbr>
 
-                            <abbr title="Detalles"><a href="{{ url('roles/detalle/' . $item->RolId) }}"><button
+                            <abbr title="Detalles"><a href="{{ url('roles/detalle/' . $item->id) }}"><button
                                         class="btn btn-outline-secondary"><i
                                             class="fa-solid fa-circle-info"></i></button></a></abbr>
                         </td>
-                        <td>{{ $item->RolId }}</td>
-                        <td>{{ $item->NombreRol }}</td>
+                        <td>{{ $item->id }}</td>
+                        <td>{{ $item->name }}</td>
 
                         <td>
                             {{-- Definiendo estado --}}
@@ -80,11 +78,11 @@
 
                 <form action={{ url('roles/crear') }} method="post"> @csrf
 
-                    <label for="NombreRol" class="form-label">Nombre</label>
-                    <input type="text" class="form-control" name="NombreRol" value="{{ old('NombreRol') }}">
-                    @error('NombreRol')
+                    <label for="name" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" name="name" value="{{ old('name') }}">
+                    @error('name')
                         <div>
-                            @foreach ($errors->get('NombreRol') as $item)
+                            @foreach ($errors->get('name') as $item)
                                 <small> {{ $item }} </small>
                             @endforeach
                         </div>

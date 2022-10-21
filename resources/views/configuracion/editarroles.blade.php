@@ -2,7 +2,7 @@
 
 
 
-@section('title', 'Editar roles')
+@section('title', 'Editar Roles')
 
 @push('styles')
     <link rel="stylesheet" href=" {{ asset('./css/layouts/datatable.css') }} ">
@@ -15,7 +15,7 @@
 
 @section('content')
     @foreach ($roldata as $item)
-        <form action={{ url('roles/actualizar/'.$item->RolId) }} method="post">
+        <form action={{ url('roles/actualizar/'.$item->id) }} method="post">
     @endforeach
 
     @csrf
@@ -27,11 +27,11 @@
 
             @foreach ($roldata as $item)
             <div class="col-12">
-                <label for="NombreRol" class="form-label">Nombre</label>
-                <input type="text" class="form-control" name="NombreRol" value="{{ old('NombreRol',$item->NombreRol) }}">
-                @error('NombreRol')
+                <label for="name" class="form-label">Nombre</label>
+                <input type="text" class="form-control" name="name" value="{{ old('name',$item->name) }}">
+                @error('name')
                     <div>
-                        @foreach ($errors->get('NombreRol') as $item)
+                        @foreach ($errors->get('name') as $item)
                             <small> {{ $item }} </small>
                         @endforeach
                     </div>
