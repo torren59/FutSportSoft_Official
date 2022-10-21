@@ -43,7 +43,7 @@
             <tbody>
                 @foreach ($listado as $item)
                     <tr>
-                        <td><abbr title="Detalles"><button type="button" class="btn btn-outline-secondary" onclick="detalleCompras({{$item->NumeroFactura}},detallecompra)"><i
+                        <td><abbr title="Detalles"><button type="button" class="btn btn-outline-secondary" onclick="detalleCompras({{$item->NumeroFactura}},'detallecompra','jsPrint')"><i
                                         class="fa-solid fa-circle-info"></i></button></abbr>
                         </td>
                         <td>{{ $item->NumeroFactura }}</td>
@@ -78,10 +78,12 @@
 
     {{-- Detalles --}}
 
-    <div id="detallecompra" class="adicion_off" style="width:600px;height:400px">
+    <div id="detallecompra" class="floatmodal" style="width:600px;height:400px">
         <div class="floatcontent">
             <h1 style="padding-top:5%;">Detalles de la Compra</h1>
-
+            <div id="jsPrint">
+                {{-- Aquí se imprime el contenido de detalles enviado desde JS --}}
+            </div>
         </div>
     </div>
 @endsection
