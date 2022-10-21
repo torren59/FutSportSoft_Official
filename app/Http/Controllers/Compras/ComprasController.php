@@ -54,8 +54,7 @@ class ComprasController extends Controller
             return back()->withErrors($validator)->withInput();
         }
         $Compras = new Compras();
-        $id = Compras::creadorPK($Compras,100);
-        $Compras->NumeroFactura = $id;
+        $Compras->NumeroFactura = $request->NumeroFactura;
         $Campos = ['NumeroFactura','Nit','FechaCompra','FechaCompra','ValorCompra','SubTotal','Iva','Descuento'];
         foreach($Campos as $item){
             $Compras->$item = $request->$item;
@@ -167,9 +166,24 @@ class ComprasController extends Controller
         //
     }
 
-    public function getdetalle(Request $request){
+    public function getDetalle(Request $request){
         $NumeroFactura = $request->NumeroFactura;
-        $Objeto=['message'=>'hola'];
-        return json_encode($Objeto);
+        $compraArticulos = [];
+
+
+        $Compra = Compras::select(['NumeroFactura','proveedores.NombreEmpresa','FechaCompra','ValorCompra','SubTotal','IVA','Descuento','compras.Estado'])
+        ->join('proveedores','proveedores.Nit','=','compras.Nit')
+        ->where('NumeroFactura','=',$NumeroFactura)
+        ->get();
+
+        $Articulos = articulo_comprado::select(['productos.NombreProducto','productos.Talla','articulos_comprados.Cantidad','PrecioCompra'])
+        ->join('productos','productos.ProductoId','=','articulos_comprados.ProductoId')
+        ->where('NumeroFactura','=',$NumeroFactura)
+        ->get(); 
+
+        array_push($compraArticulos,$Compra,$Articulos);
+
+        return $compraArticulos;
+
     }
 }

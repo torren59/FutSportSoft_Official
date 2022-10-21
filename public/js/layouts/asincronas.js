@@ -109,7 +109,7 @@ function changeState(Nombre, Id){
 function detalleCompras(NumeroFactura, IdModal){
     $.ajax({
         type: 'get',
-        url: '/compras/getdetalle/',
+        url: '/compras/getDetalle/',
         dataType: 'json',
         data: {'NumeroFactura': JSON.stringify(NumeroFactura)},
 

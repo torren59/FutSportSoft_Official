@@ -69,7 +69,8 @@ Route::controller(ComprasController::class)->middleware('auth')->group(
         Route::post('compras/store', 'store');
         Route::get('compras/editar/{id}','edit');
         Route::post('compras/actualizar/{id}','update');
-        Route::get('compras/getdetalle/{NumeroFactura?}','getdetalle');
+        Route::get('compras/getDetalle/{NumeroFactura?}','getDetalle');
+        Route::get('holaperra','getDetalle');
     }
 );
 
