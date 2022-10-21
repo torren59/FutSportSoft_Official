@@ -5,13 +5,12 @@ namespace App\Models\Compras;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Producto extends Model
+class articulo_comprado extends Model
 {
     use HasFactory;
+    protected $table = 'articulos_comprados';
 
-    protected $table = 'productos';
-
-    protected $primaryKey = 'ProductoId';
+    protected $primaryKey = 'ArticulosCompradosId';
 
     public $incrementing = false;
 
@@ -20,15 +19,9 @@ class Producto extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'NombreProducto',
-        'TipoProducto',
-        'Talla',
-        'PrecioVenta',
+        'ProductoId',
+        'NumeroFactura',
         'Cantidad',
-        'Estado',
-    ];
-
-    protected $attributes = [
-        'Estado' => true,
+        'PrecioCompra'
     ];
 }
