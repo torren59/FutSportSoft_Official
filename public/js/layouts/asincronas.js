@@ -1,6 +1,6 @@
 $('.productcheck').on('change', listar);
 $('.deporte_select').on('change',push_categorias);
-$('.categoria_select').on('change',push_grupos);    
+$('.categoria_select').on('change',push_grupos);
 
 
 function listar(){
@@ -14,13 +14,13 @@ function listar(){
             Seleccionados.push($(element).val());
         }
     });
-   
+
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-    
+
     $.ajax({
         type: 'post',
         url: '/venta/listaseleccionados',
@@ -34,7 +34,7 @@ function listar(){
                  element.NombreProducto+'</div>';
                  console.log(element.NombreProducto);
             });
-            
+
             $('.lista_selects').html(lista_selects);
         },
         error: function(data) {
@@ -106,5 +106,23 @@ function changeState(Nombre, Id){
     )
 }
 
+function detalleCompras(NumeroFactura, IdModal){
+    $.ajax({
+        type: 'get',
+        url: '/compras/getdetalle/',
+        dataType: 'json',
+        data: {'NumeroFactura': JSON.stringify(NumeroFactura)},
+
+        success: function(data) {
+            compras = Object.entries(data);
+            console.log(compras);
+        },
+
+        error: function(data) {
+          alert('Error '+data);
+        }
+
+    });
+}
 
 

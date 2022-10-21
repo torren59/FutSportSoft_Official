@@ -43,8 +43,7 @@
             <tbody>
                 @foreach ($listado as $item)
                     <tr>
-                        <td><abbr title="Detalles"><button type="button" class="btn btn-outline-secondary"
-                                    data-toggle="modal" data-target="#exampleModal"><i
+                        <td><abbr title="Detalles"><button type="button" class="btn btn-outline-secondary" onclick="detalleCompras({{$item->NumeroFactura}},detallecompra)"><i
                                         class="fa-solid fa-circle-info"></i></button></abbr>
                         </td>
                         <td>{{ $item->NumeroFactura }}</td>
@@ -76,6 +75,15 @@
 
     </div>
     </div>
+
+    {{-- Detalles --}}
+
+    <div id="detallecompra" class="adicion_off" style="width:600px;height:400px">
+        <div class="floatcontent">
+            <h1 style="padding-top:5%;">Detalles de la Compra</h1>
+
+        </div>
+    </div>
 @endsection
 
 
@@ -86,5 +94,7 @@
         let datatable = new DataTable(tabla);
     </script>
 
+
     <script src=" {{ asset('./js/layouts/cruds.js') }} "></script>
+    <script src=" {{ asset('./js/layouts/asincronas.js') }} "></script>
 @endpush

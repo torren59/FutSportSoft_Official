@@ -111,12 +111,13 @@ class ComprasController extends Controller
             $articulo->save();
 
             // Modifica la cantidad en los registros de los productos
-            $deporte = Deporte::find($item->ProductoId);
+            $deporte = Producto::find($item->ProductoId);
             $Cantidad = $deporte->Cantidad + $item->Cantidad;
             $deporte->Cantidad = $Cantidad;
             $deporte->save();
         }
-        return view('compras/listar');
+
+        return redirect('compras/listar');
     }
 
 
@@ -164,5 +165,11 @@ class ComprasController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function getdetalle(Request $request){
+        $NumeroFactura = $request->NumeroFactura;
+        $Objeto=['message'=>'hola'];
+        return json_encode($Objeto);
     }
 }
