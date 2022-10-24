@@ -133,6 +133,8 @@ Route::controller(VentasController::class)->middleware('auth')->group(
         Route::get('venta/crear', 'create');
         Route::post('venta/store', 'store');
         Route::post('venta/listaseleccionados','listselected');
+        Route::get('proveedor/editar/{id}', 'edit');
+        Route::post('proveedor/actualizar/{id}','update');
     }
 );
 
@@ -140,6 +142,8 @@ Route::controller(ProveedoresController::class)->middleware('auth')->group(
     function () {
         Route::get('proveedor/listar', 'index');
         Route::post('proveedor/crear', 'create');
+        Route::get('proveedor/editar/{id}', 'edit');
+        Route::post('proveedor/actualizar/{id}','update');
     }
 );
 
@@ -147,6 +151,8 @@ Route::controller(ProductosController::class)->middleware('auth')->group(
     function () {
         Route::get('producto/listar', 'index');
         Route::post('producto/crear', 'create');
+        Route::get('producto/editar/{id}', 'edit');
+        Route::post('producto/actualizar/{id}','update');
     }
 );
 
@@ -154,11 +160,13 @@ Route::controller(DeportistasController::class)->middleware('auth')->group(
     function () {
         Route::get('deportista/listar', 'index');
         Route::post('deportista/crear', 'create');
+        Route::get('deportista/editar/{id}', 'edit');
+        Route::post('deportista/actualizar/{id}','update');
     }
 );
 
 Route::controller(AyudasController::class)->middleware('auth')->group(
     function () {
-        Route::get('ayudas', 'listar');
+        Route::get('ayudas/listar', 'index');
     }
 );

@@ -26,351 +26,178 @@
         <thead>
             <tr>
                 <td>Acción</td>
-                <td>Estado</td>
                 <td>Documento</td>
+                <td>Documento Acudiente</td>
+                <td>Tipo Documento</td>
                 <td>Nombre</td>
-                <td>Deporte</td>
-                <td>Servicio deportivo</td>
+                <td>Fecha de Nacimiento</td>
+                <td>Direccion</td>
+                <td>Celular</td>
+                <td>Correo</td>
+                <td>Estado</td>
+                <td>Ultimo pago</td>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>
-                    <button class="btn btn-primary" title="Editar" onclick="activaedicion('listadosede','edicionsede')"><i class="fa-solid fa-pen"></i></button>
-                    <button class="btn btn-secondary" title="Informacion" onclick="switchadicion('servdepdetalle')"><i class="fa-solid fa-circle-info"></i></button>
-                </td>
-                <td>
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
+        @foreach ($listado as $item)
+                    <tr>
+                        <td><a href="{{ url('deportista/editar/'.$item->Documento) }}"><button class="btn btn-primary"><i class="fa-solid fa-pen"></i></button></a></td>
+                        <td>{{ $item->Documento }}</td>
+                        <td>{{ $item->NombreAcudiente }}</td>
+                        <td>{{ $item->TipoDocumento }}</td>
+                        <td>{{ $item->Nombre }}</td>
+                        <td>{{ $item->FechaNacimiento }}</td>
+                        <td>{{ $item->Direccion }}</td>
+                        <td>{{ $item->Celular }}</td>
+                        <td>{{ $item->Correo }}</td>
+                        <td>
+                            {{-- Definiendo estado --}}
+                            @php
+                                $checkstate = '';
+                                if ($item->Estado == true) {
+                                    $checkstate = 'checked';
+                                }
+                            @endphp
+                        <td>{{ $item->UltimoPago }}</td>
+                        <td>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked"
+                                    checked>
+                            </div>
+                        </td>
+
+                    </tr>
+                @endforeach
+
+            </tbody>
+        </table>
+
+        <div class="addbtn">
+            <button class="btn btn-success col-3" onclick="switchadicion2('deportistaadicion')">Nuevo Deportista <i
+                    class="fa-solid fa-circle-plus"></i></button>
+        </div>
+
+        {{-- Creacion de productos --}}
+
+        <div id="deportistaadicion" class="adicion_off" style="width:600px;height:400px">
+            <div class="floatcontent">
+                <h4 style="padding-top:5%;">Nuevo Deportista</h4>
+                <hr>
+
+                <form action={{ url('deportista/crear') }} method="post"> @csrf
+
+                    <label for="Documento" class="form-label">Documento</label>
+                    <input type="Documento" class="form-control" name="Documento" value="{{ old('Documento') }}">
+                    @error('Documento')
+                        <div>
+                            @foreach ($errors->get('Documento') as $item)
+                                <small> {{ $item }} </small>
+                            @endforeach
+                        </div>
+                    @enderror
+
+                    <div class="row">
+                        <div class="col-6">
+                            <label for="DocumentoAcudiente" class="form-label">DocumentoAcudiente</label>
+                            <input type="text" class="form-control" name="DocumentoAcudiente" value=" {{ old('DocumentoAcudiente') }} ">
+                            @error('DocumentoAcudiente')
+                                <div>
+                                    @foreach ($errors->get('DocumentoAcudiente') as $item)
+                                        <small> {{ $item }} </small>
+                                    @endforeach
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="col-6">
+                            <label for="TipoDocumento" class="form-label">TipoDocumento</label>
+                            <input type="text" class="form-control" name="TipoDocumento" value=" {{ old('TipoDocumento') }} ">
+                            @error('TipoDocumento')
+                                <div>
+                                    @foreach ($errors->get('TipoDocumento') as $item)
+                                        <small> {{ $item }} </small>
+                                    @endforeach
+                                </div>
+                            @enderror
+                        </div>
                     </div>
-                </td>
-                <td>10043566</td>
-                <td>Julián Álvarez Nuñez</td>
-                <td>Natación</td>
-                <td>Dolphins</td>
-            </tr>
-            <tr>
-                <td>
-                    <button class="btn btn-primary" title="Editar" onclick="activaedicion('listadosede','edicionsede')"><i class="fa-solid fa-pen"></i></button>
-                    <button class="btn btn-secondary" title="Informacion" onclick="switchadicion('servdepdetalle')"><i class="fa-solid fa-circle-info"></i></button>
-                </td>
-                <td>
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
-                    </div>
-                </td>
-                <td>5567894</td>
-                <td>Manuel Elkin Patarroyo</td>
-                <td>Volleyball</td>
-                <td>Sand Champions</td>
-            </tr>
-            <tr>
-                <td>
-                    <button class="btn btn-primary" title="Editar" onclick="activaedicion('listadosede','edicionsede')"><i class="fa-solid fa-pen"></i></button>
-                    <button class="btn btn-secondary" title="Informacion" onclick="switchadicion('servdepdetalle')"><i class="fa-solid fa-circle-info"></i></button>
-                </td>
-                <td>
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
-                    </div>
-                </td>
-                <td>43532088</td>
-                <td>Jorge Luiz Sandoval</td>
-                <td>Fútbol</td>
-                <td>Leones Sub-17</td>
-            </tr>
-        </tbody>
-    </table>
-    <div class="addbtn">
-    <button class="btn btn-success col-4" onclick="switchadicion('servdepadicion')">Nuevo deportista <i class="fa-solid fa-circle-plus"></i></button>
-    </div>
 
-    <div class="adicion adicion_off" id="servdepadicion">
-        <div class="adicion_title">
-            <h1>Nuevo deportista</h1>
-        </div><br>
-        <div class="adicion_content" id="addsed">
+                    <label for="Nombre" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" name="Nombre" value=" {{ old('Nombre') }} ">
+                    @error('Nombre')
+                        <div>
+                            @foreach ($errors->get('Nombre') as $item)
+                                <small> {{ $item }} </small>
+                            @endforeach
+                        </div>
+                    @enderror
 
-            <div class="mb-3 col-7">
-                <label for="exampleInputEmail1" class="form-label">Documento</label>
-                <input type="number" class="form-control" aria-describedby="emailHelp">
-            </div>
+                    <label for="FechaNacimiento" class="form-label">FechaNacimiento</label>
+                    <input type="date" class="form-control" name="FechaNacimiento" value=" {{ old('FechaNacimiento') }} ">
+                    @error('FechaNacimiento')
+                        <div>
+                            @foreach ($errors->get('FechaNacimiento') as $item)
+                                <small> {{ $item }} </small>
+                            @endforeach
+                        </div>
+                    @enderror
 
-            <div class="mb-3 col-7">
-                <label for="exampleInputEmail1" class="form-label">Nombre deportista</label>
-                <input type="text" class="form-control" aria-describedby="emailHelp">
-            </div>
+                    <label for="Direccion" class="form-label">Direccion</label>
+                    <input type="text" class="form-control" name="Direccion" value=" {{ old('Direccion') }} ">
+                    @error('Direccion')
+                        <div>
+                            @foreach ($errors->get('Direccion') as $item)
+                                <small> {{ $item }} </small>
+                            @endforeach
+                        </div>
+                    @enderror
 
-            <div class="mb-3 col-7">
-                <label for="exampleInputEmail1" class="form-label">Celular</label>
-                <input type="number" class="form-control" aria-describedby="emailHelp">
-            </div>
+                    <label for="Celular" class="form-label">Celular</label>
+                    <input type="text" class="form-control" name="Celular" value=" {{ old('Celular') }} ">
+                    @error('Celular')
+                        <div>
+                            @foreach ($errors->get('Celular') as $item)
+                                <small> {{ $item }} </small>
+                            @endforeach
+                        </div>
+                    @enderror
 
-            <div class="mb-3 col-7">
-                <label for="exampleInputEmail1" class="form-label">Dirección</label>
-                <input type="text" class="form-control" aria-describedby="emailHelp">
-            </div>
+                    <label for="Correo" class="form-label">Correo</label>
+                    <input type="text" class="form-control" name="Correo" value=" {{ old('Correo') }} ">
+                    @error('Correo')
+                        <div>
+                            @foreach ($errors->get('Correo') as $item)
+                                <small> {{ $item }} </small>
+                            @endforeach
+                        </div>
+                    @enderror
 
-            <div class="mb-3 col-7">
-                <label for="exampleInputEmail1" class="form-label">Fecha nacimiento</label>
-                <input type="date" class="form-control" aria-describedby="emailHelp">
-            </div>
+                    <label for="UltimoPago" class="form-label">UltimoPago</label>
+                    <input type="date" class="form-control" name="UltimoPago" value=" {{ old('UltimoPago') }} ">
+                    @error('UltimoPago')
+                        <div>
+                            @foreach ($errors->get('UltimoPago') as $item)
+                                <small> {{ $item }} </small>
+                            @endforeach
+                        </div>
+                    @enderror
+                    <br>
+                    <button type="submit" class="btn btn-primary btn-success">Guardar</i></button>
+                    <button type="button" class="btn btn-primary btn-danger"
+                        onclick="switchadicion2('deportistaadicion')">Cancelar</i></button>
 
-            <div class="mb-3 col-7">
-                <label for="exampleInputEmail1" class="form-label">Nombre deporte</label>
-                <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-                    <option selected>--</option>
-                    <option value="1">Fútbol</option>
-                    <option value="2">Basketball</option>
-                    <option value="3">Volleyball</option>
-                    <option value="4">Natación</option>
-                </select>
-            </div>
-
-            <div class="mb-3 col-7">
-                <label for="exampleInputEmail1" class="form-label">Nombre categoría</label>
-                <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-                    <option selected>--</option>
-                    <option value="1">infantil</option>
-                    <option value="2">juvenil</option>
-                    <option value="3">Entendido</option>
-                    <option value="4">Profesional</option>
-                </select>
-            </div>
-
-            <div class="mb-3 col-7">
-                <label for="exampleInputEmail1" class="form-label">Nombre servicio deportivo</label>
-                <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-                    <option selected>--</option>
-                    <option value="1">Leones Sub-17</option>
-                    <option value="2">Leones Sub-18</option>
-                    <option value="3">Aguilas Sub-15</option>
-                    <option value="4">Aguilas Sub-18</option>
-                </select>
-            </div>
-
-            <div class="mb-3 col-7">
-                <label for="exampleInputEmail1" class="form-label">Documento acudiente</label>
-                <input type="number" class="form-control" aria-describedby="emailHelp">
-            </div>
-
-            <div class="mb-3 col-7">
-                <label for="exampleInputEmail1" class="form-label">Nombre acudiente</label>
-                <input type="text" class="form-control" aria-describedby="emailHelp">
-            </div>
-
-            <div class="mb-3 col-7">
-                <label for="exampleInputEmail1" class="form-label">Celular acudiente</label>
-                <input type="number" class="form-control" aria-describedby="emailHelp">
-            </div>
-
-            <div class="mb-3 col-7">
-                <label for="exampleInputEmail1" class="form-label">Estado de pago</label>
-                <div class="col-12" id="estadopago">
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                        <label class="form-check-label" for="flexRadioDefault1">
-                            En mora
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                        <label class="form-check-label" for="flexRadioDefault1">
-                            Paz y salvo
-                        </label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mb-3 col-7">
-                <button type="button" class="btn btn-primary btn-success" onclick="swal_savecreation(), switchadicion('servdepadicion')">Guardar</i></button>
-                <button type="button" class="btn btn-primary btn-danger" onclick="switchadicion('servdepadicion')">Cancelar</i></button>
+                </form>
             </div>
         </div>
+
+        @if ($errors->any())
+            <script>
+                setTimeout(() => {
+                    switchadicion2('deportistaadicion');
+                }, 500);
+            </script>
+        @endif
+
     </div>
-
-    <div class="adicion adicion_off" id="servdepdetalle">
-        <div class="adicion_title">
-            <h1>Detalles deportista</h1>
-        </div><br>
-        <div class="adicion_content" id="addsed">
-
-            <div class="mb-3 col-7">
-                <label for="exampleInputEmail1" class="form-label">Nombre deportista</label>
-                Julián Álvarez Nuñez
-            </div>
-
-            <div class="mb-3 col-7">
-                <label for="exampleInputEmail1" class="form-label">Celular</label>
-                3213776566
-            </div>
-
-            <div class="mb-3 col-7">
-                <label for="exampleInputEmail1" class="form-label">Dirección</label>
-                Calle 56 #35 - 05
-            </div>
-
-            <div class="mb-3 col-7">
-                <label for="exampleInputEmail1" class="form-label">Fecha nacimiento</label>
-                2002-11-18
-            </div>
-
-            <div class="mb-3 col-7">
-                <label for="exampleInputEmail1" class="form-label">Nombre deporte</label>
-                Fútbol
-            </div>
-
-            <div class="mb-3 col-7">
-                <label for="exampleInputEmail1" class="form-label">Nombre categoría</label>
-                Profesional
-            </div>
-
-            <div class="mb-3 col-7">
-                <label for="exampleInputEmail1" class="form-label">Nombre servicio deportivo</label>
-                Águilas
-            </div>
-
-            <div class="mb-3 col-7">
-                <label for="exampleInputEmail1" class="form-label">Documento acudiente</label>
-                8443200
-            </div>
-
-            <div class="mb-3 col-7">
-                <label for="exampleInputEmail1" class="form-label">Nombre acudiente</label>
-                Juan Andrés López
-            </div>
-
-            <div class="mb-3 col-7">
-                <label for="exampleInputEmail1" class="form-label">Celular acudiente</label>
-                3213445577
-            </div>
-
-            <div class="mb-3 col-7">
-                <label for="exampleInputEmail1" class="form-label">Estado de pago</label>
-                <div class="col-12" id="estadopago">
-                    <div class="form-check">
-                        <input checked class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                        <label class="form-check-label" for="flexRadioDefault1">
-                            En mora
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input disabled class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                        <label class="form-check-label" for="flexRadioDefault1">
-                            Paz y salvo
-                        </label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mb-3 col-7">
-                <button type="button" class="btn btn-primary btn-danger" onclick="switchadicion('servdepdetalle')">Cerrar</i></button>
-            </div>
-
-        </div>
-    </div>
-
-</div>
-
-<div class="service_edit" id="edicionsede">
-    <br>
-    <div class="btnCerrar">
-        <button type="button" class="btn btn-primary btn-danger" onclick="quitaedicion('listadosede','edicionsede')"><i class="fa-solid fa-circle-xmark"></i></button>
-    </div>
-
-    <h2>Editar deportista</h2>
-
-    <div class="mb-3 ">
-        <label for="exampleInputEmail1" class="form-label">Nombre deportista</label>
-        <input type="text" class="form-control" aria-describedby="emailHelp">
-    </div>
-
-    <div class="mb-3 ">
-        <label for="exampleInputEmail1" class="form-label">Celular</label>
-        <input type="number" class="form-control" aria-describedby="emailHelp">
-    </div>
-
-    <div class="mb-3 ">
-        <label for="exampleInputEmail1" class="form-label">Dirección</label>
-        <input type="text" class="form-control" aria-describedby="emailHelp">
-    </div>
-
-    <div class="mb-3 ">
-        <label for="exampleInputEmail1" class="form-label">Fecha nacimiento</label>
-        <input type="date" class="form-control" aria-describedby="emailHelp">
-    </div>
-
-    <div class="mb-3 ">
-        <label for="exampleInputEmail1" class="form-label">Nombre deporte</label>
-        <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-            <option selected>--</option>
-            <option value="1">Fútbol</option>
-            <option value="2">Basketball</option>
-            <option value="3">Volleyball</option>
-            <option value="4">Natación</option>
-        </select>
-    </div>
-
-    <div class="mb-3 ">
-        <label for="exampleInputEmail1" class="form-label">Nombre categoría</label>
-        <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-            <option selected>--</option>
-            <option value="1">infantil</option>
-            <option value="2">juvenil</option>
-            <option value="3">Entendido</option>
-            <option value="4">Profesional</option>
-        </select>
-    </div>
-
-    <div class="mb-3 ">
-        <label for="exampleInputEmail1" class="form-label">Nombre servicio deportivo</label>
-        <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-            <option selected>--</option>
-            <option value="1">Leones Sub-17</option>
-            <option value="2">Leones Sub-18</option>
-            <option value="3">Aguilas Sub-15</option>
-            <option value="4">Aguilas Sub-18</option>
-        </select>
-    </div>
-
-    <div class="mb-3 ">
-        <label for="exampleInputEmail1" class="form-label">Documento acudiente</label>
-        <input type="number" class="form-control" aria-describedby="emailHelp">
-    </div>
-
-    <div class="mb-3 ">
-        <label for="exampleInputEmail1" class="form-label">Nombre acudiente</label>
-        <input type="text" class="form-control" aria-describedby="emailHelp">
-    </div>
-
-    <div class="mb-3 ">
-        <label for="exampleInputEmail1" class="form-label">Celular acudiente</label>
-        <input type="number" class="form-control" aria-describedby="emailHelp">
-    </div>
-
-    <div class="mb-3 ">
-        <label for="exampleInputEmail1" class="form-label">Estado de pago</label>
-        <div class="col-12" id="estadopago">
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                <label class="form-check-label" for="flexRadioDefault1">
-                    En mora
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                <label class="form-check-label" for="flexRadioDefault1">
-                    Paz y salvo
-                </label>
-            </div>
-        </div>
-    </div>
-
-    <div class="mb-3">
-        <button type="button" class="btn btn-primary btn-success" onclick="swal_saveedition(), quitaedicion('listadosede','edicionsede')">Guardar</i></button>
-    </div>
-    <br>
-</div>
 @endsection
 
 

@@ -68,13 +68,15 @@
                                     COMPRAS
                                 </button>
                                 <div class="main-sidevar-item-links-off" id="compras">
-                                    <button type="submit" class="btn col-12 btn-outline-light" id="seg_compras_prov"
-                                        value="4">Proveedores</button>
+                                    <a href={{ url('proveedor/listar') }}><button class="btn col-12 btn-outline-light"
+                                        id="seg_servdep_compras" >Gestión de
+                                    proveedores</button></a>
                                         <a href={{ url('compras/listar') }}><button class="btn col-12 btn-outline-light"
                                             id="seg_servdep_compras" >Gestión de
                                         compras</button></a>
-                                    <button type="submit" class="btn col-12 btn-outline-light" value="6">Gestión de
-                                        productos</button>
+                                        <a href={{ url('producto/listar') }}><button class="btn col-12 btn-outline-light"
+                                            id="seg_servdep_compras" >Gestión de
+                                        productos</button></a>
                                 </div>
                             </div>
 
@@ -150,7 +152,8 @@
                     </div>
 
                     <div>
-                        <button type="submit" class="btn btn-dark" value="14">Ayuda</button>
+                        <a href={{ url('ayudas/listar') }}><button  class="btn btn-dark"
+                            id="seg_dashboard" value="13">Ayuda</i></button></a>
                     </div>
 
                 </div>
