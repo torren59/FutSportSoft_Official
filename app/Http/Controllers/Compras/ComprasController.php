@@ -176,6 +176,11 @@ class ComprasController extends Controller
         ->where('NumeroFactura','=',$NumeroFactura)
         ->get();
 
+        //Zona de pruebas
+        // if(count($Compra) < 1){
+        //     array_push($Compra, ['Mensaje' => 'No rescató los datos']);
+        // }
+
         $Articulos = articulo_comprado::select(['productos.NombreProducto','productos.Talla','articulos_comprados.Cantidad','PrecioCompra'])
         ->join('productos','productos.ProductoId','=','articulos_comprados.ProductoId')
         ->where('NumeroFactura','=',$NumeroFactura)

@@ -1,5 +1,4 @@
 
-
 $('.productcheck').on('change', listar);
 $('.deporte_select').on('change', push_categorias);
 $('.categoria_select').on('change', push_grupos);
@@ -151,6 +150,7 @@ function detalleCompras(NumeroFactura, IdModal, IdDiv) {
 
             // Inyección de info en el documento y llamado al modal
             $('#'+IdDiv).html(Contenido);
+            switchadicion2(IdModal);
             console.log(Compra['NombreEmpresa']);
         },
 
@@ -159,6 +159,21 @@ function detalleCompras(NumeroFactura, IdModal, IdDiv) {
         }
 
     });
+}
+
+function switchadicion2(idadicionobj){
+    let adicion = document.getElementById(idadicionobj);
+    estado=adicion.classList.contains('adicion_off');
+
+    if(estado==true){
+        adicion.classList.remove('adicion_off');
+        adicion.classList.add('floatmodal');
+    }
+    else{
+        adicion.classList.add('adicion_off');
+        adicion.classList.remove('floatmodal');
+    }
+
 }
 
 

@@ -78,12 +78,16 @@
 
     {{-- Detalles --}}
 
-    <div id="detallecompra" class="floatmodal" style="width:600px;height:400px">
+    <div id="detallecompra" class="adicion_off" style="width:600px;height:400px">
         <div class="floatcontent">
+            
             <h1 style="padding-top:5%;">Detalles de la Compra</h1>
             <div id="jsPrint">
                 {{-- Aquí se imprime el contenido de detalles enviado desde JS --}}
             </div>
+            <button type="button" class="btn btn-primary btn-danger"
+                        onclick="switchadicion2('detallecompra')">Cerrar</i></button>
+                    
         </div>
     </div>
 @endsection

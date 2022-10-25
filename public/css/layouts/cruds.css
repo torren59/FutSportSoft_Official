@@ -24,10 +24,11 @@
 
 .floatcontent{
     grid-column: 2/3;
+    position: relative;
     text-align: center;
     align-items: center;
     /*align-content: center; */
-    /* border: 2px solid salmon; */
+    border: 2px solid salmon;
 }
 
 .error_subtitle{
@@ -199,6 +200,5 @@ font-family: 'Source Sans Pro', sans-serif;
     justify-content: center;
     margin-right: 10px;
   }
-
 
 
