@@ -27,19 +27,18 @@ class ProveedoresController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         $validator = Validator::make($request->all(), 
-        ['NombreEmpresa'=>'min:1|unique:proveedores,NombreEmpresa|max:100','Titular'=>'min:1|max:100','NumeroContacto'=>'min:1|max:15','Correo'=>'min:1|max:70','Direccion'=>'min:1|unique:proveedores,Direccion|max:100'],
+        ['Nit'=>'min:1|unique:proveedores,Nit|max:11','NombreEmpresa'=>'min:1|unique:proveedores,NombreEmpresa|max:100','Titular'=>'min:1|max:100','NumeroContacto'=>'min:1|max:15','Correo'=>'min:1|max:70','Direccion'=>'min:1|unique:proveedores,Direccion|max:100'],
         ['unique'=>'Este campo no acepta información que ya se ha registrado','min'=>'No puedes enviar este campo vacío','max'=>'Máximo de :max dígitos']);
         // ,'Municipio'=>70,'Barrio'=>70,'Direccion'=>100
         if($validator->fails()){
             return back()->withErrors($validator)->withInput();
         }
         $Proveedor = new Proveedor();
-        $Id = $Proveedor::creadorPK($Proveedor,100);
-        $Proveedor->Nit = $Id;
-        $Campos = ['NombreEmpresa','Titular','NumeroContacto','Correo','Direccion'];
+        $Proveedor->Nit;
+        $Campos = ['Nit','NombreEmpresa','Titular','NumeroContacto','Correo','Direccion'];
         foreach($Campos as $item){
             $Proveedor->$item = $request->$item;
         }
@@ -105,7 +104,7 @@ class ProveedoresController extends Controller
             $Proveedor->$item = $request->$item;
         }
         $Proveedor->save();
-        return redirect('Proveedores/listar');
+        return redirect('proveedor/listar');
     }
 
     /**

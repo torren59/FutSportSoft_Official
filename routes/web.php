@@ -117,10 +117,10 @@ Route::controller(ProgramacionesController::class)->group(
 Route::controller(VentasController::class)->group(
     function(){
         Route::get('venta/listar', 'index');
-        Route::get('venta/crear', 'create');
+        Route::post('venta/crear', 'create');
         Route::post('venta/listaseleccionados','listselected');
-        Route::get('proveedor/editar/{id}', 'edit');
-        Route::post('proveedor/actualizar/{id}','update');
+        Route::get('venta/editar/{id}', 'edit');
+        Route::post('venta/actualizar/{id}','update');
     }
 );
 

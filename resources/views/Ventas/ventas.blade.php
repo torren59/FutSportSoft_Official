@@ -95,7 +95,7 @@
                     <div class="row">
                         <div class="col-6">
                             <label for="FechaVenta" class="form-label">FechaVenta</label>
-                            <input type="text" class="form-control" name="FechaVenta" value=" {{ old('FechaVenta') }} ">
+                            <input type="date" class="form-control" name="FechaVenta" value=" {{ old('FechaVenta') }} ">
                             @error('FechaVenta')
                                 <div>
                                     @foreach ($errors->get('FechaVenta') as $item)
@@ -105,11 +105,11 @@
                             @enderror
                         </div>
                         <div class="col-6">
-                            <label for="FechaValor" class="form-label">FechaValor</label>
-                            <input type="text" class="form-control" name="FechaValor" value=" {{ old('FechaValor') }} ">
-                            @error('FechaValor')
+                            <label for="ValorVenta" class="form-label">ValorVenta</label>
+                            <input type="text" class="form-control" name="ValorVenta" value=" {{ old('ValorVenta') }} ">
+                            @error('ValorVenta')
                                 <div>
-                                    @foreach ($errors->get('FechaValor') as $item)
+                                    @foreach ($errors->get('ValorVenta') as $item)
                                         <small> {{ $item }} </small>
                                     @endforeach
                                 </div>

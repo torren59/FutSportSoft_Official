@@ -43,7 +43,7 @@
                     <tr>
                         <td><a href="{{ url('deportista/editar/'.$item->Documento) }}"><button class="btn btn-primary"><i class="fa-solid fa-pen"></i></button></a></td>
                         <td>{{ $item->Documento }}</td>
-                        <td>{{ $item->NombreAcudiente }}</td>
+                        <td>{{ $item->DocumentoAcudiente }}</td>
                         <td>{{ $item->TipoDocumento }}</td>
                         <td>{{ $item->Nombre }}</td>
                         <td>{{ $item->FechaNacimiento }}</td>
@@ -58,14 +58,11 @@
                                     $checkstate = 'checked';
                                 }
                             @endphp
+                                                        <div class="form-check form-switch">
+                                                            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked"
+                                                                checked>
+                                                        </div>
                         <td>{{ $item->UltimoPago }}</td>
-                        <td>
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked"
-                                    checked>
-                            </div>
-                        </td>
-
                     </tr>
                 @endforeach
 
