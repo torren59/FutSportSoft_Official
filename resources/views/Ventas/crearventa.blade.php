@@ -36,7 +36,7 @@
                     <div class="grid_span_1">
                         <input type="number" name="totalproduct" id="total_venta_article" hidden value="0">
 
-                        <table id="tabla">
+                        <table id="tabl">
                             <thead>
                                 <tr>
                                     <td>Producto</td>
@@ -80,6 +80,30 @@
         </div>
 
     </form>
+
+    {{-- Tabla experimental, No usar --}}
+    <table id="tabla">
+        <thead>
+            <tr>
+                <td>Producto</td>
+                <td>Cantidad</td>
+                <td>Valor Unitario</td>
+                <td>Disponibles</td>
+            </tr>
+        </thead>
+        <tbody>
+            
+                <tr class="tr_backgrouned">
+                   
+                    <td>Producto Uno</td>
+                    <td>10</td>
+                    <td>8500</td>
+                    <td>Si</td>
+                
+                </tr>
+            
+        </tbody>
+    </table>
 
     @if ($errors->any())
         <h1>Es necesario que cantidades y valores unitarios de los productos seleccionados tengan valores mínimos de 1 y 0 

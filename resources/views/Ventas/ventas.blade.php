@@ -22,6 +22,15 @@
                 <h1>VENTAS</h1>
             </div>
         </center>
+        <br>
+
+        <a href=" {{ url('venta/crear') }} ">
+            <div class="addbtn">
+                <button class="btn btn-outline-secondary col-2">Nueva Venta <i
+                        class="fa-solid fa-circle-plus"></i></button>
+            </div>
+        </a>
+
         <table id="tabla">
             <thead>
                 <tr>
@@ -62,24 +71,7 @@
 
 
 
-        <a href=" {{ url('venta/crear') }} ">
-            <div class="addbtn">
-                <button class="btn btn-success col-3" onclick="switchadicion2('sedeadicion')">Nueva Venta <i
-                        class="fa-solid fa-circle-plus"></i></button>
-            </div>
-        </a>
-
-
-         {{-- Formulario Temporal, no utilizar 
-
-        <div>
-            <div class="form-check">
-                <input class="form-check-input watchcheck" type="checkbox" value="1" id="flexCheckDefault">
-                <label class="form-check-label" for="flexCheckDefault">
-                    Selecciona
-                </label>
-            </div>
-        </div> --}}
+        
 
     </div>
 @endsection
