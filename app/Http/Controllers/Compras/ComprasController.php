@@ -58,6 +58,7 @@ class ComprasController extends Controller
         $Campos = ['NumeroFactura','Nit','FechaCompra','FechaCompra','ValorCompra','SubTotal','Iva','Descuento'];
         foreach($Campos as $item){
             $Compras->$item = $request->$item;
+
         }
 
         $Compras->save();
@@ -179,7 +180,7 @@ class ComprasController extends Controller
         $Articulos = articulo_comprado::select(['productos.NombreProducto','productos.Talla','articulos_comprados.Cantidad','PrecioCompra'])
         ->join('productos','productos.ProductoId','=','articulos_comprados.ProductoId')
         ->where('NumeroFactura','=',$NumeroFactura)
-        ->get(); 
+        ->get();
 
         array_push($compraArticulos,$Compra,$Articulos);
 

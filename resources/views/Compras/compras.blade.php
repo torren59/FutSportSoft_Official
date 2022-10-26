@@ -23,11 +23,12 @@
             </div>
         </center>
         <br>
-        <a href="{{ url('compras/crear/') }}">
-            <div class="addbtn">
-                <button class="btn btn-outline-secondary col-2" onclick="switchadicion2('roladicion')">Crear <i
-                        class="fa-solid fa-circle-plus"></i></button>
-            </div>
+
+
+                <div class="botoncompras"><a href="{{ url('compras/crear/') }}"><button class="btn btn-outline-secondary col-2" onclick="switchadicion2('roladicion')">Crear <i
+                        class="fa-solid fa-circle-plus"></i></button></a></div>
+
+
         </a>
         <table id="tabla">
             <thead>

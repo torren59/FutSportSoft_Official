@@ -53,11 +53,14 @@ class VentasController extends Controller
             $rutaCantidad = strval($item.'_cantidad');
             $rutaValorUnitario = strval($item.'_unitValue');
 
+            // Llena los campos de total, sub total e iva
+
             // Llena el objeto con los datos de un producto adicionado
             $articulos = new articulo_comprado();
             $articulos->ProductoId = $item;
             $articulos->Cantidad = $request->$rutaCantidad;
             $articulos->PrecioCompra = $request->$rutaValorUnitario;
+
 
             // Llena el array de validable con los datos del objeto
             $validable = ['ProductoId'=>$item, 'Cantidad' => $request->$rutaCantidad, 'PrecioCompra' => $request->$rutaValorUnitario];
@@ -68,15 +71,15 @@ class VentasController extends Controller
             if($validator->fails()){
                 return back()
                 ->withErrors($validator)
-                ->withInput(); 
+                ->withInput();
             }
 
             // Guarda Objeto en array si este pasa la validación
             array_push($articulosComprados,$articulos);
         }
 
-        
-        
+
+
         foreach($articulosComprados as $item){
             // Crea registros en la tabla de artículos comprados
             $articulo = new articulo_comprado();
@@ -90,7 +93,7 @@ class VentasController extends Controller
             // Modifica la cantidad en los registros de los productos
             $deporte = Producto::find($item->ProductoId);
             $Cantidad = $deporte->Cantidad + $item->Cantidad;
-            $deporte->Cantidad = $Cantidad; 
+            $deporte->Cantidad = $Cantidad;
             $deporte->save();
         }
 
@@ -102,7 +105,7 @@ class VentasController extends Controller
     {
         $ProductModel = new Producto();
         $Selecteds = json_decode($request->seleccionados);
-        $checkeds = $ProductModel->whereIn('ProductoId', $Selecteds)->select('NombreProducto')->get();
+        $checkeds = $ProductModel->whereIn('ProductoId', $Selecteds)->select('NombreProducto','TipoProducto','Talla','Cantidad')->get();
         return json_encode($checkeds);
     }
 

@@ -30,9 +30,9 @@ function listar(){
             let lista_selects = ""
 
             data.forEach(element => {
-                 lista_selects +='<div class="col-md-12 btn btn-success" style="width:100%;height:80px;margin-bottom:5px;">'+
-                 element.NombreProducto+'</div>';
-                 console.log(element.NombreProducto);
+                 lista_selects +='<div class="col-md-6 btn btn-primary" style="width:100%;height:80px;margin-bottom:5px;">'+
+                 element.NombreProducto+'<br>'+'Tipo '+element.TipoProducto+'  Talla '+element.Talla+'<br>'+'Cantidad '+element.Cantidad+'</div>';
+                 console.log(element.NombreProducto,element.TipoProducto,element.Talla,element.Cantidad);
             });
 
             $('.lista_selects').html(lista_selects);

@@ -37,7 +37,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($listado as $item)
+                @foreach ($listado['ListadoCategoria'] as $item)
                     <tr>
                         <td><a href="{{ url('categoria/editar/' . $item->CategoriaId) }}"><button
                                     class="btn btn-outline-primary"><i class="fa-solid fa-pen"></i></button></a></td>
@@ -88,13 +88,13 @@
                             </div>
                         @enderror
                         <div class="col-6">
-                            <label for="Deporte" class="form-label">Deportes</label>
-                        <select class="form-select" aria-label="Default select example">
-                            <option selected>Seleciona un Deporte</option>
-                            @foreach ($listado as $item)
-                                <option value="	{{ $item->DeporteId }}">{{ $item->NombreDeporte }}</option>
-                            @endforeach
-                        </select>
+                            <label for="deportes" class="form-label">Deportes</label>
+                            <select class="form-select" aria-label="Default select example">
+                                <option selected>Selecione un Deporte</option>
+                                @foreach ($listado['ListadoDeporte'] as $item)
+                                    <option value="{{ $item->IdDeporte}}">{{ $item->NombreDeporte }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="col-6">
                             <label for="RangoEdad" class="form-label">Rango de Edad</label>
