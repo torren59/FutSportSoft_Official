@@ -134,6 +134,7 @@ Route::controller(VentasController::class)->middleware('auth')->group(
         Route::get('venta/crear', 'create');
         Route::post('venta/store', 'store');
         Route::post('venta/listaseleccionados','listselected');
+        Route::get('venta/getArray/{numero?}', 'getArray');
     }
 );
 
