@@ -7,9 +7,7 @@
 @push('styles')
     <link rel="stylesheet" href=" {{ asset('./css/layouts/datatable.css') }} ">
     <link rel="stylesheet" href="{{ asset('./css/layouts/cruds.css') }} ">
-    <link href="https://unpkg.com/vanilla-datatables@latest/dist/vanilla-dataTables.min.css" rel="stylesheet" type="text/css">
-    <script src="https://unpkg.com/vanilla-datatables@latest/dist/vanilla-dataTables.min.js" type="text/javascript">
-    </script>
+
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @endpush
 
@@ -19,14 +17,18 @@
     <div class="service_list">
         <center>
             <div class="tituloTabla">
-                <h1>CATEGORIAS</h1>
+                <h1>Gestión de Categorías</h1>
             </div>
         </center>
+        <div class="addbtn">
+            <button class="btn btn-outline-secondary col-2" onclick="switchadicion2('categoriaadicion')">Crear <i
+                    class="fa-solid fa-circle-plus"></i></button>
+        </div>
         <table id="tabla">
             <thead>
                 <tr>
                     <td>Acción</td>
-                    <td>CategoriaId</td>
+                    <td>Id</td>
                     <td>Categoría</td>
                     <td>Deporte</td>
                     <td>Rango Edad</td>
@@ -37,8 +39,8 @@
             <tbody>
                 @foreach ($listado as $item)
                     <tr>
-                        <td><a href="{{ url('categoria/editar/' . $item->CategoriaId) }}"><button class="btn btn-primary"><i
-                                        class="fa-solid fa-pen"></i></button></a></td>
+                        <td><a href="{{ url('categoria/editar/' . $item->CategoriaId) }}"><button
+                                    class="btn btn-outline-primary"><i class="fa-solid fa-pen"></i></button></a></td>
                         <td>{{ $item->CategoriaId }}</td>
                         <td> {{ $item->NombreCategoria }} </td>
                         <td> {{ $item->NombreDeporte }} </td>
@@ -55,7 +57,7 @@
 
                             <div class="form-check form-switch">
                                 <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked"
-                                    {{ $checkstate }} >
+                                    {{ $checkstate }}>
                             </div>
                         </td>
 
@@ -64,39 +66,38 @@
             </tbody>
         </table>
 
-        <div class="addbtn">
-            <button class="btn btn-success col-3" onclick="switchadicion2('categoriaadicion')">Nueva Categoria <i
-                    class="fa-solid fa-circle-plus"></i></button>
-        </div>
+
 
         {{-- Creacion de categorias --}}
 
         <div id="categoriaadicion" class="adicion_off" style="width:600px;height:400px">
             <div class="floatcontent">
-                <h4 style="padding-top:5%;">Nueva Categoría</h4>
+                <h1 style="padding-top:5%;">Crear Categoría</h1>
                 <hr>
 
                 <form action={{ url('categoria/crear') }} method="post"> @csrf
-
-                    <label for="NombreCategoria" class="form-label">Categoría</label>
-                    <input type="text" class="form-control" name="NombreCategoria" value="{{ old('NombreCategoria') }}">
-                    @error('NombreCategoria')
-                        <div>
-                            @foreach ($errors->get('NombreCategoria') as $item)
-                                <small> {{ $item }} </small>
-                            @endforeach
-                        </div>
-                    @enderror
-
                     <div class="row">
+                        <label for="NombreCategoria" class="form-label">Categoría</label>
+                        <input type="text" class="form-control" name="NombreCategoria"
+                            value="{{ old('NombreCategoria') }}">
+                        @error('NombreCategoria')
+                            <div>
+                                @foreach ($errors->get('NombreCategoria') as $item)
+                                    <small> {{ $item }} </small>
+                                @endforeach
+                            </div>
+                        @enderror
+                        <div class="col-6">
+                            <label for="Deporte" class="form-label">Deportes</label>
                         <select class="form-select" aria-label="Default select example">
                             <option selected>Seleciona un Deporte</option>
                             @foreach ($listado as $item)
-                            <option value="	{{$item->DeporteId}}">{{$item->NombreDeporte}}</option>
+                                <option value="	{{ $item->DeporteId }}">{{ $item->NombreDeporte }}</option>
                             @endforeach
-                          </select>
+                        </select>
+                        </div>
                         <div class="col-6">
-                            <label for="RangoEdad" class="form-label">Rango Edad</label>
+                            <label for="RangoEdad" class="form-label">Rango de Edad</label>
                             <input type="text" class="form-control" name="RangoEdad" value=" {{ old('RangoEdad') }} ">
                             @error('RangoEdad')
                                 <div>
@@ -110,8 +111,8 @@
 
 
                     <br>
-                    <button type="submit" class="btn btn-primary btn-success">Guardar</i></button>
-                    <button type="button" class="btn btn-primary btn-danger"
+                    <button type="submit" class="btn btn-outline-primary">Guardar</i></button>
+                    <button type="button" class="btn btn-outline-secondary"
                         onclick="switchadicion2('categoriaadicion')">Cancelar</i></button>
 
                 </form>

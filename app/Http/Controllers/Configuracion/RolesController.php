@@ -30,7 +30,7 @@ class RolesController extends Controller
     {
         $validator = Validator::make(
             $request->all(),
-            ['NombreRol' => 'min:1|unique:roles,NombreRol|max:50'],
+            ['name' => 'min:1|unique:roles,name|max:50'],
             ['unique' => 'Este campo no acepta información que ya se ha registrado', 'min' => 'No puedes enviar este campo vacío', 'max' => 'Máximo de :max dígitos']
         );
 
@@ -41,7 +41,7 @@ class RolesController extends Controller
         $Roles = new Roles();
         $id = $Roles::creadorPK($Roles, 100);
         $Roles->RolId = $id;
-        $Campos = ['NombreRol'];
+        $Campos = ['name'];
         foreach ($Campos as $item) {
             $Roles->$item = $request->$item;
         }
@@ -80,7 +80,7 @@ class RolesController extends Controller
      */
     public function edit($id)
     {
-        $Selected =  Roles::all()->where('RolId', '=', $id);
+        $Selected =  Roles::all()->where('id', '=', $id);
         return view('configuracion.editarroles')->with('roldata', $Selected);
     }
 
@@ -94,7 +94,7 @@ class RolesController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(),
-        ['NombreRol'=>'min:1|max:50'],
+        ['name'=>'min:1|max:50'],
         ['unique'=>'Este campo no acepta información que ya se ha registrado','min'=>'No puedes enviar este campo vacío','max'=>'Máximo de :max dígitos']);
 
         if($validator->fails()){
@@ -102,7 +102,7 @@ class RolesController extends Controller
 
         }
         $Roles = Roles::find($id);
-        $Campos = ['NombreRol'];
+        $Campos = ['name'];
         foreach($Campos as $item){
             $Roles->$item = $request->$item;
         }

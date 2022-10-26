@@ -97,8 +97,8 @@
                                             id="seg_servdep_deportes" >Gestión de
                                             deportes</button></a>
 
-                                    <button class="btn col-12 btn-outline-light" id="seg_servdep_categorias" >Gestión de
-                                        categorías</button>
+                                            <a href={{ url('categoria/listar') }}><button class="btn col-12 btn-outline-light" id="seg_servdep_categorias" >Gestión de
+                                        categorías</button></a>
 
                                     <button class="btn col-12 btn-outline-light" >Gestión de
                                         grupos</button>

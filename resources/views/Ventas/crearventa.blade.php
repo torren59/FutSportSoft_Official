@@ -110,6 +110,8 @@
             respectivamente</h1>
     @endif
 
+    <button class="btn btn-primary" onclick="getArray()" >getArray</button>
+
 @endsection
 
 @push('scripts')
@@ -119,5 +121,6 @@
     </script>
 
     <script src=" {{ asset('./js/layouts/cruds.js') }} "></script>
+    <script src=" {{asset('./js/Ventas/Ventas.js')}} "></script>
     <script src=" {{ asset('./js/layouts/asincronas.js') }} "></script>
 @endpush

@@ -110,5 +110,3 @@ function swal_warning(msg){
         text: msg,
     });
 }
-
-

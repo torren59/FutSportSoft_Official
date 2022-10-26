@@ -24,10 +24,11 @@
 
 .floatcontent{
     grid-column: 2/3;
+    position: relative;
     text-align: center;
     align-items: center;
     /*align-content: center; */
-    /* border: 2px solid salmon; */
+    border: 2px solid salmon;
 }
 
 .error_subtitle{
@@ -200,11 +201,6 @@ font-family: 'Source Sans Pro', sans-serif;
     margin-right: 10px;
   }
 
-
-  .tr_backgrouned{
-    background-color: greenyellow;
-    border: 1px solid greenyellow;
-    border-radius: 8px;
-  }
-
-
+.checked_box{
+    
+}

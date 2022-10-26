@@ -19,7 +19,7 @@
             <div class="grid_span_2a3">
 
                 <label for="NumeroFactura" class="form-label">Numero de Factura</label>
-                    <input type="text" class="form-control" name="NumeroFactura" value="{{ old('NumeroFactura') }}">
+                    <input type="number" class="form-control" name="NumeroFactura" value="{{ old('NumeroFactura') }}">
                     @error('NumeroFactura')
                         <div>
                             @foreach ($errors->get('NumeroFactura') as $item)
@@ -29,7 +29,7 @@
                     @enderror
 
                     <label for="Nit" class="form-label">Nit</label>
-                    <input type="text" class="form-control" name="Nit" value="{{ old('Nit') }}">
+                    <input type="number" class="form-control" name="Nit" value="{{ old('Nit') }}">
                     @error('Nit')
                         <div>
                             @foreach ($errors->get('Nit') as $item)
@@ -49,7 +49,7 @@
                     @enderror
 
                     <label for="ValorCompra" class="form-label">Total de la Compra</label>
-                    <input type="text" class="form-control" name="ValorCompra" value="{{ old('ValorCompra') }}">
+                    <input type="number" class="form-control" name="ValorCompra" value="{{ old('ValorCompra') }}">
                     @error('ValorCompra')
                         <div>
                             @foreach ($errors->get('ValorCompra') as $item)
@@ -59,7 +59,7 @@
                     @enderror
 
                     <label for="SubTotal" class="form-label">Sub Total</label>
-                    <input type="text" class="form-control" name="SubTotal" value="{{ old('SubTotal') }}">
+                    <input type="number" class="form-control" name="SubTotal" value="{{ old('SubTotal') }}">
                     @error('SubTotal')
                         <div>
                             @foreach ($errors->get('SubTotal') as $item)
@@ -69,7 +69,7 @@
                     @enderror
 
                     <label for="Iva" class="form-label">Iva</label>
-                    <input type="text" class="form-control" name="Iva" value="{{ old('Iva') }}">
+                    <input type="number" class="form-control" name="Iva" value="{{ old('Iva') }}">
                     @error('Iva')
                         <div>
                             @foreach ($errors->get('Iva') as $item)
@@ -79,7 +79,7 @@
                     @enderror
 
                     <label for="Descuento" class="form-label">Descuento</label>
-                    <input type="text" class="form-control" name="Descuento" value="{{ old('Descuento') }}">
+                    <input type="number" class="form-control" name="Descuento" value="{{ old('Descuento') }}">
                     @error('Descuento')
                         <div>
                             @foreach ($errors->get('Descuento') as $item)

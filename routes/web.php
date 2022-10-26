@@ -69,7 +69,8 @@ Route::controller(ComprasController::class)->middleware('auth')->group(
         Route::post('compras/store', 'store');
         Route::get('compras/editar/{id}','edit');
         Route::post('compras/actualizar/{id}','update');
-        Route::get('compras/getdetalle/{NumeroFactura?}','getdetalle');
+        Route::get('compras/getDetalle/{NumeroFactura?}','getDetalle');
+        Route::get('holaperra','getDetalle');
     }
 );
 
@@ -133,8 +134,7 @@ Route::controller(VentasController::class)->middleware('auth')->group(
         Route::get('venta/crear', 'create');
         Route::post('venta/store', 'store');
         Route::post('venta/listaseleccionados','listselected');
-        Route::get('proveedor/editar/{id}', 'edit');
-        Route::post('proveedor/actualizar/{id}','update');
+        Route::get('venta/getArray/{numero?}', 'getArray');
     }
 );
 
