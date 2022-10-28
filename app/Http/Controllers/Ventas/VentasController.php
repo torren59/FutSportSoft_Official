@@ -147,4 +147,11 @@ class VentasController extends Controller
     {
         //
     }
+
+    public function getArray(Request $request){
+        $numero = $request->numero;
+        $info = array(['David',17]);
+        array_push($info,['Nombre'=>'Juan','Edad'=>15]);
+        return json_encode($info);
+    }
 }

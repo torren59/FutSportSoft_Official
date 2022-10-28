@@ -36,7 +36,7 @@
                     <div class="grid_span_1">
                         <input type="number" name="totalproduct" id="total_venta_article" hidden value="0">
 
-                        <table id="tabla">
+                        <table id="tabl">
                             <thead>
                                 <tr>
                                     <td>Producto</td>
@@ -86,6 +86,8 @@
             respectivamente</h1>
     @endif
 
+    <button class="btn btn-primary" onclick="getArray()" >getArray</button>
+
 @endsection
 
 @push('scripts')
@@ -95,5 +97,6 @@
     </script>
 
     <script src=" {{ asset('./js/layouts/cruds.js') }} "></script>
+    <script src=" {{asset('./js/Ventas/Ventas.js')}} "></script>
     <script src=" {{ asset('./js/layouts/asincronas.js') }} "></script>
 @endpush
