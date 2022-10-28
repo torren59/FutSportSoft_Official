@@ -6,9 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Models\Compras\articulo_comprado;
 use App\Models\Compras\Compras;
 use App\Models\Compras\Producto;
+use App\Models\Compras\Proveedor;
 use App\Models\Programacion\Deporte;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Laravel\Ui\Presets\React;
 
 class ComprasController extends Controller
 {
@@ -19,8 +21,14 @@ class ComprasController extends Controller
      */
     public function index()
     {
-        $ListadoCompras = Compras::all();
-        return view('Compras.compras')->with('listado', $ListadoCompras);
+
+
+        $ListadoCompras = Compras::select(['proveedores.NombreEmpresa','FechaCompra','ValorCompra','SubTotal','Iva','Descuento'])
+        ->join('proveedores','compras.Nit','=','proveedores.Nit')
+        ->get();
+        $ListadoProveedor = Proveedor::all();
+        $Listados = ['ListadoCompras'=>$ListadoCompras,'ListadoProveedor'=>$ListadoProveedor];
+         return view('Compras.compras')->with('listado', $Listados);
 
     }
 
@@ -29,12 +37,12 @@ class ComprasController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
 
-
+        $Nit = $request->Nit;
         $ProductModel= new Producto();
-        $Productos = $ProductModel->all();
+        $Productos = $ProductModel->select()->where('Nit','=',$Nit)->get();
         return view('Compras.crearcompra')->with('productos',$Productos);
     }
 
@@ -82,6 +90,7 @@ class ComprasController extends Controller
             $articulos->Cantidad = $request->$rutaCantidad;
             $articulos->PrecioCompra = $request->$rutaValorUnitario;
 
+
             // Llena el array de validable con los datos del objeto
             $validable = ['ProductoId'=>$item, 'Cantidad' => $request->$rutaCantidad, 'PrecioCompra' => $request->$rutaValorUnitario];
 
@@ -119,7 +128,13 @@ class ComprasController extends Controller
 
         return redirect('compras/listar');
     }
-
+    public function listselected(Request $request)
+    {
+        $ProductModel = new Producto();
+        $Selecteds = json_decode($request->seleccionados);
+        $checkeds = $ProductModel->whereIn('ProductoId', $Selecteds)->select('ProductoId','NombreProducto','TipoProducto','Talla','Cantidad')->get();
+        return json_encode($checkeds);
+    }
 
 
     /**
@@ -192,4 +207,6 @@ class ComprasController extends Controller
         return $compraArticulos;
 
     }
+
+
 }

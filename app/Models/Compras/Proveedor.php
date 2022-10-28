@@ -17,7 +17,7 @@ class Proveedor extends Model
 
     protected $keyType = 'varchar';
 
-    public $timestamp = false;
+    public $timestamps = false;
 
     protected $fillable = [
         'NombreEmpresa',

@@ -65,12 +65,14 @@ Route::controller(RolesController::class)->middleware('auth')->group(
 Route::controller(ComprasController::class)->middleware('auth')->group(
     function () {
         Route::get('compras/listar', 'index');
-        Route::get('compras/crear', 'create');
+        Route::post('compras/crear', 'create');
         Route::post('compras/store', 'store');
         Route::get('compras/editar/{id}','edit');
         Route::post('compras/actualizar/{id}','update');
         Route::get('compras/getDetalle/{NumeroFactura?}','getDetalle');
-        Route::get('holaperra','getDetalle');
+        Route::post('/compras/listaseleccionados','listselected');
+
+
     }
 );
 

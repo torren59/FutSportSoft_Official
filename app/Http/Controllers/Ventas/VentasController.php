@@ -53,7 +53,7 @@ class VentasController extends Controller
             $rutaCantidad = strval($item.'_cantidad');
             $rutaValorUnitario = strval($item.'_unitValue');
 
-            // Llena los campos de total, sub total e iva
+
 
             // Llena el objeto con los datos de un producto adicionado
             $articulos = new articulo_comprado();
@@ -101,13 +101,7 @@ class VentasController extends Controller
     }
 
 
-    public function listselected(Request $request)
-    {
-        $ProductModel = new Producto();
-        $Selecteds = json_decode($request->seleccionados);
-        $checkeds = $ProductModel->whereIn('ProductoId', $Selecteds)->select('NombreProducto','TipoProducto','Talla','Cantidad')->get();
-        return json_encode($checkeds);
-    }
+
 
     /**
      * Display the specified resource.

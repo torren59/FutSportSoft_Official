@@ -6,9 +6,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href=" {{ asset('./css/layouts/datatable.css') }} ">
     <link rel="stylesheet" href="{{ asset('./css/layouts/cruds.css') }} ">
-    <link href="https://unpkg.com/vanilla-datatables@latest/dist/vanilla-dataTables.min.css" rel="stylesheet" type="text/css">
-    <script src="https://unpkg.com/vanilla-datatables@latest/dist/vanilla-dataTables.min.js" type="text/javascript">
-    </script>
+
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @endpush
 
@@ -56,7 +54,7 @@
                             @enderror
 
                             <label for="ValorCompra" class="form-label">Total de la Compra</label>
-                            <input type="number" class="form-control" name="ValorCompra" value="{{ old('ValorCompra') }}">
+                            <input readonly type="number" class="form-control"  id="PrecioTotal"  name="ValorCompra" value="{{ old('ValorCompra') }}">
                             @error('ValorCompra')
                                 <div>
                                     @foreach ($errors->get('ValorCompra') as $item)
@@ -66,7 +64,7 @@
                             @enderror
 
                             <label for="SubTotal" class="form-label">Sub Total</label>
-                            <input type="number" class="form-control" name="SubTotal" value="{{ old('SubTotal') }}">
+                            <input readonly type="number" class="form-control" id="SubTotal" name="SubTotal" value="{{ old('SubTotal') }}">
                             @error('SubTotal')
                                 <div>
                                     @foreach ($errors->get('SubTotal') as $item)
@@ -76,7 +74,7 @@
                             @enderror
 
                             <label for="Iva" class="form-label">Iva</label>
-                            <input type="number" class="form-control" name="Iva" value="{{ old('Iva') }}">
+                            <input readonly type="number" class="form-control" id="Iva" name="Iva" value="{{ old('Iva') }}">
                             @error('Iva')
                                 <div>
                                     @foreach ($errors->get('Iva') as $item)
@@ -86,7 +84,7 @@
                             @enderror
 
                             <label for="Descuento" class="form-label">Descuento</label>
-                            <input type="number" class="form-control" name="Descuento" value="{{ old('Descuento') }}">
+                            <input type="number" id="Descuento" class="form-control Descuento" name="Descuento" value="{{ old('Descuento') }}">
                             @error('Descuento')
 
                                 @foreach ($errors->get('Descuento') as $item)
@@ -139,8 +137,8 @@
                                                     </div>
                                                 </td>
 
-                                                <td><input type="number" name="{{ $item->ProductoId }}_cantidad"></td>
-                                                <td><input type="number" name=" {{ $item->ProductoId }}_unitValue"></td>
+                                                <td><input type="number" class="Cantidad" id="Cantidad{{$item->ProductoId}}" name="{{ $item->ProductoId }}_cantidad"></td>
+                                                <td><input type="number" Class="ValorUnitario" id="ValorUnitario{{$item->ProductoId}}" name=" {{ $item->ProductoId }}_unitValue"></td>
 
                                             </tr>
                                         @endforeach
