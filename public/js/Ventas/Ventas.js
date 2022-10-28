@@ -1,3 +1,9 @@
+
+
+function openOrderModal(ProductoId){
+    
+}
+
 function getArray() {
 
     $.ajax({
@@ -8,6 +14,9 @@ function getArray() {
 
         success: function (data) {
             numero = Object.entries(data);
+            numero.forEach(element => {
+                
+            });
             console.log(numero);
         },
 

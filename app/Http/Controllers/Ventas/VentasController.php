@@ -30,8 +30,11 @@ class VentasController extends Controller
      */
     public function create(Request $request)
     {
-        $ProductModel= new Producto();
-        $Productos = $ProductModel->all();
+        $Productos = Producto::select(['ProductoId','NombreProducto','TipoProducto','Talla','PrecioVenta','Cantidad','proveedores.NombreEmpresa'])
+        ->join('proveedores','proveedores.Nit','=','productos.Nit')
+        ->get();
+        // ->where('productos.Estado','=',1)
+        
         return view('Ventas.crearventa')->with('productos',$Productos);
     }
 

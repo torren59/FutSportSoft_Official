@@ -13,104 +13,138 @@
 @endpush
 
 @section('content')
-    <form action="/venta/store" method="post">
-        @csrf
-        <div class="grid_triple_center">
-            <div class="grid_span_2a3">
 
-                <label for="NumeroFactura" class="form-label">Numero de Factura</label>
-                            <input type="text" class="form-control" name="NumeroFactura"
-                                value="{{ old('NumeroFactura') }}">
-                                
-                <div class="grid_doble_simetrico">
+    <div class="service_list">
+        <form action="/venta/store" method="post">
+            @csrf
+            <div class="grid_triple_center">
+                <div class="grid_span_2a3">
 
-                    <div class="grid_span_1" id="product_added">
-                        <div>
-                            <h3>PRODUCTOS AGREGADOS</h3>
+                    <div class="grid_doble_superderecha2">
+
+                        <div class="grid_span_1" id="product_added">
+                            <div>
+                                <h3>Nueva Venta</h3>
+                            </div>
+                            <div class="col-12 lista_selects">
+                                {{-- Aqui se inserta con js los productos seleccionados --}}
+                            </div>
                         </div>
-                        <div class="col-12 lista_selects">
-                            {{-- Aqui se inserta con js los productos seleccionados --}}
-                        </div>
-                    </div>
 
-                    <div class="grid_span_1">
-                        <input type="number" name="totalproduct" id="total_venta_article" hidden value="0">
+                        <div class="grid_span_1 pointer_disable">
+                            <h1>Productos</h1>
+                            <div class="Container_Card_Venta">
 
-                        <table id="tabl">
-                            <thead>
-                                <tr>
-                                    <td>Producto</td>
-                                    <td>Cantidad</td>
-                                    <td>Valor Unitario</td>
-                                    <td>Disponibles</td>
-                                </tr>
-                            </thead>
-                            <tbody>
+
 
                                 @foreach ($productos as $item)
-                                    <tr>
-                                        <td>
-                                            <div class="lista_productos">
-                                                <input type="checkbox" class="form-check-input productcheck"
-                                                    id="{{ $item->ProductoId }}" name="productos[]"
-                                                    value="{{ $item->ProductoId }}">
-                                                <label class="form-check-label"
-                                                    for="{{ $item->ProductoId }}">{{ $item->NombreProducto }}
-                                                </label>
+                                    <div class="Manual_Card" id="Card_{{ $item->ProductoId }}">
+
+                                        <div class="Card_Data">
+                                            <input type="hidden" id="ProductoId" readonly
+                                                value=" {{ $item->ProductoId }} ">
+                                            <label class="label-control One_In_Flex" style="border: 1px solid green;">
+                                                Proveedor: {{ $item->NombreEmpresa }}
+                                            </label>
+                                            <label class="label-control One_In_Flex" style="border: 1px solid green;">
+                                                Producto: {{ $item->NombreProducto }}
+                                            </label>
+                                            <label class="label-control One_In_Flex" style="border: 1px solid green;">
+                                                Tipo: {{ $item->TipoProducto }}
+                                            </label>
+                                            <label class="label-control One_In_Flex" style="border: 1px solid green;">
+                                                Talla: {{ $item->Talla }}
+                                            </label>
+                                            <label class="label-control One_In_Flex" style="border: 1px solid green;">
+                                                Existencias: {{ $item->Cantidad }}
+                                            </label>
+                                            <label class="label-control One_In_Flex" style="border: 1px solid green;">
+                                                Existencias: {{ $item->Cantidad }}
+                                            </label>
+                                            <label class="label-control One_In_Flex" style="border: 1px solid green;">
+                                                Precio: {{ $item->PrecioVenta }}
+                                            </label>
+                                        </div>
+
+                                        <div class="Card_Options_disable">
+                                            <div class="Card_Total_Orders">
+                                                Total Ordenados
                                             </div>
-                                        </td>
 
-                                        <td><input type="number" name="{{ $item->ProductoId }}_cantidad"></td>
-                                        <td><input type="number" name=" {{ $item->ProductoId }}_unitValue"></td>
+                                            <div class="Card_Edit_Option">
 
-                                        <td>{{ $item->Cantidad }}</td>
-                                    </tr>
+                                                <button class="btn btn-outline-primary">Editar</button>
+                                            </div>
+
+                                            <div class="Card_Quit_Option">
+
+                                                <button class="btn btn-outline-danger">Quitar</button>
+                                            </div>
+                                        </div>
+
+                                    </div>
                                 @endforeach
 
-                            </tbody>
-                        </table>
+                                @for ($i = 0; $i < 40; $i++)
+                                    <div class="Manual_Card">
+
+                                        <div class="Card_Data">
+                                            <h6>Hola</h6>
+                                        </div>
+
+                                        <div class="Card_Options">
+                                            <div class="Card_Total_Orders">
+                                                Total Ordenados
+                                            </div>
+
+                                            <div class="Card_Edit_Option">
+
+                                                <button class="btn btn-outline-primary">Editar</button>
+                                            </div>
+
+                                            <div class="Card_Quit_Option">
+
+                                                <button class="btn btn-outline-danger">Quitar</button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                @endfor
+
+                            </div>
+                        </div>
 
                     </div>
+
+                    <br>
+                    <button type="submit">Enviar</button>
+
                 </div>
+            </div>
 
-                <br>
-                <button type="submit">Enviar</button>
 
+
+        </form>
+
+
+        @if ($errors->any())
+            <h1>Es necesario que cantidades y valores unitarios de los productos seleccionados tengan valores mínimos de 1 y
+                0
+                respectivamente</h1>
+        @endif
+
+        <button class="btn btn-primary" onclick="getArray()">getArray</button>
+
+        {{-- Modal de total productos a ordenar --}}
+        <div id="OrderProduct" class="adicion_off" style="width: 500px;height:250px;">
+            <div class="floatcontent">
+                <h4 style="padding-top:5%;">Total a ordenar</h4>
+                aaa
             </div>
         </div>
 
-    </form>
+    </div>
 
-    {{-- Tabla experimental, No usar --}}
-    <table id="tabla">
-        <thead>
-            <tr>
-                <td>Producto</td>
-                <td>Cantidad</td>
-                <td>Valor Unitario</td>
-                <td>Disponibles</td>
-            </tr>
-        </thead>
-        <tbody>
-            
-                <tr class="tr_backgrouned">
-                   
-                    <td>Producto Uno</td>
-                    <td>10</td>
-                    <td>8500</td>
-                    <td>Si</td>
-                
-                </tr>
-            
-        </tbody>
-    </table>
-
-    @if ($errors->any())
-        <h1>Es necesario que cantidades y valores unitarios de los productos seleccionados tengan valores mínimos de 1 y 0 
-            respectivamente</h1>
-    @endif
-
-    <button class="btn btn-primary" onclick="getArray()" >getArray</button>
 
 @endsection
 
@@ -121,6 +155,6 @@
     </script>
 
     <script src=" {{ asset('./js/layouts/cruds.js') }} "></script>
-    <script src=" {{asset('./js/Ventas/Ventas.js')}} "></script>
+    <script src=" {{ asset('./js/Ventas/Ventas.js') }} "></script>
     <script src=" {{ asset('./js/layouts/asincronas.js') }} "></script>
 @endpush
