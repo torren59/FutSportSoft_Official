@@ -186,9 +186,9 @@ class VentasController extends Controller
     {
         $PrecioVenta = 0;
         $Consulta = Producto::select(['PrecioVenta'])
-        ->where('ProductoId', '=', $ProductoId)->get();
+            ->where('ProductoId', '=', $ProductoId)->get();
 
-        foreach($Consulta as $item){
+        foreach ($Consulta as $item) {
             $PrecioVenta = $item->PrecioVenta;
         }
 
@@ -222,12 +222,12 @@ class VentasController extends Controller
         // Determinar total y subtotal para el producto
         $PrecioTotalProducto = $this->getTotalProducto($ProductoId, $Orden);
         $SubTotalProducto = $this->getSubTotalProducto($PrecioTotalProducto);
-
+        $request->session()->pull('VentaSession');
         try {
-            if (session()->exists('VentaSession')) {
+            if ($request->session()->exists('VentaSession')) {
                 // Rescatando datos de la sesión
-                $VentaSession = session()->pull('VentaSession');
-                $Articulos = $VentaSession['Articulos'];
+                $VentaSession = $request->session()->pull('VentaSession');
+                /*$Articulos = $VentaSession['Articulos'];
                 $VentaData = $VentaSession['VentaData'];
 
                 // Rescatando total y subtotal general
@@ -242,33 +242,35 @@ class VentasController extends Controller
                 $VentaData = array_replace($VentaData, ['Total' => $Total, 'SubTotal' => $SubTotal]);
                 array_push($Articulos, [$ProductoId => ['Orden' => $Orden, 'Total' => $PrecioTotalProducto, 'SubTotal' => $SubTotalProducto]]);
 
-                // Reemplazando VentaData y Articulos
-                $VentaSession = array_replace($VentaSession, ['Articulos' => $Articulos, 'VentaData' => $VentaData]);
-                session(['VentaSession' => $VentaSession]);
+                // Reemplazando VentaData y Articulos*/
+                $VentaSession = array_replace($VentaSession, ['Articulos' => 'OldVenta', 'VentaData' => $VentaData]);
+                session(['VentaSession' => $VentaSession]); 
 
-                return $VentaSession;
+                return session()->all();
             }
         } catch (\Throwable $th) {
             return $th;
         }
 
         try {
-            // Adición del primer producto
-            $Total += intval($PrecioTotalProducto);
-            $SubTotal += intval($SubTotalProducto);
+            if (session()->missing('VentaSession')) {
 
-            // Guardando total y subtotal general & Agregando producto
-            array_push($VentaData, ['Total' => $Total, 'SubTotal' => $SubTotal]);
-            array_push($Articulos, [$ProductoId => ['Orden' => $Orden, 'Total' => $PrecioTotalProducto, 'SubTotal' => $SubTotalProducto]]);
+                // Adición del primer producto
+                $Total += intval($PrecioTotalProducto);
+                $SubTotal += intval($SubTotalProducto);
 
-            // Guardando VentaData y Articulos
-            array_push($VentaSession, ['Articulos' => $Articulos, 'VentaData' => $VentaData]);
-            session(['VentaSession' => $VentaSession]);
+                // Guardando total y subtotal general & Agregando producto
+                array_push($VentaData, ['Total' => $Total, 'SubTotal' => $SubTotal]);
+                array_push($Articulos, [$ProductoId => ['Orden' => $Orden, 'Total' => $PrecioTotalProducto, 'SubTotal' => $SubTotalProducto]]);
 
+                // Guardando VentaData y Articulos
+                array_push($VentaSession, ['Articulos' => 'NewVenta', 'VentaData' => $VentaData]);
+                session(['VentaSession' => $VentaSession]);
+            }
             return session()->all();
         } catch (\Throwable $th) {
             return $th;
-        } 
+        }
 
         // $Articulos = ['100' => 'Zapatos', '101' => 'Medias', '102' => 'Camiseta'];
         // $VentaData = ['Cliente' => 'Armadillo Perez', 'Documento' => 1000919533];
