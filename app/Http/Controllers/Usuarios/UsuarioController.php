@@ -18,7 +18,7 @@ class UsuarioController extends Controller
     public function index()
     {
         $ListadoUsuario = User::select(['Documento','Nombre','Estado','roles.name'])
-        ->join('roles','users.RolId','=','roles.id')
+        ->join('roles','users.IdRol','=','roles.id')
         ->get();
         $ListadoRoles = Roles::all();
         $Listados = ['ListadoUsuario'=>$ListadoUsuario,'ListadoRoles'=>$ListadoRoles];
@@ -36,20 +36,20 @@ class UsuarioController extends Controller
      */
     public function create(Request $request)
     {
-        $validator = Validator::make(
-            $request->all(),
-             ['Documento' => 'min:1|unique:users,Documento|max:11','Nombre' => 'min:1|max:30', 'RolId' => 'min:1|max:5|required', 'Direccion' => 'min:1|unique:sedes,Direccion|max:100', 'FechaNacimiento' => 'min:1|max:30', 'password' => 'min:1|max:30'],
-             ['unique' => 'Este campo no acepta información que ya se ha registrado', 'min' => 'No puedes enviar este campo vacío', 'max' => 'Máximo de :max dígitos']
+        // $validator = Validator::make(
+        //     $request->all(),
+        //      ['Documento' => 'min:1|unique:users,Documento|max:11','Nombre' => 'min:1|max:30', 'IdRol' => 'min:1|max:5|required', 'Direccion' => 'min:1|Direccion|max:100', 'FechaNacimiento' => 'min:1|max:30', 'password' => 'min:1|max:30'],
+        //      ['unique' => 'Este campo no acepta información que ya se ha registrado', 'min' => 'No puedes enviar este campo vacío', 'max' => 'Máximo de :max dígitos']
 
-        );
+        // );
 
-        if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
-        }
+        // if ($validator->fails()) {
+        //     return back()->withErrors($validator)->withInput();
+        // }
         $Usuario = new User();
         $id = $Usuario::creadorPK($Usuario, 100);
         $Usuario->Documento = $id;
-        $Campos = ['Documento', 'Nombre', 'RolId', 'Direccion', 'Celular', 'email', 'Direccion', 'FechaNacimiento', 'password'];
+        $Campos = ['Documento', 'Nombre', 'IdRol', 'Direccion', 'Celular', 'email',  'FechaNacimiento', 'password'];
         foreach ($Campos as $item) {
             $Usuario->$item = $request->$item;
         }
@@ -88,8 +88,15 @@ class UsuarioController extends Controller
      */
     public function edit($id)
     {
-        $Selected =  User::all()->where('Documento', '=', $id);
-        return view('Programacion.editarusuario')->with('usuariodata', $Selected);
+        $Selected =  User::select()->where('Documento', '=', $id)->get();
+        $Roles = Roles::select(['id','name'])->get();
+        $data = ['usuarios'=>$Selected,'roles'=>$Roles];
+        return view('Usuarios.editarusuario')->with('data', $data);
+
+
+
+
+
     }
 
     /**
@@ -102,15 +109,15 @@ class UsuarioController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(),
-        ['Nombre'=>'min:1|max:30','RolId'=>'min:1|max:50','Direccion'=>'min:1|max:70','Celular'=>'min:1|max:50','emaiil'=>'min:1|max:70','Direccion'=>'min:1|max:70','FechaNacimiento'=>'min:1|max:50','password'=>'min:1|max:30'],
-        ['unique'=>'Este campo no acepta información que ya se ha registrado','min'=>'No puedes enviar este campo vacío','max'=>'Máximo de :max dígitos']);
+         ['Nombre'=>'min:1|max:30','RolId'=>'min:1|max:50','Direccion'=>'min:1|max:70','Celular'=>'min:1|max:10','email'=>'min:1|max:70','Direccion'=>'min:1|max:70','FechaNacimiento'=>'min:1|max:50','password'=>'min:1|max:30'],
+         ['unique'=>'Este campo no acepta información que ya se ha registrado','min'=>'No puedes enviar este campo vacío','max'=>'Máximo de :max dígitos']);
 
-        if($validator->fails()){
-            return back()->withErrors($validator)->withInput();
+         if($validator->fails()){
+             return back()->withErrors($validator)->withInput();
 
         }
         $Usuario = User::find($id);
-        $Campos = ['Documento', 'Nombre', 'RolId', 'Direccion', 'Celular', 'email', 'Direccion', 'FechaNacimiento', 'password'];
+        $Campos = ['Nombre', 'IdRol', 'Direccion', 'Celular', 'email', 'FechaNacimiento', 'password'];
         foreach($Campos as $item){
             $Usuario->$item = $request->$item;
         }

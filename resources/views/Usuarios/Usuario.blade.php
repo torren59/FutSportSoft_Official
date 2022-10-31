@@ -40,12 +40,11 @@
                     <tr>
                         <td><a href="{{ url('usuario/editar/' . $item->Documento) }}"><button
                                     class="btn btn-outline-primary"><i class="fa-solid fa-pen"></i></button></a>
-                                    <abbr title="Detalles"><a href="{{ url('usuario/detalle/' . $item->RolId) }}"><button
+                                    <abbr title="Detalles"><a href="{{ url('usuario/detalle/' . $item->IdRol) }}"><button
                                         class="btn btn-outline-secondary"><i
                                             class="fa-solid fa-circle-info"></i></button></a></abbr></td>
 
                         <td>{{ $item->Documento }}</td>
-
                         <td> {{ $item->Nombre }} </td>
                         <td> {{ $item->name }} </td>
 
@@ -132,7 +131,7 @@
 
                         <div class="col-6">
                             <label for="password" class="form-label">Contraseña</label>
-                            <input type="text" class="form-control" name="password" value=" {{ old('password') }} ">
+                            <input type="password" class="form-control" name="password" value=" {{ old('password') }} ">
                             @error('password')
                                 <div>
                                     @foreach ($errors->get('password') as $item)
@@ -170,7 +169,7 @@
 
                         <div class="col-6">
                             <label for="roles" class="form-label">Roles</label>
-                            <select class="form-select" aria-label="Default select example">
+                            <select class="form-select"  name="IdRol" aria-label="Default select example">
                                 <option selected>Selecione un rol</option>
                                 @foreach ($listado['ListadoRoles'] as $item)
                                     <option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -181,10 +180,11 @@
 
 
                     </div>
-                    <br>
+                    <div class="botonesusuarios p-5">
                     <button type="submit" class="btn btn-outline-primary">Guardar</i></button>
                     <button type="button" class="btn btn-outline-secondary"
                         onclick="switchadicion2('usuarioadicion')">Cancelar</i></button>
+                    </div>
 
                 </form>
             </div>

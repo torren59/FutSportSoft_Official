@@ -125,7 +125,7 @@
 
                         <div class="main-sidevar-area" id="logout">
                             <form action="/acceso/salir" method="post"> @csrf
-                                <a><button type="submit" class="btn btn-warning">Cerrar sesión</button></a>
+                                <a><button type="submit" class="btn btn-outline-light">Cerrar sesión</button></a>
                             </form>
                         </div>
                     </div>
