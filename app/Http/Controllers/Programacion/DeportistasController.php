@@ -30,16 +30,14 @@ class DeportistasController extends Controller
     public function create(Request $request)
     {
         $validator = Validator::make($request->all(), 
-        ['DocumentoAcudiente'=>'min:1|unique:deportistas,DocumentoAcudiente|max:10','TipoDocumento'=>'min:1|max:2','Nombre'=>'min:1|max:100','FechaNacimiento'=>'min:1|max:10','Direccion'=>'min:1|unique:deportistas,Direccion|max:80','Celular'=>'min:1|max:11','Correo'=>'min:1|max:70','UltimoPago'=>'min:1|max:10'],
+        ['Documento'=>'min:1|unique:deportistas,Documento|max:10','DocumentoAcudiente'=>'min:1|unique:deportistas,DocumentoAcudiente|max:10','TipoDocumento'=>'min:1|max:4','Nombre'=>'min:1|max:100','FechaNacimiento'=>'min:1|max:10','Direccion'=>'min:1|unique:deportistas,Direccion|max:80','Celular'=>'min:1|max:11','Correo'=>'min:1|max:70','UltimoPago'=>'min:1|max:10'],
         ['unique'=>'Este campo no acepta información que ya se ha registrado','min'=>'No puedes enviar este campo vacío','max'=>'Máximo de :max dígitos']);
        
         if($validator->fails()){
             return back()->withErrors($validator)->withInput();
         }
         $Deportista = new Deportista();
-        $Id = $Deportista::creadorPK($Deportista,1000000000);
-        $Deportista->Documento = $Id;
-        $Campos = ['DocumentoAcudiente','TipoDocumento','Nombre','FechaNacimiento','Direccion','Celular','Correo','UltimoPago'];
+        $Campos = ['Documento','DocumentoAcudiente','TipoDocumento','Nombre','FechaNacimiento','Direccion','Celular','Correo','UltimoPago'];
         foreach($Campos as $item){
             $Deportista->$item = $request->$item;
         }
@@ -79,7 +77,7 @@ class DeportistasController extends Controller
     public function edit($id)
     {
         $Selected =  Deportista::all()->where('Documento','=',$id);
-        //return view('Programacion.editardeportista')->with('deportistadata',$Selected);
+        return view('Programacion.editardeportista')->with('deportistadata',$Selected);
         return $Selected;
     }
 
@@ -93,7 +91,7 @@ class DeportistasController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), 
-        ['DocumentoAcudiente'=>'min:1|unique:deportistas,DocumentoAcudiente|max:10','TipoDocumento'=>'min:1|max:2','Nombre'=>'min:1|max:100','FechaNacimiento'=>'min:1|max:10','Direccion'=>'min:1|unique:deportistas,Direccion|max:80','Celular'=>'min:1|max:11','Correo'=>'min:1|max:70','UltimoPago'=>'min:1|max:10'],
+        ['DocumentoAcudiente'=>'min:1|max:11','TipoDocumento'=>'min:1|max:5','Nombre'=>'min:1|max:100','FechaNacimiento'=>'min:1|max:10','Direccion'=>'min:1|max:80','Celular'=>'min:1|max:11','Correo'=>'min:1|max:70','UltimoPago'=>'min:1|max:10'],
         ['unique'=>'Este campo no acepta información que ya se ha registrado','min'=>'No puedes enviar este campo vacío','max'=>'Máximo de :max dígitos']);
        
         if($validator->fails()){
@@ -103,10 +101,10 @@ class DeportistasController extends Controller
         $Deportista = Deportista::find($id);
         $Campos = ['DocumentoAcudiente','TipoDocumento','Nombre','FechaNacimiento','Direccion','Celular','Correo','UltimoPago'];
         foreach($Campos as $item){
-            $deportista->$item = $request->$item;
+            $Deportista->$item = $request->$item;
         }
         $Deportista->save();
-        return redirect('deportistas/listar');
+        return redirect('deportista/listar');
     }
 
     /**

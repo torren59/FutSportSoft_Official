@@ -45,7 +45,7 @@
 
                         <div class="mb-3  col-5">
                             <label class="form-label">Tipo Documento</label>
-                            <input type="number" class="form-control" name="TipoDocumento"
+                            <input type="text" class="form-control" name="TipoDocumento"
                                 value=" {{ old('TipoDocumento') }} ">
                                 @error('TipoDocumento')
                                 <div>
@@ -73,7 +73,7 @@
 
                         <div class="mb-3  col-5">
                             <label class="form-label">Fecha De Nacimiento</label>
-                            <input type="text" class="form-control" name="FechaNacimiento"
+                            <input type="date" class="form-control" name="FechaNacimiento"
                                 value=" {{ old('FechaNacimiento', $item->FechaNacimiento) }} ">
                                 @error('FechaNacimiento')
                                 <div>
@@ -125,11 +125,11 @@
 
                         <div class="mb-3  col-5">
                             <label class="form-label">Ultimo Pago</label>
-                            <input type="text" class="form-control" name="UltumoPago"
-                                value=" {{ old('UltumoPago', $item->UltumoPago) }} ">
-                                @error('UltumoPago')
+                            <input type="date" class="form-control" name="UltimoPago"
+                                value=" {{ old('UltimoPago', $item->UltimoPago) }} ">
+                                @error('UltimoPago')
                                 <div>
-                                    @foreach ($errors->get('UltumoPago') as $item)
+                                    @foreach ($errors->get('UltimoPago') as $item)
                                         <small> {{$item}} </small>
                                     @endforeach
                                 </div>
