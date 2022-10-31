@@ -22,6 +22,12 @@
                 <h1>DEPORTISTAS</h1>
             </div>
     </center>
+
+    <div class="addbtn">
+        <button class="btn btn-outline-secondary col-2" onclick="switchadicion2('deportistaadicion')">Nuevo Deportista <i
+                class="fa-solid fa-circle-plus"></i></button>
+    </div>
+
     <table id="tabla">
         <thead>
             <tr>
@@ -43,7 +49,7 @@
                     <tr>
                         <td><a href="{{ url('deportista/editar/'.$item->Documento) }}"><button class="btn btn-primary"><i class="fa-solid fa-pen"></i></button></a></td>
                         <td>{{ $item->Documento }}</td>
-                        <td>{{ $item->NombreAcudiente }}</td>
+                        <td>{{ $item->DocumentoAcudiente }}</td>
                         <td>{{ $item->TipoDocumento }}</td>
                         <td>{{ $item->Nombre }}</td>
                         <td>{{ $item->FechaNacimiento }}</td>
@@ -52,19 +58,18 @@
                         <td>{{ $item->Correo }}</td>
                         <td>
                             {{-- Definiendo estado --}}
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked"
+                                    checked>
+                            </div>
                             @php
                                 $checkstate = '';
                                 if ($item->Estado == true) {
                                     $checkstate = 'checked';
                                 }
+                                
                             @endphp
                         <td>{{ $item->UltimoPago }}</td>
-                        <td>
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked"
-                                    checked>
-                            </div>
-                        </td>
 
                     </tr>
                 @endforeach
@@ -72,10 +77,6 @@
             </tbody>
         </table>
 
-        <div class="addbtn">
-            <button class="btn btn-success col-3" onclick="switchadicion2('deportistaadicion')">Nuevo Deportista <i
-                    class="fa-solid fa-circle-plus"></i></button>
-        </div>
 
         {{-- Creacion de productos --}}
 
@@ -87,7 +88,7 @@
                 <form action={{ url('deportista/crear') }} method="post"> @csrf
 
                     <label for="Documento" class="form-label">Documento</label>
-                    <input type="Documento" class="form-control" name="Documento" value="{{ old('Documento') }}">
+                    <input type="text" class="form-control" name="Documento" value="{{ old('Documento') }}">
                     @error('Documento')
                         <div>
                             @foreach ($errors->get('Documento') as $item)
@@ -98,7 +99,7 @@
 
                     <div class="row">
                         <div class="col-6">
-                            <label for="DocumentoAcudiente" class="form-label">DocumentoAcudiente</label>
+                            <label for="DocumentoAcudiente" class="form-label">Documento Acudiente</label>
                             <input type="text" class="form-control" name="DocumentoAcudiente" value=" {{ old('DocumentoAcudiente') }} ">
                             @error('DocumentoAcudiente')
                                 <div>
@@ -109,7 +110,7 @@
                             @enderror
                         </div>
                         <div class="col-6">
-                            <label for="TipoDocumento" class="form-label">TipoDocumento</label>
+                            <label for="TipoDocumento" class="form-label">Tipo Documento</label>
                             <input type="text" class="form-control" name="TipoDocumento" value=" {{ old('TipoDocumento') }} ">
                             @error('TipoDocumento')
                                 <div>

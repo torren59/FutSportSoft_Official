@@ -17,143 +17,152 @@
     {{-- Listado --}}
 
     <div class="service_list">
-    <center>
+        <center>
             <div class="tituloTabla">
                 <h1>PROVEEDORES</h1>
             </div>
-    </center>
-    <table id="tabla" >
-        <thead>
-            <tr>
-                <td>Acción</td>
-                <td>Estado</td>
-                <td>Proveedor</td>
-                <td>Nit</td>
-                <td>Categoria</td>
-                <td>Contacto</td>
-                <td>Titular</td>
-                <td>Correo</td>
-            </tr>
-        </thead>
-        <tbody>
-        <tr><td><button class="btn btn-primary" onclick="activaedicion('listadosproveedores','edicionproveedores')"><i class="fa-solid fa-pen"></i></button>
-        </td>
-                <td>
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
-                    </div>
-                </td>
-            <td>GOLTY</td>
-            <td>8003589563</td>
-            <td>1</td>
-            <td>305 356 98 75</td>
-            <td>Julian alzate</td>
-            <td>alzate@gmail.com</td>
-        </tr>
-        <tr>
-        <td><button class="btn btn-primary" onclick="activaedicion('listadosproveedores','edicionproveedores')"><i class="fa-solid fa-pen"></i></button></td>
-                <td>
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
-                    </div>
-            </td>
-            <td>MOLTEN</td>
-            <td>9513862001</td>
-            <td>2</td>
-            <td>310 569 53 62</td>
-            <td>Luis Hernandez</td>
-            <td>luis@gmail.com</td>
-        </tr>
-        <tr>
-        <td><button class="btn btn-primary" onclick="activaedicion('listadosproveedores','edicionproveedores')"><i class="fa-solid fa-pen"></i></button></td>
-                <td>
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
-                    </div>
-            </td>
-            <td>JOMA</td>
-            <td>8213862863</td>
-            <td>3</td>
-            <td>311 588 44 66</td>
-            <td>Julio Isaza</td>
-            <td>isaza@gmail.com</td>
-        </tr>
-        </tbody>
-    </table>
-    <div class="addbtn">
-        <button class="btn btn-success col-4" onclick="switchadicion('sedeadicion')">Nuevo Proveedor <i class="fa-solid fa-circle-plus"></i></button>
+        </center>
+
+        <div class="addbtn">
+            <button class="btn btn-outline-secondary col-2" onclick="switchadicion2('proveedoradicion')">Nuevo Proveedor <i
+                    class="fa-solid fa-circle-plus"></i></button>
         </div>
-        <div class="adicion adicion_off" id="sedeadicion">
-        <div class="adicion_title">
-            <h1>Nuevo Proveedor</h1>
+
+        <table id="tabla">
+            <thead>
+                <tr>
+                    <td>Acción</td>
+                    <td>Nit</td>
+                    <td>Nombre Empresa</td>
+                    <td>Titular</td>
+                    <td>Numero Contacto</td>
+                    <td>Correo</td>
+                    <td>Direccion</td>
+                    <td>Estado</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($listado as $item)
+                    <tr>
+                        <td><a href="{{ url('proveedor/editar/' . $item->Nit) }}"><button class="btn btn-primary"><i
+                                        class="fa-solid fa-pen"></i></button></a></td>
+                        <td>{{ $item->Nit }}</td>
+                        <td> {{ $item->NombreEmpresa }} </td>
+                        <td> {{ $item->Titular }} </td>
+                        <td> {{ $item->NumeroContacto }} </td>
+                        <td> {{ $item->Correo }} </td>
+                        <td> {{ $item->Direccion }} </td>
+                        <td>
+                            {{-- Definiendo estado --}}
+                            @php
+                                $checkstate = '';
+                                if ($item->Estado == true) {
+                                    $checkstate = 'checked';
+                                }
+                            @endphp
+
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked"
+                                    {{ $checkstate }} >
+                            </div>
+                        </td>
+
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+
+        {{-- Creacion de productos --}}
+
+        <div id="proveedoradicion" class="adicion_off" style="width:600px;height:400px">
+            <div class="floatcontent">
+                <h4 style="padding-top:5%;">Nuevo Proveedor</h4>
+                <hr>
+
+                <form action={{ url('proveedor/crear') }} method="post"> @csrf
+
+                    <label for="Nit" class="form-label">Nit</label>
+                    <input type="text" class="form-control" name="Nit" value="{{ old('Nit') }}">
+                    @error('Nit')
+                        <div>
+                            @foreach ($errors->get('Nit') as $item)
+                                <small> {{ $item }} </small>
+                            @endforeach
+                        </div>
+                    @enderror
+
+                    <div class="row">
+                        <div class="col-6">
+                            <label for="NombreEmpresa" class="form-label">Nombre Empresa</label>
+                            <input type="text" class="form-control" name="NombreEmpresa" value=" {{ old('NombreEmpresa') }} ">
+                            @error('NombreEmpresa')
+                                <div>
+                                    @foreach ($errors->get('NombreEmpresa') as $item)
+                                        <small> {{ $item }} </small>
+                                    @endforeach
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="col-6">
+                            <label for="Titular" class="form-label">Titular</label>
+                            <input type="text" class="form-control" name="Titular" value=" {{ old('Titular') }} ">
+                            @error('Titular')
+                                <div>
+                                    @foreach ($errors->get('Titular') as $item)
+                                        <small> {{ $item }} </small>
+                                    @endforeach
+                                </div>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <label for="NumeroContacto" class="form-label">Numero Contacto</label>
+                    <input type="text" class="form-control" name="NumeroContacto" value=" {{ old('NumeroContacto') }} ">
+                    @error('NumeroContacto')
+                        <div>
+                            @foreach ($errors->get('NumeroContacto') as $item)
+                                <small> {{ $item }} </small>
+                            @endforeach
+                        </div>
+                    @enderror
+
+                    <label for="Correo" class="form-label">Correo</label>
+                    <input type="text" class="form-control" name="Correo" value=" {{ old('Correo') }} ">
+                    @error('Correo')
+                        <div>
+                            @foreach ($errors->get('Correo') as $item)
+                                <small> {{ $item }} </small>
+                            @endforeach
+                        </div>
+                    @enderror
+
+                    <label for="Direccion" class="form-label">Direccion</label>
+                    <input type="text" class="form-control" name="Direccion" value=" {{ old('Direccion') }} ">
+                    @error('Direccion')
+                        <div>
+                            @foreach ($errors->get('Direccion') as $item)
+                                <small> {{ $item }} </small>
+                            @endforeach
+                        </div>
+                    @enderror
+                    <br>
+                    <button type="submit" class="btn btn-primary btn-success">Guardar</i></button>
+                    <button type="button" class="btn btn-primary btn-danger"
+                        onclick="switchadicion2('proveedoradicion')">Cancelar</i></button>
+
+                </form>
+            </div>
         </div>
-        <div class="adicion_content" id="addsed">
 
-            <div class="mb-3  col-7">
-                <label for="exampleInputEmail1" class="form-label">Proveedor</label>
-                <input type="email" class="form-control" aria-describedby="emailHelp">
-            </div>
-            <div class="mb-3 col-7">
-                <label for="exampleInputEmail1" class="form-label">Nit</label>
-                <input type="email" class="form-control" aria-describedby="emailHelp">
-            </div>
-            <div class="mb-3 col-7">
-                <label for="exampleInputEmail1" class="form-label">Categoria</label>
-                <input type="email" class="form-control" aria-describedby="emailHelp">
-            </div>
-            <div class="mb-3 col-7">
-                <label for="exampleInputEmail1" class="form-label">Contacto</label>
-                <input type="email" class="form-control" aria-describedby="emailHelp">
-            </div>
-            <div class="mb-3 col-7">
-                <label for="exampleInputEmail1" class="form-label">Correo</label>
-                <input type="email" class="form-control" aria-describedby="emailHelp">
-            </div>
-            <div class="mb-3 col-7">
-                <button type="button" class="btn btn-primary btn-success" onclick="swal_savecreation(), switchadicion('sedeadicion')">Guardar</i></button>
-                <button type="button" class="btn btn-primary btn-danger" onclick="switchadicion('sedeadicion')">Cancelar</i></button>
-            </div>
-        </div>
+        @if ($errors->any())
+            <script>
+                setTimeout(() => {
+                    switchadicion2('proveedoradicion');
+                }, 500);
+            </script>
+        @endif
+
     </div>
-
-</div>
-
-<div class="service_edit" id="edicionproveedores">
-    <br>
-    <div class="btnCerrar">
-        <button type="button" class="btn btn-primary btn-danger" onclick="quitaedicion('listadosproveedores','edicionproveedores')"><i class="fa-solid fa-circle-xmark"></i></button>
-    </div>
-    <h2>Editar Proveedor</h2>
-
-    <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">Proveedor</label>
-        <input type="email" class="form-control" aria-describedby="emailHelp">
-    </div>
-
-    <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">Nit</label>
-        <input type="email" class="form-control" aria-describedby="emailHelp">
-    </div>
-
-    <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">Categoria</label>
-        <input type="email" class="form-control" aria-describedby="emailHelp">
-    </div>
-
-    <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">Contacto</label>
-        <input type="email" class="form-control" aria-describedby="emailHelp">
-    </div>
-    <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">Correo</label>
-        <input type="email" class="form-control" aria-describedby="emailHelp">
-    </div>
-
-    <div class="mb-3">
-        <button type="button" class="btn btn-primary btn-success" onclick="swal_saveedition(), quitaedicion('listadosproveedores','edicionproveedores')">Guardar</i></button>
-    </div>
-
-</div>
 @endsection
 
 

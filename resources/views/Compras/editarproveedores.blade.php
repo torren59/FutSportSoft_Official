@@ -2,7 +2,7 @@
 
 
 
-@section('title', 'Editar producto')
+@section('title', 'Editar proveedor')
 
 @push('styles')
     <link rel="stylesheet" href=" {{ asset('./css/layouts/datatable.css') }} ">
@@ -14,23 +14,23 @@
 @endpush
 
 @section('content')
-    @foreach ($productodata as $item)
-        <form action={{ url('producto/actualizar/' . $item->ProductoId) }} method="post">
+    @foreach ($proveedordata as $item)
+        <form action={{ url('proveedor/actualizar/' . $item->Nit) }} method="post">
     @endforeach
 
     @csrf
     <div class="grid_triple_center">
         <div class="grid_span_2a3">
             <div class="adicion_title">
-                <h1>Editar Producto</h1>
+                <h1>Editar Proveedor</h1>
             </div>
-            @foreach ($productodata as $item)
+            @foreach ($proveedordata as $item)
                 <div class="col-12">
-                    <label for="Nit" class="form-label">Nit</label>
-                    <input type="text" class="form-control" name="Nit" value="{{ old('Nit', $item->Nit) }}">
-                    @error('Nit')
+                    <label for="NombreEmpresa" class="form-label">Nombre Empresa</label>
+                    <input type="text" class="form-control" name="NombreEmpresa" value="{{ old('NombreEmpresa', $item->NombreEmpresa) }}">
+                    @error('NombreEmpresa')
                         <div>
-                            @foreach ($errors->get('Nit') as $item)
+                            @foreach ($errors->get('NombreEmpresa') as $item)
                                 <small> {{ $item }} </small>
                             @endforeach
                         </div>
@@ -39,24 +39,24 @@
 
                 <div class="row col-12">
                     <div class="col-6">
-                        <label for="NombreProducto" class="form-label">Nombre Producto</label>
-                        <input type="text" class="form-control" name="NombreProducto"
-                            value=" {{ old('NombreProducto', $item->NombreProducto) }}">
-                        @error('NombreProducto')
+                        <label for="Titular" class="form-label">Titular</label>
+                        <input type="text" class="form-control" name="Titular"
+                            value=" {{ old('Titular', $item->Titular) }}">
+                        @error('Titular')
                             <div>
-                                @foreach ($errors->get('NombreProducto') as $item)
+                                @foreach ($errors->get('Titular') as $item)
                                     <small> {{ $item }} </small>
                                 @endforeach
                             </div>
                         @enderror
                     </div>
                     <div class="col-6">
-                        <label for="TipoProducto" class="form-label">Tipo Producto</label>
-                        <input type="text" class="form-control" name="TipoProducto"
-                            value=" {{ old('TipoProducto', $item->TipoProducto) }} ">
-                        @error('TipoProducto')
+                        <label for="NumeroContacto" class="form-label">Numero Contacto</label>
+                        <input type="text" class="form-control" name="NumeroContacto"
+                            value=" {{ old('NumeroContacto', $item->NumeroContacto) }} ">
+                        @error('NumeroContacto')
                             <div>
-                                @foreach ($errors->get('TipoProducto') as $item)
+                                @foreach ($errors->get('NumeroContacto') as $item)
                                     <small> {{ $item }} </small>
                                 @endforeach
                             </div>
@@ -65,11 +65,11 @@
                 </div>
 
                 <div class="col-12">
-                    <label for="Talla" class="form-label">Talla</label>
-                    <input type="text" class="form-control" name="Talla" value=" {{ old('Talla', $item->Talla) }} ">
-                    @error('Talla')
+                    <label for="Correo" class="form-label">Correo</label>
+                    <input type="text" class="form-control" name="Correo" value=" {{ old('Correo', $item->Correo) }} ">
+                    @error('Correo')
                         <div>
-                            @foreach ($errors->get('Talla') as $item)
+                            @foreach ($errors->get('Correo') as $item)
                                 <small> {{ $item }} </small>
                             @endforeach
                         </div>
@@ -77,30 +77,19 @@
                 </div>
 
                 <div class="col-12">
-                    <label for="PrecioVenta" class="form-label">PrecioVenta</label>
-                    <input type="text" class="form-control" name="PrecioVenta"
-                        value=" {{ old('PrecioVenta', $item->PrecioVenta) }} ">
-                    @error('PrecioVenta')
+                    <label for="Direccion" class="form-label">Direccion</label>
+                    <input type="text" class="form-control" name="Direccion"
+                        value=" {{ old('Direccion', $item->Direccion) }} ">
+                    @error('Direccion')
                         <div>
-                            @foreach ($errors->get('PrecioVenta') as $item)
+                            @foreach ($errors->get('Direccion') as $item)
                                 <small> {{ $item }} </small>
                             @endforeach
                         </div>
                     @enderror
                 </div>
 
-                <div class="col-12">
-                    <label for="Cantidad" class="form-label">Cantidad</label>
-                    <input type="text" class="form-control" name="Cantidad"
-                        value=" {{ old('Cantidad', $item->Cantidad) }} ">
-                    @error('Cantidad')
-                        <div>
-                            @foreach ($errors->get('Cantidad') as $item)
-                                <small> {{ $item }} </small>
-                            @endforeach
-                        </div>
-                    @enderror
-                </div>
+   
             @endforeach
 
             <div class="col-12">
