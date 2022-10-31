@@ -31,18 +31,17 @@
                             </div>
                         </div>
 
-                        <div class="grid_span_1 pointer_disable">
+                        <div class="grid_span_1" id="Products_Zone">
                             <h1>Productos</h1>
                             <div class="Container_Card_Venta">
 
 
 
                                 @foreach ($productos as $item)
-                                    <div class="Manual_Card" id="Card_{{ $item->ProductoId }}">
+                                    <div class="Manual_Card" id="Card_{{ $item->ProductoId }}"
+                                        onclick="addProduct(' {{$item->ProductoId}} ','{{ $item->NombreProducto }}',' {{ $item->Cantidad }}')">
 
                                         <div class="Card_Data">
-                                            <input type="hidden" id="ProductoId" readonly
-                                                value=" {{ $item->ProductoId }} ">
                                             <label class="label-control One_In_Flex" style="border: 1px solid green;">
                                                 Proveedor: {{ $item->NombreEmpresa }}
                                             </label>
@@ -72,12 +71,10 @@
                                             </div>
 
                                             <div class="Card_Edit_Option">
-
                                                 <button class="btn btn-outline-primary">Editar</button>
                                             </div>
 
                                             <div class="Card_Quit_Option">
-
                                                 <button class="btn btn-outline-danger">Quitar</button>
                                             </div>
                                         </div>
@@ -92,12 +89,12 @@
                                             <h6>Hola</h6>
                                         </div>
 
-                                        <div class="Card_Options">
+                                        <div class="Card_Options_disable">
                                             <div class="Card_Total_Orders">
                                                 Total Ordenados
                                             </div>
 
-                                            <div class="Card_Edit_Option">
+                                            <div class="Card_Edit_Option_disable">
 
                                                 <button class="btn btn-outline-primary">Editar</button>
                                             </div>
@@ -139,7 +136,41 @@
         <div id="OrderProduct" class="adicion_off" style="width: 500px;height:250px;">
             <div class="floatcontent">
                 <h4 style="padding-top:5%;">Total a ordenar</h4>
-                aaa
+
+                <div class="col-12 row">
+                    <div class="col-6">
+                        <input type="hidden" id="ProductoId" readonly>
+                        <label for="Product_Cantidad_Camp" class="form-label">Producto</label>
+                        <input disabled type="text" class="form-control" id="Product_Name_Camp">
+                    </div>
+                    <div class="col-6">
+                        <label for="Product_Cantidad_Camp" class="form-label">Existencias</label>
+                        <input disabled type="text" class="form-control" id="Product_Cantidad_Camp">
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <label for="Orden" class="label-form">Total a ordenar</label>
+                    <input type="number" class="form-control" name="Orden" id="Orden">
+                </div>
+                <div id="OrdenError">
+                    {{-- Acá se imprime error en caso de validación  --}}
+                </div>
+                <br>
+
+                <div class="col-12 row">
+                    <div class="col-6">
+                        <button class="btn btn-outline-success" onclick="saveProduct()">
+                            Agregar
+                        </button>
+                    </div>
+                    <div class="col-6">
+                        <button class="btn btn-outline-danger" onclick="cancelAddProduct('OrderProduct')">
+                            Cancelar
+                        </button>
+                    </div>
+                </div>
+
             </div>
         </div>
 
@@ -156,5 +187,4 @@
 
     <script src=" {{ asset('./js/layouts/cruds.js') }} "></script>
     <script src=" {{ asset('./js/Ventas/Ventas.js') }} "></script>
-    <script src=" {{ asset('./js/layouts/asincronas.js') }} "></script>
 @endpush

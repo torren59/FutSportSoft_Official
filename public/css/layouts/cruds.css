@@ -90,6 +90,10 @@
     /* border: 2px solid black; */
 }
 
+.pointer_disable{
+cursor: not-allowed;
+}
+
 .pointer_disable *{
     cursor: not-allowed !important;
 }
