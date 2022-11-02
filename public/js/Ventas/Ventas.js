@@ -1,7 +1,9 @@
 // Preadición producto frond
 
 const { post } = require("jquery");
-const { toInteger } = require("lodash");
+const { toInteger, concat } = require("lodash");
+
+
 
 function blockSpan(){
     let entorno = document.getElementById('Products_Zone');
@@ -49,6 +51,11 @@ function pushDataToOrder(ProductoId, Nombre, Cantidad){
 }
 
 function addProduct(ProductoId, NombreProducto, Cantidad){
+    
+    if(isAdded(ProductoId)){
+        return;
+    }
+
     pushDataToOrder(ProductoId,NombreProducto,Cantidad);
     blockSpan();
     openModal('OrderProduct');
@@ -58,7 +65,6 @@ function cancelAddProduct(){
     closeModal('OrderProduct');
     unblockSpan();
 }
-
 
 // Agregar Producto Backend
 
@@ -77,8 +83,9 @@ function getProductoId(){
     return ProductoId;
 }
 
-function validateInput(Orden, Existencia){
- 
+function validateInput(){
+    let Orden = getOrden();
+    let Existencia = getExistencia();
     if(Orden == null || Orden == 0){
         return 0;
     }
@@ -91,6 +98,12 @@ function validateInput(Orden, Existencia){
     }
 
     return true;
+}
+
+function isAdded(ProductoId){
+    let Card = document.getElementById('Card_'+parseInt(ProductoId));
+    let isAdded = Card.classList.contains('Manual_Card_Selected');
+    return isAdded;
 }
 
 /**
@@ -114,11 +127,15 @@ function getErrorMessage(ValidatedInput){
     }
 
     if(ValidatedInput === true){
-        return true();
+        return true;
     }
 }
 
 function saveProduct(){
+    if(getErrorMessage(validateInput()) == false){
+        return;
+    }
+
     let ProductoId = getProductoId();
     let Orden = getOrden();
 
@@ -138,6 +155,11 @@ function saveProduct(){
         },
         success: function(data){
             data = Object.entries(data);
+            selectCard();
+            printOrden();
+            selectCardOptions();
+            closeModal('OrderProduct');
+            unblockSpan();
             console.log(data);
         },
         error: function(error){
@@ -145,6 +167,70 @@ function saveProduct(){
         }
     });
 }
+
+//  postAdicion producto frond
+function selectCard(){
+    let ProductoId = getProductoId();
+    let Card = document.getElementById('Card_'+parseInt(ProductoId));
+    Card.classList.add('Manual_Card_Selected');
+}
+
+function selectCardOptions(){
+    let ProductoId = getProductoId();
+    let Card = document.getElementById('Card_Options_'+parseInt(ProductoId));
+    Card.classList.remove('Card_Options_disable');
+    Card.classList.add('Card_Options');
+}
+
+function printOrden(){
+    let ProductoId = getProductoId();
+    let Orden = getOrden();
+    let Card = document.getElementById('Card_Orden_'+parseInt(ProductoId));
+    $('#Card_Orden_'+parseInt(ProductoId)).html(Orden);
+}
+
+// Eliminación producto Frontend
+
+function unselectCard(ProductoId){
+    let Card = document.getElementById('Card_'+parseInt(ProductoId));
+    Card.classList.remove('Manual_Card_Selected');
+}
+
+function unselectCardOptions(){
+    let ProductoId = getProductoId();
+    let Card = document.getElementById('Card_Options_'+parseInt(ProductoId));
+    Card.classList.remove('Card_Options');
+    Card.classList.add('Card_Options_disable');
+}
+//Eliminación producto Backend
+
+function deleteProduct(ProductoId){
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $.ajax({
+        type: 'post',
+        url: '/venta/deleteProducto',
+        dataType: 'json',
+        data: {
+            'ProductoId': ProductoId,
+        },
+        success: function(data){
+            unselectCard(ProductoId);
+            unselectCardOptions(ProductoId);
+            data = Object.entries(data);
+            console.log(data);
+        },
+        error: function(error){
+            alert(error);
+        }
+    });
+}
+
 
 function getArray() {
     $.ajax({

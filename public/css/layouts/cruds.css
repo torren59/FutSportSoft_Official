@@ -270,22 +270,34 @@ grid-template-rows: 2fr 1fr;
     border: 1px solid yellowgreen;
 }
 
-.Card_Total_Orders{
-grid-area: Orders;
+.Card_Total_Orders_Title{
+    display: flex;
+    flex-wrap: wrap;
+    grid-area: OrderTitle;
+    align-items: center;
+    justify-content: center;
 }
 
-.Card_Edit_Option{
-    grid-area: Edit;
+.Card_Total_Orders{
+    display: flex;
+    flex-wrap: wrap;
+    grid-area: Orders;
+    align-items: center;
+    justify-content: center;
 }
 
 .Card_Quit_Option{
+    display: flex;
+    flex-wrap: wrap;
     grid-area: Quit;
+    border: 1px solid black;
+    align-items: center;
 }
 
 .Card_Options{
     display: grid;
     grid-template-areas: 
-    'Orders Orders Edit'
+    'OrderTitle OrderTitle OrderTitle'
     'Orders Orders Quit';
 }
 

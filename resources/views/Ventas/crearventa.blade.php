@@ -38,8 +38,8 @@
 
 
                                 @foreach ($productos as $item)
-                                    <div class="Manual_Card" id="Card_{{ $item->ProductoId }}"
-                                        onclick="addProduct(' {{$item->ProductoId}} ','{{ $item->NombreProducto }}',' {{ $item->Cantidad }}')">
+                                    <div class="Manual_Card" id="Card_{{$item->ProductoId}}"
+                                        onclick="addProduct(' {{ $item->ProductoId }} ','{{ $item->NombreProducto }}',' {{ $item->Cantidad }}')">
 
                                         <div class="Card_Data">
                                             <label class="label-control One_In_Flex" style="border: 1px solid green;">
@@ -65,17 +65,17 @@
                                             </label>
                                         </div>
 
-                                        <div class="Card_Options_disable">
-                                            <div class="Card_Total_Orders">
+                                        <div class="Card_Options_disable" id="Card_Options_{{$item->ProductoId}}" >
+                                            <div class="Card_Total_Orders_Title">
                                                 Total Ordenados
                                             </div>
 
-                                            <div class="Card_Edit_Option">
-                                                <button class="btn btn-outline-primary">Editar</button>
+                                            <div class="Card_Total_Orders" id="Card_Orden_{{$item->ProductoId}}">
+                                              {{-- Aqui se imprime la cantidad ordenada --}}
                                             </div>
 
                                             <div class="Card_Quit_Option">
-                                                <button class="btn btn-outline-danger">Quitar</button>
+                                                <button type="button" class="btn btn-outline-danger" onclick="deleteProduct(' {{$item->ProductoId}} ')">Quitar</button>
                                             </div>
                                         </div>
 
@@ -90,7 +90,7 @@
                                         </div>
 
                                         <div class="Card_Options_disable">
-                                            <div class="Card_Total_Orders">
+                                            <div class="Card_Total_Orders" id="Card_Orden_{{$item->ProductoId}}">
                                                 Total Ordenados
                                             </div>
 
@@ -163,6 +163,18 @@
                         <button class="btn btn-outline-success" onclick="saveProduct()">
                             Agregar
                         </button>
+                    </div>
+                    <div>
+                        <a href=" {{url('venta/Elim')}} ">
+                            <button class="btn btn-outline-success">
+                                Regret
+                            </button>
+                        </a>
+                    </div>
+                    <div>
+                        <a href=" {{ url('venta/bbbccc') }} "> <button class="btn btn-outline-success">
+                                Watch
+                            </button></a>
                     </div>
                     <div class="col-6">
                         <button class="btn btn-outline-danger" onclick="cancelAddProduct('OrderProduct')">

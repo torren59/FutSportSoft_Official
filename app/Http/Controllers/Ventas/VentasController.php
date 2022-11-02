@@ -34,7 +34,9 @@ class VentasController extends Controller
             ->join('proveedores', 'proveedores.Nit', '=', 'productos.Nit')
             ->get();
         // ->where('productos.Estado','=',1)
-
+        if(session()->has('VentaSession')){
+            session()->forget('VentaSession');
+        }
         return view('Ventas.crearventa')->with('productos', $Productos);
     }
 
@@ -205,9 +207,17 @@ class VentasController extends Controller
         return $SubTotal;
     }
 
+    public function letSes(){
+        $VentaSession = session('VentaSession');
+        // $br = [];
+        // foreach($VentaSession as $item){
+        //     $br += $item;
+        // }
+        return $VentaSession[0];
+    }
+
     public function addProducto(Request $request)
     {
-
         // Definir variables
         $VentaSession = [];
         $Articulos = [];
@@ -222,61 +232,96 @@ class VentasController extends Controller
         // Determinar total y subtotal para el producto
         $PrecioTotalProducto = $this->getTotalProducto($ProductoId, $Orden);
         $SubTotalProducto = $this->getSubTotalProducto($PrecioTotalProducto);
-        $request->session()->pull('VentaSession');
-        try {
-            if ($request->session()->exists('VentaSession')) {
-                // Rescatando datos de la sesión
-                $VentaSession = $request->session()->pull('VentaSession');
-                /*$Articulos = $VentaSession['Articulos'];
-                $VentaData = $VentaSession['VentaData'];
 
-                // Rescatando total y subtotal general
-                $Total = $VentaData['Total'];
-                $SubTotal = $VentaData['SubTotal'];
+        if(session()->missing('VentaSession')){
 
-                // Recalculando total y subtotal general
-                $Total += intval($PrecioTotalProducto);
-                $SubTotal += intval($SubTotalProducto);
+            // Adición del primer producto
+            $Total += intval($PrecioTotalProducto);
+            $SubTotal += intval($SubTotalProducto);
 
-                // Reemplazando total y subtotal general & Agregando producto
-                $VentaData = array_replace($VentaData, ['Total' => $Total, 'SubTotal' => $SubTotal]);
-                array_push($Articulos, [$ProductoId => ['Orden' => $Orden, 'Total' => $PrecioTotalProducto, 'SubTotal' => $SubTotalProducto]]);
+            // Guardando total y subtotal general & Agregando producto
+            $VentaData['Total'] = $Total;
+            $VentaData['SubTotal'] = $SubTotal;
+            $Articulos[$ProductoId] = ['Orden' => $Orden, 'Total' => $PrecioTotalProducto, 'SubTotal' => $SubTotalProducto];
 
-                // Reemplazando VentaData y Articulos*/
-                $VentaSession = array_replace($VentaSession, ['Articulos' => 'OldVenta', 'VentaData' => $VentaData]);
-                session(['VentaSession' => $VentaSession]); 
-
-                return session()->all();
-            }
-        } catch (\Throwable $th) {
-            return $th;
+            // Guardando VentaData y Articulos
+            $VentaSession[0]['Articulos'] = $Articulos;
+            $VentaSession[0]['VentaData'] = $VentaData;
+            session(['VentaSession' => $VentaSession]);
+            return $VentaSession;
         }
 
-        try {
-            if (session()->missing('VentaSession')) {
+        else{
+            // Rescatando datos de la sesión
+            $VentaSession = session('VentaSession');
+            $Articulos = $VentaSession[0]['Articulos'];
+            $VentaData = $VentaSession[0]['VentaData'];
+            
+            // Rescatando total y subtotal general
+            $Total = $VentaData['Total'];
+            $SubTotal = $VentaData['SubTotal'];
+           
+            // Recalculando total y subtotal general
+            $Total += intval($PrecioTotalProducto);
+            $SubTotal += intval($SubTotalProducto);
 
-                // Adición del primer producto
-                $Total += intval($PrecioTotalProducto);
-                $SubTotal += intval($SubTotalProducto);
+            // Reemplazando total y subtotal general & Agregando producto
+            $VentaData['Total'] = $Total;
+            $VentaData['SubTotal'] = $SubTotal;
+            $Articulos[$ProductoId] = ['Orden' => $Orden, 'Total' => $PrecioTotalProducto, 'SubTotal' => $SubTotalProducto];
 
-                // Guardando total y subtotal general & Agregando producto
-                array_push($VentaData, ['Total' => $Total, 'SubTotal' => $SubTotal]);
-                array_push($Articulos, [$ProductoId => ['Orden' => $Orden, 'Total' => $PrecioTotalProducto, 'SubTotal' => $SubTotalProducto]]);
-
-                // Guardando VentaData y Articulos
-                array_push($VentaSession, ['Articulos' => 'NewVenta', 'VentaData' => $VentaData]);
-                session(['VentaSession' => $VentaSession]);
-            }
-            return session()->all();
-        } catch (\Throwable $th) {
-            return $th;
+            // Reemplazando VentaData y Articulos
+            $VentaSession[0]['Articulos'] = $Articulos;
+            $VentaSession[0]['VentaData'] = $VentaData;
+            session()->forget('VentaSession');
+            session(['VentaSession' => $VentaSession]);
+            return $VentaSession;
         }
+    }
 
-        // $Articulos = ['100' => 'Zapatos', '101' => 'Medias', '102' => 'Camiseta'];
-        // $VentaData = ['Cliente' => 'Armadillo Perez', 'Documento' => 1000919533];
-        // array_push($VentaSession, ['Articulos' => $Articulos]);
-        // array_push($VentaSession, ['VentaData' => $VentaData]);
+    public function deleteProducto(Request $request){
 
+        // Rescatar ID
+        $ProductoId = json_decode($request->ProductoId);
+
+        // Definir variables
+        $VentaSession = [];
+        $Articulos = [];
+        $VentaData = [];
+        $Total = 0;
+        $SubTotal = 0;
+
+        //Rescatando datos de la Sesion
+        $VentaSession = session('VentaSession');
+        $Articulos = $VentaSession[0]['Articulos'];
+        $VentaData = $VentaSession[0]['VentaData'];
+
+        // Rescatando total y subtotal general
+        $Total = $VentaData['Total'];
+        $SubTotal = $VentaData['SubTotal'];
+
+        // Rescatando articulo a eliminar y modificando total y subtotal
+        $Total -= $Articulos[$ProductoId]['Total'];
+        $SubTotal -= $Articulos[$ProductoId]['SubTotal'];
+
+        // Reemplazando total y subtotal general & Retirando producto
+        $VentaData['Total'] = $Total;
+        $VentaData['SubTotal'] = $SubTotal;
+        unset($Articulos[$ProductoId]);
+
+        // Reemplazando VentaData y Articulos
+        $VentaSession[0]['Articulos'] = $Articulos;
+        $VentaSession[0]['VentaData'] = $VentaData;
+        session()->forget('VentaSession');
+        session(['VentaSession' => $VentaSession]);
+        if(count($Articulos) == 0){
+            session()->forget('VentaSession');
+        }
+        return $VentaSession;
+    }
+
+    public function elim(){
+        session()->forget('VentaSession');
     }
 
     public function getArray(Request $request)
