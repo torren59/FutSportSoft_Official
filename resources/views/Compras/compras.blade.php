@@ -5,9 +5,7 @@
 @push('styles')
     <link rel="stylesheet" href=" {{ asset('./css/layouts/datatable.css') }} ">
     <link rel="stylesheet" href="{{ asset('./css/layouts/cruds.css') }} ">
-    <link href="https://unpkg.com/vanilla-datatables@latest/dist/vanilla-dataTables.min.css" rel="stylesheet" type="text/css">
-    <script src="https://unpkg.com/vanilla-datatables@latest/dist/vanilla-dataTables.min.js" type="text/javascript">
-    </script>
+
 @endpush
 
 @section('content')
@@ -46,7 +44,7 @@
                                         class="fa-solid fa-circle-info"></i></button></abbr>
                         </td>
                         <td>{{ $item->NumeroFactura }}</td>
-                        <td>{{ $item->Nit }}</td>
+                        <td>{{ $item->NombreEmpresa }}</td>
                         <td>{{ $item->FechaCompra }}</td>
                         <td>{{ $item->ValorCompra }}</td>
 
@@ -84,8 +82,9 @@
             <div id="jsPrint">
                 {{-- Aquí se imprime el contenido de detalles enviado desde JS --}}
             </div>
+            <div class="boton detalle p-5">
             <button type="button" class="btn btn-outline-secondary"
-                onclick="switchadicion2('detallecompra')">Cerrar</i></button>
+                onclick="switchadicion2('detallecompra')">Cerrar</i></button></div>
 
         </div>
     </div>
@@ -96,7 +95,7 @@
         <div class="floatcontent">
 
             <h1 style="padding-top:5%;">Seleccionar proveedor</h1>
-            <form action="/compras/crear" method="post"> @csrf
+            <form action="/compras/crearproveedor" method="post"> @csrf
                 <div class="col-6">
                     <label for="proveedores" class="form-label">Proveedores</label>
                     <select name="Nit" class="form-select" aria-label="Default select example">

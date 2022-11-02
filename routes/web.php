@@ -65,10 +65,10 @@ Route::controller(RolesController::class)->middleware('auth')->group(
 Route::controller(ComprasController::class)->middleware('auth')->group(
     function () {
         Route::get('compras/listar', 'index');
-        Route::post('compras/crear', 'create');
+        Route::any('compras/crearproveedor', 'create');
+        Route::get('compras/create', 'createview');
         Route::post('compras/store', 'store');
         Route::get('compras/editar/{id}','edit');
-        Route::post('compras/actualizar/{id}','update');
         Route::get('compras/getDetalle/{NumeroFactura?}','getDetalle');
         Route::post('/compras/listaseleccionados','listselected');
 
@@ -81,6 +81,7 @@ Route::controller(UsuarioController::class)->middleware('auth')->group(
         Route::get('usuario/listar', 'index');
         Route::post('usuario/crear', 'create');
         Route::get('usuario/editar/{id}','edit');
+        Route::get('usuario/getDetalle/{id?}','getDetalle');
         Route::post('usuario/actualizar/{id}','update');
     }
 );

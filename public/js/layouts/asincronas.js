@@ -47,10 +47,10 @@ function listar() {
                     "Existencias " +
                     element.Cantidad +
                     "<br>" +
-                    "Cantidad Comprada" +
+                    "Cantidad Comprada " +
                     Comprados +
                     "<br>" +
-                    "Valor Unitario" +
+                    "Valor Unitario " +
                     Valor +
                     "</div>";
                 console.log(
@@ -200,6 +200,48 @@ function detalleCompras(NumeroFactura, IdModal, IdDiv) {
     });
 }
 
+function detalleUsuario(id, IdModal, IdDiv) {
+    Contenido = "";
+
+    $.ajax({
+        type: "get",
+        url: "/usuario/getDetalle/",
+        dataType: "json",
+        data: { id: JSON.stringify(id) },
+
+        success: function (data) {
+            TotalData = Object.entries(data);
+
+            // Las variables contiene la info de compra y los artículos de la misma respectivamente
+             Usuario = TotalData[0][1];
+
+
+            // // Llenado de variable con html, cambiar diseño o estructura HTML desde aquí
+             Contenido +=
+                 "<div>Documento: " + Usuario["Documento"] + "</div>";
+             Contenido +=
+                 "<div>Nombre: " + Usuario["Nombre"] + "</div>";
+             Contenido +=
+                 "<div>Rol: " + Usuario["name"] + "</div>";
+             Contenido += "<div>N° Contacto: " + Usuario["Celular"] + "</div>";
+             Contenido += "<div>Correo electrónico: " + Usuario["email"] + "</div>";
+             Contenido += "<div>Fecha de nacimiento: " + Usuario["FechaNacimiento"] + "</div>";
+             Contenido += "<div>Dirección: " + Usuario["Direccion"] + "</div>";
+
+
+            // Inyección de info en el documento y llamado al modal
+            $("#" + IdDiv).html(Contenido);
+            switchadicion2(IdModal);
+            // console.log(TotalData);
+
+        },
+
+        error: function (data) {
+            alert("Error " + data);
+        },
+    });
+}
+
 function switchadicion2(idadicionobj) {
     let adicion = document.getElementById(idadicionobj);
     estado = adicion.classList.contains("adicion_off");
@@ -254,3 +296,6 @@ function calcular() {
 function modalproveedor(){
 
 }
+
+
+

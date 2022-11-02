@@ -89,10 +89,10 @@
                         @enderror
                         <div class="col-6">
                             <label for="deportes" class="form-label">Deportes</label>
-                            <select class="form-select" aria-label="Default select example">
+                            <select class="form-select"  name="DeporteId" aria-label="Default select example">
                                 <option selected>Selecione un Deporte</option>
                                 @foreach ($listado['ListadoDeporte'] as $item)
-                                    <option value="{{ $item->IdDeporte}}">{{ $item->NombreDeporte }}</option>
+                                    <option value="{{ $item->DeporteId}}">{{ $item->NombreDeporte }}</option>
                                 @endforeach
                             </select>
                         </div>

@@ -11,11 +11,7 @@
 @endpush
 
 @section('content')
-
-
-
     <form action="{{ url('compras/store') }}" method="post">
-
         @csrf
         <div class="grid_triple_center">
             <div class="grid_span_2a3">
@@ -54,7 +50,8 @@
                             @enderror
 
                             <label for="ValorCompra" class="form-label">Total de la Compra</label>
-                            <input readonly type="number" class="form-control"  id="PrecioTotal"  name="ValorCompra" value="{{ old('ValorCompra') }}">
+                            <input readonly type="number" class="form-control" id="PrecioTotal" name="ValorCompra"
+                                value="{{ old('ValorCompra') }}">
                             @error('ValorCompra')
                                 <div>
                                     @foreach ($errors->get('ValorCompra') as $item)
@@ -64,7 +61,8 @@
                             @enderror
 
                             <label for="SubTotal" class="form-label">Sub Total</label>
-                            <input readonly type="number" class="form-control" id="SubTotal" name="SubTotal" value="{{ old('SubTotal') }}">
+                            <input readonly type="number" class="form-control" id="SubTotal" name="SubTotal"
+                                value="{{ old('SubTotal') }}">
                             @error('SubTotal')
                                 <div>
                                     @foreach ($errors->get('SubTotal') as $item)
@@ -74,7 +72,8 @@
                             @enderror
 
                             <label for="Iva" class="form-label">Iva</label>
-                            <input readonly type="number" class="form-control" id="Iva" name="Iva" value="{{ old('Iva') }}">
+                            <input readonly type="number" class="form-control" id="Iva" name="Iva"
+                                value="{{ old('Iva') }}">
                             @error('Iva')
                                 <div>
                                     @foreach ($errors->get('Iva') as $item)
@@ -84,7 +83,8 @@
                             @enderror
 
                             <label for="Descuento" class="form-label">Descuento</label>
-                            <input type="number" id="Descuento" class="form-control Descuento" name="Descuento" value="{{ old('Descuento') }}">
+                            <input type="number" id="Descuento" class="form-control Descuento" name="Descuento"
+                                value="{{ old('Descuento') }}">
                             @error('Descuento')
 
                                 @foreach ($errors->get('Descuento') as $item)
@@ -93,67 +93,71 @@
                             @enderror
                             <br>
                             <button type="submit" class="btn btn-outline-primary">Guardar</i></button>
-                        <a href="{{ url('compras/listar/') }}"><button type="button"
-                                class="btn btn-outline-secondary">Cancelar</i></button></a>
+                            <a href="{{ url('compras/listar/') }}"><button type="button"
+                                    class="btn btn-outline-secondary">Cancelar</i></button></a>
                         </div>
 
 
 
-                    <div class="card col-8">
-                        <div class="grid_doble_superderecha">
+                        <div class="card col-8">
+                            <div class="grid_doble_superderecha">
 
-                            <div class="grid_span_1" id="product_added">
-                                <div class="text-center">
-                                    <h1>PRODUCTOS AGREGADOS</h1>
+                                <div class="grid_span_1" id="product_added">
+                                    <div class="text-center">
+                                        <h1>PRODUCTOS AGREGADOS</h1>
+                                    </div>
+                                    <div class="col-12 lista_selects">
+                                        {{-- Aqui se inserta con js los productos seleccionados --}}
+                                    </div>
                                 </div>
-                                <div class="col-12 lista_selects">
-                                    {{-- Aqui se inserta con js los productos seleccionados --}}
-                                </div>
-                            </div>
 
-                            <div class="grid_span_1">
+                                <div class="grid_span_1">
 
 
-                                <table id="tabla">
-                                    <thead>
-                                        <tr>
-                                            <td>Producto</td>
-                                            <td>Cantidad</td>
-                                            <td>Valor Unitario</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-
-                                        @foreach ($productos as $item)
+                                    <table id="tabla">
+                                        <thead>
                                             <tr>
-                                                <td>
-                                                    <div class="lista_productos">
-                                                        <input type="checkbox" class="form-check-input productcheck"
-                                                            id="{{ $item->ProductoId }}" name="productos[]"
-                                                            value="{{ $item->ProductoId }}">
-                                                        <label class="form-check-label"
-                                                            for="{{ $item->ProductoId }}">{{ $item->NombreProducto }}
-                                                        </label>
-                                                    </div>
-                                                </td>
-
-                                                <td><input type="number" class="Cantidad" id="Cantidad{{$item->ProductoId}}" name="{{ $item->ProductoId }}_cantidad"></td>
-                                                <td><input type="number" Class="ValorUnitario" id="ValorUnitario{{$item->ProductoId}}" name=" {{ $item->ProductoId }}_unitValue"></td>
-
+                                                <td>Producto</td>
+                                                <td>Cantidad</td>
+                                                <td>Valor Unitario</td>
                                             </tr>
-                                        @endforeach
+                                        </thead>
+                                        <tbody>
 
-                                    </tbody>
-                                </table>
+                                            @foreach ($productos as $item)
+                                                <tr>
+                                                    <td>
+                                                        <div class="lista_productos">
+                                                            <input type="checkbox" class="form-check-input productcheck"
+                                                                id="{{ $item->ProductoId }}" name="productos[]"
+                                                                value="{{ $item->ProductoId }}">
+                                                            <label class="form-check-label"
+                                                                for="{{ $item->ProductoId }}">{{ $item->NombreProducto }}
+                                                            </label>
+                                                        </div>
+                                                    </td>
 
+                                                    <td><input type="number" class="Cantidad"
+                                                            id="Cantidad{{ $item->ProductoId }}"
+                                                            name="{{ $item->ProductoId }}_cantidad"></td>
+                                                    <td><input type="number" Class="ValorUnitario"
+                                                            id="ValorUnitario{{ $item->ProductoId }}"
+                                                            name=" {{ $item->ProductoId }}_unitValue"></td>
+
+                                                </tr>
+                                            @endforeach
+
+                                        </tbody>
+                                    </table>
+
+                                </div>
                             </div>
+
+
                         </div>
-
-
                     </div>
                 </div>
             </div>
-        </div>
 
 
 

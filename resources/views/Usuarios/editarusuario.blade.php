@@ -7,20 +7,22 @@
 @push('styles')
     <link rel="stylesheet" href=" {{ asset('./css/layouts/datatable.css') }} ">
     <link rel="stylesheet" href="{{ asset('./css/layouts/cruds.css') }} ">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @endpush
 
 @section('content')
     @foreach ($data['usuarios'] as $item)
-        <form action={{ url('usuario/actualizar/' . $item->Documento) }} method="post"> @csrf
+        <form action={{ url('usuario/actualizar/' . $item->id) }} method="post"> @csrf
     @endforeach
     <div class="container p-5">
-        <div class="row justify-content-center">
+        <div class="row justify-content-center" style="margin-top: 2rem;">
             <div class="card col-6">
                 <div class="titulo text-center">
                     <h1>Editar Usuario</h1>
                 </div>
+                <br>
                 <div class="row">
                     @foreach ($data['usuarios'] as $item)
                         <div class="col-6">
@@ -37,6 +39,7 @@
                         </div>
 
 
+
                         <div class="col-6">
                             <label for="password" class="form-label">Contraseña</label>
                             <input type="text" class="form-control" name="password"
@@ -50,6 +53,7 @@
                                 </div>
                             @enderror
                         </div>
+
 
                         <div class="col-4">
                             <label for="Celular" class="form-label">Celular</label>
@@ -65,37 +69,39 @@
                         </div>
 
 
+
                         <div class="col-4">
 
                             <label for="roles" class="form-label">Roles</label>
-                            <select class="form-select" aria-label="Default select example">
+                            <select class="form-select"  name="IdRol" aria-label="Default select example">
                                 @foreach ($data['roles'] as $item2)
                                     <option value="{{ $item2->id }}">{{ $item2->name }}</option>
                                 @endforeach
                             </select>
-                            {{ $item->IdRol}}
-
                         </div>
+
 
                         <div class="col-4">
                             <label for="FechaNacimiento" class="form-label">Fecha de nacimiento</label>
-                            <input type="date" class="form-control" name="FechaNacimiento"
+                            <input type="text-local" class="form-control" name="FechaNacimiento"
                                 value=" {{ old('FechaNacimiento', $item->FechaNacimiento) }}">
                             @error('FechaNacimiento')
                                 <div>
                                     @foreach ($errors->get('FechaNacimiento') as $item)
                                         <small> {{ $item }} </small>
                                     @endforeach
+                                    {{ $item->FechaNacimiento}}
                                 </div>
                             @enderror
                         </div>
 
 
 
+
                         <div class="col-6">
                             <label for="email" class="form-label">Correo</label>
                             <input type="email" class="form-control" name="email"
-                                value="{{ old('email', $item->email) }}">
+                                value="{{ old('email', $item->email)}}">
                             @error('email')
                                 <div>
                                     @foreach ($errors->get('email') as $item)
@@ -141,5 +147,11 @@
         let datatable = new DataTable(tabla);
     </script>
 
+
     <script src=" {{ asset('./js/layouts/cruds.js') }} "></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+    <script>
+        flatpickr("input[type=text-local]",{})
+    </script>
 @endpush

@@ -8,6 +8,7 @@
     <link rel="stylesheet" href=" {{ asset('./css/layouts/datatable.css') }} ">
     <link rel="stylesheet" href="{{ asset('./css/layouts/cruds.css') }} ">
 
+
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @endpush
 
@@ -38,11 +39,11 @@
             <tbody>
                 @foreach ($listado['ListadoUsuario'] as $item)
                     <tr>
-                        <td><a href="{{ url('usuario/editar/' . $item->Documento) }}"><button
+                        <td><a href="{{ url('usuario/editar/' . $item->id) }}"><button
                                     class="btn btn-outline-primary"><i class="fa-solid fa-pen"></i></button></a>
-                                    <abbr title="Detalles"><a href="{{ url('usuario/detalle/' . $item->IdRol) }}"><button
-                                        class="btn btn-outline-secondary"><i
-                                            class="fa-solid fa-circle-info"></i></button></a></abbr></td>
+                                    <abbr title="Detalles"><button type="button" class="btn btn-outline-secondary"
+                                        onclick="detalleUsuario({{ $item->id }},'detalleusuario','jsPrint')"><i
+                                            class="fa-solid fa-circle-info"></i></button></abbr>
 
                         <td>{{ $item->Documento }}</td>
                         <td> {{ $item->Nombre }} </td>
@@ -199,6 +200,23 @@
         @endif
 
     </div>
+
+ {{-- Detalles --}}
+
+ <div id="detalleusuario" class="adicion_off" style="width:600px;height:400px">
+    <div class="floatcontent">
+
+        <h1 style="padding-top:5%;">Detalles del usuario</h1>
+        <div id="jsPrint">
+            {{-- Aquí se imprime el contenido de detalles enviado desde JS --}}
+        </div>
+        <div class="boton detalle p-5">
+        <button type="button" class="btn btn-outline-secondary"
+            onclick="switchadicion2('detalleusuario')">Cerrar</i></button></div>
+
+    </div>
+</div>
+
 @endsection
 
 
@@ -206,7 +224,33 @@
     <script>
         let tabla = document.getElementById("tabla");
         let datatable = new DataTable(tabla);
+
+$('.mi_checkbox').change(function(){
+
+var estatus =$(this).prop('checked') == true ? 1 : 0;
+var id = $(this).data('id');
+console.console.log(estatus);
+
+$.ajax({
+type: "Get",
+datatype: "json"
+url:'usuario/estado',
+data: {'estatus': estatus, 'id' : id},
+success: function(data){
+    $('#resp' + id).html(data.var);
+    console.log(data.var)
+}
+
+})
+
+})
+
+
+
+
     </script>
 
     <script src=" {{ asset('./js/layouts/cruds.js') }} "></script>
+    <script src=" {{ asset('./js/layouts/asincronas.js') }} "></script>
+
 @endpush

@@ -34,14 +34,14 @@ class CategoriaController extends Controller
      */
     public function create(Request $request)
     {
-        $validator = Validator::make($request->all(),
-        $request->all(),
-             ['NombreCategoria' => 'min:1|unique:categorias,NombreCategoria|max:50','DeporteId' => 'min:1|max:5|required', 'RangoEdad' => 'min:1|unique:categorias,RangoEdad|max:100'],
-             ['unique' => 'Este campo no acepta información que ya se ha registrado', 'min' => 'No puedes enviar este campo vacío', 'max' => 'Máximo de :max dígitos']);
+        // $validator = Validator::make($request->all(),
+        // $request->all(),
+        //      ['NombreCategoria' => 'min:1|unique:categorias,NombreCategoria|max:50','DeporteId' => 'min:1|max:5|required', 'RangoEdad' => 'min:1|unique:categorias,RangoEdad|max:100'],
+        //      ['unique' => 'Este campo no acepta información que ya se ha registrado', 'min' => 'No puedes enviar este campo vacío', 'max' => 'Máximo de :max dígitos']);
 
-        if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
-        }
+        // if ($validator->fails()) {
+        //     return back()->withErrors($validator)->withInput();
+        // }
         $Categoria = new Categoria();
         $id = $Categoria::creadorPK($Categoria, 100);
         $Categoria->CategoriaId = $id;

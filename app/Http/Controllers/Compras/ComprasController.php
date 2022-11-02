@@ -21,22 +21,25 @@ class ComprasController extends Controller
      */
     public function index()
     {
-
-
-        $ListadoCompras = Compras::select(['proveedores.NombreEmpresa','FechaCompra','ValorCompra','SubTotal','Iva','Descuento'])
-        ->join('proveedores','compras.Nit','=','proveedores.Nit')
-        ->get();
+        $ListadoCompras = Compras::select(['NumeroFactura','proveedores.NombreEmpresa','FechaCompra','ValorCompra','SubTotal','Iva','Descuento'])
+        ->join('proveedores','compras.Nit','=','proveedores.Nit') ->get();
         $ListadoProveedor = Proveedor::all();
         $Listados = ['ListadoCompras'=>$ListadoCompras,'ListadoProveedor'=>$ListadoProveedor];
-         return view('Compras.compras')->with('listado', $Listados);
+        return view('Compras.compras')->with('listado', $Listados);
+
+
 
     }
+public function createview($Productos) {
+    return redirect('Compras.crearcompra')->with('productos',$Productos);
 
+}
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
+
     public function create(Request $request)
     {
 
@@ -120,10 +123,10 @@ class ComprasController extends Controller
             $articulo->save();
 
             // Modifica la cantidad en los registros de los productos
-            $deporte = Producto::find($item->ProductoId);
-            $Cantidad = $deporte->Cantidad + $item->Cantidad;
-            $deporte->Cantidad = $Cantidad;
-            $deporte->save();
+            $producto = Producto::find($item->ProductoId);
+            $Cantidad = $producto->Cantidad + $item->Cantidad;
+            $producto->Cantidad = $Cantidad;
+            $producto->save();
         }
 
         return redirect('compras/listar');
@@ -187,15 +190,12 @@ class ComprasController extends Controller
         $compraArticulos = [];
 
 
-        $Compra = Compras::select(['NumeroFactura','proveedores.NombreEmpresa','FechaCompra','ValorCompra','SubTotal','IVA','Descuento','compras.Estado'])
+        $Compra = Compras::select(['NumeroFactura','proveedores.NombreEmpresa','FechaCompra','ValorCompra','SubTotal','Iva','Descuento','compras.Estado'])
         ->join('proveedores','proveedores.Nit','=','compras.Nit')
         ->where('NumeroFactura','=',$NumeroFactura)
         ->get();
 
-        //Zona de pruebas
-        // if(count($Compra) < 1){
-        //     array_push($Compra, ['Mensaje' => 'No rescató los datos']);
-        // }
+
 
         $Articulos = articulo_comprado::select(['productos.NombreProducto','productos.Talla','articulos_comprados.Cantidad','PrecioCompra'])
         ->join('productos','productos.ProductoId','=','articulos_comprados.ProductoId')
