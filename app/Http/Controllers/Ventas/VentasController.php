@@ -83,30 +83,32 @@ class VentasController extends Controller
 
         $Venta->save();
 
-        // GUARDANDO ARTICULOS
-        $ArticulosObj = new Articulo_Vendido();
         $Llaves = array_keys($Articulos);
         $i = 0;
-        $Cant = [];
-        // foreach($Articulos as $item){
-        //     $ArticulosObj->ArticulosVendidosId = Articulo_Vendido::creadorPK($ArticulosObj, 10000000);
-        //     $ArticulosObj->ProductoId = $Llaves[$i];
-        //     $ArticulosObj->VentaId = $IdVenta;
-        //     $ArticulosObj->Cantidad = $item['Orden'];
-        //     $PrecioVenta = Producto::select(['PrecioVenta'])->where('ProductoId', '=', $Llaves[$i])->get();
-        //     $ArticulosObj->PrecioVenta = $PrecioVenta[0]['PrecioVenta'];
-        //     $ArticulosObj->save();
-        //     $i += 1;
-        // }
+        foreach($Llaves as $item){
+            // GUARDANDO ARTICULOS
+            $ArticulosObj = new Articulo_Vendido();
+            $ArticulosObj->ArticulosVendidosId = Articulo_Vendido::creadorPK($ArticulosObj, 10000000);
+            $ArticulosObj->ProductoId = $item;
+            $ArticulosObj->VentaId = $IdVenta;
+            $ArticulosObj->Cantidad = $Articulos[$item]['Orden'];
+            $PrecioVenta = Producto::select(['PrecioVenta'])->where('ProductoId', '=', $item)->get();
+            $ArticulosObj->PrecioVenta = $PrecioVenta[0]['PrecioVenta'];
+            $ArticulosObj->save();
+            // ACTUALIZANDO CANTIDADES
+            $Peticion = Producto::select(['Cantidad'])->where('ProductoId','=',$item)->get();
+            $OldCantidad = $Peticion[0]['Cantidad'];
+            $NewCantidad = intval($OldCantidad) - intval($Articulos[$item]['Orden']);
+            $Producto = Producto::find($item);
+            $Producto->Cantidad = $NewCantidad;
+            $Producto->save();
+            $i += 1;
+        }
+        
+        return redirect('venta/listar');
+        
 
-    //   return redirect('venta/listar');
-
-    foreach($Articulos as $item){
-        $Cant = $item[$Llaves[$i]]['Cantidad'];
-        $i += 1;
-    }
-    
-    return $Cant;
+   
     }
 
 
