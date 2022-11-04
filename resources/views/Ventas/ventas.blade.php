@@ -35,40 +35,48 @@
             <thead>
                 <tr>
                     <td>Acción</td>
+                    <td>VentaId</td>
+                    <td>Documento</td>
+                    <td>Fecha Venta</td>
+                    <td>Valor Venta</td>
+                    <td>SubTotal</td>
+                    <td>Iva</td>
+                    <td>Descuento</td>
                     <td>Estado</td>
-                    <td>Nombre</td>
-                    <td>Permiso</td>
+                    
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td><button class="btn btn-primary" onclick="activaedicion('listadorol','edicionrol')"><i
-                                class="fa-solid fa-pen"></i></button></td>
-                    <td>
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked"
-                                checked>
-                        </div>
-                    </td>
-                    <td>Entrenador</td>
-                    <td>Adiciòn de roles</td>
-                </tr>
-                <tr>
-                    <td><button class="btn btn-primary" onclick="activaedicion('listadorol','edicionrol')"><i
-                                class="fa-solid fa-pen"></i></button></td>
-                    <td>
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked"
-                                checked>
-                        </div>
-                    </td>
-                    <td>Director tecnico</td>
-                    <td>Ediciòn de usuarios</td>
+                @foreach ($listado as $item)
+                    <tr>
+                        <td><a href="{{ url('venta/editar/' . $item->VentaId) }}"><button class="btn btn-primary"><i
+                                        class="fa-solid fa-pen"></i></button></a></td>
+                        <td>{{ $item->VentaId }}</td>
+                        <td>{{ $item->Documento }}</td>
+                        <td> {{ $item->FechaVenta }} </td>
+                        <td> {{ $item->ValorVenta }} </td>
+                        <td> {{ $item->SubTotal }} </td>
+                        <td> {{ $item->Iva }} </td>
+                        <td> {{ $item->Descuento }} </td>
+                        <td>
+                            {{-- Definiendo estado --}}
+                            @php
+                                $checkstate = '';
+                                if ($item->Estado == true) {
+                                    $checkstate = 'checked';
+                                }
+                            @endphp
 
-                </tr>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked"
+                                    {{ $checkstate }} >
+                            </div>
+                        </td>
+
+                    </tr>
+                @endforeach
             </tbody>
         </table>
-
 
 
         

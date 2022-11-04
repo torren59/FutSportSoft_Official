@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Ayudas;
 
 use App\Http\Controllers\Controller;
+use App\Models\Ayudas\Ayuda;
 use Illuminate\Http\Request;
 
 class AyudasController extends Controller
@@ -14,7 +15,9 @@ class AyudasController extends Controller
      */
     public function index()
     {
-        //
+        $Ayuda = new Ayuda();
+        $ListadoAyuda = $Ayuda->all();
+        return view('Ayudas.ayudas')->with('listado',$ListadoAyuda);
     }
 
     /**

@@ -94,7 +94,7 @@
 
             <div class="col-12">
                 <button type="submit" class="btn btn-primary btn-success">Guardar</i></button>
-                <a href=" {{ url('producto/listar') }} "><button type="button"
+                <a href=" {{ url('proveedor/listar') }} "><button type="button"
                         class="btn btn-primary btn-danger">Cancelar</i></button></a>
             </div>
 
