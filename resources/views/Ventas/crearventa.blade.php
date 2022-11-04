@@ -18,16 +18,43 @@
         <form action="/venta/store" method="post">
             @csrf
             <div class="grid_triple_center">
+
                 <div class="grid_span_2a3">
 
                     <div class="grid_doble_superderecha2">
 
                         <div class="grid_span_1" id="product_added">
                             <div>
-                                <h3>Nueva Venta</h3>
+                                <h1 class="title text-center">Nueva Venta</h1>
                             </div>
-                            <div class="col-12 lista_selects">
-                                {{-- Aqui se inserta con js los productos seleccionados --}}
+
+                            <div hidden>
+                                <label for="Descuento" class="form-label">Descuento</label>
+                                <input disabled type="number" name="Descuento" id="Descuento" class="form-control">
+                            </div>
+
+                            <div>
+                                <label for="Deportista" class="form-label">Deportista</label>
+                                <select name="Documento" class="form-select">
+
+                                    @foreach ($Info['Deportistas'] as $item)
+                                        <option value="{{ $item->Documento }}">{{ $item->Nombre }}</option>
+                                    @endforeach
+
+                                </select>
+                            </div>
+
+                            <div>
+                                <label for="SubTotal" class="form-label">SubTotal</label>
+                                <input disabled type="text" name="SubTotal" id="SubTotal" class="form-control">
+                            </div>
+                            <div>
+                                <label for="Iva" class="form-label">Iva</label>
+                                <input disabled type="text" name="Iva" id="Iva" class="form-control">
+                            </div>
+                            <div>
+                                <label for="Total" class="form-label">Total</label>
+                                <input disabled type="text" name="Total" id="Total" class="form-control">
                             </div>
                         </div>
 
@@ -37,103 +64,88 @@
 
 
 
-                                @foreach ($productos as $item)
-                                    <div class="Manual_Card" id="Card_{{$item->ProductoId}}"
+                                @foreach ($Info['Productos'] as $item)
+                                    <div class="Manual_Card" id="Card_{{ $item->ProductoId }}"
                                         onclick="addProduct(' {{ $item->ProductoId }} ','{{ $item->NombreProducto }}',' {{ $item->Cantidad }}')">
 
                                         <div class="Card_Data">
-                                            <label class="label-control One_In_Flex" style="border: 1px solid green;">
+                                            <label class="label-control One_In_Flex">
                                                 Proveedor: {{ $item->NombreEmpresa }}
                                             </label>
-                                            <label class="label-control One_In_Flex" style="border: 1px solid green;">
+                                            <label class="label-control One_In_Flex">
                                                 Producto: {{ $item->NombreProducto }}
                                             </label>
-                                            <label class="label-control One_In_Flex" style="border: 1px solid green;">
+                                            <label class="label-control One_In_Flex">
                                                 Tipo: {{ $item->TipoProducto }}
                                             </label>
-                                            <label class="label-control One_In_Flex" style="border: 1px solid green;">
+                                            <label class="label-control One_In_Flex">
                                                 Talla: {{ $item->Talla }}
                                             </label>
-                                            <label class="label-control One_In_Flex" style="border: 1px solid green;">
+                                            <label class="label-control One_In_Flex">
                                                 Existencias: {{ $item->Cantidad }}
                                             </label>
-                                            <label class="label-control One_In_Flex" style="border: 1px solid green;">
+                                            <label class="label-control One_In_Flex">
                                                 Existencias: {{ $item->Cantidad }}
                                             </label>
-                                            <label class="label-control One_In_Flex" style="border: 1px solid green;">
+                                            <label class="label-control One_In_Flex">
                                                 Precio: {{ $item->PrecioVenta }}
                                             </label>
                                         </div>
 
-                                        <div class="Card_Options_disable" id="Card_Options_{{$item->ProductoId}}" >
+                                        <div class="Card_Options_disable" id="Card_Options_{{ $item->ProductoId }}">
                                             <div class="Card_Total_Orders_Title">
                                                 Total Ordenados
                                             </div>
 
-                                            <div class="Card_Total_Orders" id="Card_Orden_{{$item->ProductoId}}">
-                                              {{-- Aqui se imprime la cantidad ordenada --}}
+                                            <div class="Card_Total_Orders" id="Card_Orden_{{ $item->ProductoId }}">
+                                                {{-- Aqui se imprime la cantidad ordenada --}}
                                             </div>
 
                                             <div class="Card_Quit_Option">
-                                                <button type="button" class="btn btn-outline-danger" onclick="deleteProduct(' {{$item->ProductoId}} ')">Quitar</button>
+                                                <button type="button" class="btn btn-outline-danger"
+                                                    onclick="deleteProduct(' {{ $item->ProductoId }} ')">Quitar</button>
                                             </div>
                                         </div>
-
                                     </div>
                                 @endforeach
 
-                                @for ($i = 0; $i < 40; $i++)
-                                    <div class="Manual_Card">
-
-                                        <div class="Card_Data">
-                                            <h6>Hola</h6>
-                                        </div>
-
-                                        <div class="Card_Options_disable">
-                                            <div class="Card_Total_Orders" id="Card_Orden_{{$item->ProductoId}}">
-                                                Total Ordenados
-                                            </div>
-
-                                            <div class="Card_Edit_Option_disable">
-
-                                                <button class="btn btn-outline-primary">Editar</button>
-                                            </div>
-
-                                            <div class="Card_Quit_Option">
-
-                                                <button class="btn btn-outline-danger">Quitar</button>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                @endfor
-
                             </div>
                         </div>
-
                     </div>
+                </div>
 
-                    <br>
-                    <button type="submit">Enviar</button>
-
+                <div class="grid_span_2a3">
+                    <button type="button" class="btn btn-outline-success"
+                        onclick="openConfirmationModal('ConfirmationModal')">Continuar</button>
                 </div>
             </div>
 
-
-
         </form>
 
+        {{-- Modal guardado de venta --}}
+        <div id="SendButton" class="adicion_off" style="width: 500px;height:150px; background-color:white;">
+            <div class="floatcontent">
+                <h4 style="padding-top:5%;">Desear guardar esta venta</h4>
+                <br>
+                <div class="col-12 row">
+                    <div class="col-6">
+                        <button type="submit" class="btn btn-outline-success">
+                            Guardar
+                        </button>
+                    </div>
 
-        @if ($errors->any())
-            <h1>Es necesario que cantidades y valores unitarios de los productos seleccionados tengan valores mínimos de 1 y
-                0
-                respectivamente</h1>
-        @endif
+                    <div class="col-6">
+                        <button type="button" class="btn btn-outline-danger" onclick="closeModal('SendButton')">
+                            Cancelar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        <button class="btn btn-primary" onclick="getArray()">getArray</button>
 
         {{-- Modal de total productos a ordenar --}}
-        <div id="OrderProduct" class="adicion_off" style="width: 500px;height:250px;">
+        <div id="OrderProduct" class="adicion_off" style="width: 500px;height:300px;">
             <div class="floatcontent">
                 <h4 style="padding-top:5%;">Total a ordenar</h4>
 
@@ -164,18 +176,7 @@
                             Agregar
                         </button>
                     </div>
-                    <div>
-                        <a href=" {{url('venta/Elim')}} ">
-                            <button class="btn btn-outline-success">
-                                Regret
-                            </button>
-                        </a>
-                    </div>
-                    <div>
-                        <a href=" {{ url('venta/bbbccc') }} "> <button class="btn btn-outline-success">
-                                Watch
-                            </button></a>
-                    </div>
+
                     <div class="col-6">
                         <button class="btn btn-outline-danger" onclick="cancelAddProduct('OrderProduct')">
                             Cancelar
@@ -185,6 +186,55 @@
 
             </div>
         </div>
+
+        {{-- Modal de confirmación --}}
+        <div id="ConfirmationModal" class="adicion_off" style="width: 300px;height:500px;">
+            <div class="floatcontent">
+                <h4 style="padding-top:5%;">Confirmación</h4>
+
+                <div>
+                    <label for="SubTotal_On_Confirm" class="form-label">SubTotal</label>
+                    <input disabled type="text" class="form-control" id="SubTotal_On_Confirm">
+                </div>
+
+                <div>
+                    <label for="Iva_On_Confirm" class="form-label">Iva</label>
+                    <input disabled type="text" class="form-control" id="Iva_On_Confirm">
+                </div>
+
+                <div>
+                    <label for="Total_On_Confirm" class="form-label">Total</label>
+                    <input disabled type="text" class="form-control" id="Total_On_Confirm">
+                </div>
+
+                <div>
+                    <label for="Descuento_On_Confirm" class="form-label">Descuento</label>
+                    <input type="number" class="form-control" id="Descuento_On_Confirm">
+                </div>
+
+
+                <div id="ConfirmationError">
+                    {{-- Acá se imprime error en caso de validación  --}}
+                </div>
+                <br>
+
+                <div class="col-12 row">
+                    <div class="col-6">
+                        <button class="btn btn-outline-success" onclick="openSendButton()">
+                            Guardar
+                        </button>
+                    </div>
+
+                    <div class="col-6">
+                        <button class="btn btn-outline-danger" onclick="closeModal('ConfirmationModal')">
+                            Cancelar
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
 
     </div>
 

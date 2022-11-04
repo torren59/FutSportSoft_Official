@@ -28,7 +28,7 @@
     text-align: center;
     align-items: center;
     /*align-content: center; */
-    border: 2px solid salmon;
+    /* border: 2px solid salmon; */
 }
 
 .error_subtitle{
@@ -87,6 +87,7 @@
     flex-wrap: wrap;
     justify-content: center;
     overflow-y: scroll;
+    overflow-x: hidden;
     /* border: 2px solid black; */
 }
 
@@ -113,6 +114,7 @@ flex-wrap: wrap;
 justify-content: center;
 gap: 5px;
 /* background-color: green; */
+/* border: 2px solid violet; */
 }
 
 #product_added{
@@ -154,7 +156,9 @@ font-family: 'Source Sans Pro', sans-serif;
 
 
 .adicion_off{
-    visibility: hidden;
+    display: none;
+    height: 0px;
+    overflow: hidden;
 }
 
 .adicion_title{
@@ -235,7 +239,7 @@ font-family: 'Source Sans Pro', sans-serif;
     height:100%;
     gap: 4px;
     overflow-y:visible;
-    border: 1px solid green;
+    /* border: 1px solid green; */
 }
 
 .Manual_Card{
@@ -267,7 +271,7 @@ grid-template-rows: 2fr 1fr;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    border: 1px solid yellowgreen;
+    /* border: 1px solid yellowgreen; */
 }
 
 .Card_Total_Orders_Title{
@@ -290,7 +294,7 @@ grid-template-rows: 2fr 1fr;
     display: flex;
     flex-wrap: wrap;
     grid-area: Quit;
-    border: 1px solid black;
+    /* border: 1px solid black; */
     align-items: center;
 }
 
