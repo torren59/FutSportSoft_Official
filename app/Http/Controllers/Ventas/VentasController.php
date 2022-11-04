@@ -61,6 +61,7 @@ class VentasController extends Controller
         $VentaSession = session('VentaSession');
         $IdVenta = Venta::creadorPK($Venta, 100000);
         $Descuento = $request->Descuento;
+        (strlen($Descuento) < 1) ? $Descuento = 0: $Descuento = $Descuento;
         $Documento = $request->Documento;
 
         // Rescatando datos de la sesión
@@ -72,7 +73,6 @@ class VentasController extends Controller
         $Iva = intval($VentaData['Total']) - intval($VentaData['SubTotal']);
         $FinalTotal = intval($VentaData['Total']) - intval($Descuento);
         $FinalSubTotal = intval($VentaData['SubTotal']) - intval($Descuento);
-
         $Venta->VentaId = $IdVenta;
         $Venta->Documento = $Documento;
         $Venta->FechaVenta = date('Y-m-d');
@@ -81,25 +81,32 @@ class VentasController extends Controller
         $Venta->Iva = $Iva;
         $Venta->Descuento = $Descuento;
 
-        // $Venta->save();
+        $Venta->save();
 
         // GUARDANDO ARTICULOS
         $ArticulosObj = new Articulo_Vendido();
-
+        $Llaves = array_keys($Articulos);
+        $i = 0;
+        $Cant = [];
         // foreach($Articulos as $item){
         //     $ArticulosObj->ArticulosVendidosId = Articulo_Vendido::creadorPK($ArticulosObj, 10000000);
-        //     $ArticulosObj->ProductoId
+        //     $ArticulosObj->ProductoId = $Llaves[$i];
+        //     $ArticulosObj->VentaId = $IdVenta;
+        //     $ArticulosObj->Cantidad = $item['Orden'];
+        //     $PrecioVenta = Producto::select(['PrecioVenta'])->where('ProductoId', '=', $Llaves[$i])->get();
+        //     $ArticulosObj->PrecioVenta = $PrecioVenta[0]['PrecioVenta'];
+        //     $ArticulosObj->save();
+        //     $i += 1;
         // }
 
-        $Arr = [];
+    //   return redirect('venta/listar');
 
-        foreach($Articulos as $item){
-            array_push($Arr, $item);
-        }
-
-        return $Arr;
-
-
+    foreach($Articulos as $item){
+        $Cant = $item[$Llaves[$i]]['Cantidad'];
+        $i += 1;
+    }
+    
+    return $Cant;
     }
 
 

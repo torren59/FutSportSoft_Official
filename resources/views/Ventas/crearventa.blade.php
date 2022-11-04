@@ -120,9 +120,7 @@
                 </div>
             </div>
 
-        </form>
-
-        {{-- Modal guardado de venta --}}
+                    {{-- Modal guardado de venta --}}
         <div id="SendButton" class="adicion_off" style="width: 500px;height:150px; background-color:white;">
             <div class="floatcontent">
                 <h4 style="padding-top:5%;">Desear guardar esta venta</h4>
@@ -142,6 +140,10 @@
                 </div>
             </div>
         </div>
+
+        </form>
+
+
 
 
         {{-- Modal de total productos a ordenar --}}
