@@ -78,7 +78,7 @@
                 <h4 style="padding-top:5%;">Nuevo Deporte</h4>
                 <hr>
 
-                <form action={{ url('sede/crear') }} method="post"> @csrf
+                <form action={{ url('deporte/crear') }} method="post"> @csrf
 
                     <label for="NombreSede" class="form-label">Nombre deporte</label>
                     <input type="text" class="form-control" name="NombreDeporte" value="{{ old('NombreDeporte') }}">

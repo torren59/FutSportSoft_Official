@@ -176,4 +176,3 @@ function switchadicion2(idadicionobj){
 
 }
 
-

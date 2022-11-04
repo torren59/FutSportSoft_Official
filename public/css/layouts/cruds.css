@@ -28,7 +28,7 @@
     text-align: center;
     align-items: center;
     /*align-content: center; */
-    border: 2px solid salmon;
+    /* border: 2px solid salmon; */
 }
 
 .error_subtitle{
@@ -73,13 +73,38 @@
     /* border: 2px dotted green; */
 }
 
+.grid_doble_superderecha2{
+    display: grid;
+    width: 100%;
+    height: 82vh;
+    grid-template-columns: 1fr 2fr;
+    /* border: 2px dotted green; */
+}
+
 .grid_span_1{
     grid-column: span 1;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     overflow-y: scroll;
+    overflow-x: hidden;
     /* border: 2px solid black; */
+}
+
+.pointer_disable{
+cursor: not-allowed;
+}
+
+.pointer_disable *{
+    cursor: not-allowed !important;
+}
+
+.pointer_disable *:hover{
+    border: 0;
+}
+
+.pointer_disable *:active{
+    border: 0;
 }
 
 .grid_span_2a3{
@@ -89,6 +114,7 @@ flex-wrap: wrap;
 justify-content: center;
 gap: 5px;
 /* background-color: green; */
+/* border: 2px solid violet; */
 }
 
 #product_added{
@@ -130,7 +156,9 @@ font-family: 'Source Sans Pro', sans-serif;
 
 
 .adicion_off{
-    visibility: hidden;
+    display: none;
+    height: 0px;
+    overflow: hidden;
 }
 
 .adicion_title{
@@ -199,8 +227,96 @@ font-family: 'Source Sans Pro', sans-serif;
     display: flex;
     justify-content: center;
     margin-right: 10px;
-  }
+}
 
-.checked_box{
-    
+/*Card de productos adicion para ventas*/
+
+.Container_Card_Venta{
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    width: 100%;
+    height:100%;
+    gap: 4px;
+    overflow-y:visible;
+    /* border: 1px solid green; */
+}
+
+.Manual_Card{
+/* border: 1px solid pink; */
+cursor: pointer;
+height: 18em;
+border-radius: 8px;
+background: rgba(184 , 196, 187, 0.5);
+display: grid;
+grid-template-rows: 2fr 1fr;
+}
+
+.Manual_Card:hover{
+    /* box-shadow: 2px 2px black; */
+    border: 1px solid black;
+}
+
+.Manual_Card:active{
+        /* box-shadow: 2px 2px black; */
+        border: 1px dotted black;
+}
+
+.Manual_Card_Selected{
+    background: rgba(138, 198, 208, 0.5);
+}
+
+.Card_Data{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    /* border: 1px solid yellowgreen; */
+}
+
+.Card_Total_Orders_Title{
+    display: flex;
+    flex-wrap: wrap;
+    grid-area: OrderTitle;
+    align-items: center;
+    justify-content: center;
+}
+
+.Card_Total_Orders{
+    display: flex;
+    flex-wrap: wrap;
+    grid-area: Orders;
+    align-items: center;
+    justify-content: center;
+}
+
+.Card_Quit_Option{
+    display: flex;
+    flex-wrap: wrap;
+    grid-area: Quit;
+    /* border: 1px solid black; */
+    align-items: center;
+}
+
+.Card_Options{
+    display: grid;
+    grid-template-areas: 
+    'OrderTitle OrderTitle OrderTitle'
+    'Orders Orders Quit';
+}
+
+.Card_Options_disable{
+    display: grid;
+    visibility:hidden;
+    grid-template-areas: 
+    'Orders Orders Edit'
+    'Orders Orders Quit';
+}
+
+
+
+/* Configuraciones flex */
+
+.One_In_Flex{
+    width: 100%;
 }

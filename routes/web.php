@@ -70,7 +70,6 @@ Route::controller(ComprasController::class)->middleware('auth')->group(
         Route::get('compras/editar/{id}','edit');
         Route::post('compras/actualizar/{id}','update');
         Route::get('compras/getDetalle/{NumeroFactura?}','getDetalle');
-        Route::get('holaperra','getDetalle');
     }
 );
 
@@ -134,7 +133,11 @@ Route::controller(VentasController::class)->middleware('auth')->group(
         Route::get('venta/crear', 'create');
         Route::post('venta/store', 'store');
         Route::post('venta/listaseleccionados','listselected');
-        Route::get('venta/getArray/{numero?}', 'getArray');
+        Route::post('venta/addProducto','addProducto');
+        Route::post('venta/deleteProducto','deleteProducto');
+        Route::post('venta/getFacturacion','getFacturacion');
+        Route::get('venta/Elim','elim');
+        Route::get('venta/bbbccc','letSes');
     }
 );
 

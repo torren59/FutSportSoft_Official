@@ -56,7 +56,7 @@ class AccesoController extends Controller
         $user = new User();
         $user->Documento = '100022233';
         $user->Nombre = 'Usuario validable';
-        $user->RolId = '1';
+        $user->IdRol = '1';
         $user->Celular = '3214321212';
         $user->email = 'email2@email.com';
         $user->Direccion = 'Calle B';

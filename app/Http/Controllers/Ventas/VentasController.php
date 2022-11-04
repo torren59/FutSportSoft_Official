@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Compras\articulo_comprado;
 use App\Models\Compras\Producto;
 use App\Models\Programacion\Deporte;
+use App\Models\Programacion\Deportista;
+use App\Models\Ventas\Articulo_Vendido;
 use App\Models\Ventas\Venta;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -20,7 +22,7 @@ class VentasController extends Controller
     public function index()
     {
         $ListadoVenta = Venta::all();
-        return view('Ventas.ventas')->with('listado',$ListadoVenta);
+        return view('Ventas.ventas')->with('listado', $ListadoVenta);
     }
 
     /**
@@ -30,9 +32,20 @@ class VentasController extends Controller
      */
     public function create(Request $request)
     {
-        $ProductModel= new Producto();
-        $Productos = $ProductModel->all();
-        return view('Ventas.crearventa')->with('productos',$Productos);
+        $Productos = Producto::select(['ProductoId', 'NombreProducto', 'TipoProducto', 'Talla', 'PrecioVenta', 'Cantidad', 'proveedores.NombreEmpresa'])
+            ->join('proveedores', 'proveedores.Nit', '=', 'productos.Nit')
+            ->get();
+        // ->where('productos.Estado','=',1)
+
+        $Deportistas = Deportista::select(['Documento','Nombre'])
+        ->get();
+
+        $Info = ['Productos'=>$Productos, 'Deportistas' => $Deportistas];
+
+        if(session()->has('VentaSession')){
+            session()->forget('VentaSession');
+        }
+        return view('Ventas.crearventa')->with('Info', $Info);
     }
 
     /**
@@ -43,60 +56,59 @@ class VentasController extends Controller
      */
     public function store(Request $request)
     {
-        $productos = $request->productos;
-        $articulosComprados = [];
+        // GUARDANDO VENTA
+        $Venta = new Venta();
+        $VentaSession = session('VentaSession');
+        $IdVenta = Venta::creadorPK($Venta, 100000);
+        $Descuento = $request->Descuento;
+        (strlen($Descuento) < 1) ? $Descuento = 0: $Descuento = $Descuento;
+        $Documento = $request->Documento;
 
-        if($productos == null){
-            return 'Evite enviar productos vacío';
+        // Rescatando datos de la sesión
+        $VentaSession = session('VentaSession');
+        $Articulos = $VentaSession[0]['Articulos'];
+        $VentaData = $VentaSession[0]['VentaData'];
+
+        // Asignando valores finales
+        $Iva = intval($VentaData['Total']) - intval($VentaData['SubTotal']);
+        $FinalTotal = intval($VentaData['Total']) - intval($Descuento);
+        $FinalSubTotal = intval($VentaData['SubTotal']) - intval($Descuento);
+        $Venta->VentaId = $IdVenta;
+        $Venta->Documento = $Documento;
+        $Venta->FechaVenta = date('Y-m-d');
+        $Venta->ValorVenta = $FinalTotal;
+        $Venta->SubTotal = $FinalSubTotal;
+        $Venta->Iva = $Iva;
+        $Venta->Descuento = $Descuento;
+
+        $Venta->save();
+
+        $Llaves = array_keys($Articulos);
+        $i = 0;
+        foreach($Llaves as $item){
+            // GUARDANDO ARTICULOS
+            $ArticulosObj = new Articulo_Vendido();
+            $ArticulosObj->ArticulosVendidosId = Articulo_Vendido::creadorPK($ArticulosObj, 10000000);
+            $ArticulosObj->ProductoId = $item;
+            $ArticulosObj->VentaId = $IdVenta;
+            $ArticulosObj->Cantidad = $Articulos[$item]['Orden'];
+            $PrecioVenta = Producto::select(['PrecioVenta'])->where('ProductoId', '=', $item)->get();
+            $ArticulosObj->PrecioVenta = $PrecioVenta[0]['PrecioVenta'];
+            $ArticulosObj->save();
+            // ACTUALIZANDO CANTIDADES
+            $Peticion = Producto::select(['Cantidad'])->where('ProductoId','=',$item)->get();
+            $OldCantidad = $Peticion[0]['Cantidad'];
+            $NewCantidad = intval($OldCantidad) - intval($Articulos[$item]['Orden']);
+            $Producto = Producto::find($item);
+            $Producto->Cantidad = $NewCantidad;
+            $Producto->save();
+            $i += 1;
         }
-
-        foreach($productos as $item){
-            // Crea las rutas para rescatar datos del request
-            $rutaCantidad = strval($item.'_cantidad');
-            $rutaValorUnitario = strval($item.'_unitValue');
-
-            // Llena el objeto con los datos de un producto adicionado
-            $articulos = new articulo_comprado();
-            $articulos->ProductoId = $item;
-            $articulos->Cantidad = $request->$rutaCantidad;
-            $articulos->PrecioCompra = $request->$rutaValorUnitario;
-
-            // Llena el array de validable con los datos del objeto
-            $validable = ['ProductoId'=>$item, 'Cantidad' => $request->$rutaCantidad, 'PrecioCompra' => $request->$rutaValorUnitario];
-
-            // Valida que el objeto no tenga campos vacíos
-            $validator = Validator::make($validable,
-            ['Cantidad'=>'required|min:1','PrecioCompra'=>'required|min:0']);
-            if($validator->fails()){
-                return back()
-                ->withErrors($validator)
-                ->withInput(); 
-            }
-
-            // Guarda Objeto en array si este pasa la validación
-            array_push($articulosComprados,$articulos);
-        }
-
         
+        return redirect('venta/listar');
         
-        foreach($articulosComprados as $item){
-            // Crea registros en la tabla de artículos comprados
-            $articulo = new articulo_comprado();
-            $articulo->ArticulosCompradosId = articulo_comprado::creadorPK($articulo, 1000);
-            $articulo->ProductoId = $item->ProductoId;
-            $articulo->NumeroFactura = $request->NumeroFactura;
-            $articulo->Cantidad = $item->Cantidad;
-            $articulo->PrecioCompra = $item->PrecioCompra;
-            $articulo->save();
 
-            // Modifica la cantidad en los registros de los productos
-            $deporte = Producto::find($item->ProductoId);
-            $Cantidad = $deporte->Cantidad + $item->Cantidad;
-            $deporte->Cantidad = $Cantidad; 
-            $deporte->save();
-        }
-
-        return redirect('dashboard/panel');
+   
     }
 
 
@@ -127,8 +139,8 @@ class VentasController extends Controller
      */
     public function edit($id)
     {
-        $Selected =  Venta::all()->where('VentaId','=',$id);
-        return view('Ventas.editarventas')->with('ventadata',$Selected);
+        $Selected =  Venta::all()->where('VentaId', '=', $id);
+        return view('Ventas.editarventas')->with('ventadata', $Selected);
     }
 
     /**
@@ -140,17 +152,18 @@ class VentasController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validator = Validator::make($request->all(), 
-        ['Documento'=>'min:1|unique:ventas,Documento|max:11','FechaVenta'=>'min:1|max:20','ValorVenta'=>'min:1|max:20','SubTotal'=>'min:1|unique:ventas,SubTotal|max:20','IVA'=>'min:1|max:20','Descuento'=>'min:1|max:20'],
-        ['unique'=>'Este campo no acepta información que ya se ha registrado','min'=>'No puedes enviar este campo vacío','max'=>'Máximo de :max dígitos']);
-        
-        if($validator->fails()){
+        $validator = Validator::make(
+            $request->all(),
+            ['Documento' => 'min:1|unique:ventas,Documento|max:11', 'FechaVenta' => 'min:1|max:20', 'ValorVenta' => 'min:1|max:20', 'SubTotal' => 'min:1|unique:ventas,SubTotal|max:20', 'IVA' => 'min:1|max:20', 'Descuento' => 'min:1|max:20'],
+            ['unique' => 'Este campo no acepta información que ya se ha registrado', 'min' => 'No puedes enviar este campo vacío', 'max' => 'Máximo de :max dígitos']
+        );
+
+        if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
-            
         }
         $venta = Venta::find($id);
-        $Campos = ['Documento','FechaVenta','ValorVenta','SubTotal','IVA','Descuento'];
-        foreach($Campos as $item){
+        $Campos = ['Documento', 'FechaVenta', 'ValorVenta', 'SubTotal', 'IVA', 'Descuento'];
+        foreach ($Campos as $item) {
             $venta->$item = $request->$item;
         }
         $venta->save();
@@ -168,10 +181,159 @@ class VentasController extends Controller
         //
     }
 
-    public function getArray(Request $request){
-        $numero = $request->numero;
-        $info = array(['David',17]);
-        array_push($info,['Nombre'=>'Juan','Edad'=>15]);
-        return json_encode($info);
+    // Área de adición de producto
+
+    /**
+     * @var ProductoId
+     * @var Cantidad
+     * 
+     * @return Total
+     */
+    private function getTotalProducto($ProductoId, $Cantidad)
+    {
+        $PrecioVenta = 0;
+        $Consulta = Producto::select(['PrecioVenta'])
+            ->where('ProductoId', '=', $ProductoId)->get();
+
+        foreach ($Consulta as $item) {
+            $PrecioVenta = $item->PrecioVenta;
+        }
+
+        $IntPrecioVenta = intval($PrecioVenta);
+        $IntCantidad = intval($Cantidad);
+
+        $Total = $IntPrecioVenta * $IntCantidad;
+        return $Total;
+    }
+
+    private function getSubTotalProducto($Total)
+    {
+        $SubTotal = $Total - ($Total * 0.19);
+        return $SubTotal;
+    }
+
+    public function letSes(){
+        $VentaSession = session('VentaSession');
+        // $br = [];
+        // foreach($VentaSession as $item){
+        //     $br += $item;
+        // }
+        return $VentaSession[0];
+    }
+
+    public function addProducto(Request $request)
+    {
+        // Definir variables
+        $VentaSession = [];
+        $Articulos = [];
+        $VentaData = [];
+        $Total = 0;
+        $SubTotal = 0;
+
+        // Rescatar ID y Cantidad
+        $ProductoId = json_decode($request->ProductoId);
+        $Orden = json_decode($request->Orden);
+
+        // Determinar total y subtotal para el producto
+        $PrecioTotalProducto = $this->getTotalProducto($ProductoId, $Orden);
+        $SubTotalProducto = $this->getSubTotalProducto($PrecioTotalProducto);
+
+        if(session()->missing('VentaSession')){
+
+            // Adición del primer producto
+            $Total += intval($PrecioTotalProducto);
+            $SubTotal += intval($SubTotalProducto);
+
+            // Guardando total y subtotal general & Agregando producto
+            $VentaData['Total'] = $Total;
+            $VentaData['SubTotal'] = $SubTotal;
+            $Articulos[$ProductoId] = ['Orden' => $Orden, 'Total' => $PrecioTotalProducto, 'SubTotal' => $SubTotalProducto];
+
+            // Guardando VentaData y Articulos
+            $VentaSession[0]['Articulos'] = $Articulos;
+            $VentaSession[0]['VentaData'] = $VentaData;
+            session(['VentaSession' => $VentaSession]);
+            return $VentaSession;
+        }
+
+        else{
+            // Rescatando datos de la sesión
+            $VentaSession = session('VentaSession');
+            $Articulos = $VentaSession[0]['Articulos'];
+            $VentaData = $VentaSession[0]['VentaData'];
+            
+            // Rescatando total y subtotal general
+            $Total = $VentaData['Total'];
+            $SubTotal = $VentaData['SubTotal'];
+           
+            // Recalculando total y subtotal general
+            $Total += intval($PrecioTotalProducto);
+            $SubTotal += intval($SubTotalProducto);
+
+            // Reemplazando total y subtotal general & Agregando producto
+            $VentaData['Total'] = $Total;
+            $VentaData['SubTotal'] = $SubTotal;
+            $Articulos[$ProductoId] = ['Orden' => $Orden, 'Total' => $PrecioTotalProducto, 'SubTotal' => $SubTotalProducto];
+
+            // Reemplazando VentaData y Articulos
+            $VentaSession[0]['Articulos'] = $Articulos;
+            $VentaSession[0]['VentaData'] = $VentaData;
+            session()->forget('VentaSession');
+            session(['VentaSession' => $VentaSession]);
+            return $VentaSession;
+        }
+    }
+
+    public function deleteProducto(Request $request){
+
+        // Rescatar ID
+        $ProductoId = json_decode($request->ProductoId);
+
+        // Definir variables
+        $VentaSession = [];
+        $Articulos = [];
+        $VentaData = [];
+        $Total = 0;
+        $SubTotal = 0;
+
+        //Rescatando datos de la Sesion
+        $VentaSession = session('VentaSession');
+        $Articulos = $VentaSession[0]['Articulos'];
+        $VentaData = $VentaSession[0]['VentaData'];
+
+        // Rescatando total y subtotal general
+        $Total = $VentaData['Total'];
+        $SubTotal = $VentaData['SubTotal'];
+
+        // Rescatando articulo a eliminar y modificando total y subtotal
+        $Total -= $Articulos[$ProductoId]['Total'];
+        $SubTotal -= $Articulos[$ProductoId]['SubTotal'];
+
+        // Reemplazando total y subtotal general & Retirando producto
+        $VentaData['Total'] = $Total;
+        $VentaData['SubTotal'] = $SubTotal;
+        unset($Articulos[$ProductoId]);
+
+        // Reemplazando VentaData y Articulos
+        $VentaSession[0]['Articulos'] = $Articulos;
+        $VentaSession[0]['VentaData'] = $VentaData;
+        session()->forget('VentaSession');
+        session(['VentaSession' => $VentaSession]);
+        if(count($Articulos) == 0){
+            session()->forget('VentaSession');
+        }
+        return $VentaSession;
+    }
+
+    public function elim(){
+        session()->forget('VentaSession');
+    }
+
+    public function getFacturacion(Request $request){
+        if(session()->has('VentaSession')){
+            $VentaData = session('VentaSession');
+            return $VentaData;
+        }
+        return json_encode(0);
     }
 }
