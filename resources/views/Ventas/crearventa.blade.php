@@ -85,9 +85,6 @@
                                                 Existencias: {{ $item->Cantidad }}
                                             </label>
                                             <label class="label-control One_In_Flex">
-                                                Existencias: {{ $item->Cantidad }}
-                                            </label>
-                                            <label class="label-control One_In_Flex">
                                                 Precio: {{ $item->PrecioVenta }}
                                             </label>
                                         </div>
