@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Programacion;
 
 use App\Http\Controllers\Controller;
+use App\Models\Programacion\Acudiente;
 use App\Models\Programacion\Deportista;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -40,6 +41,12 @@ class DeportistasController extends Controller
         $Campos = ['Documento','DocumentoAcudiente','TipoDocumento','Nombre','FechaNacimiento','Direccion','Celular','Correo','UltimoPago'];
         foreach($Campos as $item){
             $Deportista->$item = $request->$item;
+        }
+
+        $Acudiente = new Acudiente();
+        $Campos = ['DocumentoAcudiente','NombreAcudiente','CorreoAcudiente','CelularAcudiente'];
+        foreach($Campos as $item){
+            $Acudiente->$item = $request->$item;
         }
 
         $Deportista->save();

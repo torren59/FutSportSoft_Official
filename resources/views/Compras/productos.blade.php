@@ -85,7 +85,7 @@
                 <form action={{ url('producto/crear') }} method="post"> @csrf
 
                     <label for="Nit" class="form-label">Nit</label>
-                    <input type="text" class="form-control" name="Nit" value="{{ old('Nit') }}">
+                    <input type="number" class="form-control" name="Nit" value="{{ old('Nit') }}">
                     @error('Nit')
                         <div>
                             @foreach ($errors->get('Nit') as $item)
@@ -129,8 +129,8 @@
                         </div>
                     @enderror
 
-                    <label for="PrecioVenta" class="form-label">PrecioVenta</label>
-                    <input type="text" class="form-control" name="PrecioVenta" value=" {{ old('PrecioVenta') }} ">
+                    <label for="PrecioVenta" class="form-label">Precio Venta</label>
+                    <input type="number" class="form-control" name="PrecioVenta" value=" {{ old('PrecioVenta') }} ">
                     @error('PrecioVenta')
                         <div>
                             @foreach ($errors->get('PrecioVenta') as $item)
@@ -140,7 +140,7 @@
                     @enderror
 
                     <label for="Cantidad" class="form-label">Cantidad</label>
-                    <input type="text" class="form-control" name="Cantidad" value=" {{ old('Cantidad') }} ">
+                    <input type="number" class="form-control" name="Cantidad" value=" {{ old('Cantidad') }} ">
                     @error('Cantidad')
                         <div>
                             @foreach ($errors->get('Cantidad') as $item)
