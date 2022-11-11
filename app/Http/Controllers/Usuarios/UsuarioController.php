@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Configuracion\Roles;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class UsuarioController extends Controller
@@ -18,11 +19,12 @@ class UsuarioController extends Controller
     public function index()
     {
         $ListadoUsuario = User::select(['users.id','Documento','Nombre','Estado','roles.name'])
-        ->join('roles','users.IdRol','=','roles.id')
+        ->join('roles','users.RolId','=','roles.id')
         ->get();
         $ListadoRoles = Roles::all();
         $Listados = ['ListadoUsuario'=>$ListadoUsuario,'ListadoRoles'=>$ListadoRoles];
-         return view('Usuarios.Usuario')->with('listado', $Listados);
+        return view('Usuarios.Usuario')->with('listado', $Listados);
+
 
 
 
@@ -124,6 +126,36 @@ class UsuarioController extends Controller
         }
         $Usuario->save();
         return redirect('usuario/listar');
+    }
+
+    public function newPassword($id){
+        $User = User::find($id);
+        return view('Usuarios.cambiarclave')->with('User',$User);
+    }
+
+    public function changePassword(Request $request){
+        // Recibiendo ID y clave
+        $UserId = $request->id;
+        $NewPassword = $request->password;
+
+        // Validando clave
+        $validator = Validator::make($request->all(), 
+    ['password' => 'required|max:15'],
+    ['required'=>'Evite enviar este campo vacío','max'=>'La clave no debe exceder un máximo de :max caracteres']);
+
+    if($validator->fails()){
+        return back()->withErrors($validator);
+    }
+
+    // Cambiando clave
+    $User = User::find($UserId);
+
+    $User->forceFill([
+        'password' => Hash::make($request->password)
+    ]);
+    $User->save();
+
+    return redirect('usuario/listar');
     }
 
     /**

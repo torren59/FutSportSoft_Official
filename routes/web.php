@@ -96,6 +96,8 @@ Route::controller(UsuarioController::class)->middleware('auth')->group(
         Route::get('usuario/editar/{id}','edit');
         Route::get('usuario/getDetalle/{id?}','getDetalle');
         Route::post('usuario/actualizar/{id}','update');
+        Route::get('usuario/newpassword/{id}','newPassword');
+        Route::post('usuario/changepassword','changePassword');
     }
 );
 
