@@ -30,10 +30,7 @@ class ComprasController extends Controller
 
 
     }
-public function createview($Productos) {
-    return redirect('Compras.crearcompra')->with('productos',$Productos);
 
-}
     /**
      * Show the form for creating a new resource.
      *

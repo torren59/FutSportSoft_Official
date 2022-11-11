@@ -84,7 +84,12 @@ class CategoriaController extends Controller
      */
     public function edit($id)
     {
-        //
+        $Selected =  Categoria::select(['CategoriaId','deportes.DeporteId','deportes.NombreDeporte','NombreCategoria','RangoEdad'])
+        ->join('deportes','categorias.DeporteId','=','deportes.DeporteId')->where('CategoriaId', '=', $id)
+        ->get();
+        $Deporte = Deporte::select(['DeporteId','NombreDeporte'])->get();
+        $data = ['categorias'=>$Selected,'deportes'=>$Deporte];
+        return view('Programacion.editarcategoria')->with('data', $data);
     }
 
     /**
@@ -96,7 +101,20 @@ class CategoriaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // $validator = Validator::make($request->all(),
+        //  ['Nombre'=>'min:1|max:30','RolId'=>'min:1|max:50','Direccion'=>'min:1|max:70','Celular'=>'min:1|max:10','email'=>'min:1|max:70','Direccion'=>'min:1|max:70','FechaNacimiento'=>'min:1|max:50','password'=>'min:1|max:30'],
+        //  ['unique'=>'Este campo no acepta información que ya se ha registrado','min'=>'No puedes enviar este campo vacío','max'=>'Máximo de :max dígitos']);
+
+        //  if($validator->fails()){
+        //      return back()->withErrors($validator)->withInput();
+        // }
+        $Categoria = Categoria::find($id);
+        $Campos = ['DeporteId','NombreCategoria','RangoEdad'];
+        foreach($Campos as $item){
+            $Categoria->$item = $request->$item;
+        }
+        $Categoria->save();
+        return redirect('categoria/listar');
     }
 
     /**

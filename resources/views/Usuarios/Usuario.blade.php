@@ -63,7 +63,7 @@
                             @endphp
 
                             <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked"
+                                <input  class="form-check-input " type="checkbox" role="switch" id="flexSwitchCheckChecked"
                                     {{ $checkstate }}>
                             </div>
                         </td>
@@ -81,7 +81,6 @@
             <div class="floatcontent">
                 <h1 style="padding-top:5%;">Nuevo Usuario</h1>
                 <hr>
-
                 <form action={{ url('usuario/crear') }} method="post"> @csrf
 
                     <label for="Nombre" class="form-label">Nombre</label>
@@ -224,29 +223,6 @@
     <script>
         let tabla = document.getElementById("tabla");
         let datatable = new DataTable(tabla);
-
-$('.mi_checkbox').change(function(){
-
-var estatus =$(this).prop('checked') == true ? 1 : 0;
-var id = $(this).data('id');
-console.console.log(estatus);
-
-$.ajax({
-type: "Get",
-datatype: "json"
-url:'usuario/estado',
-data: {'estatus': estatus, 'id' : id},
-success: function(data){
-    $('#resp' + id).html(data.var);
-    console.log(data.var)
-}
-
-})
-
-})
-
-
-
 
     </script>
 

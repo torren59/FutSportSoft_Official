@@ -16,6 +16,7 @@ use App\Http\Controllers\Compras\ComprasController;
 use App\Http\Controllers\Configuracion\RolesController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Programacion\CategoriaController;
+use App\Http\Controllers\Programacion\GruposController;
 use App\Http\Controllers\Usuarios\AccesoController;
 use App\Http\Controllers\Usuarios\UsuarioController;
 
@@ -71,6 +72,18 @@ Route::controller(ComprasController::class)->middleware('auth')->group(
         Route::get('compras/editar/{id}','edit');
         Route::get('compras/getDetalle/{NumeroFactura?}','getDetalle');
         Route::post('/compras/listaseleccionados','listselected');
+
+
+    }
+);
+
+Route::controller(GruposController::class)->middleware('auth')->group(
+    function () {
+        Route::get('grupos/listar', 'index');
+        Route::post('grupos/store', 'store');
+        Route::get('grupos/editar/{GrupoId}','edit');
+        Route::get('grupos/getDetalle/{GruposId?}','getDetalle');
+        Route::post('/grupos/listaseleccionados','listselected');
 
 
     }
