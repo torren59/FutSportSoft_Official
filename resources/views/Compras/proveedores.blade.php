@@ -37,7 +37,7 @@
                     <td>Titular</td>
                     <td>Numero Contacto</td>
                     <td>Correo</td>
-                    <td>Direccion</td>
+                    <td>Dirección</td>
                     <td>Estado</td>
                 </tr>
             </thead>
@@ -82,7 +82,7 @@
                 <form action={{ url('proveedor/crear') }} method="post"> @csrf
 
                     <label for="Nit" class="form-label">Nit</label>
-                    <input type="text" class="form-control" name="Nit" value="{{ old('Nit') }}">
+                    <input type="number" class="form-control" name="Nit" value="{{ old('Nit') }}">
                     @error('Nit')
                         <div>
                             @foreach ($errors->get('Nit') as $item)
@@ -117,7 +117,7 @@
                     </div>
 
                     <label for="NumeroContacto" class="form-label">Numero Contacto</label>
-                    <input type="text" class="form-control" name="NumeroContacto" value=" {{ old('NumeroContacto') }} ">
+                    <input type="number" class="form-control" name="NumeroContacto" value=" {{ old('NumeroContacto') }} ">
                     @error('NumeroContacto')
                         <div>
                             @foreach ($errors->get('NumeroContacto') as $item)
@@ -136,7 +136,7 @@
                         </div>
                     @enderror
 
-                    <label for="Direccion" class="form-label">Direccion</label>
+                    <label for="Direccion" class="form-label">Dirección</label>
                     <input type="text" class="form-control" name="Direccion" value=" {{ old('Direccion') }} ">
                     @error('Direccion')
                         <div>

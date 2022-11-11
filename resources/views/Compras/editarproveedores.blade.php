@@ -77,7 +77,7 @@
                 </div>
 
                 <div class="col-12">
-                    <label for="Direccion" class="form-label">Direccion</label>
+                    <label for="Direccion" class="form-label">Dirección</label>
                     <input type="text" class="form-control" name="Direccion"
                         value=" {{ old('Direccion', $item->Direccion) }} ">
                     @error('Direccion')

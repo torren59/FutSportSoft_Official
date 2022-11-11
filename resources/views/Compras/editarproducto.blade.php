@@ -27,7 +27,7 @@
             @foreach ($productodata as $item)
                 <div class="col-12">
                     <label for="Nit" class="form-label">Nit</label>
-                    <input type="text" class="form-control" name="Nit" value="{{ old('Nit', $item->Nit) }}">
+                    <input type="number" class="form-control" name="Nit" value="{{ old('Nit', $item->Nit) }}">
                     @error('Nit')
                         <div>
                             @foreach ($errors->get('Nit') as $item)

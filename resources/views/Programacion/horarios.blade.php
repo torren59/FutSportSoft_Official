@@ -22,6 +22,11 @@
             <h1>HORARIOS</h1>
         </div>
     </center>
+
+    <div class="addbtn">
+        <button class="btn btn-outline-secondary col-2" onclick="switchadicion2('horarioadicion')">Nuevo Horario <i class="fa-solid fa-circle-plus"></i></button>
+    </div>
+
     <table id="tabla">
         <thead>
             <tr>
@@ -59,9 +64,7 @@
         </tbody>
     </table>
 
-    <div class="addbtn">
-        <button class="btn btn-success col-3" onclick="switchadicion2('horarioadicion')">Nuevo Horario <i class="fa-solid fa-circle-plus"></i></button>
-    </div>
+ 
 
 
 

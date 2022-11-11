@@ -26,7 +26,7 @@
             </div>
             <br>
             <div class="addbtn">
-                <button class="btn btn-success col-2" onclick="switchadicion2('programacionadicion')">Nueva Programación <i
+                <button class="btn btn-outline-secondary col-2" onclick="switchadicion2('programacionadicion')">Nueva Programación <i
                         class="fa-solid fa-circle-plus"></i></button>
             </div>
         </center>
