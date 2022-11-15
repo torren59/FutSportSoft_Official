@@ -151,7 +151,7 @@ class UsuarioController extends Controller
     $User = User::find($UserId);
 
     $User->forceFill([
-        'password' => Hash::make($request->password)
+        'password' => Hash::make($NewPassword)
     ]);
     $User->save();
 
