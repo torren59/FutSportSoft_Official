@@ -44,6 +44,8 @@ Route::controller(AccesoController::class)->group(
         Route::post('acceso/validar','isValid');
         Route::post('acceso/salir','logOut');
         Route::get('marcha','creaUsuario');
+        Route::get('acceso/restablececlave', 'restableceClave');
+        Route::post('acceso/enviamail', 'enviamail');
     }
 );
 

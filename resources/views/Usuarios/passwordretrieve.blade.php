@@ -19,9 +19,10 @@
             <div class="floatmodal" style="width:40%;height:40%">
                 <div class="floatcontent">
                     <div>
-                        <h3>Ingrese sus credenciales</h3>
+                        <h3>Ingrese su correo</h3>
+                        <small>Recuerda que debe ser el correo con el cual accedes a tu perfil</small>
                     </div>
-                    <form action=" {{ url('acceso/validar') }} " method="post">
+                    <form action=" {{ url('acceso/enviamail') }} " method="post">
                         @csrf
                         <div>
                             <label for="email" class="form-label">Correo</label>
@@ -37,39 +38,13 @@
 
                         </div>
 
-                        <div>
-                            <label for="password" class="form-label">Clave</label>
-                            <input type="password" name="password" class="form-control">
-
-                            @error('password')
-                                @foreach ($errors->get('password') as $item)
-                                    <div class="error_subtitle">
-                                        {{ $item }}
-                                    </div>
-                                @endforeach
-                            @enderror
-
-                        </div>
-                        <div>
-                            <a href=" {{url('acceso/restablececlave')}} ">He olvidado mi clave</a>
-                        </div>
                         <br>
                         <div>
-                            <button type="submit" class="btn btn-success">Ingresar</button>
+                            <button type="submit" class="btn btn-success">Recuperar</button>
                         </div>
                     </form>
                 </div>
             </div>
-
-            @error('unautorizedAccess')
-                @foreach ($errors->get('unautorizedAccess') as $item)
-                    <script>
-                        setTimeout(() => {
-                            swal_warning(" {{ $item }} ");
-                        }, 500);
-                    </script>
-                @endforeach
-            @enderror
 
         </div>
     </div>

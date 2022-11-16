@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class AccesoController extends Controller
 {
@@ -51,6 +52,41 @@ class AccesoController extends Controller
         return redirect('/login');
     }
 
+    public function restableceClave(){
+        return view('Usuarios.passwordretrieve');
+    }
+
+    public function getRetrieveUrl($email){
+
+        $Token = User::select(['remember_token'])
+        ->where('email','=',$email)
+        ->first();
+
+        $Url = 'http://127.0.0.1:8000/acceso/newpassword/'.$Token['remember_token'];
+
+        return $Url;
+
+
+    }
+
+    public function enviamail(Request $request){
+
+        // Validando email ingresado
+        $validator = Validator::make($request->only('email'), 
+        ['email' => 'required|email|exists:users'],
+        ['required' => 'No envíe este campo vacío','email' => 'Solo puede ingresar un email en este campo', 
+        'exists' => 'Esta dirección de correo electrónico no existe en nuestros registros']);
+
+        if($validator->fails()){
+            return back()->withErrors($validator);
+        }
+
+        return $this->getRetrieveUrl($request->email);
+
+
+    }
+
+
     public function creaUsuario()
     {
         $user = new User();
@@ -62,6 +98,7 @@ class AccesoController extends Controller
         $user->Direccion = 'Calle B';
         $user->FechaNacimiento = '2022-12-11';
         $user->password = Hash::make('clave');
+        $user->forceFill([])->setRememberToken(Str::random(60));
         $user->save();
 
         return 'Hola fifi';
