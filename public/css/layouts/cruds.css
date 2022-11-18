@@ -154,6 +154,11 @@ margin-top: 20px;
 font-family: 'Source Sans Pro', sans-serif;
 }
 
+.h1Access{
+  font-size: 1.5rem;
+  -webkit-text-stroke: 0.9px grey !important;
+  font-family: 'Source Sans Pro', sans-serif;
+}
 
 .adicion_off{
     display: none;

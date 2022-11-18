@@ -42,6 +42,10 @@
                         <div>
                             <button type="submit" class="btn btn-success">Recuperar</button>
                         </div>
+                        <br>
+                        <div>
+                            <a href=" {{url('/')}} "><button type="button" class="btn btn-warning">Volver al login</button></a>
+                        </div>
                     </form>
                 </div>
             </div>

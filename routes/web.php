@@ -35,7 +35,8 @@ use Whoops\RunInterface;
 |*/
 
 Route::get('/', function () {
-    return Redirect('login');
+    return view('Usuarios.passwordConfirmation');
+    // return view('Usuarios.login');
 });
 
 Route::controller(AccesoController::class)->group(
@@ -46,6 +47,7 @@ Route::controller(AccesoController::class)->group(
         Route::get('marcha','creaUsuario');
         Route::get('acceso/restablececlave', 'restableceClave');
         Route::post('acceso/enviamail', 'enviamail');
+        Route::get('acceso/newpassword/{email}/{token}','getNuevaClave');
     }
 );
 

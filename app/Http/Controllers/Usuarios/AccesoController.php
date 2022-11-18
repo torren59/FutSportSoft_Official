@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Usuarios;
 
 use App\Http\Controllers\Controller;
+use App\Mail\passwordRetrieve;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
@@ -62,7 +64,7 @@ class AccesoController extends Controller
         ->where('email','=',$email)
         ->first();
 
-        $Url = 'http://127.0.0.1:8000/acceso/newpassword/'.$Token['remember_token'];
+        $Url = 'http://127.0.0.1:8000/acceso/newpassword/'.$email.'/'.$Token['remember_token'];
 
         return $Url;
 
@@ -81,9 +83,16 @@ class AccesoController extends Controller
             return back()->withErrors($validator);
         }
 
-        return $this->getRetrieveUrl($request->email);
+        $Url = $this->getRetrieveUrl($request->email);
+        $User = User::all()->where('email','=',$request->email);
+        Mail::to($User)->send(new passwordRetrieve($User, $Url)); 
 
+        
 
+    }
+
+    public function getNuevaClave($email, $Token){
+        // Acá se redireccionará a la vista de cambio de contraseña
     }
 
 
