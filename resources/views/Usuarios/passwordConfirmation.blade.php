@@ -31,7 +31,7 @@
                 <br>
                 <div >
                     <center>
-                        <h6>Se ha enviado un correo de recuperación a {{$User->email}} </h6>
+                        <h6>Se ha enviado un correo de recuperación a {{$email}} </h6>
                         <small>Recuerda revisar en la bandeja principal y la bandeja de no deseados</small>
                     </center>
                 </div>

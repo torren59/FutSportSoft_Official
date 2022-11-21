@@ -15,9 +15,17 @@ use Illuminate\Validation\Rule;
 
 class AccesoController extends Controller
 {
-    public function index()
+    public function index($status = null)
     {
-        return view('Usuarios.login');
+        switch($status){
+            case 1:
+                $sweet_setAll = ['title'=>'Cambio realizado', 'msg'=>'Ya puedes ingresar con tu nueva clave', 'type'=>'success'];
+                return view('Usuarios.login')->with('sweet_setAll',$sweet_setAll);
+            break;
+            default:
+            return view('Usuarios.login');
+            break;
+        }
     }
 
     public function isValid(Request $request)
@@ -52,7 +60,7 @@ class AccesoController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('/login');
+        return redirect('login');
     }
 
     public function retrievePassword(){
@@ -76,7 +84,7 @@ class AccesoController extends Controller
 
         // Validando email ingresado
         $validator = Validator::make($request->all(), 
-        ['email' => 'required|email|exists:users'],
+        ['email' => 'required|email|exists:users,email'],
         ['required' => 'No envíe este campo vacío','email' => 'Solo puede ingresar un email en este campo', 
         'exists' => 'Esta dirección de correo electrónico no existe en nuestros registros']);
 
@@ -86,7 +94,7 @@ class AccesoController extends Controller
 
         // Enviando email
         $Url = $this->getRetrieveUrl($request->email);
-        $User = User::all()->where('email','=',$request->email);
+        $User = User::all(['Nombre','email'])->where('email','=',$request->email)->first();
         Mail::to($User)->send(new passwordRetrieve($User, $Url)); 
 
         return view('Usuarios.passwordConfirmation')->with('email', $User->email);
@@ -95,7 +103,7 @@ class AccesoController extends Controller
 
     public function getNewPasswordForm($email, $Token){
         $Info = ['email'=>$email, 'Token'=>$Token];
-        $User = User::where('email','=',$email);
+        $User = User::where('email','=',$email)->first();
 
         if($User->remember_token != $Token){
             return redirect('/login');
@@ -116,20 +124,22 @@ class AccesoController extends Controller
             return back()->withErrors($validator)->withInput();
         }
 
-        $User = User::where('email','=',$request->email);
+        $User = User::where('email','=',$request->email)->first();
+
 
         if($User->remember_token != $request->token){
             return redirect('/login');
         }
 
-        $User->forceFill([
+        $UserObj = User::find($User->id);
+
+        $UserObj->forceFill([
             'password' => Hash::make($request->confirmacion)
         ])->setRememberToken(Str::random(60));
 
-        $User->save();
+        $UserObj->save();
         
-        $sweet_setAll = ['title'=>'Cambio realizado', 'msg'=>'Ya puedes ingresar con tu nueva clave', 'type'=>'success'];
-        return view('Usuarios.login')->with('sweet_setAll',$sweet_setAll);
+        return redirect('login/1');
     }
 
 

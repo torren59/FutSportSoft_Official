@@ -41,7 +41,7 @@ Route::get('/', function () {
 
 Route::controller(AccesoController::class)->group(
     function(){
-        Route::get('login','index')->name('login');
+        Route::get('login/{status?}','index')->name('login');
         Route::post('acceso/validar','isValid');
         Route::post('acceso/salir','logOut');
         Route::get('marcha','creaUsuario');

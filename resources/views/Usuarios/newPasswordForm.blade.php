@@ -32,19 +32,19 @@
                     <div class="floatmodal" style="width:500px;height:400px">
                         <div class="floatcontent">
                             <h1>Restablecimiento de contraseña</h1>
-                            <form action="acceso/setnuevaclave" method="post"> @csrf
+                            <form action=" {{url('acceso/setnuevaclave')}} " method="post"> @csrf
 
-                                {{-- <input hidden disabled type="text" name="token"
+                                <input  hidden type="text" name="token"
                                 @if ($errors->any()) value = "{{ old('token') }}"
                                 @else
                                 value = " {{ $Info['Token'] }} " 
                                 @endif>
 
-                                <input hidden disabled type="text" name="email"
+                                <input  hidden type="text" name="email"
                                 @if ($errors->any()) value = "{{ old('email') }}"
                                 @else
                                 value = " {{ $Info['email'] }} " 
-                                @endif> --}}
+                                @endif> 
 
                                 <label for="nuevaclave" class="form-label">Nueva clave</label>
                                 <input type="text" name="nuevaclave" class="form-control"
