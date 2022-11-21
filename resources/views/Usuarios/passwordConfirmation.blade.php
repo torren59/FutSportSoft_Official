@@ -24,21 +24,18 @@
         <div class="main_area">
             <div class="zonaalta">
                 <div class="h1Access">
-                    {{-- <h1>FutSportSoft</h1> --}}
                     FutSportSoft
                 </div>
             </div>
-
             <div class="contenido">
-
-                @yield('content')
-
+                <br>
+                <div >
+                    <center>
+                        <h6>Se ha enviado un correo de recuperación a {{$User->email}} </h6>
+                        <small>Recuerda revisar en la bandeja principal y la bandeja de no deseados</small>
+                    </center>
+                </div>
                 <script src=" {{ asset('js/layouts/home.js') }} "></script>
-                <script src=" {{ asset('js/jquery/dist/jquery.js') }} "></script>
-                @stack('scripts')
-                {{-- <script src="../root/servicios/service.js"></script> --}}
-                <script src="https://kit.fontawesome.com/bd2541fe3a.js" crossorigin="anonymous"></script>
-
             </div>
         </div>
 

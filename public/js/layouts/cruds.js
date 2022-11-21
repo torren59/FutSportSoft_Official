@@ -110,3 +110,11 @@ function swal_warning(msg){
         text: msg,
     });
 }
+
+function swal_setAll(title,msg,type){
+    Swal.fire({
+        title: title,
+        text: msg,
+        icon: type,
+    });
+}

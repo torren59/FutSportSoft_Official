@@ -35,8 +35,8 @@ use Whoops\RunInterface;
 |*/
 
 Route::get('/', function () {
-    return view('Usuarios.passwordConfirmation');
-    // return view('Usuarios.login');
+    return view('Usuarios.login');
+    // return view('Usuarios.newPasswordForm');
 });
 
 Route::controller(AccesoController::class)->group(
@@ -45,9 +45,10 @@ Route::controller(AccesoController::class)->group(
         Route::post('acceso/validar','isValid');
         Route::post('acceso/salir','logOut');
         Route::get('marcha','creaUsuario');
-        Route::get('acceso/restablececlave', 'restableceClave');
-        Route::post('acceso/enviamail', 'enviamail');
-        Route::get('acceso/newpassword/{email}/{token}','getNuevaClave');
+        Route::get('acceso/restablececlave', 'retrievePassword');
+        Route::post('acceso/enviamail', 'SendMail');
+        Route::get('acceso/nuevaclave/{email}/{token}','getNewPasswordForm');
+        Route::post('acceso/setnuevaclave','setNewPassword');
     }
 );
 

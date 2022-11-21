@@ -71,6 +71,13 @@
                 @endforeach
             @enderror
 
+            @if (isset($sweet_setAll))
+                <script>
+                    setTimeout(() => {
+                        swal_setAll("{{$sweet_setAll['title']}}","{{$sweet_setAll['msg']}}","{{$sweet_setAll['type']}}");
+                    },500);
+                </script>
+            @endif
         </div>
     </div>
 
