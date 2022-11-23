@@ -3,7 +3,7 @@
 @section('title', 'Sedes')
 
 @push('styles')
-{{-- Estilos propios --}}
+    {{-- Estilos propios --}}
     <link rel="stylesheet" href=" {{ asset('./css/layouts/datatable.css') }} ">
     <link rel="stylesheet" href="{{ asset('./css/layouts/cruds.css') }} ">
 
@@ -58,8 +58,10 @@
                             @endphp
 
                             <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked"
-                                    {{ $checkstate }} >
+                                <a href=" {{ url('sede/cambiarEstado/' . $item->SedeId) }} ">
+                                    <input class="form-check-input" type="checkbox" role="switch"
+                                        id="flexSwitchCheckChecked" {{ $checkstate }}>
+                                </a>
                             </div>
                         </td>
 
@@ -68,7 +70,7 @@
             </tbody>
         </table>
 
-        
+
 
         {{-- Creacion de sedes --}}
 

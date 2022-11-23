@@ -109,10 +109,11 @@ Route::controller(DeportesController::class)->middleware('auth')->group(
 
 Route::controller(SedesController::class)->middleware('auth')->group(
     function () {
-        Route::get('sede/listar', 'index');
+        Route::get('sede/listar/{status?}', 'index');
         Route::post('sede/crear', 'create');
         Route::get('sede/editar/{id}','edit');
         Route::post('sede/actualizar/{id}','update');
+        Route::get('sede/cambiarEstado/{SedeId}','changeState');
     }
 );
 
@@ -129,6 +130,7 @@ Route::controller(ProgramacionesController::class)->middleware('auth')->group(
     function () {
         Route::get('programacion/listar', 'index');
         Route::post('programacion/crear', 'create');
+        Route::post('programacion/cambiarEstado','changeState');
     }
 );
 

@@ -27,4 +27,8 @@ class Programacion extends Model
         'FechaFinalizacion'
     ];
 
+    protected $attributes = [
+        'Estado' => true,
+    ];
+
 }

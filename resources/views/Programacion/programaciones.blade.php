@@ -5,10 +5,11 @@
 @section('title', 'Programación')
 
 @push('styles')
-{{-- Estilos propios --}}
+    {{-- Csrf para funcionamiento de Ajax --}}
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    {{-- Estilos propios --}}
     <link rel="stylesheet" href=" {{ asset('./css/layouts/datatable.css') }} ">
     <link rel="stylesheet" href="{{ asset('./css/layouts/cruds.css') }} ">
-
     {{-- sweetalert --}}
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @endpush
@@ -26,8 +27,8 @@
             </div>
             <br>
             <div class="addbtn">
-                <button class="btn btn-outline-secondary col-2" onclick="switchadicion2('programacionadicion')">Nueva Programación <i
-                        class="fa-solid fa-circle-plus"></i></button>
+                <button class="btn btn-outline-secondary col-2" onclick="switchadicion2('programacionadicion')">Nueva
+                    Programación <i class="fa-solid fa-circle-plus"></i></button>
             </div>
         </center>
 
@@ -40,18 +41,33 @@
                     <td>Horario</td>
                     <td>Fecha Inicio</td>
                     <td>Fecha FInalización</td>
+                    <td>Estado</td>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($programaciones as $item)
-                <tr>
-                    <td> {{$item->ProgramacionId}} </td>
-                    <td> {{$item->NombreSede}} </td>
-                    <td> {{$item->NombreGrupo}} </td>
-                    <td> {{$item->Horario}} </td>
-                    <td> {{$item->FechaInicio}} </td>
-                    <td> {{$item->FechaFinalizacion}} </td>
-                </tr>
+                    <tr>
+                        <td> {{ $item->ProgramacionId }} </td>
+                        <td> {{ $item->NombreSede }} </td>
+                        <td> {{ $item->NombreGrupo }} </td>
+                        <td> {{ $item->Horario }}</td>
+                        <td> {{ $item->FechaInicio }} </td>
+                        <td> {{ $item->FechaFinalizacion }}</td>
+                        <td>
+                            {{-- Definiendo estado --}}
+                            @php
+                                $checkstate = '';
+                                if ($item->Estado == true) {
+                                    $checkstate = 'checked';
+                                }
+                            @endphp
+
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked"
+                                    {{ $checkstate }} onclick="changeState({{ $item->ProgramacionId }})">
+                            </div>
+                        </td>
+                    </tr>
                 @endforeach
             </tbody>
         </table>
@@ -105,9 +121,6 @@
                             <label for="CategoriaId" class="form-label">Categoria</label>
                             <select name="CategoriaId" class="form-select categoria_select">
                                 <option value="">Selecciona categoría</option>
-                                {{-- @foreach ($categorias as $item)
-                                    <option value=' {{ $item->SedeId }} '>{{ $item->NombreSede }}</option>
-                                @endforeach --}}
                             </select>
                             @error('CategoriaId')
                                 <div>
@@ -122,9 +135,6 @@
                             <label for="GrupoId" class="form-label">Grupo</label>
                             <select name="GrupoId" class="form-select grupo_select">
                                 <option value="">Selecciona grupo</option>
-                                {{-- @foreach ($grupos as $item)
-                                    <option value=' {{ $item->GrupoId }} '>{{ $item->NombreGrupo }}</option>
-                                @endforeach --}}
                             </select>
                             @error('GrupoId')
                                 <div>
@@ -222,4 +232,5 @@
 
     <script src=" {{ asset('./js/layouts/cruds.js') }} "></script>
     <script src=" {{ asset('./js/layouts/asincronas.js') }} "></script>
+    <script src=" {{ asset('./js/Programacion/programacion.js') }} "></script>
 @endpush

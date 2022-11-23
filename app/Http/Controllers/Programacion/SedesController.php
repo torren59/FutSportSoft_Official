@@ -13,10 +13,14 @@ class SedesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($status = null)
     {
         $ListadoSede = Sede::all();
-        return view('Programacion.Sedes')->with('listado',$ListadoSede);
+        switch($status){
+            default:
+            return view('Programacion.Sedes')->with('listado',$ListadoSede);
+            break;
+        }
     }
 
     /**
@@ -65,6 +69,11 @@ class SedesController extends Controller
     public function show($id)
     {
         //
+    }
+
+    public function changeState($SedeId){
+        $totVinculos = Sede::join('programacion','sedes.SedeId','=','programacion.SedeId')->where('sedes.SedeId','=',$SedeId)->count();
+        return $totVinculos;
     }
 
     /**
