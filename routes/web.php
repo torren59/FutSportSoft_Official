@@ -16,6 +16,7 @@ use App\Http\Controllers\Compras\ComprasController;
 use App\Http\Controllers\Configuracion\RolesController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Programacion\CategoriaController;
+use App\Http\Controllers\Programacion\GruposController;
 use App\Http\Controllers\Usuarios\AccesoController;
 use App\Http\Controllers\Usuarios\UsuarioController;
 
@@ -70,11 +71,26 @@ Route::controller(RolesController::class)->middleware('auth')->group(
 Route::controller(ComprasController::class)->middleware('auth')->group(
     function () {
         Route::get('compras/listar', 'index');
-        Route::get('compras/crear', 'create');
+        Route::any('compras/crearproveedor', 'create');
+        Route::get('compras/create', 'createview');
         Route::post('compras/store', 'store');
         Route::get('compras/editar/{id}','edit');
-        Route::post('compras/actualizar/{id}','update');
         Route::get('compras/getDetalle/{NumeroFactura?}','getDetalle');
+        Route::post('/compras/listaseleccionados','listselected');
+
+
+    }
+);
+
+Route::controller(GruposController::class)->middleware('auth')->group(
+    function () {
+        Route::get('grupos/listar', 'index');
+        Route::post('grupos/store', 'store');
+        Route::get('grupos/editar/{GrupoId}','edit');
+        Route::get('grupos/getDetalle/{GruposId?}','getDetalle');
+        Route::post('/grupos/listaseleccionados','listselected');
+
+
     }
 );
 
@@ -83,7 +99,10 @@ Route::controller(UsuarioController::class)->middleware('auth')->group(
         Route::get('usuario/listar', 'index');
         Route::post('usuario/crear', 'create');
         Route::get('usuario/editar/{id}','edit');
+        Route::get('usuario/getDetalle/{id?}','getDetalle');
         Route::post('usuario/actualizar/{id}','update');
+        Route::get('usuario/newpassword/{id}','newPassword');
+        Route::post('usuario/changepassword','changePassword');
     }
 );
 

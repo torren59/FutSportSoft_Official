@@ -172,5 +172,5 @@ class AccesoController extends Controller
         return 'Hola fifi';
     }
 
-    
+
 }

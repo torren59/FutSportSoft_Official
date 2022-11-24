@@ -40,7 +40,7 @@ class RolesController extends Controller
 
         $Roles = new Roles();
         $id = $Roles::creadorPK($Roles, 100);
-        $Roles->RolId = $id;
+        $Roles->id = $id;
         $Campos = ['name'];
         foreach ($Campos as $item) {
             $Roles->$item = $request->$item;
