@@ -3,6 +3,8 @@
 @section('title', 'Sedes')
 
 @push('styles')
+    {{-- Csrf para funcionamiento de Ajax --}}
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     {{-- Estilos propios --}}
     <link rel="stylesheet" href=" {{ asset('./css/layouts/datatable.css') }} ">
     <link rel="stylesheet" href="{{ asset('./css/layouts/cruds.css') }} ">
@@ -42,7 +44,8 @@
                 @foreach ($listado as $item)
                     <tr>
                         <td><a href="{{ url('sede/editar/' . $item->SedeId) }}"><button class="btn btn-primary"><i
-                                        class="fa-solid fa-pen"></i></button></a></td>
+                                        class="fa-solid fa-pen"></i></button></a>
+                                    <button type="button" onclick="canChange(' {{$item->SedeId}} ')">A</button></td>
                         <td>{{ $item->SedeId }}</td>
                         <td>{{ $item->NombreSede }}</td>
                         <td> {{ $item->Municipio }} </td>
@@ -134,6 +137,18 @@
             </div>
         </div>
 
+        {{-- Alerta cambio de estado --}}
+        <div class="adicion_off" id="errorsEstado">
+            <div class="floatcontent">
+                <h4 style="padding-top:5%;">Operación cancelada</h4>
+                <div>
+                    No fue posible realizar el cambio de estado, sede vinculada a programaciones activas.
+                </div>
+                <div id="errorsEstadoMsg">
+                    {{-- Acá se imprimen las programaciones vinculadas --}}
+                </div>
+            </div>
+        </div>
         @if ($errors->any())
             <script>
                 setTimeout(() => {
@@ -153,4 +168,6 @@
     </script>
 
     <script src=" {{ asset('./js/layouts/cruds.js') }} "></script>
+    <script src=" {{ asset('./js/Programacion/sedes.js') }} "></script>
+
 @endpush

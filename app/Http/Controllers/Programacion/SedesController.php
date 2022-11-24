@@ -71,9 +71,26 @@ class SedesController extends Controller
         //
     }
 
-    public function changeState($SedeId){
-        $totVinculos = Sede::join('programacion','sedes.SedeId','=','programacion.SedeId')->where('sedes.SedeId','=',$SedeId)->count();
-        return $totVinculos;
+    public function changeState(Request $request){
+        $SedeId = json_decode($request->SedeId);
+        $sede = Sede::find($SedeId);
+
+        $sede->Estado = false;
+        $sede->save();
+
+        $Estado = ['Estado'=>$sede->Estado];
+        return json_encode($Estado);
+    }
+
+    public function canChange(Request $request){
+        $SedeId = json_decode($request->SedeId);
+        $Sedes = Sede::select(['sedes.SedeId'])
+        ->join('programacion','sedes.SedeId','=','programacion.SedeId')
+        ->where('sedes.SedeId','=',intval($SedeId))
+        ->where('programacion.Estado','=',true)
+        ->get();
+
+        return json_encode($Sedes);
     }
 
     /**

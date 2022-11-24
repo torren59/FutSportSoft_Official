@@ -113,7 +113,8 @@ Route::controller(SedesController::class)->middleware('auth')->group(
         Route::post('sede/crear', 'create');
         Route::get('sede/editar/{id}','edit');
         Route::post('sede/actualizar/{id}','update');
-        Route::get('sede/cambiarEstado/{SedeId}','changeState');
+        Route::get('sede/cambiarEstado','changeState');
+        Route::post('sede/puedeCambiar','canChange');
     }
 );
 
