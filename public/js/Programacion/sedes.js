@@ -31,6 +31,9 @@ function changeNow(sedeId){
         }
     });
 
+    console.log('rows');
+    console.log(sedes);
+
     return sedes;
 }
 
@@ -61,11 +64,8 @@ function cancelUncheck(sedeId){
 function setMsg(sedes){
     let msg = "";
     let rows = sedes.length;
-    msg += 'Sede vinculada a la programación ';
-
-    sedes.forEach(element => {
-        msg += element.ProgramacionId+' y otras '+(rows-1)+' programaciones';
-    });
+    msg += 'Sede '+ sedes[0].NombreSede +' vinculada a la programación con id ';
+    msg += sedes[0].ProgramacionId+' <br> Total programaciones vinculadas: '+(rows);
 
     $('#errorsEstadoMsg').html(msg);
 }
@@ -90,7 +90,7 @@ function alterModal(modalId){
 /**
  * @param {int} sedeId 
  */
-function changeState(sedeId){
+async function changeState(sedeId){
 
     $.ajaxSetup({
         headers: {
@@ -111,6 +111,7 @@ function changeState(sedeId){
             alert(error);
         }
     });
+
 }
 
 /**
@@ -118,9 +119,21 @@ function changeState(sedeId){
  * @param {int} sedeId 
  * @param {string} modalId 
  */
-function tryChange(sedeId, modalId){
-    let sedes = getRows(sedeId);
-    if(!canChange(sedes)){
-
+async function tryChange(sedeId, modalId){
+    console.log(changeNow(sedeId));
+    if(changeNow(sedeId)){
+        changeState(sedeId);
+        return;
     }
+
+    let sedes = await getRows(sedeId);
+
+    if(!canChange(sedes)){
+        cancelUncheck(sedeId);
+        setMsg(sedes);
+        alterModal(modalId);
+        return;
+    }
+    
+    changeState(sedeId);
 }

@@ -61,10 +61,8 @@
                             @endphp
 
                             <div class="form-check form-switch">
-                                <a href=" {{ url('sede/cambiarEstado/' . $item->SedeId) }} ">
                                     <input class="form-check-input" type="checkbox" role="switch"
-                                        id="flexSwitchCheckChecked" {{ $checkstate }}>
-                                </a>
+                                        id="check_{{$item->SedeId}}" {{ $checkstate }} onclick="tryChange('{{$item->SedeId}}', 'errorsEstado')">
                             </div>
                         </td>
 
@@ -138,15 +136,19 @@
         </div>
 
         {{-- Alerta cambio de estado --}}
-        <div class="adicion_off" id="errorsEstado">
+        <div class="adicion_off" id="errorsEstado" style="width:550px">
             <div class="floatcontent">
                 <h4 style="padding-top:5%;">Operación cancelada</h4>
                 <div>
-                    No fue posible realizar el cambio de estado, sede vinculada a programaciones activas.
+                    No fue posible realizar el cambio de estado. <br>
+                    Esta sede está vinculada a programaciones activas.
                 </div>
                 <div id="errorsEstadoMsg">
                     {{-- Acá se imprimen las programaciones vinculadas --}}
                 </div>
+                <br>
+                <button type="button" class="btn btn-primary btn-danger"
+                onclick="alterModal('errorsEstado')">Cancelar</i></button> <br>
             </div>
         </div>
         @if ($errors->any())

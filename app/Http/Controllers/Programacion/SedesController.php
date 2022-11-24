@@ -75,16 +75,21 @@ class SedesController extends Controller
         $SedeId = json_decode($request->SedeId);
         $sede = Sede::find($SedeId);
 
-        $sede->Estado = false;
+        if($sede->Estado == false){
+            $sede->Estado = true;
+        }
+        else{
+            $sede->Estado = false;
+        }
         $sede->save();
 
-        $Estado = ['Estado'=>$sede->Estado];
+        $Estado = ['Estado'=>$request->Estado];
         return json_encode($Estado);
     }
 
     public function canChange(Request $request){
         $SedeId = json_decode($request->SedeId);
-        $Sedes = Sede::select(['sedes.SedeId'])
+        $Sedes = Sede::select(['programacion.ProgramacionId','sedes.NombreSede'])
         ->join('programacion','sedes.SedeId','=','programacion.SedeId')
         ->where('sedes.SedeId','=',intval($SedeId))
         ->where('programacion.Estado','=',true)
