@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Configuracion\Roles;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class UsuarioController extends Controller
@@ -17,8 +18,8 @@ class UsuarioController extends Controller
      */
     public function index()
     {
-        $ListadoUsuario = User::select(['users.id','Documento','Nombre','Estado','roles.name'])
-        ->join('roles','users.IdRol','=','roles.id')
+        $ListadoUsuario = User::select(['users.id','Documento','Nombre','roles.name'])
+        ->join('roles','users.RolId','=','roles.id')
         ->get();
         $ListadoRoles = Roles::all();
         $Listados = ['ListadoUsuario'=>$ListadoUsuario,'ListadoRoles'=>$ListadoRoles];
@@ -48,8 +49,9 @@ class UsuarioController extends Controller
         // }
         $Usuario = new User();
         $id = $Usuario::creadorPK($Usuario, 100);
+        $Usuario->password = Hash::make($request->password);
         $Usuario->Documento = $id;
-        $Campos = ['Documento', 'Nombre', 'IdRol', 'Direccion', 'Celular', 'email',  'FechaNacimiento', 'password'];
+        $Campos = ['Documento', 'Nombre', 'RolId', 'Direccion', 'Celular', 'email',  'FechaNacimiento'];
         foreach ($Campos as $item) {
             $Usuario->$item = $request->$item;
         }
@@ -88,8 +90,8 @@ class UsuarioController extends Controller
      */
     public function edit($id)
     {
-        $Selected =  User::select('Nombre','roles.id','roles.name','Celular','email','Direccion','FechaNacimiento')
-        ->join('roles','users.IdRol','=','roles.id')->where('users.id', '=', $id)
+        $Selected =  User::select('Nombre','roles.id as RolId','users.id','roles.name','Celular','email','Direccion','FechaNacimiento')
+        ->join('roles','users.RolId','=','roles.id')->where('users.id', '=', $id)
         ->get();
         $Roles = Roles::select(['roles.id','roles.name'])->get();
         $data = ['usuarios'=>$Selected,'roles'=>$Roles];
@@ -118,7 +120,7 @@ class UsuarioController extends Controller
         //       return back()->withErrors($validator)->withInput();
         //  }
         $Usuario = User::find($id);
-        $Campos = ['Nombre', 'IdRol', 'Direccion', 'Celular', 'email', 'FechaNacimiento', 'password'];
+        $Campos = ['Nombre', 'RolId', 'Direccion', 'Celular', 'email', 'FechaNacimiento', 'password'];
         foreach($Campos as $item){
             $Usuario->$item = $request->$item;
         }
@@ -143,7 +145,7 @@ class UsuarioController extends Controller
 
 
         $Usuario = User::select(['users.id','Documento','Nombre','roles.name','Celular','email','Direccion','FechaNacimiento'])
-        ->join('roles','users.IdRol','=','roles.id')
+        ->join('roles','users.RolId','=','roles.id')
         ->where('users.id','=',$id)
         ->get();
 

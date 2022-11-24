@@ -73,7 +73,8 @@
                                         proveedores</button>
                                     <a href={{ url('compras/listar') }}><button
                                             class="btn col-12 btn-outline-light">Gestión de compras</button></a>
-                                    <button type="submit" class="btn col-12 btn-outline-light" value="6">Gestión de productos</button>
+                                    <button type="submit" class="btn col-12 btn-outline-light" value="6">Gestión
+                                        de productos</button>
                                 </div>
                             </div>
 

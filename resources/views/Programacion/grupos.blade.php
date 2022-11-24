@@ -31,7 +31,7 @@
                     <td>Acción</td>
                     <td>GrupoId</td>
                     <td>Categoría</td>
-                    <td>Documento Entrenador</td>
+                    <td>Entrenador</td>
                     <td>Nombre del grupo</td>
                     <td>Estado</td>
                 </tr>
@@ -44,8 +44,8 @@
                                         class="fa-solid fa-circle-info"></i></button></abbr>
                         </td>
                         <td>{{ $item->GrupoId }}</td>
-                        <td>{{ $item->CategoriaId }}</td>
-                        <td>{{ $item->Documento }}</td>
+                        <td>{{ $item->NombreCategoria }}</td>
+                        <td>{{ $item->Nombre }}</td>
                         <td>{{ $item->NombreGrupo }}</td>
 
 

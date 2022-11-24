@@ -42,7 +42,7 @@
                                         class="btn btn-outline-secondary"><i
                                             class="fa-solid fa-circle-info"></i></button></a></abbr>
                         </td>
-                        <td>{{ $item->IdRol }}</td>
+                        <td>{{ $item->id }}</td>
                         <td>{{ $item->name }}</td>
 
                         <td>

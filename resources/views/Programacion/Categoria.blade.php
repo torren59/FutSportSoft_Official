@@ -92,7 +92,7 @@
                             <select class="form-select"  name="DeporteId" aria-label="Default select example">
                                 <option selected>Selecione un Deporte</option>
                                 @foreach ($listado['ListadoDeporte'] as $item)
-                                    <option value="{{ $item->DeporteId}}">{{ $item->NombreDeporte }}</option>
+                                    <option value="{{ $item->DeporteId }}">{{ $item->NombreDeporte }}</option>
                                 @endforeach
                             </select>
                         </div>

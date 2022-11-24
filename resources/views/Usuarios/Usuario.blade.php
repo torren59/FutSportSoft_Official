@@ -131,7 +131,7 @@
 
                         <div class="col-6">
                             <label for="password" class="form-label">Contraseña</label>
-                            <input type="password" class="form-control" name="password" value=" {{ old('password') }} ">
+                            <input type="password" class="form-control" name="password" >
                             @error('password')
                                 <div>
                                     @foreach ($errors->get('password') as $item)
@@ -169,7 +169,7 @@
 
                         <div class="col-6">
                             <label for="roles" class="form-label">Roles</label>
-                            <select class="form-select"  name="IdRol" aria-label="Default select example">
+                            <select class="form-select"  name="RolId" aria-label="Default select example">
                                 <option selected>Selecione un rol</option>
                                 @foreach ($listado['ListadoRoles'] as $item)
                                     <option value="{{ $item->id }}">{{ $item->name }}</option>
