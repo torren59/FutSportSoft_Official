@@ -19,7 +19,7 @@ class ProveedoresController extends Controller
     {
         $Proveedor = new Proveedor();
         $ListadoProveedor = $Proveedor->all();
-        return view('Compras.proveedores')->with('listado',$ListadoProveedor);
+        return view('Compras.proveedores')->with('listado', $ListadoProveedor);
     }
 
     /**
@@ -29,16 +29,18 @@ class ProveedoresController extends Controller
      */
     public function create(Request $request)
     {
-        $validator = Validator::make($request->all(), 
-        ['Nit'=>'min:1|unique:proveedores,Nit|max:11','NombreEmpresa'=>'min:1|unique:proveedores,NombreEmpresa|max:100','Titular'=>'min:1|max:100','NumeroContacto'=>'min:1|max:15','Correo'=>'min:1|max:70','Direccion'=>'min:1|unique:proveedores,Direccion|max:100'],
-        ['unique'=>'Este campo no acepta información que ya se ha registrado','min'=>'No puedes enviar este campo vacío','max'=>'Máximo de :max dígitos']);
+        $validator = Validator::make(
+            $request->all(),
+            ['Nit' => 'min:1|unique:proveedores,Nit|max:11', 'NombreEmpresa' => 'min:1|unique:proveedores,NombreEmpresa|max:100', 'Titular' => 'min:1|max:100', 'NumeroContacto' => 'min:1|max:15', 'Correo' => 'min:1|max:70', 'Direccion' => 'min:1|unique:proveedores,Direccion|max:100'],
+            ['unique' => 'Este campo no acepta información que ya se ha registrado', 'min' => 'No puedes enviar este campo vacío', 'max' => 'Máximo de :max dígitos']
+        );
         // ,'Municipio'=>70,'Barrio'=>70,'Direccion'=>100
-        if($validator->fails()){
+        if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
         $Proveedor = new Proveedor();
-        $Campos = ['Nit','NombreEmpresa','Titular','NumeroContacto','Correo','Direccion'];
-        foreach($Campos as $item){
+        $Campos = ['Nit', 'NombreEmpresa', 'Titular', 'NumeroContacto', 'Correo', 'Direccion'];
+        foreach ($Campos as $item) {
             $Proveedor->$item = $request->$item;
         }
 
@@ -76,8 +78,8 @@ class ProveedoresController extends Controller
      */
     public function edit($id)
     {
-        $Selected =  Proveedor::all()->where('Nit','=',$id);
-        return view('Compras.editarproveedores')->with('proveedordata',$Selected);
+        $Selected =  Proveedor::all()->where('Nit', '=', $id);
+        return view('Compras.editarproveedores')->with('proveedordata', $Selected);
     }
 
     /**
@@ -90,12 +92,11 @@ class ProveedoresController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), 
-        ['NombreEmpresa'=>'min:1|max:100','Titular'=>'min:1|max:100','NumeroContacto'=>'min:1|max:15','Correo'=>'min:1|max:70','Direccion'=>'min:1|unique:proveedores,Direccion|max:100'],
-        ['unique'=>'Este campo no acepta información que ya se ha registrado','min'=>'No puedes enviar este campo vacío','max'=>'Máximo de :max dígitos']);
-        // ,'Municipio'=>70,'Barrio'=>70,'Direccion'=>100
+        ['NombreEmpresa'=>'min_digits:1|max_digits:100','Titular'=>'required','NumeroContacto'=>'min_digits:1|max_digits:15','Correo'=>'required|max_digits:70','Direccion'=>'min_digits:1|max_digits:100'],
+        ['min_digits'=>'No puedes enviar este campo vacío','max_digits'=>'Máximo de :max_digits dígitos']);
+        $validator = Validator::make(['Titular'=> $request->Titular],['Titular'=>'required'],['required'=>'Evite enviarlo vacío']);
         if($validator->fails()){
-            return back()->withErrors($validator)->withInput();
-
+        return back()->withErrors($validator)->withInput();
         }
         $Proveedor = Proveedor::find($id);
         $Campos = ['NombreEmpresa','Titular','NumeroContacto','Correo','Direccion'];
@@ -104,7 +105,10 @@ class ProveedoresController extends Controller
         }
         $Proveedor->save();
         return redirect('proveedor/listar');
+        
     }
+
+
 
     /**
      * Remove the specified resource from storage.

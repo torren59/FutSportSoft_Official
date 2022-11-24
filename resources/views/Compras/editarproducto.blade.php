@@ -26,7 +26,7 @@
             </div>
             @foreach ($productodata as $item)
                 <div class="col-12">
-                    <label for="Nit" class="form-label">Nit</label>
+                    <label for="Nit" class="form-label">Nit Proveedor</label>
                     <input type="number" class="form-control" name="Nit" value="{{ old('Nit', $item->Nit) }}">
                     @error('Nit')
                         <div>

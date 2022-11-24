@@ -98,8 +98,8 @@ class DeportistasController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), 
-        ['DocumentoAcudiente'=>'min:1|max:11','TipoDocumento'=>'min:1|max:5','Nombre'=>'min:1|max:100','FechaNacimiento'=>'min:1|max:10','Direccion'=>'min:1|max:80','Celular'=>'min:1|max:11','Correo'=>'min:1|max:70','UltimoPago'=>'min:1|max:10'],
-        ['unique'=>'Este campo no acepta información que ya se ha registrado','min'=>'No puedes enviar este campo vacío','max'=>'Máximo de :max dígitos']);
+        ['DocumentoAcudiente'=>'required|max:11','TipoDocumento'=>'required|max:5','Nombre'=>'required|max:100','FechaNacimiento'=>'required|max:10','Direccion'=>'required|max:80','Celular'=>'required|max:11','Correo'=>'required|max:70','UltimoPago'=>'required|max:10'],
+        ['required'=>'No puedes enviar este campo vacío','max'=>'Máximo de :max dígitos']);
        
         if($validator->fails()){
             return back()->withErrors($validator)->withInput();

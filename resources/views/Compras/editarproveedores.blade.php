@@ -26,6 +26,18 @@
             </div>
             @foreach ($proveedordata as $item)
                 <div class="col-12">
+                    <label for="Nit" class="form-label">Nit</label>
+                    <input disabled type="number" class="form-control" name="Nit" value="{{ old('Nit', $item->Nit) }}">
+                    @error('Nit')
+                        <div>
+                            @foreach ($errors->get('Nit') as $item)
+                                <small> {{ $item }} </small>
+                            @endforeach
+                        </div>
+                    @enderror
+                </div>
+
+                <div class="col-12">
                     <label for="NombreEmpresa" class="form-label">Nombre Empresa</label>
                     <input type="text" class="form-control" name="NombreEmpresa" value="{{ old('NombreEmpresa', $item->NombreEmpresa) }}">
                     @error('NombreEmpresa')
@@ -52,8 +64,15 @@
                     </div>
                     <div class="col-6">
                         <label for="NumeroContacto" class="form-label">Numero Contacto</label>
+
                         <input type="text" class="form-control" name="NumeroContacto"
-                            value=" {{ old('NumeroContacto', $item->NumeroContacto) }} ">
+                        @if ($errors->any())
+                        value = {{old('NumeroContacto')}}
+                        @else
+                        value={{$item->NumeroContacto}}
+                        @endif>
+                           
+
                         @error('NumeroContacto')
                             <div>
                                 @foreach ($errors->get('NumeroContacto') as $item)
@@ -66,7 +85,12 @@
 
                 <div class="col-12">
                     <label for="Correo" class="form-label">Correo</label>
-                    <input type="text" class="form-control" name="Correo" value=" {{ old('Correo', $item->Correo) }} ">
+                    <input type="mail" class="form-control" name="Correo" 
+                     @if ($errors->any())
+                    value = {{old('Correo')}}
+                    @else
+                    value={{$item->Correo}}
+                    @endif>
                     @error('Correo')
                         <div>
                             @foreach ($errors->get('Correo') as $item)
@@ -79,7 +103,11 @@
                 <div class="col-12">
                     <label for="Direccion" class="form-label">Dirección</label>
                     <input type="text" class="form-control" name="Direccion"
-                        value=" {{ old('Direccion', $item->Direccion) }} ">
+                    @if ($errors->any())
+                    value = {{old('Direccion')}}
+                    @else
+                    value={{$item->Direccion}}
+                    @endif>
                     @error('Direccion')
                         <div>
                             @foreach ($errors->get('Direccion') as $item)

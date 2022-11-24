@@ -49,8 +49,8 @@
             <tbody>
                 @foreach ($listado as $item)
                     <tr>
-                        <td><a href="{{ url('venta/editar/' . $item->VentaId) }}"><button class="btn btn-primary"><i
-                                        class="fa-solid fa-pen"></i></button></a></td>
+                        <td><abbr title="Detalles"><button type="button" class="btn btn-outline-secondary" onclick="detalleCompras({{$item->NumeroFactura}},'detalleventa','jsPrint')"><i
+                            class="fa-solid fa-circle-info"></i></button></abbr>
                         <td>{{ $item->VentaId }}</td>
                         <td>{{ $item->Documento }}</td>
                         <td> {{ $item->FechaVenta }} </td>
@@ -81,6 +81,20 @@
 
         
 
+    </div>
+    {{-- Detalles --}}
+
+    <div id="detalleventa" class="adicion_off" style="width:600px;height:400px">
+        <div class="floatcontent">
+            
+            <h1 style="padding-top:5%;">Detalles de la Venta</h1>
+            <div id="jsPrint">
+                {{-- Aquí se imprime el contenido de detalles enviado desde JS --}}
+            </div>
+            <button type="button" class="btn btn-primary btn-danger"
+                        onclick="switchadicion2('detalleventa')">Cerrar</i></button>
+                    
+        </div>
     </div>
 @endsection
 

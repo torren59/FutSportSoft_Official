@@ -37,7 +37,7 @@
                 <td>Tipo Documento</td>
                 <td>Nombre</td>
                 <td>Fecha de Nacimiento</td>
-                <td>Direccion</td>
+                <td>Dirección</td>
                 <td>Celular</td>
                 <td>Correo</td>
                 <td>Estado</td>
@@ -88,7 +88,7 @@
                 <form action={{ url('deportista/crear') }} method="post"> @csrf
 
                     <label for="Documento" class="form-label">Documento</label>
-                    <input type="text" class="form-control" name="Documento" value="{{ old('Documento') }}">
+                    <input type="number" class="form-control" name="Documento" value="{{ old('Documento') }}">
                     @error('Documento')
                         <div>
                             @foreach ($errors->get('Documento') as $item)
@@ -100,7 +100,7 @@
                     <div class="row">
                         <div class="col-6">
                             <label for="DocumentoAcudiente" class="form-label">Documento Acudiente</label>
-                            <input type="text" class="form-control" name="DocumentoAcudiente" value=" {{ old('DocumentoAcudiente') }} ">
+                            <input type="number" class="form-control" name="DocumentoAcudiente" value=" {{ old('DocumentoAcudiente') }} ">
                             @error('DocumentoAcudiente')
                                 <div>
                                     @foreach ($errors->get('DocumentoAcudiente') as $item)
@@ -153,7 +153,7 @@
                     @enderror
 
                     <label for="Celular" class="form-label">Celular</label>
-                    <input type="text" class="form-control" name="Celular" value=" {{ old('Celular') }} ">
+                    <input type="number" class="form-control" name="Celular" value=" {{ old('Celular') }} ">
                     @error('Celular')
                         <div>
                             @foreach ($errors->get('Celular') as $item)
@@ -163,7 +163,7 @@
                     @enderror
 
                     <label for="Correo" class="form-label">Correo</label>
-                    <input type="text" class="form-control" name="Correo" value=" {{ old('Correo') }} ">
+                    <input type="mail" class="form-control" name="Correo" value=" {{ old('Correo') }} ">
                     @error('Correo')
                         <div>
                             @foreach ($errors->get('Correo') as $item)
