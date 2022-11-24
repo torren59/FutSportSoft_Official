@@ -104,21 +104,31 @@ class VentasController extends Controller
             $Producto->save();
             $i += 1;
         }
-        
-        return redirect('venta/listar');
-        
 
-   
+
+
+        foreach($articulosComprados as $item){
+            // Crea registros en la tabla de artículos comprados
+            $articulo = new articulo_comprado();
+            $articulo->ArticulosCompradosId = articulo_comprado::creadorPK($articulo, 1000);
+            $articulo->ProductoId = $item->ProductoId;
+            $articulo->NumeroFactura = $request->NumeroFactura;
+            $articulo->Cantidad = $item->Cantidad;
+            $articulo->PrecioCompra = $item->PrecioCompra;
+            $articulo->save();
+
+            // Modifica la cantidad en los registros de los productos
+            $deporte = Producto::find($item->ProductoId);
+            $Cantidad = $deporte->Cantidad + $item->Cantidad;
+            $deporte->Cantidad = $Cantidad;
+            $deporte->save();
+        }
+
+        return redirect('dashboard/panel');
     }
 
 
-    public function listselected(Request $request)
-    {
-        $ProductModel = new Producto();
-        $Selecteds = json_decode($request->seleccionados);
-        $checkeds = $ProductModel->whereIn('ProductoId', $Selecteds)->select('NombreProducto')->get();
-        return json_encode($checkeds);
-    }
+
 
     /**
      * Display the specified resource.
@@ -186,7 +196,7 @@ class VentasController extends Controller
     /**
      * @var ProductoId
      * @var Cantidad
-     * 
+     *
      * @return Total
      */
     private function getTotalProducto($ProductoId, $Cantidad)
@@ -261,11 +271,11 @@ class VentasController extends Controller
             $VentaSession = session('VentaSession');
             $Articulos = $VentaSession[0]['Articulos'];
             $VentaData = $VentaSession[0]['VentaData'];
-            
+
             // Rescatando total y subtotal general
             $Total = $VentaData['Total'];
             $SubTotal = $VentaData['SubTotal'];
-           
+
             // Recalculando total y subtotal general
             $Total += intval($PrecioTotalProducto);
             $SubTotal += intval($SubTotalProducto);

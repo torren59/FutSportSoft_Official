@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Models\Configuracion;
+namespace App\Models\Programacion;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Roles extends Model
+class Grupos_Deportistas extends Model
 {
     use HasFactory;
 
-    protected $table = 'roles';
+    protected $table = 'grupos_deportistas';
 
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'GruposDeportistasId';
 
     public $incrementing = false;
 
@@ -21,7 +21,9 @@ class Roles extends Model
 
 
     protected $fillable = [
-        'NombreRol',
+        'GrupoId',
+        'Documento',
+        'FechaIngreso',
         'Estado'
     ];
 

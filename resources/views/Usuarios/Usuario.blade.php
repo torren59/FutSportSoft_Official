@@ -8,6 +8,7 @@
     <link rel="stylesheet" href=" {{ asset('./css/layouts/datatable.css') }} ">
     <link rel="stylesheet" href="{{ asset('./css/layouts/cruds.css') }} ">
 
+
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @endpush
 
@@ -38,14 +39,26 @@
             <tbody>
                 @foreach ($listado['ListadoUsuario'] as $item)
                     <tr>
-                        <td><a href="{{ url('usuario/editar/' . $item->Documento) }}"><button
-                                    class="btn btn-outline-primary"><i class="fa-solid fa-pen"></i></button></a>
-                                    <abbr title="Detalles"><a href="{{ url('usuario/detalle/' . $item->RolId) }}"><button
-                                        class="btn btn-outline-secondary"><i
-                                            class="fa-solid fa-circle-info"></i></button></a></abbr></td>
+                        <td>
+                            <a href="{{ url('usuario/editar/' . $item->id) }}">
+                                <button class="btn btn-outline-primary"><i class="fa-solid fa-pen"></i>
+                                </button>
+                            </a>
 
+                            <abbr title="Detalles">
+                                <button type="button"
+                                    class="btn btn-outline-secondary"onclick="detalleUsuario({{ $item->id }},'detalleusuario','jsPrint')">
+                                    <i class="fa-solid fa-circle-info"></i>
+                                </button>
+                            </abbr>
+
+                            <abbr title="Cambiar clave">
+                                <a href="{{ url('usuario/newpassword/' . $item->id) }}">
+                                    <button class="btn btn-outline-success"><i class="fa-solid fa-lock"></i></button>
+                                </a>
+                            </abbr>
+                        </td>
                         <td>{{ $item->Documento }}</td>
-
                         <td> {{ $item->Nombre }} </td>
                         <td> {{ $item->name }} </td>
 
@@ -63,7 +76,7 @@
                             @endphp
 
                             <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked"
+                                <input class="form-check-input " type="checkbox" role="switch" id="flexSwitchCheckChecked"
                                     {{ $checkstate }}>
                             </div>
                         </td>
@@ -81,7 +94,6 @@
             <div class="floatcontent">
                 <h1 style="padding-top:5%;">Nuevo Usuario</h1>
                 <hr>
-
                 <form action={{ url('usuario/crear') }} method="post"> @csrf
 
                     <label for="Nombre" class="form-label">Nombre</label>
@@ -132,7 +144,7 @@
 
                         <div class="col-6">
                             <label for="password" class="form-label">Contraseña</label>
-                            <input type="text" class="form-control" name="password" value=" {{ old('password') }} ">
+                            <input type="password" class="form-control" name="password" >
                             @error('password')
                                 <div>
                                     @foreach ($errors->get('password') as $item)
@@ -170,7 +182,7 @@
 
                         <div class="col-6">
                             <label for="roles" class="form-label">Roles</label>
-                            <select class="form-select" aria-label="Default select example">
+                            <select class="form-select" name="IdRol" aria-label="Default select example">
                                 <option selected>Selecione un rol</option>
                                 @foreach ($listado['ListadoRoles'] as $item)
                                     <option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -181,10 +193,11 @@
 
 
                     </div>
-                    <br>
-                    <button type="submit" class="btn btn-outline-primary">Guardar</i></button>
-                    <button type="button" class="btn btn-outline-secondary"
-                        onclick="switchadicion2('usuarioadicion')">Cancelar</i></button>
+                    <div class="botonesusuarios p-5">
+                        <button type="submit" class="btn btn-outline-primary">Guardar</i></button>
+                        <button type="button" class="btn btn-outline-secondary"
+                            onclick="switchadicion2('usuarioadicion')">Cancelar</i></button>
+                    </div>
 
                 </form>
             </div>
@@ -199,6 +212,24 @@
         @endif
 
     </div>
+
+    {{-- Detalles --}}
+
+    <div id="detalleusuario" class="adicion_off" style="width:600px;height:400px">
+        <div class="floatcontent">
+
+            <h1 style="padding-top:5%;">Detalles del usuario</h1>
+            <div id="jsPrint">
+                {{-- Aquí se imprime el contenido de detalles enviado desde JS --}}
+            </div>
+            <div class="boton detalle p-5">
+                <button type="button" class="btn btn-outline-secondary"
+                    onclick="switchadicion2('detalleusuario')">Cerrar</i></button>
+            </div>
+
+        </div>
+    </div>
+
 @endsection
 
 
@@ -209,4 +240,5 @@
     </script>
 
     <script src=" {{ asset('./js/layouts/cruds.js') }} "></script>
+    <script src=" {{ asset('./js/layouts/asincronas.js') }} "></script>
 @endpush

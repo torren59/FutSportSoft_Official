@@ -33,7 +33,7 @@ class DeportesController extends Controller
     {
         $validator = Validator::make( $request->all(), ['NombreDeporte'=>'unique:deportes,NombreDeporte|min:1|max:50'],
         ['unique'=>'Deporte ya se encuentra registrado el sistema','min'=>'No es posible enviar este campo vacío','max'=>'Máximo de :max dígitos']);
-    
+
         if($validator->fails()){
             return back()->withErrors($validator);
         }
@@ -45,7 +45,7 @@ class DeportesController extends Controller
         $Deporte->save();
 
         return redirect('deporte/listar');
-        
+
     }
 
     /**
@@ -116,12 +116,12 @@ class DeportesController extends Controller
     public function getcategorias(Request $request){
         $DeporteId = $request->DeporteId;
         $categorias = Categoria::select(['CategoriaId','NombreCategoria'])->where('DeporteId','=',$DeporteId)->get();
-        return json_encode($categorias);   
+        return json_encode($categorias);
     }
 
     public function getgrupos(Request $request){
         $CategoriaId = $request->CategoriaId;
         $grupos = Grupo::select(['GrupoId','NombreGrupo'])->where('CategoriaId','=',$CategoriaId)->get();
-        return json_encode($grupos);   
+        return json_encode($grupos);
     }
 }

@@ -122,6 +122,7 @@ gap: 5px;
     width: 100%;
     grid-template-rows: 12% auto;
     grid-template-columns: 100%;
+    height: 100%;
 }
 /*FIN CONTENEDORES GRID*/
 
@@ -152,6 +153,7 @@ margin-top: 20px;
   font-size: 1.5rem;
 -webkit-text-stroke: 0.9px grey !important;
 font-family: 'Source Sans Pro', sans-serif;
+
 }
 
 .h1Access{
@@ -305,7 +307,7 @@ grid-template-rows: 2fr 1fr;
 
 .Card_Options{
     display: grid;
-    grid-template-areas: 
+    grid-template-areas:
     'OrderTitle OrderTitle OrderTitle'
     'Orders Orders Quit';
 }
@@ -313,7 +315,7 @@ grid-template-rows: 2fr 1fr;
 .Card_Options_disable{
     display: grid;
     visibility:hidden;
-    grid-template-areas: 
+    grid-template-areas:
     'Orders Orders Edit'
     'Orders Orders Quit';
 }
