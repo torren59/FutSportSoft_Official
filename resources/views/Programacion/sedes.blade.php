@@ -45,7 +45,6 @@
                     <tr>
                         <td><a href="{{ url('sede/editar/' . $item->SedeId) }}"><button class="btn btn-primary"><i
                                         class="fa-solid fa-pen"></i></button></a>
-                                    <button type="button" onclick="canChange(' {{$item->SedeId}} ')">A</button></td>
                         <td>{{ $item->SedeId }}</td>
                         <td>{{ $item->NombreSede }}</td>
                         <td> {{ $item->Municipio }} </td>

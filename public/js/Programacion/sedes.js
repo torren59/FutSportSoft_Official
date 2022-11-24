@@ -120,7 +120,6 @@ async function changeState(sedeId){
  * @param {string} modalId 
  */
 async function tryChange(sedeId, modalId){
-    console.log(changeNow(sedeId));
     if(changeNow(sedeId)){
         changeState(sedeId);
         return;
@@ -134,6 +133,6 @@ async function tryChange(sedeId, modalId){
         alterModal(modalId);
         return;
     }
-    
+
     changeState(sedeId);
 }
