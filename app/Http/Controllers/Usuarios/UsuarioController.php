@@ -18,8 +18,8 @@ class UsuarioController extends Controller
      */
     public function index()
     {
-        $ListadoUsuario = User::select(['users.id','Documento','Nombre','Estado','roles.name'])
-        ->join('roles','users.RolId','=','roles.id')
+        $ListadoUsuario = User::select(['users.id','Documento','Nombre','users.Estado','roles.name'])
+        ->join('roles','users.RolId','=','roles.RolId')
         ->get();
         $ListadoRoles = Roles::all();
         $Listados = ['ListadoUsuario'=>$ListadoUsuario,'ListadoRoles'=>$ListadoRoles];
@@ -141,16 +141,23 @@ class UsuarioController extends Controller
 
         // Validando clave
         $validator = Validator::make($request->all(),
-    ['password' => 'required|max:15'],
-    ['required'=>'Evite enviar este campo vacío','max'=>'La clave no debe exceder un máximo de :max caracteres']);
+    ['password' => 'required|max:15|same:confirmacion','confirmacion'=>'required','actual_password'=>'required'],
+    ['required'=>'Evite enviar este campo vacío','max'=>'La clave no debe exceder un máximo de :max caracteres','same'=>'Clave no coincide con confirmacion']);
 
+    $User = User::find($UserId);
+    $validator->after(function($validator,$request){
+        if(! Hash::check($request->password,  $request->user()->password))
+        $validator->errors()->add(
+            'actual_clave', 'Esta no es tu clave actual'
+        );
+    });
+    
     if($validator->fails()){
         return back()->withErrors($validator);
     }
 
-    // Cambiando clave
-    $User = User::find($UserId);
 
+    // Cambiando clave
     $User->forceFill([
         'password' => Hash::make($NewPassword)
     ]);
@@ -185,4 +192,6 @@ class UsuarioController extends Controller
         return $Usuario;
 
     }
+
+
 }
