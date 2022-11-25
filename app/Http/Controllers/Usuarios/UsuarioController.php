@@ -145,15 +145,17 @@ class UsuarioController extends Controller
     ['required'=>'Evite enviar este campo vacío','max'=>'La clave no debe exceder un máximo de :max caracteres','same'=>'Clave no coincide con confirmacion']);
 
     $User = User::find($UserId);
-    $validator->after(function($validator,$request){
-        if(! Hash::check($request->password,  $request->user()->password))
-        $validator->errors()->add(
-            'actual_clave', 'Esta no es tu clave actual'
-        );
-    });
+    if(!Hash::check($request->actual_password, $User->password)){
+        $validator->after(function($validator){
+            $validator->errors()->add(
+                'actual_password', 'Esta no es tu clave actual'
+            );
+        });
+    }
+
     
     if($validator->fails()){
-        return back()->withErrors($validator);
+        return back()->withErrors($validator)->withInput();
     }
 
 
