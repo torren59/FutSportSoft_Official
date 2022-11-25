@@ -55,7 +55,7 @@ Route::controller(AccesoController::class)->group(
 
 Route::controller(DashboardController::class)->middleware('auth')->group(
     function(){
-        Route::get('dashboard/panel','index');
+        Route::get('dashboard/panel','index')->middleware('IsAuthorized:20');
     }
 );
 
@@ -184,14 +184,19 @@ Route::controller(AyudasController::class)->middleware('auth')->group(
 );
 
 Route::get('a/jaja', function(){
-
-    $PermisoId = 10;
-    $row = Rol::select(['permisos.PermisoId','roles.RolId','permisos_roles.PermisoRolId'])
+    $user = Auth::user();
+    $RolId = $user->RolId;
+    $permisos = Rol::select(['permisos.PermisoId'])
     ->join('permisos_roles','permisos_roles.RolId','=','roles.RolId')
     ->join('permisos','permisos.PermisoId','=','permisos_roles.PermisoId')
-    ->where('permisos.PermisoId','=',$PermisoId)
-    ->where('roles.RolId','=',1)
+    ->where('roles.RolId','=',$RolId)
     ->get();
 
-    return($row);
+    $permisos_plain = [];
+        
+    foreach($permisos as $item){
+        array_push($permisos_plain, intval($item->PermisoId));
+    }
+
+    return $permisos_plain;
 });

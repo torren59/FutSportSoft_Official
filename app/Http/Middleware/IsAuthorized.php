@@ -7,6 +7,7 @@ use App\Models\Roles\Rol;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\View;
 
 class IsAuthorized
 {
@@ -32,6 +33,20 @@ class IsAuthorized
             return response('HTTP 405 Method Not Allowed', 405)
             ->header('Content-Type', 'text/plain');
         }
+
+        $permisos = Rol::select(['permisos.PermisoId'])
+        ->join('permisos_roles','permisos_roles.RolId','=','roles.RolId')
+        ->join('permisos','permisos.PermisoId','=','permisos_roles.PermisoId')
+        ->where('roles.RolId','=',$RolId)
+        ->get();
+
+        $permisos_plain = [];
+        
+        foreach($permisos as $item){
+            array_push($permisos_plain, $item->PermisoId);
+        }
+
+        View::share('permisos',$permisos_plain);
 
         return $next($request);
     }

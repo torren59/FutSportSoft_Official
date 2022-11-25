@@ -27,7 +27,7 @@
             <button class="btn btn-outline-secondary col-2" onclick="switchadicion2('sedeadicion')">Nueva Sede <i
                     class="fa-solid fa-circle-plus"></i></button>
         </div>
-
+        
         <table id="tabla">
             <thead>
                 <tr>
