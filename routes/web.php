@@ -18,8 +18,9 @@ use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Programacion\CategoriaController;
 use App\Http\Controllers\Usuarios\AccesoController;
 use App\Http\Controllers\Usuarios\UsuarioController;
-
+use App\Models\Roles\Rol;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 use Whoops\RunInterface;
@@ -109,7 +110,7 @@ Route::controller(DeportesController::class)->middleware('auth')->group(
 
 Route::controller(SedesController::class)->middleware('auth')->group(
     function () {
-        Route::get('sede/listar/{status?}', 'index');
+        Route::get('sede/listar/{status?}', 'index')->middleware('IsAuthorized:10');
         Route::post('sede/crear', 'create');
         Route::get('sede/editar/{id}','edit');
         Route::post('sede/actualizar/{id}','update');
@@ -181,3 +182,16 @@ Route::controller(AyudasController::class)->middleware('auth')->group(
         Route::get('ayudas/listar', 'index');
     }
 );
+
+Route::get('a/jaja', function(){
+
+    $PermisoId = 10;
+    $row = Rol::select(['permisos.PermisoId','roles.RolId','permisos_roles.PermisoRolId'])
+    ->join('permisos_roles','permisos_roles.RolId','=','roles.RolId')
+    ->join('permisos','permisos.PermisoId','=','permisos_roles.PermisoId')
+    ->where('permisos.PermisoId','=',$PermisoId)
+    ->where('roles.RolId','=',1)
+    ->get();
+
+    return($row);
+});
