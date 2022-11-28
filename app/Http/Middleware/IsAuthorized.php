@@ -21,12 +21,12 @@ class IsAuthorized
     public function handle(Request $request, Closure $next, $PermisoId)
     {
         $user = Auth::user();
-        $RolId = $user->RolId;
-        $row = Rol::select(['permisos.PermisoId','roles.RolId','permisos_roles.PermisoRolId'])
-        ->join('permisos_roles','permisos_roles.RolId','=','roles.RolId')
+        $id = $user->RolId;
+        $row = Rol::select(['permisos.PermisoId','roles.id','permisos_roles.PermisoRolId'])
+        ->join('permisos_roles','permisos_roles.id','=','roles.id')
         ->join('permisos','permisos.PermisoId','=','permisos_roles.PermisoId')
         ->where('permisos.PermisoId','=',$PermisoId)
-        ->where('roles.RolId','=',$RolId)
+        ->where('roles.id','=',$id)
         ->count();
 
         if($row < 1){
@@ -35,9 +35,9 @@ class IsAuthorized
         }
 
         $permisos = Rol::select(['permisos.PermisoId'])
-        ->join('permisos_roles','permisos_roles.RolId','=','roles.RolId')
+        ->join('permisos_roles','permisos_roles.id','=','roles.id')
         ->join('permisos','permisos.PermisoId','=','permisos_roles.PermisoId')
-        ->where('roles.RolId','=',$RolId)
+        ->where('roles.id','=',$id)
         ->get();
 
         $permisos_plain = [];

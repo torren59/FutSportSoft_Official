@@ -19,13 +19,11 @@ class UsuarioController extends Controller
     public function index()
     {
         $ListadoUsuario = User::select(['users.id','Documento','Nombre','users.Estado','roles.name'])
-        ->join('roles','users.RolId','=','roles.RolId')
+        ->join('roles','users.RolId','=','roles.id')
         ->get();
         $ListadoRoles = Roles::all();
         $Listados = ['ListadoUsuario'=>$ListadoUsuario,'ListadoRoles'=>$ListadoRoles];
         return view('Usuarios.Usuario')->with('listado', $Listados);
-
-
 
 
     }

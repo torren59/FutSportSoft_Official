@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Configuracion;
 
 use App\Http\Controllers\Controller;
 use App\Models\Configuracion\Roles;
+use App\Models\Roles\Permiso;
+use App\Models\Roles\Rol;
 use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -18,7 +20,8 @@ class RolesController extends Controller
     public function index()
     {
         $ListadoRoles = Roles::all();
-        return view('configuracion.Roles')->with('listado', $ListadoRoles);
+        $permisos = Permiso::select(['PermisoId','NombrePermiso'])->get();
+        return view('configuracion.Roles')->with('listado', $ListadoRoles)->with('permisos_crear',$permisos);
     }
 
     /**
@@ -81,6 +84,18 @@ class RolesController extends Controller
     public function edit($id)
     {
         $Selected =  Roles::all()->where('id', '=', $id);
+
+        $permisosdelrol = Rol::select(['permisos.PermisoId'])
+        ->join('permisos_roles','permisos_roles.id','=','roles.id')
+        ->join('permisos','permisos_roles.PermisoId','=','permisos.PermisoId')
+        ->where('roles.id','=',$id)
+        ->get();
+
+        $permisos_seleccionados = [];
+        foreach($permisosdelrol as $item){
+            array_push($permisos_seleccionados, $item->PermisoId);
+        }
+
         return view('configuracion.editarroles')->with('roldata', $Selected);
     }
 

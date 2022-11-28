@@ -104,9 +104,8 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th scope="col">Seleciona</th>
+                                <th scope="col">Selecciona</th>
                                 <th scope="col">Permiso</th>
-                                <th scope="col">Descripción</th>
                             </tr>
                         </thead>
                         <tbody>

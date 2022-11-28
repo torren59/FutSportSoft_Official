@@ -11,7 +11,7 @@ class Rol extends Model
 
     protected $table = 'roles';
 
-    protected $primaryKey = 'RolId';
+    protected $primaryKey = 'id';
 
     public $incrementing = false;
 
@@ -21,7 +21,7 @@ class Rol extends Model
 
 
     protected $fillable = [
-        'NombreRol'
+        'name'
     ];
 
     protected $attributes = [
