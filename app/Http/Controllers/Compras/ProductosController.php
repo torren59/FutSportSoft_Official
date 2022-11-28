@@ -17,6 +17,9 @@ class ProductosController extends Controller
      */
     public function index()
     {
+        $productos = Producto::select(['ProductoId','tallas.Talla'])
+        ->join('tallas','tallas.TallaId','=','Producto.TallaId')
+
         $Producto = new Producto();
         $ListadoProducto = $Producto->all();
         return view('Compras.productos')->with('listado',$ListadoProducto);

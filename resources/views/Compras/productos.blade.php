@@ -119,11 +119,16 @@
                         </div>
                     </div>
 
-                    <label for="Talla" class="form-label">Talla</label>
-                    <input type="text" class="form-control" name="Talla" value=" {{ old('Talla') }} ">
-                    @error('Talla')
+                    <label for="TallaId" class="form-label">Talla</label>
+                    <select name="TallaId" class="form-select deporte_select">
+                        <option value="">Selecciona Talla</option>
+                        @foreach ($tallas as $item)
+                            <option value=' {{ $item->TallaId }} '>{{ $item->Talla }}</option>
+                        @endforeach
+                    </select>
+                    @error('TallaId')
                         <div>
-                            @foreach ($errors->get('Talla') as $item)
+                            @foreach ($errors->get('TallaId') as $item)
                                 <small> {{ $item }} </small>
                             @endforeach
                         </div>
