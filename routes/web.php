@@ -19,8 +19,9 @@ use App\Http\Controllers\Programacion\CategoriaController;
 use App\Http\Controllers\Programacion\GruposController;
 use App\Http\Controllers\Usuarios\AccesoController;
 use App\Http\Controllers\Usuarios\UsuarioController;
-
+use App\Models\Roles\Rol;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 use Whoops\RunInterface;
@@ -55,7 +56,7 @@ Route::controller(AccesoController::class)->group(
 
 Route::controller(DashboardController::class)->middleware('auth')->group(
     function(){
-        Route::get('dashboard/panel','index');
+        Route::get('dashboard/panel','index')->middleware('IsAuthorized:20');
     }
 );
 
@@ -128,7 +129,7 @@ Route::controller(DeportesController::class)->middleware('auth')->group(
 
 Route::controller(SedesController::class)->middleware('auth')->group(
     function () {
-        Route::get('sede/listar/{status?}', 'index');
+        Route::get('sede/listar/{status?}', 'index')->middleware('IsAuthorized:10');
         Route::post('sede/crear', 'create');
         Route::get('sede/editar/{id}','edit');
         Route::post('sede/actualizar/{id}','update');
@@ -200,3 +201,21 @@ Route::controller(AyudasController::class)->middleware('auth')->group(
         Route::get('ayudas/listar', 'index');
     }
 );
+
+Route::get('a/jaja', function(){
+    $user = Auth::user();
+    $RolId = $user->RolId;
+    $permisos = Rol::select(['permisos.PermisoId'])
+    ->join('permisos_roles','permisos_roles.RolId','=','roles.RolId')
+    ->join('permisos','permisos.PermisoId','=','permisos_roles.PermisoId')
+    ->where('roles.RolId','=',$RolId)
+    ->get();
+
+    $permisos_plain = [];
+        
+    foreach($permisos as $item){
+        array_push($permisos_plain, intval($item->PermisoId));
+    }
+
+    return $permisos_plain;
+});

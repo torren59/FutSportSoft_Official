@@ -91,8 +91,11 @@
                                     <a href={{ url('horario/listar') }}><button
                                             class="btn col-12 btn-outline-light">Gestión de horarios</button></a>
 
-                                    <a href={{ url('sede/listar') }}><button
-                                            class="btn col-12 btn-outline-light">Gestión de sedes</button></a>
+                                            @if (in_array(20,$permisos))
+                                            <a href={{ url('sede/listar') }}><button class="btn col-12 btn-outline-light" id="seg_servdep_sedes"
+                                                value="7">Sedes</button></a>  
+                                            @endif
+
 
                                     <a href={{ url('deporte/listar') }}><button
                                             class="btn col-12 btn-outline-light">Gestión de deportes</button></a>
