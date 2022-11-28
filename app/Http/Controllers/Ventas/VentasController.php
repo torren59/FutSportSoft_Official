@@ -116,6 +116,8 @@ class VentasController extends Controller
     }
 
 
+
+
     /**
      * Display the specified resource.
      *

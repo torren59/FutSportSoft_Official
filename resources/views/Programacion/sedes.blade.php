@@ -3,7 +3,9 @@
 @section('title', 'Sedes')
 
 @push('styles')
-{{-- Estilos propios --}}
+    {{-- Csrf para funcionamiento de Ajax --}}
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    {{-- Estilos propios --}}
     <link rel="stylesheet" href=" {{ asset('./css/layouts/datatable.css') }} ">
     <link rel="stylesheet" href="{{ asset('./css/layouts/cruds.css') }} ">
 
@@ -21,10 +23,12 @@
             </div>
         </center>
 
-        <div class="addbtn">
-            <button class="btn btn-outline-secondary col-2" onclick="switchadicion2('sedeadicion')">Nueva Sede <i
-                    class="fa-solid fa-circle-plus"></i></button>
-        </div>
+        @if (in_array(125, $permisos))
+            <div class="addbtn">
+                <button class="btn btn-outline-secondary col-2" onclick="switchadicion2('sedeadicion')">Nueva Sede <i
+                        class="fa-solid fa-circle-plus"></i></button>
+            </div>
+        @endif
 
         <table id="tabla">
             <thead>
@@ -41,26 +45,33 @@
             <tbody>
                 @foreach ($listado as $item)
                     <tr>
-                        <td><a href="{{ url('sede/editar/' . $item->SedeId) }}"><button class="btn btn-primary"><i
-                                        class="fa-solid fa-pen"></i></button></a></td>
+                        <td>
+                            @if (in_array(137, $permisos))
+                                <a href="{{ url('sede/editar/' . $item->SedeId) }}"><button class="btn btn-primary"><i
+                                            class="fa-solid fa-pen"></i></button></a>
+                            @endif
+                        </td>
                         <td>{{ $item->SedeId }}</td>
                         <td>{{ $item->NombreSede }}</td>
                         <td> {{ $item->Municipio }} </td>
                         <td> {{ $item->Barrio }} </td>
                         <td> {{ $item->Direccion }} </td>
                         <td>
-                            {{-- Definiendo estado --}}
-                            @php
-                                $checkstate = '';
-                                if ($item->Estado == true) {
-                                    $checkstate = 'checked';
-                                }
-                            @endphp
+                            @if (in_array(149, $permisos))
+                                {{-- Definiendo estado --}}
+                                @php
+                                    $checkstate = '';
+                                    if ($item->Estado == true) {
+                                        $checkstate = 'checked';
+                                    }
+                                @endphp
 
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked"
-                                    {{ $checkstate }} >
-                            </div>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" role="switch"
+                                        id="check_{{ $item->SedeId }}" {{ $checkstate }}
+                                        onclick="tryChange('{{ $item->SedeId }}', 'errorsEstado')">
+                                </div>
+                            @endif
                         </td>
 
                     </tr>
@@ -68,7 +79,7 @@
             </tbody>
         </table>
 
-        
+
 
         {{-- Creacion de sedes --}}
 
@@ -132,6 +143,22 @@
             </div>
         </div>
 
+        {{-- Alerta cambio de estado --}}
+        <div class="adicion_off" id="errorsEstado" style="width:550px">
+            <div class="floatcontent">
+                <h4 style="padding-top:5%;">Operación cancelada</h4>
+                <div>
+                    No fue posible realizar el cambio de estado. <br>
+                    Esta sede está vinculada a programaciones activas.
+                </div>
+                <div id="errorsEstadoMsg">
+                    {{-- Acá se imprimen las programaciones vinculadas --}}
+                </div>
+                <br>
+                <button type="button" class="btn btn-primary btn-danger"
+                    onclick="alterModal('errorsEstado')">Cancelar</i></button> <br>
+            </div>
+        </div>
         @if ($errors->any())
             <script>
                 setTimeout(() => {
@@ -151,4 +178,5 @@
     </script>
 
     <script src=" {{ asset('./js/layouts/cruds.js') }} "></script>
+    <script src=" {{ asset('./js/Programacion/sedes.js') }} "></script>
 @endpush

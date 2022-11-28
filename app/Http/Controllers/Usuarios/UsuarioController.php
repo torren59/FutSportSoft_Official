@@ -26,8 +26,6 @@ class UsuarioController extends Controller
         return view('Usuarios.Usuario')->with('listado', $Listados);
 
 
-
-
     }
 
 
@@ -141,16 +139,25 @@ class UsuarioController extends Controller
 
         // Validando clave
         $validator = Validator::make($request->all(),
-    ['password' => 'required|max:15'],
-    ['required'=>'Evite enviar este campo vacío','max'=>'La clave no debe exceder un máximo de :max caracteres']);
+    ['password' => 'required|max:15|same:confirmacion','confirmacion'=>'required','actual_password'=>'required'],
+    ['required'=>'Evite enviar este campo vacío','max'=>'La clave no debe exceder un máximo de :max caracteres','same'=>'Clave no coincide con confirmacion']);
 
-    if($validator->fails()){
-        return back()->withErrors($validator);
+    $User = User::find($UserId);
+    if(!Hash::check($request->actual_password, $User->password)){
+        $validator->after(function($validator){
+            $validator->errors()->add(
+                'actual_password', 'Esta no es tu clave actual'
+            );
+        });
     }
 
-    // Cambiando clave
-    $User = User::find($UserId);
+    
+    if($validator->fails()){
+        return back()->withErrors($validator)->withInput();
+    }
 
+
+    // Cambiando clave
     $User->forceFill([
         'password' => Hash::make($NewPassword)
     ]);
@@ -185,4 +192,6 @@ class UsuarioController extends Controller
         return $Usuario;
 
     }
+
+
 }

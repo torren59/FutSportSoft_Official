@@ -22,7 +22,7 @@ class ProgramacionesController extends Controller
     public function index()
     {
 
-        $programaciones = Programacion::select(['ProgramacionId','sedes.NombreSede','grupos.NombreGrupo','horarios.Horario','FechaInicio','FechaFinalizacion'])
+        $programaciones = Programacion::select(['ProgramacionId','sedes.NombreSede','grupos.NombreGrupo','horarios.Horario','FechaInicio','FechaFinalizacion','programacion.Estado'])
         ->join('sedes','sedes.SedeId','=','Programacion.SedeId')
         ->join('grupos','grupos.GrupoId','=','Programacion.GrupoId')
         ->join('horarios','horarios.HorarioId','=','Programacion.HorarioId')
@@ -80,6 +80,23 @@ class ProgramacionesController extends Controller
     public function show($id)
     {
         //
+    }
+
+    public function changeState(Request $request){
+        $progId = json_decode($request->progId);
+        $Programacion = Programacion::find($progId);
+        
+        if($Programacion->Estado == true){
+            $Programacion->Estado = false;
+        }
+        else{
+            $Programacion->Estado = true;
+        }
+
+        $Programacion->save();
+
+        return json_encode($Programacion);
+
     }
 
     /**
