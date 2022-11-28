@@ -13,10 +13,14 @@ class SedesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($status = null)
     {
         $ListadoSede = Sede::all();
-        return view('Programacion.Sedes')->with('listado',$ListadoSede);
+        switch($status){
+            default:
+            return view('Programacion.Sedes')->with('listado',$ListadoSede);
+            break;
+        }
     }
 
     /**
@@ -65,6 +69,33 @@ class SedesController extends Controller
     public function show($id)
     {
         //
+    }
+
+    public function changeState(Request $request){
+        $SedeId = json_decode($request->SedeId);
+        $sede = Sede::find($SedeId);
+
+        if($sede->Estado == false){
+            $sede->Estado = true;
+        }
+        else{
+            $sede->Estado = false;
+        }
+        $sede->save();
+
+        $Estado = ['Estado'=>$request->Estado];
+        return json_encode($Estado);
+    }
+
+    public function canChange(Request $request){
+        $SedeId = json_decode($request->SedeId);
+        $Sedes = Sede::select(['programacion.ProgramacionId','sedes.NombreSede'])
+        ->join('programacion','sedes.SedeId','=','programacion.SedeId')
+        ->where('sedes.SedeId','=',intval($SedeId))
+        ->where('programacion.Estado','=',true)
+        ->get();
+
+        return json_encode($Sedes);
     }
 
     /**

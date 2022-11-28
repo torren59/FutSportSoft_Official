@@ -26,10 +26,12 @@
         </center>
         <br>
 
-        <div class="addbtn">
-            <button class="btn btn-outline-secondary col-2" onclick="switchadicion2('deporteadicion')">Nuevo Deporte <i
-                    class="fa-solid fa-circle-plus"></i></button>
-        </div>
+        @if (in_array(130, $permisos))
+            <div class="addbtn">
+                <button class="btn btn-outline-secondary col-2" onclick="switchadicion2('deporteadicion')">Nuevo Deporte <i
+                        class="fa-solid fa-circle-plus"></i></button>
+            </div>
+        @endif
 
         <table id="tabla">
             <thead>
@@ -44,25 +46,31 @@
 
                 @foreach ($listado as $item)
                     <tr>
-                        <td><a href="{{ url('deporte/editar/' . $item->DeporteId) }}"><button class="btn btn-primary"><i
-                                        class="fa-solid fa-pen"></i></button></a></td>
+                        <td>
+                            @if (in_array(141, $permisos))
+                                <a href="{{ url('deporte/editar/' . $item->DeporteId) }}"><button class="btn btn-primary"><i
+                                            class="fa-solid fa-pen"></i></button></a>
+                            @endif
+                        </td>
                         <td>{{ $item->DeporteId }}</td>
                         <td>{{ $item->NombreDeporte }}</td>
                         <td>
-                            {{-- Definiendo estado --}}
-                            @php
-                                $checkstate = '';
-                                if ($item->Estado == true) {
-                                    $checkstate = 'checked';
-                                }
-                            @endphp
+                            @if (in_array(153, $permisos))
+                                {{-- Definiendo estado --}}
+                                @php
+                                    $checkstate = '';
+                                    if ($item->Estado == true) {
+                                        $checkstate = 'checked';
+                                    }
+                                @endphp
 
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" role="switch"
-                                    id="{{ $item->DeporteId }}state"
-                                    onclick="changeState('{{ $item->NombreDeporte }}', {{ $item->DeporteId }})"
-                                    {{ $checkstate }}>
-                            </div>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" role="switch"
+                                        id="{{ $item->DeporteId }}state"
+                                        onclick="changeState('{{ $item->NombreDeporte }}', {{ $item->DeporteId }})"
+                                        {{ $checkstate }}>
+                                </div>
+                            @endif
                         </td>
 
                     </tr>

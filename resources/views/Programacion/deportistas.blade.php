@@ -17,37 +17,48 @@
     {{-- Listado --}}
 
     <div class="service_list">
-    <center>
+        <center>
             <div class="tituloTabla">
                 <h1>DEPORTISTAS</h1>
             </div>
-    </center>
+        </center>
 
-    <div class="addbtn">
-        <button class="btn btn-outline-secondary col-2" onclick="switchadicion2('deportistaadicion')">Nuevo Deportista <i
-                class="fa-solid fa-circle-plus"></i></button>
-    </div>
+        @if (in_array(126, $permisos))
+            <div class="addbtn">
+                <button class="btn btn-outline-secondary col-2" onclick="switchadicion2('deportistaadicion')">Nuevo
+                    Deportista <i class="fa-solid fa-circle-plus"></i></button>
+            </div>
+        @endif
 
-    <table id="tabla">
-        <thead>
-            <tr>
-                <td>Acción</td>
-                <td>Documento</td>
-                <td>Documento Acudiente</td>
-                <td>Tipo Documento</td>
-                <td>Nombre</td>
-                <td>Fecha de Nacimiento</td>
-                <td>Dirección</td>
-                <td>Celular</td>
-                <td>Correo</td>
-                <td>Estado</td>
-                <td>Ultimo pago</td>
-            </tr>
-        </thead>
-        <tbody>
-        @foreach ($listado as $item)
+        <table id="tabla">
+            <thead>
+                <tr>
+                    <td>Acción</td>
+                    <td>Documento</td>
+                    <td>Documento Acudiente</td>
+                    <td>Tipo Documento</td>
+                    <td>Nombre</td>
+                    <td>Fecha de Nacimiento</td>
+                    <td>Direccion</td>
+                    <td>Celular</td>
+                    <td>Correo</td>
+                    <td>Estado</td>
+                    <td>Ultimo pago</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($listado as $item)
                     <tr>
-                        <td><a href="{{ url('deportista/editar/'.$item->Documento) }}"><button class="btn btn-primary"><i class="fa-solid fa-pen"></i></button></a></td>
+                        <td>
+                            @if (in_array(138, $permisos))
+                                <a href="{{ url('deportista/editar/' . $item->Documento) }}"><button
+                                        class="btn btn-primary"><i class="fa-solid fa-pen"></i></button></a>
+                            @endif
+                            @if (in_array(156, $permisos))
+                                <a href="{{ url('deportista/getDetalle/' . $item->Documento) }}"><button
+                                        class="btn btn-primary"><i class="fa-solid fa-circle-info"></i></button></a>
+                            @endif
+                        </td>
                         <td>{{ $item->Documento }}</td>
                         <td>{{ $item->DocumentoAcudiente }}</td>
                         <td>{{ $item->TipoDocumento }}</td>
@@ -57,18 +68,20 @@
                         <td>{{ $item->Celular }}</td>
                         <td>{{ $item->Correo }}</td>
                         <td>
-                            {{-- Definiendo estado --}}
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked"
-                                    checked>
-                            </div>
-                            @php
-                                $checkstate = '';
-                                if ($item->Estado == true) {
-                                    $checkstate = 'checked';
-                                }
-                                
-                            @endphp
+                            @if (in_array(150, $permisos))
+                                {{-- Definiendo estado --}}
+                                @php
+                                    $checkstate = '';
+                                    if ($item->Estado == true) {
+                                        $checkstate = 'checked';
+                                    }
+                                @endphp
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" role="switch"
+                                        id="flexSwitchCheckChecked" {{ $checkstate }}>
+                                </div>
+                            @endif
+                        </td>
                         <td>{{ $item->UltimoPago }}</td>
 
                     </tr>
@@ -111,7 +124,8 @@
                         </div>
                         <div class="col-6">
                             <label for="TipoDocumento" class="form-label">Tipo Documento</label>
-                            <input type="text" class="form-control" name="TipoDocumento" value=" {{ old('TipoDocumento') }} ">
+                            <input type="text" class="form-control" name="TipoDocumento"
+                                value=" {{ old('TipoDocumento') }} ">
                             @error('TipoDocumento')
                                 <div>
                                     @foreach ($errors->get('TipoDocumento') as $item)
@@ -133,7 +147,8 @@
                     @enderror
 
                     <label for="FechaNacimiento" class="form-label">FechaNacimiento</label>
-                    <input type="date" class="form-control" name="FechaNacimiento" value=" {{ old('FechaNacimiento') }} ">
+                    <input type="date" class="form-control" name="FechaNacimiento"
+                        value=" {{ old('FechaNacimiento') }} ">
                     @error('FechaNacimiento')
                         <div>
                             @foreach ($errors->get('FechaNacimiento') as $item)

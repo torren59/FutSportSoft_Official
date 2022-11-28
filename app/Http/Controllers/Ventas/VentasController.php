@@ -104,21 +104,12 @@ class VentasController extends Controller
             $Producto->save();
             $i += 1;
         }
-        
-        return redirect('venta/listar');
-        
 
-   
+        return redirect('dashboard/panel');
     }
 
 
-    public function listselected(Request $request)
-    {
-        $ProductModel = new Producto();
-        $Selecteds = json_decode($request->seleccionados);
-        $checkeds = $ProductModel->whereIn('ProductoId', $Selecteds)->select('NombreProducto')->get();
-        return json_encode($checkeds);
-    }
+
 
     /**
      * Display the specified resource.
@@ -186,7 +177,7 @@ class VentasController extends Controller
     /**
      * @var ProductoId
      * @var Cantidad
-     * 
+     *
      * @return Total
      */
     private function getTotalProducto($ProductoId, $Cantidad)
@@ -261,11 +252,11 @@ class VentasController extends Controller
             $VentaSession = session('VentaSession');
             $Articulos = $VentaSession[0]['Articulos'];
             $VentaData = $VentaSession[0]['VentaData'];
-            
+
             // Rescatando total y subtotal general
             $Total = $VentaData['Total'];
             $SubTotal = $VentaData['SubTotal'];
-           
+
             // Recalculando total y subtotal general
             $Total += intval($PrecioTotalProducto);
             $SubTotal += intval($SubTotalProducto);

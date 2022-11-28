@@ -23,10 +23,13 @@
             </div>
         </center>
 
-        <div class="addbtn">
-            <button class="btn btn-outline-secondary col-2" onclick="switchadicion2('productoadicion')">Nuevo Producto <i
-                    class="fa-solid fa-circle-plus"></i></button>
-        </div>
+
+        @if (in_array(123, $permisos))
+            <div class="addbtn">
+                <button class="btn btn-outline-secondary col-2" onclick="switchadicion2('productoadicion')">Nuevo Producto
+                    <i class="fa-solid fa-circle-plus"></i></button>
+            </div>
+        @endif
 
         <table id="tabla">
             <thead>
@@ -40,14 +43,18 @@
                     <td>Precio Venta</td>
                     <td>Cantidad</td>
                     <td>Estado</td>
-                    
+
                 </tr>
             </thead>
             <tbody>
                 @foreach ($listado as $item)
                     <tr>
-                        <td><a href="{{ url('producto/editar/' . $item->ProductoId) }}"><button class="btn btn-primary"><i
-                                        class="fa-solid fa-pen"></i></button></a></td>
+                        <td>
+                            @if (in_array(135, $permisos))
+                                <a href="{{ url('producto/editar/' . $item->ProductoId) }}"><button
+                                        class="btn btn-primary"><i class="fa-solid fa-pen"></i></button></a>
+                            @endif
+                        </td>
                         <td>{{ $item->ProductoId }}</td>
                         <td>{{ $item->Nit }}</td>
                         <td> {{ $item->NombreProducto }} </td>
@@ -56,18 +63,20 @@
                         <td> {{ $item->PrecioVenta }} </td>
                         <td> {{ $item->Cantidad }} </td>
                         <td>
-                            {{-- Definiendo estado --}}
-                            @php
-                                $checkstate = '';
-                                if ($item->Estado == true) {
-                                    $checkstate = 'checked';
-                                }
-                            @endphp
+                            @if (in_array(147, $permisos))
+                                {{-- Definiendo estado --}}
+                                @php
+                                    $checkstate = '';
+                                    if ($item->Estado == true) {
+                                        $checkstate = 'checked';
+                                    }
+                                @endphp
 
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked"
-                                    {{ $checkstate }} >
-                            </div>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" role="switch"
+                                        id="flexSwitchCheckChecked" {{ $checkstate }}>
+                                </div>
+                            @endif
                         </td>
 
                     </tr>
@@ -97,7 +106,8 @@
                     <div class="row">
                         <div class="col-6">
                             <label for="NombreProducto" class="form-label">Nombre Producto</label>
-                            <input type="text" class="form-control" name="NombreProducto" value=" {{ old('NombreProducto') }} ">
+                            <input type="text" class="form-control" name="NombreProducto"
+                                value=" {{ old('NombreProducto') }} ">
                             @error('NombreProducto')
                                 <div>
                                     @foreach ($errors->get('NombreProducto') as $item)
@@ -108,7 +118,8 @@
                         </div>
                         <div class="col-6">
                             <label for="TipoProducto" class="form-label">Tipo Producto</label>
-                            <input type="text" class="form-control" name="TipoProducto" value=" {{ old('TipoProducto') }} ">
+                            <input type="text" class="form-control" name="TipoProducto"
+                                value=" {{ old('TipoProducto') }} ">
                             @error('TipoProducto')
                                 <div>
                                     @foreach ($errors->get('TipoProducto') as $item)

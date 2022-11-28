@@ -20,10 +20,14 @@
                 <h1>Gestión de Categorías</h1>
             </div>
         </center>
-        <div class="addbtn">
-            <button class="btn btn-outline-secondary col-2" onclick="switchadicion2('categoriaadicion')">Crear <i
-                    class="fa-solid fa-circle-plus"></i></button>
-        </div>
+
+        @if (in_array(127, $permisos))
+            <div class="addbtn">
+                <button class="btn btn-outline-secondary col-2" onclick="switchadicion2('categoriaadicion')">Crear <i
+                        class="fa-solid fa-circle-plus"></i></button>
+            </div>
+        @endif
+
         <table id="tabla">
             <thead>
                 <tr>
@@ -37,28 +41,34 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($listado as $item)
+                @foreach ($listado['ListadoCategoria'] as $item)
                     <tr>
-                        <td><a href="{{ url('categoria/editar/' . $item->CategoriaId) }}"><button
-                                    class="btn btn-outline-primary"><i class="fa-solid fa-pen"></i></button></a></td>
+                        <td>
+                            @if (in_array(139, $permisos))
+                                <a href="{{ url('categoria/editar/' . $item->CategoriaId) }}"><button
+                                        class="btn btn-outline-primary"><i class="fa-solid fa-pen"></i></button></a>
+                            @endif
+                        </td>
                         <td>{{ $item->CategoriaId }}</td>
                         <td> {{ $item->NombreCategoria }} </td>
                         <td> {{ $item->NombreDeporte }} </td>
                         <td> {{ $item->RangoEdad }} </td>
 
                         <td>
-                            {{-- Definiendo estado --}}
-                            @php
-                                $checkstate = '';
-                                if ($item->Estado == true) {
-                                    $checkstate = 'checked';
-                                }
-                            @endphp
+                            @if (in_array(151, $permisos))
+                                {{-- Definiendo estado --}}
+                                @php
+                                    $checkstate = '';
+                                    if ($item->Estado == true) {
+                                        $checkstate = 'checked';
+                                    }
+                                @endphp
 
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked"
-                                    {{ $checkstate }}>
-                            </div>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" role="switch"
+                                        id="flexSwitchCheckChecked" {{ $checkstate }}>
+                                </div>
+                            @endif
                         </td>
 
                     </tr>
@@ -88,13 +98,13 @@
                             </div>
                         @enderror
                         <div class="col-6">
-                            <label for="Deporte" class="form-label">Deportes</label>
-                        <select class="form-select" aria-label="Default select example">
-                            <option selected>Seleciona un Deporte</option>
-                            @foreach ($listado as $item)
-                                <option value="	{{ $item->DeporteId }}">{{ $item->NombreDeporte }}</option>
-                            @endforeach
-                        </select>
+                            <label for="deportes" class="form-label">Deportes</label>
+                            <select class="form-select" name="DeporteId" aria-label="Default select example">
+                                <option selected>Selecione un Deporte</option>
+                                @foreach ($listado['ListadoDeporte'] as $item)
+                                    <option value="{{ $item->DeporteId }}">{{ $item->NombreDeporte }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="col-6">
                             <label for="RangoEdad" class="form-label">Rango de Edad</label>

@@ -5,30 +5,29 @@ namespace App\Models\Programacion;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Programacion extends Model
+class Grupos_Deportistas extends Model
 {
     use HasFactory;
 
-    protected $table = 'programacion';
+    protected $table = 'grupos_deportistas';
 
-    protected $primaryKey = 'ProgramacionId';
+    protected $primaryKey = 'GruposDeportistasId';
 
     public $incrementing = false;
 
-    protected $keyType = 'varchar';
+    protected $keyType = 'string';
 
     public $timestamps = false;
 
+
     protected $fillable = [
-        'SedeId',
         'GrupoId',
-        'HorarioId',
-        'FechaInicio',
-        'FechaFinalizacion'
+        'Documento',
+        'FechaIngreso',
+        'Estado'
     ];
 
     protected $attributes = [
         'Estado' => true,
     ];
-
 }

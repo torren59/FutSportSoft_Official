@@ -1,30 +1,27 @@
 <?php
 
-namespace App\Models\Programacion;
+namespace App\Models\Roles;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Programacion extends Model
+class Rol extends Model
 {
     use HasFactory;
 
-    protected $table = 'programacion';
+    protected $table = 'roles';
 
-    protected $primaryKey = 'ProgramacionId';
+    protected $primaryKey = 'id';
 
     public $incrementing = false;
 
-    protected $keyType = 'varchar';
+    protected $keyType = 'string';
 
     public $timestamps = false;
 
+
     protected $fillable = [
-        'SedeId',
-        'GrupoId',
-        'HorarioId',
-        'FechaInicio',
-        'FechaFinalizacion'
+        'name'
     ];
 
     protected $attributes = [

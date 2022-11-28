@@ -1,34 +1,33 @@
 <?php
 
-namespace App\Models\Programacion;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Programacion extends Model
+class Grupos extends Model
 {
     use HasFactory;
 
-    protected $table = 'programacion';
+    protected $table = 'grupos';
 
-    protected $primaryKey = 'ProgramacionId';
+    protected $primaryKey = 'GrupoId';
 
     public $incrementing = false;
 
-    protected $keyType = 'varchar';
+    protected $keyType = 'string';
 
     public $timestamps = false;
 
+
     protected $fillable = [
-        'SedeId',
-        'GrupoId',
-        'HorarioId',
-        'FechaInicio',
-        'FechaFinalizacion'
+        'CategoriaId',
+        'Documento',
+        'NombreGrupo',
+        'Estado'
     ];
 
     protected $attributes = [
         'Estado' => true,
     ];
-
 }

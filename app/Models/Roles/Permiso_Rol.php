@@ -1,17 +1,18 @@
 <?php
 
-namespace App\Models\Configuracion;
+namespace App\Models\Roles;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Roles extends Model
+class Permiso_Rol extends Model
 {
     use HasFactory;
 
-    protected $table = 'roles';
+    
+    protected $table = 'permisos_roles';
 
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'PermisoRolId';
 
     public $incrementing = false;
 
@@ -21,11 +22,7 @@ class Roles extends Model
 
 
     protected $fillable = [
-        'NombreRol',
-        'Estado'
-    ];
-
-    protected $attributes = [
-        'Estado' => true,
+        'PermisoId',
+        'RolId'
     ];
 }

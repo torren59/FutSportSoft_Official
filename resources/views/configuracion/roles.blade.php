@@ -5,7 +5,6 @@
 @push('styles')
     <link rel="stylesheet" href=" {{ asset('./css/layouts/datatable.css') }} ">
     <link rel="stylesheet" href="{{ asset('./css/layouts/cruds.css') }} ">
-
 @endpush
 
 @section('content')
@@ -20,10 +19,14 @@
             </div>
         </center>
         <br>
-        <div class="addbtn">
-            <button class="btn btn-outline-secondary col-2" onclick="switchadicion2('roladicion')">Crear <i
-                    class="fa-solid fa-circle-plus"></i></button>
-        </div>
+
+        @if (in_array(119, $permisos))
+            <div class="addbtn">
+                <button class="btn btn-outline-secondary col-2" onclick="switchadicion2('roladicion')">Crear <i
+                        class="fa-solid fa-circle-plus"></i></button>
+            </div>
+        @endif
+
         <table id="tabla">
             <thead>
                 <tr>
@@ -36,29 +39,39 @@
             <tbody>
                 @foreach ($listado as $item)
                     <tr>
-                        <td><abbr title="Editar"><a href="{{ url('roles/editar/' . $item->id) }}"><button
-                                        class="btn btn-outline-primary"><i class="fa-solid fa-pen"></i></button></a></abbr>
+                        <td>
 
-                            <abbr title="Detalles"><a href="{{ url('roles/detalle/' . $item->id) }}"><button
-                                        class="btn btn-outline-secondary"><i
-                                            class="fa-solid fa-circle-info"></i></button></a></abbr>
+                            @if (in_array(132, $permisos))
+                                <abbr title="Editar"><a href="{{ url('roles/editar/' . $item->id) }}"><button
+                                            class="btn btn-outline-primary"><i
+                                                class="fa-solid fa-pen"></i></button></a></abbr>
+                            @endif
+
+                            @if (in_array(114, $permisos))
+                                <abbr title="Detalles"><a href="{{ url('roles/detalle/' . $item->id) }}"><button
+                                            class="btn btn-outline-secondary"><i
+                                                class="fa-solid fa-circle-info"></i></button></a></abbr>
+                            @endif
+
                         </td>
                         <td>{{ $item->id }}</td>
                         <td>{{ $item->name }}</td>
 
                         <td>
-                            {{-- Definiendo estado --}}
-                            @php
-                                $checkstate = '';
-                                if ($item->Estado == true) {
-                                    $checkstate = 'checked';
-                                }
-                            @endphp
+                            @if (in_array(143, $permisos))
+                                {{-- Definiendo estado --}}
+                                @php
+                                    $checkstate = '';
+                                    if ($item->Estado == true) {
+                                        $checkstate = 'checked';
+                                    }
+                                @endphp
 
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked"
-                                    {{ $checkstate }}>
-                            </div>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" role="switch"
+                                        id="flexSwitchCheckChecked" {{ $checkstate }}>
+                                </div>
+                            @endif
                         </td>
 
                     </tr>
@@ -90,54 +103,57 @@
 
                     <table class="table table-striped">
                         <thead>
-                          <tr>
-                            <th scope="col">Seleciona</th>
-                            <th scope="col">Permiso</th>
-                            <th scope="col">Descripción</th>
-                          </tr>
+                            <tr>
+                                <th scope="col">Selecciona</th>
+                                <th scope="col">Permiso</th>
+                            </tr>
                         </thead>
                         <tbody>
                             <tr>
-                              <td>
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="customCheck1" checked>
-                                    <label class="custom-control-label" for="customCheck1">1</label>
-                                </div>
-                              </td>
-                              <td>permiso1</td>
-                              <td>permite visualizar la lista de roles</td>
+                                <td>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck1" checked>
+                                        <label class="custom-control-label" for="customCheck1">1</label>
+                                    </div>
+                                </td>
+                                <td>permiso1</td>
+                                <td>permite visualizar la lista de roles</td>
 
                             </tr>
                             <tr>
-                              <td>
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="customCheck2">
-                                    <label class="custom-control-label" for="customCheck2">2</label>
-                                </div>
-                              </td>
-                              <td>Bootstrap Grid 4 Tutorial and Examples</td>
-                              <td>Cristina</td>
+                                <td>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck2">
+                                        <label class="custom-control-label" for="customCheck2">2</label>
+                                    </div>
+                                </td>
+                                <td>Bootstrap Grid 4 Tutorial and Examples</td>
+                                <td>Cristina</td>
 
                             </tr>
                             <tr>
-                              <td>
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="customCheck3">
-                                    <label class="custom-control-label" for="customCheck3">3</label>
-                                </div>
-                              </td>
-                              <td>Bootstrap Flexbox Tutorial and Examples</td>
-                              <td>Cristina</td>
+                                <td>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck3">
+                                        <label class="custom-control-label" for="customCheck3">3</label>
+                                    </div>
+                                </td>
+                                <td>Bootstrap Flexbox Tutorial and Examples</td>
+                                <td>Cristina</td>
 
                             </tr>
-                          </tbody>
-                      </table>
+                        </tbody>
+                    </table>
 
 
-                    <br>
-                    <button type="submit" class="btn btn-outline-primary">Guardar</i></button>
-                    <button type="button" class="btn btn-outline-secondary"
-                        onclick="switchadicion2('roladicion')">Cancelar</i></button>
+
+                    <div class="botonesroles p-5">
+                        <button type="submit" class="btn btn-outline-primary">Guardar</i></button>
+                        <button type="button" class="btn btn-outline-secondary"
+                            onclick="switchadicion2('roladicion')">Cancelar</i></button>
+                    </div>
+
+
 
                 </form>
 
