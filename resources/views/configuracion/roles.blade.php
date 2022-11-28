@@ -19,10 +19,14 @@
             </div>
         </center>
         <br>
-        <div class="addbtn">
-            <button class="btn btn-outline-secondary col-2" onclick="switchadicion2('roladicion')">Crear <i
-                    class="fa-solid fa-circle-plus"></i></button>
-        </div>
+
+        @if (in_array(119, $permisos))
+            <div class="addbtn">
+                <button class="btn btn-outline-secondary col-2" onclick="switchadicion2('roladicion')">Crear <i
+                        class="fa-solid fa-circle-plus"></i></button>
+            </div>
+        @endif
+
         <table id="tabla">
             <thead>
                 <tr>
@@ -35,29 +39,39 @@
             <tbody>
                 @foreach ($listado as $item)
                     <tr>
-                        <td><abbr title="Editar"><a href="{{ url('roles/editar/' . $item->id) }}"><button
-                                        class="btn btn-outline-primary"><i class="fa-solid fa-pen"></i></button></a></abbr>
+                        <td>
 
-                            <abbr title="Detalles"><a href="{{ url('roles/detalle/' . $item->id) }}"><button
-                                        class="btn btn-outline-secondary"><i
-                                            class="fa-solid fa-circle-info"></i></button></a></abbr>
+                            @if (in_array(132, $permisos))
+                                <abbr title="Editar"><a href="{{ url('roles/editar/' . $item->id) }}"><button
+                                            class="btn btn-outline-primary"><i
+                                                class="fa-solid fa-pen"></i></button></a></abbr>
+                            @endif
+
+                            @if (in_array(114, $permisos))
+                                <abbr title="Detalles"><a href="{{ url('roles/detalle/' . $item->id) }}"><button
+                                            class="btn btn-outline-secondary"><i
+                                                class="fa-solid fa-circle-info"></i></button></a></abbr>
+                            @endif
+
                         </td>
                         <td>{{ $item->id }}</td>
                         <td>{{ $item->name }}</td>
 
                         <td>
-                            {{-- Definiendo estado --}}
-                            @php
-                                $checkstate = '';
-                                if ($item->Estado == true) {
-                                    $checkstate = 'checked';
-                                }
-                            @endphp
+                            @if (in_array(143, $permisos))
+                                {{-- Definiendo estado --}}
+                                @php
+                                    $checkstate = '';
+                                    if ($item->Estado == true) {
+                                        $checkstate = 'checked';
+                                    }
+                                @endphp
 
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked"
-                                    {{ $checkstate }}>
-                            </div>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" role="switch"
+                                        id="flexSwitchCheckChecked" {{ $checkstate }}>
+                                </div>
+                            @endif
                         </td>
 
                     </tr>

@@ -24,12 +24,14 @@
         </center>
         <br>
 
-        <a href=" {{ url('venta/crear') }} ">
+        @if (in_array(131, $permisos))
             <div class="addbtn">
-                <button class="btn btn-outline-secondary col-2">Nueva Venta <i
-                        class="fa-solid fa-circle-plus"></i></button>
+                <a href=" {{ url('venta/crear') }} ">
+                    <button class="btn btn-outline-secondary col-2">Nueva Venta <i
+                            class="fa-solid fa-circle-plus"></i></button>
+                </a>
             </div>
-        </a>
+        @endif
 
         <table id="tabla">
             <thead>
@@ -43,14 +45,18 @@
                     <td>Iva</td>
                     <td>Descuento</td>
                     <td>Estado</td>
-                    
+
                 </tr>
             </thead>
             <tbody>
                 @foreach ($listado as $item)
                     <tr>
-                        <td><a href="{{ url('venta/editar/' . $item->VentaId) }}"><button class="btn btn-primary"><i
-                                        class="fa-solid fa-pen"></i></button></a></td>
+                        <td>
+                            @if (in_array(118, $permisos))
+                                <a href="{{ url('venta/getDetalle/' . $item->VentaId) }}"><button class="btn btn-primary"><i
+                                            class="fa-solid fa-circle-info"></i></button></a>
+                            @endif
+                        </td>
                         <td>{{ $item->VentaId }}</td>
                         <td>{{ $item->Documento }}</td>
                         <td> {{ $item->FechaVenta }} </td>
@@ -59,18 +65,20 @@
                         <td> {{ $item->Iva }} </td>
                         <td> {{ $item->Descuento }} </td>
                         <td>
-                            {{-- Definiendo estado --}}
-                            @php
-                                $checkstate = '';
-                                if ($item->Estado == true) {
-                                    $checkstate = 'checked';
-                                }
-                            @endphp
+                            @if (in_array(155, $permisos))
+                                {{-- Definiendo estado --}}
+                                @php
+                                    $checkstate = '';
+                                    if ($item->Estado == true) {
+                                        $checkstate = 'checked';
+                                    }
+                                @endphp
 
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked"
-                                    {{ $checkstate }} >
-                            </div>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" role="switch"
+                                        id="flexSwitchCheckChecked" {{ $checkstate }}>
+                                </div>
+                            @endif
                         </td>
 
                     </tr>
@@ -79,7 +87,7 @@
         </table>
 
 
-        
+
 
     </div>
 @endsection

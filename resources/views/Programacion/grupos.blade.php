@@ -5,7 +5,6 @@
 @push('styles')
     <link rel="stylesheet" href=" {{ asset('./css/layouts/datatable.css') }} ">
     <link rel="stylesheet" href="{{ asset('./css/layouts/cruds.css') }} ">
-
 @endpush
 
 @section('content')
@@ -21,9 +20,12 @@
         </center>
         <br>
 
-
-        <div class="botoncompras"><button class="btn btn-outline-secondary col-2"
-                onclick="switchadicion2('selectproveedor')">Crear <i class="fa-solid fa-circle-plus"></i></button></div>
+        @if (in_array(128, $permisos))
+            <div class="addbtn">
+                <button class="btn btn-outline-secondary col-2" onclick="switchadicion2('selectproveedor')">Crear <i
+                        class="fa-solid fa-circle-plus"></i></button>
+            </div>
+        @endif
 
         <table id="tabla">
             <thead>
@@ -39,9 +41,19 @@
             <tbody>
                 @foreach ($listado['ListadoGrupos'] as $item)
                     <tr>
-                        <td><abbr title="Detalles"><button type="button" class="btn btn-outline-secondary"
-                                    onclick="detalleGrupo({{ $item->GrupoId }},'detallegrupo','jsPrint')"><i
-                                        class="fa-solid fa-circle-info"></i></button></abbr>
+                        <td>
+                            @if (in_array(140, $permisos))
+                                <abbr title="Editar"><button type="button" class="btn btn-outline-secondary"
+                                        onclick="detalleGrupo({{ $item->GrupoId }},'detallegrupo','jsPrint')"><i
+                                            class="fa-solid fa-circle-info"></i></button></abbr>
+                            @endif
+                        </td>
+                        <td>
+                            @if (in_array(117, $permisos))
+                                <abbr title="Detalles"><button type="button" class="btn btn-outline-secondary"
+                                        onclick="detalleGrupo({{ $item->GrupoId }},'detallegrupo','jsPrint')"><i
+                                            class="fa-solid fa-circle-info"></i></button></abbr>
+                            @endif
                         </td>
                         <td>{{ $item->GrupoId }}</td>
                         <td>{{ $item->NombreCategoria }}</td>
@@ -50,18 +62,20 @@
 
 
                         <td>
-                            {{-- Definiendo estado --}}
-                            @php
-                                $checkstate = '';
-                                if ($item->Estado == true) {
-                                    $checkstate = 'checked';
-                                }
-                            @endphp
+                            @if (in_array(152, $permisos))
+                                {{-- Definiendo estado --}}
+                                @php
+                                    $checkstate = '';
+                                    if ($item->Estado == true) {
+                                        $checkstate = 'checked';
+                                    }
+                                @endphp
 
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked"
-                                    {{ $checkstate }}>
-                            </div>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" role="switch"
+                                        id="flexSwitchCheckChecked" {{ $checkstate }}>
+                                </div>
+                            @endif
                         </td>
 
                     </tr>
@@ -83,8 +97,9 @@
                 {{-- Aquí se imprime el contenido de detalles enviado desde JS --}}
             </div>
             <div class="boton detalle p-5">
-            <button type="button" class="btn btn-outline-secondary"
-                onclick="switchadicion2('detallegrupo')">Cerrar</i></button></div>
+                <button type="button" class="btn btn-outline-secondary"
+                    onclick="switchadicion2('detallegrupo')">Cerrar</i></button>
+            </div>
 
         </div>
     </div>

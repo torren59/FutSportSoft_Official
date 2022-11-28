@@ -22,10 +22,14 @@
             </div>
         </center>
         <br>
-        <div class="addbtn">
-            <button class="btn btn-outline-secondary col-2" onclick="switchadicion2('usuarioadicion')">Crear <i
-                    class="fa-solid fa-circle-plus"></i></button>
-        </div>
+
+        @if (in_array(120, $permisos))
+            <div class="addbtn">
+                <button class="btn btn-outline-secondary col-2" onclick="switchadicion2('usuarioadicion')">Crear <i
+                        class="fa-solid fa-circle-plus"></i></button>
+            </div>
+        @endif
+
         <table id="tabla">
             <thead>
                 <tr>
@@ -40,23 +44,30 @@
                 @foreach ($listado['ListadoUsuario'] as $item)
                     <tr>
                         <td>
-                            <a href="{{ url('usuario/editar/' . $item->id) }}">
-                                <button class="btn btn-outline-primary"><i class="fa-solid fa-pen"></i>
-                                </button>
-                            </a>
 
-                            <abbr title="Detalles">
-                                <button type="button"
-                                    class="btn btn-outline-secondary"onclick="detalleUsuario({{ $item->id }},'detalleusuario','jsPrint')">
-                                    <i class="fa-solid fa-circle-info"></i>
-                                </button>
-                            </abbr>
-
-                            <abbr title="Cambiar clave">
-                                <a href="{{ url('usuario/newpassword/' . $item->id) }}">
-                                    <button class="btn btn-outline-success"><i class="fa-solid fa-lock"></i></button>
+                            @if (in_array(133, $permisos))
+                                <a href="{{ url('usuario/editar/' . $item->id) }}">
+                                    <button class="btn btn-outline-primary"><i class="fa-solid fa-pen"></i>
+                                    </button>
                                 </a>
-                            </abbr>
+                            @endif
+
+                            @if (in_array(115, $permisos))
+                                <abbr title="Detalles">
+                                    <button type="button"
+                                        class="btn btn-outline-secondary"onclick="detalleUsuario({{ $item->id }},'detalleusuario','jsPrint')">
+                                        <i class="fa-solid fa-circle-info"></i>
+                                    </button>
+                                </abbr>
+                            @endif
+
+                            @if (in_array(142, $permisos))
+                                <abbr title="Cambiar clave">
+                                    <a href="{{ url('usuario/newpassword/' . $item->id) }}">
+                                        <button class="btn btn-outline-success"><i class="fa-solid fa-lock"></i></button>
+                                    </a>
+                                </abbr>
+                            @endif
                         </td>
                         <td>{{ $item->Documento }}</td>
                         <td> {{ $item->Nombre }} </td>
@@ -67,20 +78,21 @@
 
 
                         <td>
-                            {{-- Definiendo estado --}}
-                            @php
-                                $checkstate = '';
-                                if ($item->Estado == true) {
-                                    $checkstate = 'checked';
-                                }
-                            @endphp
+                            @if (in_array(144, $permisos))
+                                {{-- Definiendo estado --}}
+                                @php
+                                    $checkstate = '';
+                                    if ($item->Estado == true) {
+                                        $checkstate = 'checked';
+                                    }
+                                @endphp
 
-                            <div class="form-check form-switch">
-                                <input class="form-check-input " type="checkbox" role="switch" id="flexSwitchCheckChecked"
-                                    {{ $checkstate }}>
-                            </div>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input " type="checkbox" role="switch"
+                                        id="flexSwitchCheckChecked" {{ $checkstate }}>
+                                </div>
+                            @endif
                         </td>
-
                     </tr>
                 @endforeach
             </tbody>
@@ -144,7 +156,7 @@
 
                         <div class="col-6">
                             <label for="password" class="form-label">Contraseña</label>
-                            <input type="password" class="form-control" name="password" >
+                            <input type="password" class="form-control" name="password">
                             @error('password')
                                 <div>
                                     @foreach ($errors->get('password') as $item)

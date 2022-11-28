@@ -26,10 +26,12 @@
                 <h1>PROGRAMACION</h1>
             </div>
             <br>
-            <div class="addbtn">
-                <button class="btn btn-outline-secondary col-2" onclick="switchadicion2('programacionadicion')">Nueva
-                    Programación <i class="fa-solid fa-circle-plus"></i></button>
-            </div>
+            @if (in_array(129, $permisos))
+                <div class="addbtn">
+                    <button class="btn btn-outline-secondary col-2" onclick="switchadicion2('programacionadicion')">Nueva
+                        Programación <i class="fa-solid fa-circle-plus"></i></button>
+                </div>
+            @endif
         </center>
 
         <table id="tabla">
@@ -54,18 +56,21 @@
                         <td> {{ $item->FechaInicio }} </td>
                         <td> {{ $item->FechaFinalizacion }}</td>
                         <td>
-                            {{-- Definiendo estado --}}
-                            @php
-                                $checkstate = '';
-                                if ($item->Estado == true) {
-                                    $checkstate = 'checked';
-                                }
-                            @endphp
+                            @if (in_array(154, $permisos))
+                                {{-- Definiendo estado --}}
+                                @php
+                                    $checkstate = '';
+                                    if ($item->Estado == true) {
+                                        $checkstate = 'checked';
+                                    }
+                                @endphp
 
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked"
-                                    {{ $checkstate }} onclick="changeState({{ $item->ProgramacionId }})">
-                            </div>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" role="switch"
+                                        id="flexSwitchCheckChecked" {{ $checkstate }}
+                                        onclick="changeState({{ $item->ProgramacionId }})">
+                                </div>
+                            @endif
                         </td>
                     </tr>
                 @endforeach

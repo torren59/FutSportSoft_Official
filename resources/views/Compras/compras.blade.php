@@ -5,7 +5,6 @@
 @push('styles')
     <link rel="stylesheet" href=" {{ asset('./css/layouts/datatable.css') }} ">
     <link rel="stylesheet" href="{{ asset('./css/layouts/cruds.css') }} ">
-
 @endpush
 
 @section('content')
@@ -21,9 +20,12 @@
         </center>
         <br>
 
-
-        <div class="botoncompras"><button class="btn btn-outline-secondary col-2"
-                onclick="switchadicion2('selectproveedor')">Crear <i class="fa-solid fa-circle-plus"></i></button></div>
+        @if (in_array(121, $permisos))
+            <div class="addbtn">
+                <button class="btn btn-outline-secondary col-2" onclick="switchadicion2('selectproveedor')">Crear <i
+                        class="fa-solid fa-circle-plus"></i></button>
+            </div>
+        @endif
 
         <table id="tabla">
             <thead>
@@ -39,9 +41,12 @@
             <tbody>
                 @foreach ($listado['ListadoCompras'] as $item)
                     <tr>
-                        <td><abbr title="Detalles"><button type="button" class="btn btn-outline-secondary"
-                                    onclick="detalleCompras({{ $item->NumeroFactura }},'detallecompra','jsPrint')"><i
-                                        class="fa-solid fa-circle-info"></i></button></abbr>
+                        <td>
+                            @if (in_array(116, $permisos))
+                                <abbr title="Detalles"><button type="button" class="btn btn-outline-secondary"
+                                        onclick="detalleCompras({{ $item->NumeroFactura }},'detallecompra','jsPrint')"><i
+                                            class="fa-solid fa-circle-info"></i></button></abbr>
+                            @endif
                         </td>
                         <td>{{ $item->NumeroFactura }}</td>
                         <td>{{ $item->NombreEmpresa }}</td>
@@ -50,18 +55,20 @@
 
 
                         <td>
-                            {{-- Definiendo estado --}}
-                            @php
-                                $checkstate = '';
-                                if ($item->Estado == true) {
-                                    $checkstate = 'checked';
-                                }
-                            @endphp
+                            @if (in_array(145, $permisos))
+                                {{-- Definiendo estado --}}
+                                @php
+                                    $checkstate = '';
+                                    if ($item->Estado == true) {
+                                        $checkstate = 'checked';
+                                    }
+                                @endphp
 
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked"
-                                    {{ $checkstate }}>
-                            </div>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" role="switch"
+                                        id="flexSwitchCheckChecked" {{ $checkstate }}>
+                                </div>
+                            @endif
                         </td>
 
                     </tr>
@@ -83,8 +90,9 @@
                 {{-- Aquí se imprime el contenido de detalles enviado desde JS --}}
             </div>
             <div class="boton detalle p-5">
-            <button type="button" class="btn btn-outline-secondary"
-                onclick="switchadicion2('detallecompra')">Cerrar</i></button></div>
+                <button type="button" class="btn btn-outline-secondary"
+                    onclick="switchadicion2('detallecompra')">Cerrar</i></button>
+            </div>
 
         </div>
     </div>
@@ -105,7 +113,7 @@
                         @endforeach
                     </select>
 
-                <button type="submit">Enviar</button>
+                    <button type="submit">Enviar</button>
                 </div>
                 <button type="button" class="btn btn-outline-secondary"
                     onclick="switchadicion2('selectproveedor')">Cerrar</i></button>
