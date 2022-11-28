@@ -87,52 +87,6 @@
                         </div>
                     @enderror
 
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th scope="col">Seleciona</th>
-                                <th scope="col">Permiso</th>
-                                <th scope="col">Descripción</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="customCheck1" checked>
-                                        <label class="custom-control-label" for="customCheck1">1</label>
-                                    </div>
-                                </td>
-                                <td>permiso1</td>
-                                <td>permite visualizar la lista de roles</td>
-
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="customCheck2">
-                                        <label class="custom-control-label" for="customCheck2">2</label>
-                                    </div>
-                                </td>
-                                <td>Bootstrap Grid 4 Tutorial and Examples</td>
-                                <td>Cristina</td>
-
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="customCheck3">
-                                        <label class="custom-control-label" for="customCheck3">3</label>
-                                    </div>
-                                </td>
-                                <td>Bootstrap Flexbox Tutorial and Examples</td>
-                                <td>Cristina</td>
-
-                            </tr>
-                        </tbody>
-                    </table>
-
-
 
                     <div class="botonesroles p-5">
                         <button type="submit" class="btn btn-outline-primary">Guardar</i></button>

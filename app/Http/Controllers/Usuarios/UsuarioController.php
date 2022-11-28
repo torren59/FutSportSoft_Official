@@ -18,7 +18,7 @@ class UsuarioController extends Controller
      */
     public function index()
     {
-        $ListadoUsuario = User::select(['users.id','Documento','Nombre','Estado','roles.name'])
+        $ListadoUsuario = User::select(['users.id','Documento','Nombre','users.Estado','roles.name'])
         ->join('roles','users.RolId','=','roles.id')
         ->get();
         $ListadoRoles = Roles::all();
@@ -52,7 +52,7 @@ class UsuarioController extends Controller
         $id = $Usuario::creadorPK($Usuario, 100);
         $Usuario->password = Hash::make($request->password);
         $Usuario->Documento = $id;
-        $Campos = ['Documento', 'Nombre', 'RolId', 'Direccion', 'Celular', 'email',  'FechaNacimiento'];
+        $Campos = ['Documento', 'Nombre', 'RolId', 'Direccion', 'Celular', 'email',  'FechaNacimiento','Estado'];
         foreach ($Campos as $item) {
             $Usuario->$item = $request->$item;
         }

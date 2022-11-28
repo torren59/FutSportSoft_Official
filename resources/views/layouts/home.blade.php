@@ -105,7 +105,7 @@
 
                                     <a href={{ url('deportista/listar') }}><button class="btn col-12 btn-outline-light"
                                             id="seg_servdep_deportistas">Gestión de
-                                            deporitstas</button></a>
+                                            deportistas</button></a>
 
                                     <a href=" {{ url('programacion/listar') }} "><button
                                             class="btn col-12 btn-outline-light">Gestión de

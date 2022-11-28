@@ -104,30 +104,16 @@ class VentasController extends Controller
             $Producto->save();
             $i += 1;
         }
-
-
-
-        foreach($articulosComprados as $item){
-            // Crea registros en la tabla de artículos comprados
-            $articulo = new articulo_comprado();
-            $articulo->ArticulosCompradosId = articulo_comprado::creadorPK($articulo, 1000);
-            $articulo->ProductoId = $item->ProductoId;
-            $articulo->NumeroFactura = $request->NumeroFactura;
-            $articulo->Cantidad = $item->Cantidad;
-            $articulo->PrecioCompra = $item->PrecioCompra;
-            $articulo->save();
-
-            // Modifica la cantidad en los registros de los productos
-            $deporte = Producto::find($item->ProductoId);
-            $Cantidad = $deporte->Cantidad + $item->Cantidad;
-            $deporte->Cantidad = $Cantidad;
-            $deporte->save();
-        }
-
-        return redirect('dashboard/panel');
+        return redirect('venta/listar');
     }
 
-
+    public function listselected(Request $request)
+    {
+        $ProductModel = new Producto();
+        $Selecteds = json_decode($request->seleccionados);
+        $checkeds = $ProductModel->whereIn('ProductoId', $Selecteds)->select('NombreProducto')->get();
+        return json_encode($checkeds);
+    }
 
 
     /**
