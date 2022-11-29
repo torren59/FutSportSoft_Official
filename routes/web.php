@@ -19,6 +19,7 @@ use App\Http\Controllers\Programacion\CategoriaController;
 use App\Http\Controllers\Programacion\GruposController;
 use App\Http\Controllers\Usuarios\AccesoController;
 use App\Http\Controllers\Usuarios\UsuarioController;
+use App\Models\Roles\Permiso_Rol;
 use App\Models\Roles\Rol;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -145,6 +146,8 @@ Route::controller(HorariosController::class)->middleware('auth')->group(
         Route::post('horario/crear', 'create')->middleware('IsAuthorized:124');
         Route::get('horario/editar/{id}', 'edit')->middleware('IsAuthorized:136');
         Route::post('horario/actualizar/{id}', 'update');
+        Route::post('horario/cambiarEstado','changeState');
+        Route::post('horario/puedeCambiar','canChange');
     }
 );
 
