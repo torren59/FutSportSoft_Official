@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Configuracion;
 
 use App\Http\Controllers\Controller;
 use App\Models\Configuracion\Roles;
+use App\Models\Roles\Permiso;
+use App\Models\Roles\Rol;
 use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -18,7 +20,8 @@ class RolesController extends Controller
     public function index()
     {
         $ListadoRoles = Roles::all();
-        return view('configuracion.Roles')->with('listado', $ListadoRoles);
+        $permisos = Permiso::select(['PermisoId','NombrePermiso'])->get();
+        return view('configuracion.Roles')->with('listado', $ListadoRoles)->with('permisos_crear',$permisos);
     }
 
     /**
@@ -81,7 +84,54 @@ class RolesController extends Controller
     public function edit($id)
     {
         $Selected =  Roles::all()->where('id', '=', $id);
-        return view('configuracion.editarroles')->with('roldata', $Selected);
+
+        $permisos_total = Permiso::all();
+
+        $permisosdelrol = Rol::select(['permisos.PermisoId'])
+        ->join('permisos_roles','permisos_roles.id','=','roles.id')
+        ->join('permisos','permisos_roles.PermisoId','=','permisos.PermisoId')
+        ->where('roles.id','=',$id)
+        ->get();
+
+        // {permisosid : 10, permisoId: 11}
+        // [10,11]
+        $total_permisos = [];
+        foreach($permisos_total as $item){
+            array_push($total_permisos, $item->PermisoId);
+        }
+
+        $permisos_seleccionados = [];
+        foreach($permisosdelrol as $item){
+            array_push($permisos_seleccionados, $item->PermisoId);
+        }
+
+        return view('configuracion.editarroles')->with('roldata', $Selected)->with('total_permisos', $total_permisos)->with('permisos_checked',$permisos_seleccionados);
+
+                // //EXPERIMENTO del frond
+                // $PERMISOSTOTALES = []; // total 10 permisos [1,2,3,4,5,6,7,8,9,0]
+                // $permisos_seleccionados = []; // total 3 permisos [5,2,3]
+
+                // // foreach($PERMISOSTOTALES as $item){
+                // //     if(in_array($item, $permisos_seleccionados)){
+                // //         <input name = "permisos" 'checked' value = "$item">
+                // //     }
+                // //     else{
+                // //         <input name = "permisos"  value = "$item">
+                // //     }
+                // // }
+
+                // // COMO RECIBO LOS PERMISOS SELECCIONADOS
+                // $variable = $request->permisos;
+                // permisos_de_la_basededatos = Rol::select(['permisos.PermisoId'])
+                // ->join('permisos_roles','permisos_roles.id','=','roles.id')
+                // ->join('permisos','permisos_roles.PermisoId','=','permisos.PermisoId')
+                // ->where('roles.id','=',$id)
+                // ->get();
+
+                // permiso_sql_en_array = array(permisos_de_la_basededatos);
+
+
+
     }
 
     /**

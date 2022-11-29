@@ -102,9 +102,9 @@
     <div id="selectproveedor" class="adicion_off" style="width:600px;height:400px">
         <div class="floatcontent">
 
-            <h1 style="padding-top:5%;">Seleccionar proveedor</h1>
+            <h1 style="padding-top:5%; text-center">Seleccionar proveedor</h1>
             <form action="/compras/crearproveedor" method="post"> @csrf
-                <div class="col-6">
+                <div class="col-12">
                     <label for="proveedores" class="form-label">Proveedores</label>
                     <select name="Nit" class="form-select" aria-label="Default select example">
                         <option selected>Selecione un Proveedor</option>
@@ -112,11 +112,12 @@
                             <option value="{{ $item->Nit }}">{{ $item->NombreEmpresa }}</option>
                         @endforeach
                     </select>
-
-                    <button type="submit">Enviar</button>
                 </div>
+                <div class="botonescompras p-5">
+                <button type="submit" class="btn btn-outline-primary">Enviar</button>
                 <button type="button" class="btn btn-outline-secondary"
                     onclick="switchadicion2('selectproveedor')">Cerrar</i></button>
+                </div>
             </form>
         </div>
     </div>
