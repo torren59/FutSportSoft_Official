@@ -107,29 +107,29 @@ class RolesController extends Controller
 
         return view('configuracion.editarroles')->with('roldata', $Selected)->with('total_permisos', $total_permisos)->with('permisos_checked',$permisos_seleccionados);
 
-                //EXPERIMENTO del frond
-                $PERMISOSTOTALES = []; // total 10 permisos [1,2,3,4,5,6,7,8,9,0]
-                $permisos_seleccionados = []; // total 3 permisos [5,2,3]
+                // //EXPERIMENTO del frond
+                // $PERMISOSTOTALES = []; // total 10 permisos [1,2,3,4,5,6,7,8,9,0]
+                // $permisos_seleccionados = []; // total 3 permisos [5,2,3]
 
-                foreach($PERMISOSTOTALES as $item){
-                    if(in_array($item, $permisos_seleccionados)){
-                        <input name = "permisos" 'checked' value = "$item">
-                    }
-                    else{
-                        <input name = "permisos"  value = "$item">
-                    }
-                }
+                // // foreach($PERMISOSTOTALES as $item){
+                // //     if(in_array($item, $permisos_seleccionados)){
+                // //         <input name = "permisos" 'checked' value = "$item">
+                // //     }
+                // //     else{
+                // //         <input name = "permisos"  value = "$item">
+                // //     }
+                // // }
 
-                COMO RECIBO LOS PERMISOS SELECCIONADOS
-                $variable = $request->permisos;
-                permisos_de_la_basededatos = Rol::select(['permisos.PermisoId'])
-                ->join('permisos_roles','permisos_roles.id','=','roles.id')
-                ->join('permisos','permisos_roles.PermisoId','=','permisos.PermisoId')
-                ->where('roles.id','=',$id)
-                ->get();
+                // // COMO RECIBO LOS PERMISOS SELECCIONADOS
+                // $variable = $request->permisos;
+                // permisos_de_la_basededatos = Rol::select(['permisos.PermisoId'])
+                // ->join('permisos_roles','permisos_roles.id','=','roles.id')
+                // ->join('permisos','permisos_roles.PermisoId','=','permisos.PermisoId')
+                // ->where('roles.id','=',$id)
+                // ->get();
 
-                permiso_sql_en_array = array(permisos_de_la_basededatos);
-            
+                // permiso_sql_en_array = array(permisos_de_la_basededatos);
+
 
 
     }

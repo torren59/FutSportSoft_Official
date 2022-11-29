@@ -104,8 +104,15 @@ class VentasController extends Controller
             $Producto->save();
             $i += 1;
         }
+        return redirect('venta/listar');
+    }
 
-        return redirect('dashboard/panel');
+    public function listselected(Request $request)
+    {
+        $ProductModel = new Producto();
+        $Selecteds = json_decode($request->seleccionados);
+        $checkeds = $ProductModel->whereIn('ProductoId', $Selecteds)->select('NombreProducto')->get();
+        return json_encode($checkeds);
     }
 
 
