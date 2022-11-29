@@ -93,8 +93,13 @@
 
                 <form action={{ url('producto/crear') }} method="post"> @csrf
 
-                    <label for="Nit" class="form-label">Nit</label>
-                    <input type="number" class="form-control" name="Nit" value="{{ old('Nit') }}">
+                    <label for="Nit" class="form-label">Nit Proveedor</label>
+                    <select name="Nit" class="form-select deporte_select">
+                        <option value="">Seleccione el Proveedor</option>
+                        @foreach ($proveedores as $item)
+                            <option value=' {{ $item->Nit }} '>{{ $item->Nit }}</option>
+                        @endforeach
+                    </select>
                     @error('Nit')
                         <div>
                             @foreach ($errors->get('Nit') as $item)
@@ -118,8 +123,12 @@
                         </div>
                         <div class="col-6">
                             <label for="TipoProducto" class="form-label">Tipo Producto</label>
-                            <input type="text" class="form-control" name="TipoProducto"
-                                value=" {{ old('TipoProducto') }} ">
+                            <select name="TipoProducto" class="form-select deporte_select">
+                                <option value="">Seleccione el Tipo</option>
+                                @foreach ($tipos_productos as $item)
+                                    <option value=' {{ $item->TipoId }} '>{{ $item->Tipo }}</option>
+                                @endforeach
+                            </select>
                             @error('TipoProducto')
                                 <div>
                                     @foreach ($errors->get('TipoProducto') as $item)
@@ -130,16 +139,16 @@
                         </div>
                     </div>
 
-                    <label for="TallaId" class="form-label">Talla</label>
-                    <select name="TallaId" class="form-select deporte_select">
+                    <label for="Talla" class="form-label">Talla</label>
+                    <select name="Talla" class="form-select deporte_select">
                         <option value="">Selecciona Talla</option>
                         @foreach ($tallas as $item)
-                            <option value=' {{ $item->TallaId }} '>{{ $item->Talla }}</option>
+                            <option value=' {{ $item->Talla }} '>{{ $item->Talla }}</option>
                         @endforeach
                     </select>
-                    @error('TallaId')
+                    @error('Talla')
                         <div>
-                            @foreach ($errors->get('TallaId') as $item)
+                            @foreach ($errors->get('Talla') as $item)
                                 <small> {{ $item }} </small>
                             @endforeach
                         </div>

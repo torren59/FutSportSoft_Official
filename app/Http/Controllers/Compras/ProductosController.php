@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Compras;
 
 use App\Models\Compras\Producto;
+use App\Models\Compras\Talla;
+use App\Models\Compras\Tipo_Producto;
+use App\Models\Compras\Proveedor;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -17,12 +20,16 @@ class ProductosController extends Controller
      */
     public function index()
     {
-        $productos = Producto::select(['ProductoId','tallas.Talla'])
-        ->join('tallas','tallas.TallaId','=','Producto.TallaId')
+
+
+        $tallas = Talla::select(['TallaID','Talla'])->get();
+        $tipos_productos = Tipo_Producto::select(['TipoId','Tipo'])->get();
+        $proveedores = Proveedor::select(['Nit','Nit'])->get();
+        
 
         $Producto = new Producto();
         $ListadoProducto = $Producto->all();
-        return view('Compras.productos')->with('listado',$ListadoProducto);
+        return view('Compras.productos')->with('listado',$ListadoProducto)->with('tallas',$tallas)->with('tipos_productos',$tipos_productos)->with('proveedores',$proveedores);
     }
 
     /**
