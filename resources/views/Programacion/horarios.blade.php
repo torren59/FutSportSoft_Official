@@ -5,6 +5,8 @@
 @section('title', 'Horarios')
 
 @push('styles')
+    {{-- Csrf para funcionamiento de Ajax --}}
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     {{-- Estilos propios --}}
     <link rel="stylesheet" href=" {{ asset('./css/layouts/datatable.css') }} ">
     <link rel="stylesheet" href="{{ asset('./css/layouts/cruds.css') }} ">
@@ -66,7 +68,9 @@
 
                                 <div class="form-check form-switch">
                                     <input class="form-check-input" type="checkbox" role="switch"
-                                        id="flexSwitchCheckChecked" {{ $checkstate }}>
+                                        id="check_{{ $item->HorarioId }}" {{ $checkstate }}
+                                        >
+                                        {{-- onclick="tryChange('{{ $item->HorarioId }}', 'errorsEstado')" --}}
                                 </div>
                             @endif
                         </td>
@@ -128,6 +132,23 @@
             </div>
         </div>
 
+        {{-- Alerta cambio de estado --}}
+        <div class="adicion_off" id="errorsEstado" style="width:550px">
+            <div class="floatcontent">
+                <h4 style="padding-top:5%;">Operación cancelada</h4>
+                <div>
+                    No fue posible realizar el cambio de estado. <br>
+                    Este horario está vinculada a programaciones activas.
+                </div>
+                <div id="errorsEstadoMsg">
+                    {{-- Acá se imprimen las programaciones vinculadas --}}
+                </div>
+                <br>
+                <button type="button" class="btn btn-primary btn-danger"
+                    onclick="alterModal('errorsEstado')">Cancelar</i></button> <br>
+            </div>
+        </div>
+
         @if ($errors->any())
             <script>
                 setTimeout(() => {
@@ -147,4 +168,5 @@
     </script>
 
     <script src=" {{ asset('./js/layouts/cruds.js') }} "></script>
+    <script src=" {{ asset('./js/Programacion/horarios.js') }} "></script>
 @endpush
