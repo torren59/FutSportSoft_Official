@@ -159,6 +159,7 @@
                     onclick="alterModal('errorsEstado')">Cancelar</i></button> <br>
             </div>
         </div>
+        
         @if ($errors->any())
             <script>
                 setTimeout(() => {

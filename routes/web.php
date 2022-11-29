@@ -146,6 +146,8 @@ Route::controller(HorariosController::class)->middleware('auth')->group(
         Route::post('horario/crear', 'create')->middleware('IsAuthorized:124');
         Route::get('horario/editar/{id}', 'edit')->middleware('IsAuthorized:136');
         Route::post('horario/actualizar/{id}', 'update');
+        Route::post('horario/cambiarEstado','changeState');
+        Route::post('horario/puedeCambiar','canChange');
     }
 );
 
