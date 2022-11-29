@@ -19,6 +19,7 @@ use App\Http\Controllers\Programacion\CategoriaController;
 use App\Http\Controllers\Programacion\GruposController;
 use App\Http\Controllers\Usuarios\AccesoController;
 use App\Http\Controllers\Usuarios\UsuarioController;
+use App\Models\Roles\Permiso_Rol;
 use App\Models\Roles\Rol;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
