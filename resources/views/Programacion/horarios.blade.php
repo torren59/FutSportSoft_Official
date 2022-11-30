@@ -69,8 +69,8 @@
                                 <div class="form-check form-switch">
                                     <input class="form-check-input" type="checkbox" role="switch"
                                         id="check_{{ $item->HorarioId }}" {{ $checkstate }}
-                                        >
-                                        {{-- onclick="tryChange('{{ $item->HorarioId }}', 'errorsEstado')" --}}
+                                        onclick="tryChange('{{ $item->HorarioId }}', 'errorsEstado')">
+                                        
                                 </div>
                             @endif
                         </td>

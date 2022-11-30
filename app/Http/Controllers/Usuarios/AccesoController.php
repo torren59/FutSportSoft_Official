@@ -158,11 +158,11 @@ class AccesoController extends Controller
         $user->save();*/
 
         $user = new User();
-        $user->Documento = '1007657233';
-        $user->Nombre = 'David Torres';
-        $user->RolId = '1';
+        $user->Documento = '1007650000';
+        $user->Nombre = 'Mauricio Torres';
+        $user->RolId = '2';
         $user->Celular = '3214321212';
-        $user->email = 'david.torres59@soy.sena.edu.co';
+        $user->email = 'david.59@soy.sena.edu.co';
         $user->Direccion = 'Calle B';
         $user->FechaNacimiento = '2022-12-10';
         $user->password = Hash::make('clave');

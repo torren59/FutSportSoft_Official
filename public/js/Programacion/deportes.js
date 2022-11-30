@@ -1,17 +1,17 @@
 /**
- * @param {int} horarioId
+ * @param {int} deporteId
  * @return boolean Estado
  */
- function changeNow(horarioId){
-    let Estado = $('#check_'+horarioId).prop('checked');
+ function changeNow(deporteId){
+    let Estado = $('#check_'+deporteId).prop('checked');
     return Estado;
 }
 
 /**
- * @param {int} horarioId
+ * @param {int} deporteId
  * @return {string} Msg
  */
- async function getRows(horarioId){
+ async function getRows(deporteId){
 
     $.ajaxSetup({
         headers: {
@@ -19,11 +19,11 @@
         }
     });
 
-    let horarios = await $.ajax({
+    let deportes = await $.ajax({
         type: 'post',
-        url: '/horario/puedeCambiar',
+        url: '/deporte/puedeCambiar',
         dataType: 'json',
-        data: { 'HorarioId': JSON.stringify(horarioId) },
+        data: { 'DeporteId': JSON.stringify(deporteId) },
         success: function (data) {
         },
         error: function (data) {
@@ -32,19 +32,19 @@
     });
 
     console.log('rows');
-    console.log(horarios);
+    console.log(deportes);
 
-    return horarios;
+    return deportes;
 }
 
 
 /**
- * @param {array} horarios
+ * @param {array} deportes
  * @return boolean Permission
  */
- function canChange(horarios){
-    console.log(horarios);
-    if(horarios.length > 0){
+ function canChange(deportes){
+    console.log(deportes);
+    if(deportes.length > 0){
         return false;
     }
     else{
@@ -53,20 +53,20 @@
 }
 
 /**
- * @param {int} horarioId
+ * @param {int} deporteId
  */
-function cancelUncheck(horarioId){
-    $('#check_'+horarioId).prop('checked',true);
+function cancelUncheck(deporteId){
+    $('#check_'+deporteId).prop('checked',true);
 }
 
 /**
- * @param {Array} horarios 
+ * @param {Array} deportes 
  */
-function setMsg(horarios){
+function setMsg(deportes){
     let msg = "";
-    let rows = horarios.length;
-    msg += 'Horario '+ horarios[0].NombreHorario +' vinculado a la programación con id ';
-    msg += horarios[0].ProgramacionId+' <br> Total programaciones vinculadas: '+(rows);
+    let rows = deportes.length;
+    msg += 'Deporte '+ deportes[0].NombreDeporte +' vinculado a la categoría con id ';
+    msg += deportes[0].CategoriaId+' <br> Total programaciones vinculadas: '+(rows);
 
     $('#errorsEstadoMsg').html(msg);
 }
@@ -89,9 +89,9 @@ function alterModal(modalId){
 }
 
 /**
- * @param {int} horarioId 
+ * @param {int} deporteId 
  */
-async function changeState(horarioId){
+async function changeState(deporteId){
 
     $.ajaxSetup({
         headers: {
@@ -101,10 +101,10 @@ async function changeState(horarioId){
 
     $.ajax({
         type: 'post',
-        url: '/horario/cambiarEstado',
+        url: '/deporte/cambiarEstado',
         dataType: 'json',
         data: {
-            'HorarioId': JSON.stringify(horarioId),
+            'DeporteId': JSON.stringify(deporteId),
         },
         success: function (data) {
         },
@@ -117,23 +117,23 @@ async function changeState(horarioId){
 
 /**
  * 
- * @param {int} horarioId 
+ * @param {int} deporteId 
  * @param {string} modalId 
  */
-async function tryChange(horarioId, modalId){
-    if(changeNow(horarioId)){
-        changeState(horarioId);
+async function tryChange(deporteId, modalId){
+    if(changeNow(deporteId)){
+        changeState(deporteId);
         return;
     }
 
-    let horarios = await getRows(horarioId);
+    let deportes = await getRows(deporteId);
 
-    if(!canChange(horarios)){
-        cancelUncheck(horarioId);
-        setMsg(horarios);
+    if(!canChange(deportes)){
+        cancelUncheck(deporteId);
+        setMsg(deportes);
         alterModal(modalId);
         return;
     }
 
-    changeState(horarioId);
+    changeState(deporteId);
 }

@@ -124,4 +124,30 @@ class DeportesController extends Controller
         $grupos = Grupo::select(['GrupoId','NombreGrupo'])->where('CategoriaId','=',$CategoriaId)->get();
         return json_encode($grupos);
     }
+
+    public function canChange(Request $request){
+        $DeporteId = json_decode($request->DeporteId);
+        $deportes = Deporte::select(['categorias.CategoriaId','deportes.NombreDeporte'])
+        ->join('categorias','deportes.DeporteId','=','categorias.DeporteId')
+        ->where('deportes.DeporteId','=',intval($DeporteId))
+        ->where('categorias.Estado','=',true)
+        ->get();
+        return json_encode($deportes);
+    }
+
+    public function changeState(Request $request){
+        $DeporteId = json_decode($request->DeporteId);
+        $deporte = Deporte::find($DeporteId);
+
+        if($deporte->Estado == false){
+            $deporte->Estado = true;
+        }
+        else{
+            $deporte->Estado = false;
+        }
+        $deporte->save();
+
+        $Estado = ['Estado'=>$request->Estado];
+        return json_encode($Estado);
+    }
 }

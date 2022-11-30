@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Configuracion\Roles;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -18,9 +19,23 @@ class UsuarioController extends Controller
      */
     public function index()
     {
-        $ListadoUsuario = User::select(['users.id', 'Documento', 'Nombre', 'users.Estado', 'roles.name','Direccion','email','RolId','Celular'])
+        $User = Auth::user();
+        $RolId = $User->RolId;
+        $id = $User->id;
+        $ListadoUsuario = [];
+        
+        if($RolId == 1){
+            $ListadoUsuario = User::select(['users.id', 'Documento', 'Nombre', 'users.Estado', 'roles.name','Direccion','email','RolId','Celular'])
             ->join('roles', 'users.RolId', '=', 'roles.id')
             ->get();
+        }
+        else{
+            $ListadoUsuario = User::select(['users.id', 'Documento', 'Nombre', 'users.Estado', 'roles.name','Direccion','email','RolId','Celular'])
+            ->join('roles', 'users.RolId', '=', 'roles.id')
+            ->where('users.id','=',$id)
+            ->get();
+        }
+
         $ListadoRoles = Roles::all();
         $Listados = ['ListadoUsuario' => $ListadoUsuario, 'ListadoRoles' => $ListadoRoles];
         return view('Usuarios.Usuario')->with('listado', $Listados);

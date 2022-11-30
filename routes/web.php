@@ -126,6 +126,8 @@ Route::controller(DeportesController::class)->middleware('auth')->group(
         Route::post('deporte/actualizar/{id}','update');
         Route::get('select/getcategoria/{DeporteId?}','getcategorias');
         Route::get('select/getgrupo/{CategoriaId?}','getgrupos');
+        Route::post('deporte/cambiarEstado','changeState');
+        Route::post('deporte/puedeCambiar','canChange');
     }
 );
 

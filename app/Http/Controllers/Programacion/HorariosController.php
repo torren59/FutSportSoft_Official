@@ -147,13 +147,12 @@ class HorariosController extends Controller
 
     public function canChange(Request $request){
         $HorarioId = json_decode($request->HorarioId);
-        /*$horarios = Horario::select(['programacion.ProgramacionId','horarios.Nombre'])
+        $horarios = Horario::select(['programacion.ProgramacionId','horarios.NombreHorario'])
         ->join('programacion','horarios.HorarioId','=','programacion.HorarioId')
         ->where('horarios.HorarioId','=',intval($HorarioId))
         ->where('programacion.Estado','=',true)
-        ->get();*/
-        $A = ['Estado'=>$HorarioId];    
-        return json_encode($A);
+        ->get();
+        return json_encode($horarios);
     }
 
     public function changeState(Request $request){
