@@ -57,7 +57,7 @@ Route::controller(AccesoController::class)->group(
 
 Route::controller(DashboardController::class)->middleware('auth')->group(
     function(){
-        Route::get('dashboard/panel','index')->middleware('IsAuthorized:113');
+        Route::get('dashboard/panel/{FechaInicial?}/{FechaFinal?}','index')->middleware('IsAuthorized:113');
     }
 );
 

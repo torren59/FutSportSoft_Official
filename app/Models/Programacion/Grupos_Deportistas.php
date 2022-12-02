@@ -24,7 +24,6 @@ class Grupos_Deportistas extends Model
         'GrupoId',
         'Documento',
         'FechaIngreso',
-        'Estado'
     ];
 
     protected $attributes = [
