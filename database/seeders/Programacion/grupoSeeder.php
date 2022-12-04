@@ -18,5 +18,10 @@ class grupoSeeder extends Seeder
         for($i = 0 ; $i < 19; $i++){
             Grupo::factory()->create();
         }
+
+        $this->call([
+            programacionSeeder::class,
+            grupo_deportistaSeeder::class,
+        ]);
     }
 }

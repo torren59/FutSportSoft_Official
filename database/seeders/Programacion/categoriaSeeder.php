@@ -20,5 +20,9 @@ class categoriaSeeder extends Seeder
         for($i = 0 ; $i < 9; $i++){
             Categoria::factory()->create();
         }
+
+        $this->call([
+            grupoSeeder::class,
+        ]);
     }
 }

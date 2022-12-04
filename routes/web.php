@@ -57,7 +57,9 @@ Route::controller(AccesoController::class)->group(
 
 Route::controller(DashboardController::class)->middleware('auth')->group(
     function(){
-        Route::get('dashboard/panel/{FechaInicial?}/{FechaFinal?}','index')->middleware('IsAuthorized:113');
+        Route::match(['get' ,'post'], 'dashboard/panel', 'index')->middleware('IsAuthorized:113');
+        Route::post('dashboard/getInitialIntervals','useFirstInterval');
+        Route::post('dashboard/getNewIntervals','useNewInterval');
     }
 );
 
@@ -74,7 +76,7 @@ Route::controller(RolesController::class)->middleware('auth')->group(
 Route::controller(ComprasController::class)->middleware('auth')->group(
     function () {
         Route::get('compras/listar', 'index')->middleware('IsAuthorized:102');
-        Route::any('compras/crearproveedor', 'create');
+        Route::any('compras/crearproveedor', 'create')->middleware('IsAuthorized:121');
         Route::get('compras/create', 'createview')->middleware('IsAuthorized:121');
         Route::post('compras/store', 'store');
         Route::get('compras/editar/{id}','edit');
