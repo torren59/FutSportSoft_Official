@@ -122,7 +122,7 @@ Route::controller(CategoriaController::class)->middleware('auth')->group(
 
 Route::controller(DeportesController::class)->middleware('auth')->group(
     function () {
-        Route::get('deporte/listar', 'index')->middleware('IsAuthorized:110');
+        Route::get('deporte/listar/{status?}', 'index')->middleware('IsAuthorized:110');
         Route::post('deporte/crear', 'create')->middleware('IsAuthorized:130');
         Route::get('deporte/editar/{id}', 'edit')->middleware('IsAuthorized:141');
         Route::post('deporte/actualizar/{id}','update');
@@ -146,7 +146,7 @@ Route::controller(SedesController::class)->middleware('auth')->group(
 
 Route::controller(HorariosController::class)->middleware('auth')->group(
     function () {
-        Route::get('horario/listar', 'index')->middleware('IsAuthorized:105');
+        Route::get('horario/listar/{status?}', 'index')->middleware('IsAuthorized:105');
         Route::post('horario/crear', 'create')->middleware('IsAuthorized:124');
         Route::get('horario/editar/{id}', 'edit')->middleware('IsAuthorized:136');
         Route::post('horario/actualizar/{id}', 'update');
@@ -157,7 +157,7 @@ Route::controller(HorariosController::class)->middleware('auth')->group(
 
 Route::controller(ProgramacionesController::class)->middleware('auth')->group(
     function () {
-        Route::get('programacion/listar', 'index')->middleware('IsAuthorized:111');
+        Route::get('programacion/listar/{status?}', 'index')->middleware('IsAuthorized:111');
         Route::post('programacion/crear', 'create')->middleware('IsAuthorized:129');
         Route::post('programacion/cambiarEstado','changeState');
     }

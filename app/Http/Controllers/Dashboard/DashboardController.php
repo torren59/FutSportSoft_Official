@@ -114,7 +114,7 @@ class DashboardController extends Controller
 
     public function index()
     {
-        $ofertedMonths = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octobre', 'Noviembre', 'Diciembre'];
+        $ofertedMonths = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
         $firstYear = date('Y', strtotime(Programacion::min('FechaInicio')));
         $currentYear = date('Y');
         $currentMonth = date('m');

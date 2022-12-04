@@ -70,7 +70,7 @@
                                     <input class="form-check-input" type="checkbox" role="switch"
                                         id="check_{{ $item->HorarioId }}" {{ $checkstate }}
                                         onclick="tryChange('{{ $item->HorarioId }}', 'errorsEstado')">
-                                        
+
                                 </div>
                             @endif
                         </td>
@@ -153,6 +153,16 @@
             <script>
                 setTimeout(() => {
                     switchadicion2('horarioadicion');
+                }, 500);
+            </script>
+        @endif
+
+        {{-- Mensajes personalizados --}}
+        @if (isset($sweet_setAll))
+            <script>
+                setTimeout(() => {
+                    swal_setAll("{{ $sweet_setAll['title'] }}", "{{ $sweet_setAll['msg'] }}",
+                        "{{ $sweet_setAll['type'] }}");
                 }, 500);
             </script>
         @endif

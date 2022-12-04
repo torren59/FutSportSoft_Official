@@ -10,7 +10,7 @@
     <div class="service_list">
         <div class="grid_triple_center">
             <div class="grid_span_2a3">
-                <div class="grid_doble_simetrico" style="height: auto; padding-top:4%; border:2px solid green;">
+                <div class="grid_doble_simetrico" style="height: auto; padding-top:4%;">
                     <div class="row">
                         <center><h3>    <i>Inscritos a través del tiempo</i></h3></center>
                         <br>

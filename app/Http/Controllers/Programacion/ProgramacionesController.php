@@ -19,7 +19,7 @@ class ProgramacionesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($status = null)
     {
 
         $programaciones = Programacion::select(['ProgramacionId','sedes.NombreSede','grupos.NombreGrupo','horarios.Horario','FechaInicio','FechaFinalizacion','programacion.Estado'])
@@ -32,7 +32,20 @@ class ProgramacionesController extends Controller
         $deportes = Deporte::all(['DeporteId','NombreDeporte']);
         $horarios = Horario::all(['HorarioId','NombreHorario','Horario']);
         $progData = ['sedes'=>$sedes, 'horarios'=>$horarios, 'deportes'=>$deportes, 'horarios'=>$horarios,'programaciones'=>$programaciones];
-        return view('Programacion.Programaciones')->with('progData',$progData);
+
+        switch($status){
+            case 1:
+                $sweet_setAll = ['title'=>'Regisro guardado', 'msg'=>'El registro se guardó exitosamente', 'type'=>'success'];
+                return view('Programacion.Programaciones')->with('progData',$progData)->with('sweet_setAll',$sweet_setAll);
+                break;
+            case 2:
+                $sweet_setAll = ['title'=>'Regisro editado', 'msg'=>'El registro se editó exitosamente', 'type'=>'success'];
+                return view('Programacion.Programaciones')->with('progData',$progData)->with('sweet_setAll',$sweet_setAll);
+                break;
+            default:
+            return view('Programacion.Programaciones')->with('progData',$progData);
+            break;
+        }
     }
 
     /**
@@ -57,7 +70,7 @@ class ProgramacionesController extends Controller
             $programacion->$item = $request->$item;
         }
         $programacion->save();
-        return redirect('programacion/listar');
+        return redirect('programacion/listar/1');
     }
 
     /**

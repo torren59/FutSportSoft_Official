@@ -17,6 +17,14 @@ class SedesController extends Controller
     {
         $ListadoSede = Sede::all();
         switch($status){
+            case 1:
+                $sweet_setAll = ['title'=>'Regisro guardado', 'msg'=>'El registro se guardó exitosamente', 'type'=>'success'];
+                return view('Programacion.Sedes')->with('listado',$ListadoSede)->with('sweet_setAll',$sweet_setAll);
+                break;
+            case 2:
+                $sweet_setAll = ['title'=>'Regisro editado', 'msg'=>'El registro se editó exitosamente', 'type'=>'success'];
+                return view('Programacion.Sedes')->with('listado',$ListadoSede)->with('sweet_setAll',$sweet_setAll);
+                break;
             default:
             return view('Programacion.Sedes')->with('listado',$ListadoSede);
             break;
@@ -46,7 +54,7 @@ class SedesController extends Controller
         }
 
         $Sede->save();
-        return redirect('sede/listar');
+        return redirect('sede/listar/1');
     }
 
     /**
@@ -134,7 +142,7 @@ class SedesController extends Controller
             $sede->$item = $request->$item;
         }
         $sede->save();
-        return redirect('sede/listar');
+        return redirect('sede/listar/2');
     }
 
     /**
