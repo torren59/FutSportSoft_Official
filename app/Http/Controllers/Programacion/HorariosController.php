@@ -14,10 +14,22 @@ class HorariosController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($status = null)
     {
         $ListadoHorario = Horario::all();
-        return view('Programacion.Horarios')->with('listado',$ListadoHorario);
+        switch($status){
+            case 1:
+                $sweet_setAll = ['title'=>'Regisro guardado', 'msg'=>'El registro se guardó exitosamente', 'type'=>'success'];
+                return view('Programacion.Horarios')->with('listado',$ListadoHorario)->with('sweet_setAll',$sweet_setAll);
+                break;
+            case 2:
+                $sweet_setAll = ['title'=>'Regisro editado', 'msg'=>'El registro se editó exitosamente', 'type'=>'success'];
+                return view('Programacion.Horarios')->with('listado',$ListadoHorario)->with('sweet_setAll',$sweet_setAll);
+                break;
+            default:
+            return view('Programacion.Horarios')->with('listado',$ListadoHorario);
+            break;
+        }
     }
 
     /**
@@ -68,7 +80,7 @@ class HorariosController extends Controller
         $Horario->Horario = $HorarioTot;
         $Horario->save();
 
-        return redirect('horario/listar'); 
+        return redirect('horario/listar/1'); 
     }
 
     /**
@@ -130,7 +142,7 @@ class HorariosController extends Controller
         }
 
         $horario->save();
-        return redirect('horario/listar');
+        return redirect('horario/listar/2');
         
     }
 
@@ -147,13 +159,12 @@ class HorariosController extends Controller
 
     public function canChange(Request $request){
         $HorarioId = json_decode($request->HorarioId);
-        /*$horarios = Horario::select(['programacion.ProgramacionId','horarios.Nombre'])
+        $horarios = Horario::select(['programacion.ProgramacionId','horarios.NombreHorario'])
         ->join('programacion','horarios.HorarioId','=','programacion.HorarioId')
         ->where('horarios.HorarioId','=',intval($HorarioId))
         ->where('programacion.Estado','=',true)
-        ->get();*/
-        $A = ['Estado'=>$HorarioId];    
-        return json_encode($A);
+        ->get();
+        return json_encode($horarios);
     }
 
     public function changeState(Request $request){

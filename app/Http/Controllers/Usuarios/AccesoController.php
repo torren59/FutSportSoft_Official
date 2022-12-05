@@ -158,7 +158,7 @@ class AccesoController extends Controller
         $user->save();*/
 
         $user = new User();
-        $user->Documento = '1007657233';
+        $user->Documento = '1007650000';
         $user->Nombre = 'David Torres';
         $user->RolId = '1';
         $user->Celular = '3214321212';

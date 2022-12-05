@@ -5,6 +5,8 @@
 @section('title', 'Deportes')
 
 @push('styles')
+    {{-- Csrf para funcionamiento de Ajax --}}
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     {{-- Estilos propios --}}
     <link rel="stylesheet" href=" {{ asset('./css/layouts/datatable.css') }} ">
     <link rel="stylesheet" href="{{ asset('./css/layouts/cruds.css') }} ">
@@ -66,9 +68,8 @@
 
                                 <div class="form-check form-switch">
                                     <input class="form-check-input" type="checkbox" role="switch"
-                                        id="{{ $item->DeporteId }}state"
-                                        onclick="changeState('{{ $item->NombreDeporte }}', {{ $item->DeporteId }})"
-                                        {{ $checkstate }}>
+                                    id="check_{{ $item->DeporteId }}" {{ $checkstate }}
+                                    onclick="tryChange('{{ $item->DeporteId }}', 'errorsEstado')">
                                 </div>
                             @endif
                         </td>
@@ -107,36 +108,22 @@
             </div>
         </div>
 
-
-        {{-- Creacion de deportes --}}
-        {{-- <div class="adicion adicion_off" id="roladicion">
-            <form action={{ url('deporte/crear') }} method="post">
-
-                @csrf
-                <div class="adicion_title">
-                    <h1>Nuevo Deporte</h1>
+        {{-- Alerta cambio de estado --}}
+        <div class="adicion_off" id="errorsEstado" style="width:550px">
+            <div class="floatcontent">
+                <h4 style="padding-top:5%;">Operación cancelada</h4>
+                <div>
+                    No fue posible realizar el cambio de estado. <br>
+                    Este deporte está vinculado a categorías activas.
                 </div>
-
-
-                <div class="adicion_content" id="addsed">
-
-                    <div class="mb-3  col-5">
-                        <label class="form-label">Nombre Deporte</label>
-                        <input type="text" class="form-control" name="NombreDeporte">
-                    </div>
-
+                <div id="errorsEstadoMsg">
+                    {{-- Acá se imprimen las programaciones vinculadas --}}
                 </div>
-                <div class="mb-3 col-7">
-                    <button type="submit" class="btn btn-primary btn-success"
-                        onclick="switchadicion('roladicion')">Guardar</i></button>
-                    <button type="button" class="btn btn-primary btn-danger"
-                        onclick="switchadicion('roladicion')">Cancelar</i></button>
-                </div>
-
-            </form>
-        </div> --}}
-
-
+                <br>
+                <button type="button" class="btn btn-primary btn-danger"
+                    onclick="alterModal('errorsEstado')">Cancelar</i></button> <br>
+            </div>
+        </div>
 
         @if ($errors->any())
             @foreach ($errors->get('NombreDeporte') as $item)
@@ -150,6 +137,15 @@
             @endforeach
         @endif
 
+                {{-- Mensajes personalizados --}}
+                @if (isset($sweet_setAll))
+                <script>
+                    setTimeout(() => {
+                        swal_setAll("{{$sweet_setAll['title']}}","{{$sweet_setAll['msg']}}","{{$sweet_setAll['type']}}");
+                    },500);
+                </script>
+            @endif
+
     </div>
 
 @endsection
@@ -162,4 +158,5 @@
     </script>
 
     <script src=" {{ asset('./js/layouts/cruds.js') }} "></script>
+    <script src=" {{ asset('./js/Programacion/deportes.js') }} "></script>
 @endpush
