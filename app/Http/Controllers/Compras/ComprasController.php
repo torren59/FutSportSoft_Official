@@ -39,11 +39,16 @@ class ComprasController extends Controller
 
     public function create(Request $request)
     {
+        $ListadoCompras = Compras::select(['NumeroFactura','proveedores.NombreEmpresa','FechaCompra','ValorCompra','SubTotal','Iva','Descuento'])
+        ->join('proveedores','compras.Nit','=','proveedores.Nit') ->get();
+        $ListadoProveedor = Proveedor::all();
+        $Listados = ['ListadoCompras'=>$ListadoCompras,'ListadoProveedor'=>$ListadoProveedor];
+
 
         $Nit = $request->Nit;
         $ProductModel= new Producto();
         $Productos = $ProductModel->select()->where('Nit','=',$Nit)->get();
-        return view('Compras.crearcompra')->with('productos',$Productos);
+        return view('Compras.crearcompra')->with('productos',$Productos)->with('listado', $Listados);
     }
 
     /**

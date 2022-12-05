@@ -18,22 +18,20 @@
                 <div class="container p-5">
                     <div class="row" style="gap:2rem">
                         <div class="card col-3">
+                            @foreach ($listado['ListadoProveedor'] as $item)
+                                <h1 style="text-align: center">{{ $item->NombreEmpresa }}</h1>
+
+                                <label for="Nit" class="form-label">Nit</label>
+                                <input readonly type="text" class="form-control" name="Nit"
+                                    value="{{ $item->Nit }}">
+                            @endforeach
+
                             <label for="NumeroFactura" class="form-label">Numero de Factura</label>
                             <input type="number" class="form-control" name="NumeroFactura"
                                 value="{{ old('NumeroFactura') }}">
                             @error('NumeroFactura')
                                 <div>
                                     @foreach ($errors->get('NumeroFactura') as $item)
-                                        <small> {{ $item }} </small>
-                                    @endforeach
-                                </div>
-                            @enderror
-
-                            <label for="Nit" class="form-label">Nit</label>
-                            <input type="number" class="form-control" name="Nit" value="{{ old('Nit') }}">
-                            @error('Nit')
-                                <div>
-                                    @foreach ($errors->get('Nit') as $item)
                                         <small> {{ $item }} </small>
                                     @endforeach
                                 </div>
@@ -91,10 +89,12 @@
                                     <small> {{ $item }} </small>
                                 @endforeach
                             @enderror
-                            <br>
-                            <button type="submit" class="btn btn-outline-primary">Guardar</i></button>
-                            <a href="{{ url('compras/listar/') }}"><button type="button"
-                                    class="btn btn-outline-secondary">Cancelar</i></button></a>
+
+                            <div class="botonescrearcompra p-5">
+                                <button type="submit" class="btn btn-outline-primary">Guardar</i></button>
+                                <a href="{{ url('compras/listar/') }}"><button type="button"
+                                        class="btn btn-outline-secondary">Cancelar</i></button></a>
+                            </div>
                         </div>
 
 
@@ -104,7 +104,7 @@
 
                                 <div class="grid_span_1" id="product_added">
                                     <div class="text-center">
-                                        <h1>PRODUCTOS AGREGADOS</h1>
+                                        <h1>Productos agregados</h1>
                                     </div>
                                     <div class="col-12 lista_selects">
                                         {{-- Aqui se inserta con js los productos seleccionados --}}
