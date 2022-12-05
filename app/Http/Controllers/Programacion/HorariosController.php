@@ -19,11 +19,11 @@ class HorariosController extends Controller
         $ListadoHorario = Horario::all();
         switch($status){
             case 1:
-                $sweet_setAll = ['title'=>'Regisro guardado', 'msg'=>'El registro se guardó exitosamente', 'type'=>'success'];
+                $sweet_setAll = ['title'=>'Registro guardado', 'msg'=>'El registro se guardó exitosamente', 'type'=>'success'];
                 return view('Programacion.Horarios')->with('listado',$ListadoHorario)->with('sweet_setAll',$sweet_setAll);
                 break;
             case 2:
-                $sweet_setAll = ['title'=>'Regisro editado', 'msg'=>'El registro se editó exitosamente', 'type'=>'success'];
+                $sweet_setAll = ['title'=>'Registro editado', 'msg'=>'El registro se editó exitosamente', 'type'=>'success'];
                 return view('Programacion.Horarios')->with('listado',$ListadoHorario)->with('sweet_setAll',$sweet_setAll);
                 break;
             default:
