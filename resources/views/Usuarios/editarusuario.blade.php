@@ -38,24 +38,7 @@
                             @enderror
                         </div>
 
-
-
                         <div class="col-6">
-                            <label for="password" class="form-label">Contraseña</label>
-                            <input type="password" class="form-control" name="password"
-                                value=" {{ old('password', $item->password) }}">
-
-                            @error('password')
-                                <div>
-                                    @foreach ($errors->get('password') as $item)
-                                        <small> {{ $item }} </small>
-                                    @endforeach
-                                </div>
-                            @enderror
-                        </div>
-
-
-                        <div class="col-4">
                             <label for="Celular" class="form-label">Celular</label>
                             <input type="text" class="form-control" name="Celular"
                                 value=" {{ old('Celular', $item->Celular) }}">
@@ -70,7 +53,7 @@
 
 
 
-                        <div class="col-4">
+                        <div class="col-6">
 
                             <label for="roles" class="form-label">Roles</label>
                             <select class="form-select"  name="RolId" aria-label="Default select example">
@@ -82,7 +65,7 @@
                         </div>
 
 
-                        <div class="col-4">
+                        <div class="col-6">
                             <label for="FechaNacimiento" class="form-label">Fecha de nacimiento</label>
                             <input type="text-local" class="form-control" name="FechaNacimiento"
                                 value=" {{ old('FechaNacimiento', $item->FechaNacimiento) }}">

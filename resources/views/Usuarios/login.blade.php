@@ -19,7 +19,7 @@
             <div class="floatmodal" style="width:40%;height:40%">
                 <div class="floatcontent">
                     <div>
-                        <h3>Ingrese sus credenciales</h3>
+                        <h1>Ingrese sus credenciales</h1>
                     </div>
                     <form action=" {{ url('acceso/validar') }} " method="post">
                         @csrf
@@ -42,7 +42,7 @@
                             <input type="password" name="password" class="form-control">
 
                             @error('password')
-                                @foreach ($errors->get('password') as $item)
+                                @foreach ($errors->get(-'password') as $item)
                                     <div class="error_subtitle">
                                         {{ $item }}
                                     </div>
@@ -51,11 +51,13 @@
 
                         </div>
                         <div>
-                            <a href=" {{url('acceso/restablececlave')}} ">He olvidado mi clave</a>
+                            <div class="a p-2">
+                                <a href=" {{ url('acceso/restablececlave') }} ">He olvidado mi clave</a>
+                            </div>
                         </div>
                         <br>
-                        <div>
-                            <button type="submit" class="btn btn-success">Ingresar</button>
+                        <div class="p-2">
+                            <button type="submit" class="btn btn-outline-success">Ingresar</button>
                         </div>
                     </form>
                 </div>
@@ -74,8 +76,9 @@
             @if (isset($sweet_setAll))
                 <script>
                     setTimeout(() => {
-                        swal_setAll("{{$sweet_setAll['title']}}","{{$sweet_setAll['msg']}}","{{$sweet_setAll['type']}}");
-                    },500);
+                        swal_setAll("{{ $sweet_setAll['title'] }}", "{{ $sweet_setAll['msg'] }}",
+                            "{{ $sweet_setAll['type'] }}");
+                    }, 500);
                 </script>
             @endif
         </div>
@@ -83,5 +86,22 @@
 
     <script src=" {{ asset('js/layouts/cruds.js') }} "></script>
 </body>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        background-image: url("../../img/layouts/login2.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center center;
+        background-attachment: fixed;
+
+
+    }
+</style>
 
 </html>

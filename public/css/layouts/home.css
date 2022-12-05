@@ -12,7 +12,8 @@ body{
     min-height: 100vh;
     overflow-y: hidden;
     overflow-x: hidden;
-    /* background-color: red; */
+
+
 }
 
 /*Etiqueta href de los botonos sin decoración*/
@@ -27,7 +28,7 @@ a{
     width: 100vw;
     height: 100vh;
     /* border: 2px solid red; */
-    background: white;
+
     position: relative;
 }
 
@@ -338,3 +339,11 @@ font-family: 'Source Sans Pro', sans-serif;
   .btn-outline-dark{
     color: whitesmoke;
   }
+  a{
+    -webkit-text-stroke: 0.9px grey !important;
+    font-family: 'Source Sans Pro', sans-serif;
+        text-align: justify;
+        color: black;
+  }
+
+

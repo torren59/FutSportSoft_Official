@@ -114,7 +114,7 @@ class UsuarioController extends Controller
             return back()->withErrors($validator)->withInput();
         }
         $Usuario = User::find($id);
-        $Campos = ['Nombre', 'RolId', 'Direccion', 'Celular', 'email', 'FechaNacimiento', 'password'];
+        $Campos = ['Nombre', 'RolId', 'Direccion', 'Celular', 'email', 'FechaNacimiento'];
         foreach ($Campos as $item) {
             $Usuario->$item = $request->$item;
         }

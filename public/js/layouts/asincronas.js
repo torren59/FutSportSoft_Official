@@ -36,22 +36,25 @@ function listar() {
                 let Valor = $("#ValorUnitario" + element.ProductoId).val();
 
                 lista_selects +=
-                    '<div class="col-md-6 btn btn-primary" style="width:100%;height:170px;margin-bottom:5px;">' +
+                    '<div class=" card p-2 col-md-6" style="width:90%;height:170px;box-shadow: 0px 10px 10px -6px black;margin:5px;">' +
+                    "<h3>" +
                     element.NombreProducto +
-                    "<br>" +
-                    "Tipo " +
+                    "</h3>" +
+                    "<h4>Tipo:  " +
                     element.TipoProducto +
-                    "  Talla " +
+                    "</h4>" +
+                    "<h4>Talla:  " +
                     element.Talla +
-                    "<br>" +
-                    "Existencias " +
+                    "</h4>" +
+                    "<h4>Existencias:  " +
                     element.Cantidad +
-                    "<br>" +
-                    "Cantidad Comprada " +
+                    "</h4>" +
+                    "<h4>Cantidad Comprada: " +
                     Comprados +
-                    "<br>" +
-                    "Valor Unitario " +
+                    "</h4>" +
+                    "<h4>Valor Unitario:  " +
                     Valor +
+                    "</h4>" +
                     "</div>";
                 console.log(
                     element.NombreProducto,
@@ -68,7 +71,6 @@ function listar() {
         },
     });
 }
-
 
 function listarDeportistas() {
     let checks = $(".lista_productos").find(".productcheck");
@@ -97,7 +99,6 @@ function listarDeportistas() {
             let lista_selects = "";
 
             data.forEach((element) => {
-
                 lista_selects +=
                     '<div class="col-md-6 btn btn-primary" style="width:100%;height:170px;margin-bottom:5px;">' +
                     element.Nombre +
@@ -105,10 +106,7 @@ function listarDeportistas() {
                     "Documento " +
                     element.Documento +
                     "</div>";
-                console.log(
-                    element.Nombre,
-                    element.Documento,
-                );
+                console.log(element.Nombre, element.Documento);
             });
 
             $(".lista_selects").html(lista_selects);
@@ -205,28 +203,47 @@ function detalleCompras(NumeroFactura, IdModal, IdDiv) {
 
             // Llenado de variable con html, cambiar diseño o estructura HTML desde aquí
             Contenido +=
-                "<div>Factura N°: " + Compra["NumeroFactura"] + "</div>";
+                '<div class="container" style="text-align:center">' +
+                "<p><h4>Factura N°: " +
+                Compra["NumeroFactura"] +
+                "</h4>" +
+                "<h4>Proveedor: " +
+                Compra["NombreEmpresa"] +
+                "</h4>" +
+                "<h4>Fecha de compra: " +
+                Compra["FechaCompra"] +
+                "</h4>" +
+                "<h4>Valor total: " +
+                Compra["ValorCompra"] +
+                "</h4>" +
+                "<h4>Sub total: " +
+                Compra["SubTotal"] +
+                "</h4>" +
+                "<h4>Iva: " +
+                Compra["Iva"] +
+                "<h4>Descuento: " +
+                Compra["Descuento"] +
+                "</h4>" +
+                "</div>";
             Contenido +=
-                "<div>Proveedor: " + Compra["NombreEmpresa"] + "</div>";
-            Contenido +=
-                "<div>Fecha de compra: " + Compra["FechaCompra"] + "</div>";
-            Contenido +=
-                "<div>Valor total: " + Compra["ValorCompra"] + "</div>";
-            Contenido += "<div>Sub total: " + Compra["SubTotal"] + "</div>";
-            Contenido += "<div>Iva: " + Compra["Iva"] + "</div>";
-            Contenido += "<div>Descuento: " + Compra["Descuento"] + "</div>";
-            Contenido +=
-                "<center><h6><div><h1>Articulos Comprados</h1></div><h6></center>";
+                "<center><div><h1>Articulos Comprados</h1></div></center>";
             Contenido += "<hr/>";
             Articulos.forEach((element) => {
                 Contenido +=
-                    "<div>Producto: " + element["NombreProducto"] + "</div>";
-                Contenido += "<div>Talla: " + element["Talla"] + "</div>";
-                Contenido += "<div>Cantidad: " + element["Cantidad"] + "</div>";
-                Contenido +=
-                    "<div>Precio Unitario: " +
+                    '<div class=" card p-2 col-md-6" style="width:90%;height:170px;box-shadow: 0px 10px 10px -6px black;margin:5px;">' +
+                    "<h4>Producto: " +
+                    element["NombreProducto"] +
+                    "</h4>" +
+                    "<h4>Talla: " +
+                    element["Talla"] +
+                    "</h4>" +
+                    "<h4>Cantidad: " +
+                    element["Cantidad"] +
+                    "</h4>" +
+                    "<h4>Precio Unitario: " +
                     element["PrecioCompra"] +
-                    "</div>";
+                    "</h4>" +
+                    "<h4></div>";
                 Contenido += "<hr/>";
             });
 
@@ -263,27 +280,25 @@ function detalleUsuario(id, IdModal, IdDiv) {
             TotalData = Object.entries(data);
 
             // Las variables contiene la info de compra y los artículos de la misma respectivamente
-             Usuario = TotalData[0][1];
-
+            Usuario = TotalData[0][1];
 
             // // Llenado de variable con html, cambiar diseño o estructura HTML desde aquí
-             Contenido +=
-                 "<div>Documento: " + Usuario["Documento"] + "</div>";
-             Contenido +=
-                 "<div>Nombre: " + Usuario["Nombre"] + "</div>";
-             Contenido +=
-                 "<div>Rol: " + Usuario["name"] + "</div>";
-             Contenido += "<div>N° Contacto: " + Usuario["Celular"] + "</div>";
-             Contenido += "<div>Correo electrónico: " + Usuario["email"] + "</div>";
-             Contenido += "<div>Fecha de nacimiento: " + Usuario["FechaNacimiento"] + "</div>";
-             Contenido += "<div>Dirección: " + Usuario["Direccion"] + "</div>";
-
+            Contenido += "<div>Documento: " + Usuario["Documento"] + "</div>";
+            Contenido += "<div>Nombre: " + Usuario["Nombre"] + "</div>";
+            Contenido += "<div>Rol: " + Usuario["name"] + "</div>";
+            Contenido += "<div>N° Contacto: " + Usuario["Celular"] + "</div>";
+            Contenido +=
+                "<div>Correo electrónico: " + Usuario["email"] + "</div>";
+            Contenido +=
+                "<div>Fecha de nacimiento: " +
+                Usuario["FechaNacimiento"] +
+                "</div>";
+            Contenido += "<div>Dirección: " + Usuario["Direccion"] + "</div>";
 
             // Inyección de info en el documento y llamado al modal
             $("#" + IdDiv).html(Contenido);
             switchadicion2(IdModal);
             // console.log(TotalData);
-
         },
 
         error: function (data) {
@@ -343,9 +358,4 @@ function calcular() {
     console.log("Se adjunta el iva");
 }
 
-function modalproveedor(){
-
-}
-
-
-
+function modalproveedor() {}

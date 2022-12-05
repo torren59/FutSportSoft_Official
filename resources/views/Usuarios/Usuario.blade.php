@@ -155,18 +155,6 @@
                         </div>
 
                         <div class="col-6">
-                            <label for="password" class="form-label">Contraseña</label>
-                            <input type="password" class="form-control" name="password">
-                            @error('password')
-                                <div>
-                                    @foreach ($errors->get('password') as $item)
-                                        <small> {{ $item }} </small>
-                                    @endforeach
-                                </div>
-                            @enderror
-                        </div>
-
-                        <div class="col-12">
                             <label for="email" class="form-label">Correo electrónico</label>
                             <input type="text" class="form-control" name="email" value=" {{ old('email') }} ">
                             @error('email')
