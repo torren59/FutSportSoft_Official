@@ -53,7 +53,11 @@
                     <div class="col-6">
                         <label for="Titular" class="form-label">Titular</label>
                         <input type="text" class="form-control" name="Titular"
-                            value=" {{ old('Titular', $item->Titular) }}">
+                        @if ($errors->any())
+                        value = {{old('Titular')}}
+                        @else
+                        value={{$item->Titular}}
+                        @endif>
                         @error('Titular')
                             <div>
                                 @foreach ($errors->get('Titular') as $item)
@@ -67,11 +71,11 @@
 
                         <input type="text" class="form-control" name="NumeroContacto"
                         @if ($errors->any())
-                        value = {{old('NumeroContacto')}}
+                        value = "{{old('NumeroContacto')}}"
                         @else
-                        value={{$item->NumeroContacto}}
+                        value= "{{$item->NumeroContacto}}"
                         @endif>
-                           
+
 
                         @error('NumeroContacto')
                             <div>
@@ -85,7 +89,7 @@
 
                 <div class="col-12">
                     <label for="Correo" class="form-label">Correo</label>
-                    <input type="mail" class="form-control" name="Correo" 
+                    <input type="mail" class="form-control" name="Correo"
                      @if ($errors->any())
                     value = {{old('Correo')}}
                     @else
@@ -104,9 +108,9 @@
                     <label for="Direccion" class="form-label">Dirección</label>
                     <input type="text" class="form-control" name="Direccion"
                     @if ($errors->any())
-                    value = {{old('Direccion')}}
+                    value = "{{old('Direccion')}}"
                     @else
-                    value={{$item->Direccion}}
+                    value="{{$item->Direccion}}"
                     @endif>
                     @error('Direccion')
                         <div>
@@ -117,7 +121,7 @@
                     @enderror
                 </div>
 
-   
+
             @endforeach
 
             <div class="col-12">

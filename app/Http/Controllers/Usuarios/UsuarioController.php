@@ -70,8 +70,8 @@ class UsuarioController extends Controller
     {
         $validator = Validator::make(
             $request->all(),
-            ['Documento' => 'min:1|unique:users,Documento|max:10', 'Nombre' => 'min:1|max:50', 'RolId' => 'min:1|max:30|required', 'Direccion' => 'min:1|max:50', 'FechaNacimiento' => 'min:1|max:30', 'email' => 'min:1|unique:users,email|max:50', 'Celular' => 'min:1|max:11','password' => 'min:1|max:30'],
-            ['unique' => '* Este campo no acepta información que ya se ha registrado', 'min' => '* No puedes enviar este campo vacío', 'max' => '* Máximo de :max dígitos']
+            ['Documento' => 'min:1|unique:users,Documento|max:10', 'Nombre' => 'min:1|max:50', 'RolId' => 'numeric|max:30|required', 'Direccion' => 'min:1|max:50', 'FechaNacimiento' => 'min:1|max:30', 'email' => 'min:1|unique:users,email|max:50', 'Celular' => 'min:1|max:11','password' => 'min:1|max:30'],
+            ['unique' => '* Este campo no acepta información que ya se ha registrado', 'min' => '* No puedes enviar este campo vacío', 'max' => '* Máximo de :max dígitos','numeric'=>'* Debes seleccionar una opción']
 
         );
 
@@ -128,6 +128,7 @@ class UsuarioController extends Controller
         $Roles = Roles::select(['roles.id', 'roles.name'])->get();
         $data = ['usuarios' => $Selected, 'roles' => $Roles];
         return view('Usuarios.editarusuario')->with('data', $data);
+
     }
 
     /**
@@ -139,9 +140,18 @@ class UsuarioController extends Controller
      */
     public function update(Request $request, $id)
     {
+        session(['userid' => $id]);
         $validator = Validator::make(
             $request->all(),
-            ['Nombre' => 'min:1|max:50', 'RolId' => 'min:1|max:50', 'Direccion' => 'min:1|max:70', 'Celular' => 'min:1|max:10','email' => 'min:1|max:50' , 'Direccion' => 'min:1|max:70', 'FechaNacimiento' => 'min:1|max:50', 'Celular' => 'min:1|max:11'],
+            ['Nombre' => 'min:1|max:50', 'RolId' => 'min:1|max:50', 'Direccion' => 'min:1|max:70', 'Celular' => 'min:1|max:10','email' => ['min:1','max:50',
+            function($attribute, $value, $fail){
+                $id= session('userid');
+                $outRegisterItem = User::where('email','=',$value)
+                ->where('id','!=',$id)->count();
+                if($outRegisterItem > 0){
+                    session()->forget('userid');
+                return $fail($attribute.' ya está registrado para otro usuario');
+                }}] , 'Direccion' => 'min:1|max:70', 'FechaNacimiento' => 'min:1|max:50', 'Celular' => 'min:1|max:11'],
             ['unique' => '* Este campo no acepta información que ya se ha registrado', 'min' => '* No puedes enviar este campo vacío', 'max' => '* Máximo de :max dígitos']
         );
 

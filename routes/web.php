@@ -78,10 +78,8 @@ Route::controller(RolesController::class)->middleware('auth')->group(
 Route::controller(ComprasController::class)->middleware('auth')->group(
     function () {
         Route::get('compras/listar/{status?}', 'index')->middleware('IsAuthorized:102');
-        Route::any('compras/crearproveedor', 'create')->middleware('IsAuthorized:121');
-        // Route::get('compras/create', 'createview')->middleware('IsAuthorized:121');
+        Route::any('compras/crearproveedor/{status?}', 'create')->middleware('IsAuthorized:121');
         Route::post('compras/store', 'store');
-        Route::get('compras/editar/{id}','edit');
         Route::get('compras/getDetalle/{NumeroFactura?}','getDetalle')->middleware('IsAuthorized:116');
         Route::post('/compras/listaseleccionados','listselected');
         Route::post('compras/cambiarEstado','changeState');
@@ -121,7 +119,7 @@ Route::controller(CategoriaController::class)->middleware('auth')->group(
         Route::get('categoria/listar/{status?}', 'index')->middleware('IsAuthorized:108');
         Route::post('categoria/crear', 'create')->middleware('IsAuthorized:127');
         Route::get('categoria/editar/{id}','edit')->middleware('IsAuthorized:139');
-        Route::post('categoria/actualizar/{id}','update');
+        Route::post('categoria/actualizar/{id?}','update');
         Route::post('categoria/cambiarEstado','changeState');
         Route::post('categoria/puedeCambiar','canChange');
     }

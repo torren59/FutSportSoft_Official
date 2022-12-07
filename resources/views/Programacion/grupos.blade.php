@@ -44,9 +44,9 @@
                     <tr>
                         <td>
                             @if (in_array(140, $permisos))
-                                <abbr title="Editar"><button type="button" class="btn btn-outline-secondary"
-                                        onclick="detalleGrupo({{ $item->GrupoId }},'detallegrupo','jsPrint')"><i
-                                            class="fa-solid fa-circle-info"></i></button></abbr>
+                            <abbr title="Editar"><a href="{{ url('grupos/editar/' . $item->GrupoId) }}"><button
+                                class="btn btn-outline-primary"><i
+                                    class="fa-solid fa-pen"></i></button></a></abbr>
                             @endif
                         </td>
 

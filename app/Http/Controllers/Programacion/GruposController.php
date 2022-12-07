@@ -110,9 +110,9 @@ class GruposController extends Controller
 
         $Deportistas_total = Deportista::all();
 
-        $deportistasdelgrupo = Grupo::select(['deportistas.DeportistaId'])
+        $deportistasdelgrupo = Grupo::select(['deportistas.Documento'])
             ->join('grupos_deportistas', 'grupos_deportistas.GrupoId', '=', 'grupos.GrupoId')
-            ->join('deportistas', 'grupos_deportistas.DeportistaId', '=', 'deportistas.DeportistaId')
+            ->join('deportistas', 'grupos_deportistas.Documento', '=', 'deportistas.Documento')
             ->where('grupos.GrupoId', '=', $GrupoId)
             ->get();
 
@@ -156,9 +156,9 @@ class GruposController extends Controller
 
 
         $Deportistasenviados = $request->chequeados;
-        $deportistasdelgrupo = Grupo::select(['deportistas.DeportistaId'])
+        $deportistasdelgrupo = Grupo::select(['deportistas.Documento'])
             ->join('grupos_deportistas', 'grupos_deportistas.GrupoId', '=', 'grupos.GrupoId')
-            ->join('deportistas', 'grupos_deportistas.DeportistaId', '=', 'deportistas.DeportistaId')
+            ->join('deportistas', 'grupos_deportistas.Documento', '=', 'deportistas.Documento')
             ->where('grupos.GrupoId', '=', $GrupoId)
             ->get();
         $Registrados = [];
@@ -188,7 +188,7 @@ class GruposController extends Controller
         foreach ($Deportistasnuevos as $item) {
             $GruposDeportistas = new Grupos_Deportistas();
             $GruposDeportistas->GruposDeportistasId = Grupos_Deportistas::creadorPK($GruposDeportistas, 1000);
-            $GruposDeportistas->DeportistaId = $item;
+            $GruposDeportistas->Documento = $item;
             $GruposDeportistas->GrupoId = $request->IdGrupo;
             $GruposDeportistas->save();
         }

@@ -19,7 +19,7 @@
     <div class="service_list">
         <center>
             <div class="tituloTabla">
-                <h1>PRODUCTOS</h1>
+                <h1>Gestión de productos</h1>
             </div>
         </center>
 
@@ -56,9 +56,9 @@
                             @endif
                         </td>
                         <td>{{ $item->ProductoId }}</td>
-                        <td>{{ $item->Nit }}</td>
+                        <td>{{ $item->NombreEmpresa }}</td>
                         <td> {{ $item->NombreProducto }} </td>
-                        <td> {{ $item->TipoProducto }} </td>
+                        <td> {{ $item->Tipo }} </td>
                         <td> {{ $item->Talla }} </td>
                         <td> {{ $item->PrecioVenta }} </td>
                         <td> {{ $item->Cantidad }} </td>
@@ -124,9 +124,9 @@
                         <div class="col-6">
                             <label for="TipoProducto" class="form-label">Tipo Producto</label>
                             <select name="TipoProducto" class="form-select deporte_select">
-                                <option value="">Seleccione el Tipo</option>
+                                <option>Seleccione el Tipo</option>
                                 @foreach ($tipos_productos as $item)
-                                    <option value=' {{ $item->Tipo }} '>{{ $item->Tipo }}</option>
+                                    <option value=' {{ $item->TipoId }} '>{{ $item->Tipo }}</option>
                                 @endforeach
                             </select>
                             @error('TipoProducto')
@@ -143,7 +143,7 @@
                     <select name="Talla" class="form-select deporte_select">
                         <option value="">Selecciona Talla</option>
                         @foreach ($tallas as $item)
-                            <option value=' {{ $item->Talla }} '>{{ $item->Talla }}</option>
+                            <option value=' {{ $item->TallaId }} '>{{ $item->Talla }}</option>
                         @endforeach
                     </select>
                     @error('Talla')

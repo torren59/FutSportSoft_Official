@@ -20,16 +20,19 @@ class ProductosController extends Controller
      */
     public function index()
     {
+        $Productos = Producto::select('ProductoId','tipos_productos.Tipo','proveedores.NombreEmpresa','NombreProducto','tallas.Talla','PrecioVenta','Cantidad','productos.Estado')
+        ->join('proveedores','proveedores.Nit','=','productos.Nit')
+        ->join('tallas','tallas.TallaId','=','productos.Talla')
+        ->join('tipos_productos','tipos_productos.TipoId','=','productos.TipoProducto')
+        ->get();
 
 
-        $tallas = Talla::select(['TallaID','Talla'])->get();
-        $tipos_productos = Tipo_Producto::select(['TipoId','Tipo'])->get();
-        $proveedores = Proveedor::select(['Nit','NombreEmpresa'])->get();
-        
 
-        $Producto = new Producto();
-        $ListadoProducto = $Producto->all();
-        return view('Compras.productos')->with('listado',$ListadoProducto)->with('tallas',$tallas)->with('tipos_productos',$tipos_productos)->with('proveedores',$proveedores);
+
+        $tallas = Talla::all();
+        $Proveedores = Proveedor::all();
+        $Tipos = Tipo_Producto::all();
+        return view('Compras.productos')->with('listado',$Productos)->with('tallas',$tallas)->with('tipos_productos',$Tipos)->with('proveedores',$Proveedores);
     }
 
     /**
@@ -39,10 +42,10 @@ class ProductosController extends Controller
      */
     public function create(Request $request)
     {
-        $validator = Validator::make($request->all(), 
-        ['Nit'=>'min:1|max:11','NombreProducto'=>'min:1|max:100','TipoProducto'=>'min:1|max:10','Talla'=>'min:1|max:6','PrecioVenta'=>'min:1|max:8','Cantidad'=>'min:1|max:4'],
-        ['unique'=>'Este campo no acepta información que ya se ha registrado','min'=>'No puedes enviar este campo vacío','max'=>'Máximo de :max dígitos']);
-        // ,'Municipio'=>70,'Barrio'=>70,'Direccion'=>100
+        $validator = Validator::make($request->all(),
+        ['Nit'=>'min:1|max:11','NombreProducto'=>'min:1|max:50','TipoProducto'=>'min:1|max:10','Talla'=>'min:1|max:6','PrecioVenta'=>'min:1|max:8','Cantidad'=>'min:1|max:4'],
+        ['unique'=>'* Este campo no acepta información que ya se ha registrado','* min'=>'No puedes enviar este campo vacío','max'=>'* Máximo de :max dígitos']);
+
         if($validator->fails()){
             return back()->withErrors($validator)->withInput();
         }
@@ -83,7 +86,7 @@ class ProductosController extends Controller
     public function changeState(Request $request){
         $ProductoId = json_decode($request->ProductoId);
         $Producto = Producto::find($ProductoId);
-        
+
         if($Producto->Estado == true){
             $Producto->Estado = false;
         }
@@ -118,13 +121,13 @@ class ProductosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validator = Validator::make($request->all(), 
+        $validator = Validator::make($request->all(),
         ['Nit'=>'min:1|max:11','NombreProducto'=>'min:1|max:100','TipoProducto'=>'min:1|max:2','Talla'=>'min:1|max:6','PrecioVenta'=>'min:1|max:8','Cantidad'=>'min:1|max:4'],
         ['unique'=>'Este campo no acepta información que ya se ha registrado','min'=>'No puedes enviar este campo vacío','max'=>'Máximo de :max dígitos']);
         // ,'Municipio'=>70,'Barrio'=>70,'Direccion'=>100
         if($validator->fails()){
             return back()->withErrors($validator)->withInput();
-        
+
         }
         $Producto = Producto::find($id);
         $Campos = ['Nit','NombreProducto','TipoProducto','Talla','PrecioVenta','Cantidad'];

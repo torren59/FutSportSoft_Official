@@ -49,8 +49,8 @@ class CategoriaController extends Controller
     {
         $validator = Validator::make(
             $request->all(),
-            ['NombreCategoria' => 'min:1|unique:categorias,NombreCategoria|max:50', 'DeporteId' => 'min:1|max:50|required', 'RangoEdad' => 'min:1|max:30'],
-            ['unique' => '* Este campo no acepta información que ya se ha registrado', 'min' => '* No puedes enviar este campo vacío', 'max' => '* Máximo de :max dígitos']
+            ['NombreCategoria' => 'min:1|unique:categorias,NombreCategoria|max:50', 'DeporteId' => 'numeric|max:50|required', 'RangoEdad' => 'min:1|max:30'],
+            ['unique' => '* Este campo no acepta información que ya se ha registrado', 'min' => '* No puedes enviar este campo vacío', 'max' => '* Máximo de :max dígitos', 'numeric'=>'* Debes seleccionar una opción']
         );
 
         if ($validator->fails()) {
@@ -105,6 +105,7 @@ class CategoriaController extends Controller
         $data = ['categorias' => $Selected, 'deportes' => $Deporte];
         return view('Programacion.editarcategoria')->with('data', $data);
 
+
     }
 
     public function changeState(Request $request)
@@ -144,13 +145,21 @@ class CategoriaController extends Controller
      */
     public function update(Request $request, $id)
     {
-
+        session(['CategoriaId' => $id]);
         $validator = Validator::make(
             $request->all(),
-            ['NombreCategoria' => 'min:1|unique:categorias,NombreCategoria|max:50', 'DeporteId' => 'max:50|required', 'RangoEdad' => 'min:1|max:30'],
+            ['NombreCategoria' => ['min:1',
+            function ($attribute, $value, $fail) {
+                $id = session('CategoriaId');
+                $outRegisterItem = Categoria::where('NombreCategoria', '=', $value)
+                    ->where('CategoriaId', '!=', $id)->count();
+                if ($outRegisterItem > 0) {
+                    return $fail($attribute . ' ya está registrado para otra categoría');
+                }
+            },'max:50'], 'DeporteId' => 'max:50|required', 'RangoEdad' => 'min:1|max:30'],
             ['unique' => '* Este campo no acepta información que ya se ha registrado', 'min' => '* No puedes enviar este campo vacío', 'max' => '* Máximo de :max dígitos']
         );
-
+        session()->forget('CategoriaId');
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }

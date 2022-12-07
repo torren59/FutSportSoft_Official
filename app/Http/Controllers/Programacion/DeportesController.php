@@ -50,7 +50,7 @@ class DeportesController extends Controller
         );
 
         if ($validator->fails()) {
-            return back()->withErrors($validator);
+            return redirect('deporte/listar')->withErrors($validator);
         }
 
         $Deporte = new Deporte();
@@ -105,11 +105,22 @@ class DeportesController extends Controller
      */
     public function update(Request $request, $id)
     {
+        session(['DeporteId' => $id]);
         $validator = Validator::make(
             $request->all(),
-            ['NombreDeporte' => 'unique:deportes,NombreDeporte|min:1|max:50'],
+            ['NombreDeporte' => ['min:1',
+            function ($attribute, $value, $fail) {
+                $id = session('DeporteId');
+                $outRegisterItem = Deporte::where('NombreDeporte', '=', $value)
+                    ->where('DeporteId', '!=', $id)->count();
+                if ($outRegisterItem > 0) {
+                    return $fail($attribute . ' ya está registrado en otro deporte');
+                }
+            }
+            ,'max:50']],
             ['unique' => 'Deporte ya se encuentra registrado el sistema', 'min' => 'No es posible enviar este campo vacío', 'max' => 'Máximo de :max dígitos']
         );
+        session()->forget('DeporteId');
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }

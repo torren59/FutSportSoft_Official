@@ -6,8 +6,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href=" {{ asset('./css/layouts/datatable.css') }} ">
     <link rel="stylesheet" href="{{ asset('./css/layouts/cruds.css') }} ">
-
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
 @endpush
 
 @section('content')
@@ -159,7 +160,15 @@
                 </div>
             </div>
 
-
+  {{-- Mensajes personalizados --}}
+  @if (isset($sweet_setAll))
+  <script>
+      setTimeout(() => {
+          swal_setAll("{{ $sweet_setAll['title'] }}", "{{ $sweet_setAll['msg'] }}",
+              "{{ $sweet_setAll['type'] }}");
+      }, 500);
+  </script>
+@endif
 
 
 

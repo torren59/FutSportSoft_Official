@@ -33,7 +33,11 @@
                             <div class="col-6">
                                 <label for="NombreSede" class="form-label">Nombre</label>
                                 <input type="text" class="form-control" name="NombreSede"
-                                    value="{{ old('NombreSede', $item->NombreSede) }}">
+                                @if ($errors->any())
+                                value = "{{old('NombreSede')}}"
+                                @else
+                                value="{{$item->NombreSede}}"
+                                @endif>
                                 @error('NombreSede')
                                     <div>
                                         @foreach ($errors->get('NombreSede') as $item)
@@ -46,7 +50,11 @@
                                 <div class="col-6">
                                     <label for="Municipio" class="form-label">Municipio</label>
                                     <input type="text" class="form-control" name="Municipio"
-                                        value=" {{ old('Municipio', $item->Municipio) }} ">
+                                    @if ($errors->any())
+                                    value = "{{old('Municipio')}}"
+                                    @else
+                                    value="{{$item->Municipio}}"
+                                    @endif>
                                     @error('Municipio')
                                         <div>
                                             @foreach ($errors->get('Municipio') as $item)
@@ -58,7 +66,11 @@
                                 <div class="col-6">
                                     <label for="Barrio" class="form-label">Barrio</label>
                                     <input type="text" class="form-control" name="Barrio"
-                                        value=" {{ old('Barrio', $item->Barrio) }} ">
+                                    @if ($errors->any())
+                                    value = "{{old('Barrio')}}"
+                                    @else
+                                    value="{{$item->Barrio}}"
+                                    @endif>
                                     @error('Barrio')
                                         <div>
                                             @foreach ($errors->get('Barrio') as $item)
@@ -71,7 +83,11 @@
                             <div class="col-6">
                                 <label for="Direccion" class="form-label">Direccion</label>
                                 <input type="text" class="form-control" name="Direccion"
-                                    value=" {{ old('Direccion', $item->Direccion) }} ">
+                                @if ($errors->any())
+                                value = "{{old('Direccion')}}"
+                                @else
+                                value="{{$item->Direccion}}"
+                                @endif>
                                 @error('Direccion')
                                     <div>
                                         @foreach ($errors->get('Direccion') as $item)

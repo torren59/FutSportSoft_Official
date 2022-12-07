@@ -109,6 +109,13 @@
                                     <option value="{{ $item->DeporteId }}">{{ $item->NombreDeporte }}</option>
                                 @endforeach
                             </select>
+                            @error('DeporteId')
+                            <div>
+                                @foreach ($errors->get('DeporteId') as $item)
+                                    <small> {{ $item }} </small>
+                                @endforeach
+                            </div>
+                        @enderror
                         </div>
                         <div class="col-6">
                             <label for="RangoEdad" class="form-label">Rango de Edad</label>

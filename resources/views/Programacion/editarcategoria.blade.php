@@ -29,15 +29,15 @@
                             <label for="NombreCategoria" class="form-label">Nombre de Categoría</label>
                             <input type="text" class="form-control" name="NombreCategoria"
                             @if ($errors->any())
-                            value = {{old('NombreCategoria')}}
+                            value = "{{old('NombreCategoria')}}"
                             @else
-                            value={{$item->NombreCategoria}}
+                            value= "{{$item->NombreCategoria}}"
                             @endif>
 
                             @error('NombreCategoria')
                                 <div>
-                                    @foreach ($errors->get('NombreCategoria') as $item)
-                                        <small> {{ $item }} </small>
+                                    @foreach ($errors->get('NombreCategoria') as $NombreError)
+                                        <small> {{ $NombreError }} </small>
                                     @endforeach
 
                                 </div>
@@ -45,10 +45,10 @@
                         </div>
 
                         <div class="col-6">
-                            <label for="roles" class="form-label">Deportes</label>
+                            <label for="DeporteId" class="form-label">Deportes</label>
                             <select class="form-select" name="DeporteId" aria-label="Default select example">
                                 <option selected value="{{ $item->DeporteId }}">{{ $item->NombreDeporte }}</option>
-                                @foreach ($data['deportes'] as $item2)
+                                 @foreach ($data['deportes'] as $item2)
                                     <option value="{{ $item2->DeporteId }}">{{ $item2->NombreDeporte }}</option>
                                 @endforeach
                             </select>
@@ -58,9 +58,9 @@
                             <label for="RangoEdad" class="form-label">Rango de Edad</label>
                             <input type="text" class="form-control" name="RangoEdad"
                             @if ($errors->any())
-                            value = {{old('RangoEdad')}}
+                            value = "{{old('RangoEdad')}}"
                             @else
-                            value={{$item->RangoEdad}}
+                            value="{{$item->RangoEdad}}"
                             @endif>
                             @error('RangoEdad')
                                 <div>

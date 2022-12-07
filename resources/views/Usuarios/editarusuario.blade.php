@@ -28,36 +28,40 @@
                         <div class="col-6">
                             <label for="Nombre" class="form-label">Nombre</label>
                             <input type="text" class="form-control" name="Nombre"
-                                value="{{ old('Nombre', $item->Nombre) }}">
+                                @if ($errors->any()) value = "{{ old('Nombre') }}"
+                            @else
+                            value= "{{ $item->Nombre }}" @endif>
                             @error('Nombre')
                                 <div>
-                                    @foreach ($errors->get('Nombre') as $item)
-                                        <small> {{ $item }} </small>
+                                    @foreach ($errors->get('Nombre') as $NombreError)
+                                        <small> {{ $NombreError }} </small>
                                     @endforeach
                                 </div>
                             @enderror
                         </div>
+
 
                         <div class="col-6">
                             <label for="Celular" class="form-label">Celular</label>
                             <input type="text" class="form-control" name="Celular"
-                                value=" {{ old('Celular', $item->Celular) }}">
+                                @if ($errors->any()) value = "{{ old('Celular') }}"
+                            @else
+                            value= "{{ $item->Celular }}" @endif>
                             @error('Celular')
                                 <div>
-                                    @foreach ($errors->get('Celular') as $item)
-                                        <small> {{ $item }} </small>
+                                    @foreach ($errors->get('Celular') as $CelularError)
+                                        <small> {{ $CelularError }} </small>
                                     @endforeach
                                 </div>
                             @enderror
                         </div>
-
 
 
                         <div class="col-6">
 
                             <label for="roles" class="form-label">Roles</label>
-                            <select class="form-select"  name="RolId" aria-label="Default select example">
-                                <option selected value="{{$item->RolId}}">{{$item->name}}</option>
+                            <select class="form-select" name="RolId" aria-label="Default select example">
+                                <option selected value="{{ $item->RolId }}">{{ $item->name }}</option>
                                 @foreach ($data['roles'] as $item2)
                                     <option value="{{ $item2->id }}">{{ $item2->name }}</option>
                                 @endforeach
@@ -65,14 +69,13 @@
                         </div>
 
 
+
                         <div class="col-6">
                             <label for="FechaNacimiento" class="form-label">Fecha de nacimiento</label>
                             <input type="date" class="form-control" name="FechaNacimiento"
-                            @if ($errors->any())
-                            value = {{old('FechaNacimiento')}}
+                                @if ($errors->any()) value = {{ old('FechaNacimiento') }}
                             @else
-                            value={{$item->FechaNacimiento}}
-                            @endif>
+                            value={{ $item->FechaNacimiento }} @endif>
                             @error('FechaNacimiento')
                                 <div>
                                     @foreach ($errors->get('FechaNacimiento') as $item)
@@ -88,7 +91,9 @@
                         <div class="col-6">
                             <label for="email" class="form-label">Correo</label>
                             <input type="email" class="form-control" name="email"
-                                value="{{ old('email', $item->email)}}">
+                                @if ($errors->any()) value = "{{ old('email') }}"
+                            @else
+                            value= "{{ $item->email }}" @endif>
                             @error('email')
                                 <div>
                                     @foreach ($errors->get('email') as $item)
@@ -102,11 +107,9 @@
                         <div class="col-6">
                             <label for="Direccion" class="form-label">Direccion</label>
                             <input type="text" class="form-control" name="Direccion"
-                            @if ($errors->any())
-                            value = {{old('Direccion')}}
+                                @if ($errors->any()) value = "{{ old('Direccion') }}"
                             @else
-                            value={{$item->Direccion}}
-                            @endif>
+                            value="{{ $item->Direccion }}" @endif>
                             @error('Direccion')
                                 <div>
                                     @foreach ($errors->get('Direccion') as $item)

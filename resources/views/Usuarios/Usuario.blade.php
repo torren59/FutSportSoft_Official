@@ -189,6 +189,13 @@
                                     <option value="{{ $item->id }}">{{ $item->name }}</option>
                                 @endforeach
                             </select>
+                            @error('RolId')
+                                <div>
+                                    @foreach ($errors->get('RolId') as $item)
+                                        <small> {{ $item }} </small>
+                                    @endforeach
+                                </div>
+                            @enderror
                         </div>
                         <div class="col-6">
                             <label for="password" class="form-label">Contraseña</label>

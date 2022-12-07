@@ -43,7 +43,7 @@ class SedesController extends Controller
         ['unique'=>'* Este campo no acepta información que ya se ha registrado','min'=>'* No puedes enviar este campo vacío','max'=>'* Máximo de :max dígitos']);
 
         if($validator->fails()){
-            return back()->withErrors($validator)->withInput();
+            return redirect('sede/listar')->withErrors($validator)->withInput();
         }
         $Sede = new Sede();
         $id = Sede::creadorPK($Sede,100);
@@ -127,11 +127,29 @@ class SedesController extends Controller
      */
     public function update(Request $request, $id)
     {
-
+        session(['SedeId' => $id]);
         $validator = Validator::make($request->all(),
-        ['NombreSede'=>'min:1','Municipio'=>'min:1|max:70','Barrio'=>'min:1|max:70','Direccion'=>'min:1|max:100'],
+        ['NombreSede'=>['min:1',
+        function ($attribute, $value, $fail) {
+            $id = session('SedeId');
+            $outRegisterItem = Sede::where('NombreSede', '=', $value)
+                ->where('SedeId', '!=', $id)->count();
+            if ($outRegisterItem > 0) {
+                return $fail($attribute . ' ya está registrado para otra sede');
+            }
+        },
+        'max:50'],'Municipio'=>'min:1|max:70','Barrio'=>'min:1|max:70','Direccion'=>['min:1',
+        function ($attribute, $value, $fail) {
+            $id = session('SedeId');
+            $outRegisterItem = Sede::where('Direccion', '=', $value)
+                ->where('SedeId', '!=', $id)->count();
+            if ($outRegisterItem > 0) {
+                return $fail($attribute . ' ya está registrado para otra sede');
+            }
+        }
+        ,'max:50']],
         ['unique'=>'Este campo no acepta información que ya se ha registrado','min'=>'No puedes enviar este campo vacío','max'=>'Máximo de :max dígitos']);
-
+        session()->forget('SedeId');
         if($validator->fails()){
             return back()->withErrors($validator)->withInput();
 

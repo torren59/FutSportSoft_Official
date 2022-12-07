@@ -31,10 +31,10 @@ class ProveedoresController extends Controller
     {
         $validator = Validator::make(
             $request->all(),
-            ['Nit' => 'min:1|unique:proveedores,Nit|max:11', 'NombreEmpresa' => 'min:1|unique:proveedores,NombreEmpresa|max:100', 'Titular' => 'min:1|max:100', 'NumeroContacto' => 'min:1|max:15', 'Correo' => 'min:1|max:70', 'Direccion' => 'min:1|unique:proveedores,Direccion|max:100'],
-            ['unique' => 'Este campo no acepta información que ya se ha registrado', 'min' => 'No puedes enviar este campo vacío', 'max' => 'Máximo de :max dígitos']
+            ['Nit' => 'min:1|unique:proveedores,Nit|max:11', 'NombreEmpresa' => 'min:1|unique:proveedores,NombreEmpresa|max:50', 'Titular' => 'min:1|max:50', 'NumeroContacto' => 'min:1|max:15', 'Correo' => 'min:1|unique:proveedores,Correo|max:50', 'Direccion' => 'min:1|unique:proveedores,Direccion|max:50'],
+            ['unique' => '* Este campo no acepta información que ya se ha registrado', 'min' => '* No puedes enviar este campo vacío', 'max' => '* Máximo de :max dígitos']
         );
-        // ,'Municipio'=>70,'Barrio'=>70,'Direccion'=>100
+
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
@@ -70,21 +70,20 @@ class ProveedoresController extends Controller
         //
     }
 
-    public function changeState(Request $request){
+    public function changeState(Request $request)
+    {
         $Nit = json_decode($request->Nit);
         $Proveedor = Proveedor::find($Nit);
-        
-        if($Proveedor->Estado == true){
+
+        if ($Proveedor->Estado == true) {
             $Proveedor->Estado = false;
-        }
-        else{
+        } else {
             $Proveedor->Estado = true;
         }
 
         $Proveedor->save();
 
         return json_encode($Proveedor);
-
     }
     /**
      * Show the form for editing the specified resource.
@@ -107,21 +106,53 @@ class ProveedoresController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validator = Validator::make($request->all(), 
-        ['NombreEmpresa'=>'min_digits:1|max_digits:100','Titular'=>'required','NumeroContacto'=>'min_digits:1|max_digits:15','Correo'=>'required|max_digits:70','Direccion'=>'min_digits:1|max_digits:100'],
-        ['min_digits'=>'No puedes enviar este campo vacío','max_digits'=>'Máximo de :max_digits dígitos']);
-        $validator = Validator::make(['Titular'=> $request->Titular],['Titular'=>'required'],['required'=>'Evite enviarlo vacío']);
-        if($validator->fails()){
-        return back()->withErrors($validator)->withInput();
+        session(['Nit' => $id]);
+        $validator = Validator::make(
+            $request->all(),
+            ['NombreEmpresa' => [
+                'min:1',
+                function ($attribute, $value, $fail) {
+                    $id = session('Nit');
+                    $outRegisterItem = Proveedor::where('NombreEmpresa', '=', $value)
+                        ->where('Nit', '!=', $id)->count();
+                    if ($outRegisterItem > 0) {
+                        return $fail($attribute . ' ya está registrado para otro proveedor');
+                    }
+                }, 'max:50'
+            ], 'Titular' => 'min:1|max:50', 'NumeroContacto' => 'min:1|max:15', 'Correo' => [
+                'min:1',
+                function ($attribute, $value, $fail) {
+                    $id = session('Nit');
+                    $outRegisterItem = Proveedor::where('Correo', '=', $value)
+                        ->where('Nit', '!=', $id)->count();
+                    if ($outRegisterItem > 0) {
+                        return $fail($attribute . ' ya está registrado para otro correo');
+                    }
+                }, 'max:50'
+            ], 'Direccion' => [
+                'min:1',
+                function ($attribute, $value, $fail) {
+                    $id = session('Nit');
+                    $outRegisterItem = Proveedor::where('Direccion', '=', $value)
+                        ->where('Nit', '!=', $id)->count();
+                    if ($outRegisterItem > 0) {
+                        return $fail($attribute . ' ya está registrado para otra direccion');
+                    }
+                }, 'max:50'
+            ]],
+            ['unique' => '* Este campo no acepta información que ya se ha registrado', 'min' => '* No puedes enviar este campo vacío', 'max' => '* Máximo de :max dígitos']
+        );
+        session()->forget('Nit');
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
         }
         $Proveedor = Proveedor::find($id);
-        $Campos = ['NombreEmpresa','Titular','NumeroContacto','Correo','Direccion'];
-        foreach($Campos as $item){
+        $Campos = ['NombreEmpresa', 'Titular', 'NumeroContacto', 'Correo', 'Direccion'];
+        foreach ($Campos as $item) {
             $Proveedor->$item = $request->$item;
         }
         $Proveedor->save();
         return redirect('proveedor/listar');
-        
     }
 
 

@@ -69,7 +69,9 @@ class RolesController extends Controller
 
         $Permisos = $request->permisos;
 
-
+if($Permisos == null){
+    return redirect('roles/listar');
+}
         foreach ($Permisos as $item) {
 
             // Llena el objeto con los datos de un producto adicionado
@@ -81,7 +83,7 @@ class RolesController extends Controller
             $Adicionados->save();
         }
 
-        return redirect('grupos/listar');
+        return redirect('roles/listar');
     }
 
 

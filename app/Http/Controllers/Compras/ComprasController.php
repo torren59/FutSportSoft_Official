@@ -11,6 +11,7 @@ use App\Models\Programacion\Deporte;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Ui\Presets\React;
+use Symfony\Component\Console\Input\Input;
 
 class ComprasController extends Controller
 {
@@ -45,7 +46,7 @@ class ComprasController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function create(Request $request)
+    public function create(Request $request, $status = null)
     {
         $Nit = 0;
         if ($request->session()->exists('NitProveedor')) {
@@ -54,13 +55,21 @@ class ComprasController extends Controller
             $Nit = $request->Nit;
             session(['NitProveedor' => $Nit]);
         }
-        $ListadoProveedor = Proveedor::select(['Nit','NombreEmpresa'])->where('Nit', '=', $Nit)->get();
+        $ListadoProveedor = Proveedor::select(['Nit', 'NombreEmpresa'])->where('Nit', '=', $Nit)->get();
         $Listados = ['ListadoProveedor' => $ListadoProveedor];
         $ProductModel = new Producto();
         $Productos = $ProductModel->select()->where('Nit', '=', $Nit)->get();
-        return view('Compras.crearcompra')->with('productos', $Productos)->with('listado', $Listados);
 
 
+        switch ($status) {
+            case 1:
+                $sweet_setAll = ['title' => 'No has seleccionado ningun producto', 'msg' => 'Evita enviar productos vacios', 'type' => 'warning'];
+                return view('Compras.crearcompra')->with('productos', $Productos)->with('listado', $Listados)->with('sweet_setAll', $sweet_setAll);
+                break;
+            default:
+                return view('Compras.crearcompra')->with('productos', $Productos)->with('listado', $Listados);
+                break;
+        }
     }
 
     /**
@@ -73,12 +82,16 @@ class ComprasController extends Controller
     {
         $validator = Validator::make(
             $request->all(),
-            ['NumeroFactura' => 'min:1|unique:compras,NumeroFactura|max:20', 'Nit' => 'min:1|max:12', 'FechaCompra' => 'min:1|max:20', 'ValorCompra' => 'min:1||max:20', 'SubTotal' => 'min:1||max:20', 'Iva' => 'min:1||max:20', 'Descuento' => 'min:1||max:20'],
+            ['NumeroFactura' => 'min:1|unique:compras,NumeroFactura|max:20', 'Nit' => 'min:1|max:12', 'FechaCompra' => 'min:1|max:20', 'ValorCompra' => 'min:1||max:20', 'SubTotal' => 'min:1||max:20', 'Iva' => 'min:1||max:20',],
             ['unique' => '* Este campo no acepta información que ya se ha registrado', 'min' => '* No puedes enviar este campo vacío', 'max' => '* Máximo de :max dígitos']
         );
 
         if ($validator->fails()) {
             return redirect('compras/crearproveedor')->withErrors($validator)->withInput();
+        }
+        $productos = $request->productos;
+        if ($productos == null) {
+            return redirect('compras/crearproveedor/1')->withInput();
         }
         $Compras = new Compras();
         $Compras->NumeroFactura = $request->NumeroFactura;
@@ -90,12 +103,9 @@ class ComprasController extends Controller
         $Compras->save();
         // return redirect('compras/listar');
 
-        $productos = $request->productos;
+
         $articulosComprados = [];
 
-        if ($productos == null) {
-            return 'Evite enviar productos vacío';
-        }
 
         foreach ($productos as $item) {
             // Crea las rutas para rescatar datos del request
@@ -118,7 +128,7 @@ class ComprasController extends Controller
                 ['Cantidad' => 'required|min:1', 'PrecioCompra' => 'required|min:0']
             );
             if ($validator->fails()) {
-                return back()
+                return redirect('compras/crearproveedor')
                     ->withErrors($validator)
                     ->withInput();
             }
@@ -139,6 +149,7 @@ class ComprasController extends Controller
             $articulo->PrecioCompra = $item->PrecioCompra;
             $articulo->save();
 
+
             // Modifica la cantidad en los registros de los productos
             $producto = Producto::find($item->ProductoId);
             $Cantidad = $producto->Cantidad + $item->Cantidad;
@@ -148,7 +159,10 @@ class ComprasController extends Controller
         session()->forget('NitProveedor');
         return redirect('compras/listar/1');
     }
+
+
     public function listselected(Request $request)
+
     {
         $ProductModel = new Producto();
         $Selecteds = json_decode($request->seleccionados);

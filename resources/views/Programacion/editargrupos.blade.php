@@ -98,7 +98,7 @@
                             @foreach ($deportistas_crear as $item)
                                 <tr>
                                     <td>
-                                        @if (in_array($item->Documento, $deportistas_checked))
+                                        @if (in_array($item->DeportistaId, $deportistas_checked))
                                             <input name="chequeados[]" type="checkbox" checked
                                                 value="{{ $item->Documento }}">
                                         @else
