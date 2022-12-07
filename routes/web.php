@@ -182,6 +182,7 @@ Route::controller(VentasController::class)->middleware('auth')->group(
         Route::post('venta/getFacturacion','getFacturacion');
         Route::get('venta/Elim','elim');
         Route::get('venta/bbbccc','letSes');
+        Route::post('venta/cambiarEstado','changeState');
     }
 );
 
@@ -191,6 +192,7 @@ Route::controller(ProveedoresController::class)->middleware('auth')->group(
         Route::post('proveedor/crear', 'create')->middleware('IsAuthorized:122');
         Route::get('proveedor/editar/{id}', 'edit')->middleware('IsAuthorized:134');
         Route::post('proveedor/actualizar/{id}','update');
+        Route::post('proveedor/cambiarEstado','changeState');
     }
 );
 
@@ -200,6 +202,7 @@ Route::controller(ProductosController::class)->middleware('auth')->group(
         Route::post('producto/crear', 'create')->middleware('IsAuthorized:123');
         Route::get('producto/editar/{id}', 'edit')->middleware('IsAuthorized:135');
         Route::post('producto/actualizar/{id}','update');
+        Route::post('producto/cambiarEstado','changeState');
     }
 );
 
@@ -209,12 +212,13 @@ Route::controller(DeportistasController::class)->middleware('auth')->group(
         Route::post('deportista/crear', 'create')->middleware('IsAuthorized:126');
         Route::get('deportista/editar/{id}', 'edit')->middleware('IsAuthorized:138');
         Route::post('deportista/actualizar/{id}','update');
+        Route::post('deportista/cambiarEstado','changeState');
     }
 );
 
 Route::controller(AyudasController::class)->middleware('auth')->group(
     function () {
-        Route::get('ayudas/listar', 'index');
+        Route::get('ayudas/listar', 'index')->middleware('IsAuthorized:158');
     }
 );
 
