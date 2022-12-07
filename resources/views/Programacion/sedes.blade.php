@@ -19,7 +19,7 @@
     <div class="service_list">
         <center>
             <div class="tituloTabla">
-                <h1>SEDES</h1>
+                <h1>Gestión de sedes</h1>
             </div>
         </center>
 
@@ -47,7 +47,7 @@
                     <tr>
                         <td>
                             @if (in_array(137, $permisos))
-                                <a href="{{ url('sede/editar/' . $item->SedeId) }}"><button class="btn btn-primary"><i
+                                <a href="{{ url('sede/editar/' . $item->SedeId) }}"><button class="btn btn-outline-primary"><i
                                             class="fa-solid fa-pen"></i></button></a>
                             @endif
                         </td>
@@ -85,22 +85,22 @@
 
         <div id="sedeadicion" class="adicion_off" style="width:600px;height:400px">
             <div class="floatcontent">
-                <h4 style="padding-top:5%;">Nueva Sede</h4>
-                <hr>
+                <h2>Nueva Sede</h2>
+
 
                 <form action={{ url('sede/crear') }} method="post"> @csrf
-
-                    <label for="NombreSede" class="form-label">Nombre</label>
-                    <input type="text" class="form-control" name="NombreSede" value="{{ old('NombreSede') }}">
-                    @error('NombreSede')
-                        <div>
-                            @foreach ($errors->get('NombreSede') as $item)
-                                <small> {{ $item }} </small>
-                            @endforeach
-                        </div>
-                    @enderror
-
                     <div class="row">
+                        <div class="col-6">
+                            <label for="NombreSede" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" name="NombreSede" value="{{ old('NombreSede') }}">
+                            @error('NombreSede')
+                                <div>
+                                    @foreach ($errors->get('NombreSede') as $item)
+                                        <small> {{ $item }} </small>
+                                    @endforeach
+                                </div>
+                            @enderror
+                        </div>
                         <div class="col-6">
                             <label for="Municipio" class="form-label">Municipio</label>
                             <input type="text" class="form-control" name="Municipio" value=" {{ old('Municipio') }} ">
@@ -123,22 +123,24 @@
                                 </div>
                             @enderror
                         </div>
-                    </div>
 
-                    <label for="Direccion" class="form-label">Direccion</label>
-                    <input type="text" class="form-control" name="Direccion" value=" {{ old('Direccion') }} ">
-                    @error('Direccion')
-                        <div>
-                            @foreach ($errors->get('Direccion') as $item)
-                                <small> {{ $item }} </small>
-                            @endforeach
+                        <div class="col-6">
+                            <label for="Direccion" class="form-label">Direccion</label>
+                            <input type="text" class="form-control" name="Direccion" value=" {{ old('Direccion') }} ">
+                            @error('Direccion')
+                                <div>
+                                    @foreach ($errors->get('Direccion') as $item)
+                                        <small> {{ $item }} </small>
+                                    @endforeach
+                                </div>
+                            @enderror
                         </div>
-                    @enderror
-                    <br>
-                    <button type="submit" class="btn btn-primary btn-success">Guardar</i></button>
-                    <button type="button" class="btn btn-primary btn-danger"
-                        onclick="switchadicion2('sedeadicion')">Cancelar</i></button>
-
+                    </div>
+                    <div class="botonessedes p-5">
+                        <button type="submit" class="btn btn-outline-primary">Guardar</i></button>
+                        <button type="button" class="btn btn-outline-secondary"
+                            onclick="switchadicion2('sedeadicion')">Cancelar</i></button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -159,7 +161,7 @@
                     onclick="alterModal('errorsEstado')">Cancelar</i></button> <br>
             </div>
         </div>
-        
+
         @if ($errors->any())
             <script>
                 setTimeout(() => {
@@ -170,12 +172,13 @@
 
         {{-- Mensajes personalizados --}}
         @if (isset($sweet_setAll))
-        <script>
-            setTimeout(() => {
-                swal_setAll("{{$sweet_setAll['title']}}","{{$sweet_setAll['msg']}}","{{$sweet_setAll['type']}}");
-            },500);
-        </script>
-    @endif
+            <script>
+                setTimeout(() => {
+                    swal_setAll("{{ $sweet_setAll['title'] }}", "{{ $sweet_setAll['msg'] }}",
+                        "{{ $sweet_setAll['type'] }}");
+                }, 500);
+            </script>
+        @endif
 
     </div>
 @endsection

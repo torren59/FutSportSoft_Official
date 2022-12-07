@@ -3,8 +3,11 @@
 @section('title', 'Roles')
 
 @push('styles')
+    {{-- Csrf para funcionamiento de Ajax --}}
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href=" {{ asset('./css/layouts/datatable.css') }} ">
     <link rel="stylesheet" href="{{ asset('./css/layouts/cruds.css') }} ">
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @endpush
 
 @section('content')
@@ -48,9 +51,9 @@
                             @endif
 
                             @if (in_array(114, $permisos))
-                                <abbr title="Detalles"><a href="{{ url('roles/detalle/' . $item->id) }}"><button
-                                            class="btn btn-outline-secondary"><i
-                                                class="fa-solid fa-circle-info"></i></button></a></abbr>
+                                <abbr title="Detalles"><button type="button" class="btn btn-outline-secondary"
+                                        onclick="DetalleRoles({{ $item->id }},'detalleroles','jsPrint')"><i
+                                            class="fa-solid fa-circle-info"></i></button></abbr>
                             @endif
 
                         </td>
@@ -69,7 +72,8 @@
 
                                 <div class="form-check form-switch">
                                     <input class="form-check-input" type="checkbox" role="switch"
-                                        id="flexSwitchCheckChecked" {{ $checkstate }}>
+                                        id="flexSwitchCheckChecked" {{ $checkstate }}
+                                        onclick="changeState2({{ $item->id }})">
                                 </div>
                             @endif
                         </td>
@@ -84,86 +88,97 @@
 
         {{-- Creacion de roles --}}
 
-        <div id="roladicion" class="adicion_off" style="width:600px;height:400px">
+        <div id="roladicion" class="adicion_off" style="width:800px;height:600px">
             <div class="floatcontent">
-                <h1 style="padding-top:5%;">Nuevo Rol</h1>
-                <hr>
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="cardRoles p-2 col-12 text-center">
+                            <h1>Nuevo Rol</h1>
+                            <form action={{ url('roles/crear') }} method="post"> @csrf
+                                <div class="row justify-content-center">
+                                    <div class="col-6">
+                                        <label for="name" class="form-label">Nombre</label>
+                                        <input type="text" class="form-control" name="name"
+                                            value="{{ old('name') }}">
+                                        @error('name')
+                                            <div>
+                                                @foreach ($errors->get('name') as $item)
+                                                    <small> {{ $item }} </small>
+                                                @endforeach
+                                            </div>
+                                        @enderror
+                                    </div>
+                                </div>
 
-                <form action={{ url('roles/crear') }} method="post"> @csrf
+                                <div class="grid_doble_superderecharoles p-4">
+                                    <div class="grid_span_1">
+                                        <h1>Listado de permisos</h1>
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <td>Selecciona</td>
+                                                    <td>Permiso</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
 
-                    <label for="name" class="form-label">Nombre</label>
-                    <input type="text" class="form-control" name="name" value="{{ old('name') }}">
-                    @error('name')
-                        <div>
-                            @foreach ($errors->get('name') as $item)
-                                <small> {{ $item }} </small>
-                            @endforeach
+                                                @foreach ($permisos_crear as $item)
+                                                    <tr>
+                                                        <td>
+                                                            <div class="lista_permisos">
+                                                                <input type="checkbox" class="form-check-input productcheck"
+                                                                    name="permisos[]" value="{{ $item->PermisoId }}">
+                                                        </td>
+                                                        <td>
+                                                            <label class="form-check-label"
+                                                                for="{{ $item->PermisoId }}">{{ $item->NombrePermiso }}
+                                                            </label>
+                                                        </td>
+                                    </div>
+
+
+
+                                    </tr>
+                                    @endforeach
+                                    </tbody>
+                                    </table>
+                                </div>
                         </div>
-                    @enderror
 
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th scope="col">Selecciona</th>
-                                <th scope="col">Permiso</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="customCheck1" checked>
-                                        <label class="custom-control-label" for="customCheck1">1</label>
-                                    </div>
-                                </td>
-                                <td>permiso1</td>
-                                <td>permite visualizar la lista de roles</td>
 
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="customCheck2">
-                                        <label class="custom-control-label" for="customCheck2">2</label>
-                                    </div>
-                                </td>
-                                <td>Bootstrap Grid 4 Tutorial and Examples</td>
-                                <td>Cristina</td>
-
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="customCheck3">
-                                        <label class="custom-control-label" for="customCheck3">3</label>
-                                    </div>
-                                </td>
-                                <td>Bootstrap Flexbox Tutorial and Examples</td>
-                                <td>Cristina</td>
-
-                            </tr>
-                        </tbody>
-                    </table>
+                        <div class="botonesroles p-5">
+                            <button type="submit" class="btn btn-outline-primary">Guardar</i></button>
+                            <button type="button" class="btn btn-outline-secondary"
+                                onclick="switchadicion2('roladicion')">Cancelar</i></button>
+                        </div>
 
 
 
-                    <div class="botonesroles p-5">
-                        <button type="submit" class="btn btn-outline-primary">Guardar</i></button>
-                        <button type="button" class="btn btn-outline-secondary"
-                            onclick="switchadicion2('roladicion')">Cancelar</i></button>
+                        </form>
                     </div>
-
-
-
-                </form>
-
+                </div>
             </div>
-
-
-
         </div>
 
 
+
+    </div>
+
+    {{-- Detalles --}}
+
+    <div id="detalleroles" class="adicion_off" style="width:600px;height:400px">
+        <div class="floatcontent">
+
+            <h1 style="padding-top:5%;">Detalles del rol</h1>
+            <div id="jsPrint">
+                {{-- Aquí se imprime el contenido de detalles enviado desde JS --}}
+            </div>
+            <div class="boton detalle p-5">
+                <button type="button" class="btn btn-outline-secondary"
+                    onclick="switchadicion2('detalleroles')">Cerrar</i></button>
+            </div>
+
+        </div>
     </div>
 
     @if ($errors->any())
@@ -173,6 +188,16 @@
             }, 500);
         </script>
     @endif
+
+    {{-- Mensajes personalizados --}}
+    @if (isset($sweet_setAll))
+    <script>
+        setTimeout(() => {
+            swal_setAll("{{ $sweet_setAll['title'] }}", "{{ $sweet_setAll['msg'] }}",
+                "{{ $sweet_setAll['type'] }}");
+        }, 500);
+    </script>
+@endif
 
     </div>
 @endsection
@@ -185,4 +210,6 @@
     </script>
 
     <script src=" {{ asset('./js/layouts/cruds.js') }} "></script>
+    <script src=" {{ asset('./js/layouts/asincronas.js') }} "></script>
+    <script src=" {{ asset('./js/layouts/Configuracion/Roles.js') }} "></script>
 @endpush

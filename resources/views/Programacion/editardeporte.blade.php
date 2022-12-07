@@ -16,42 +16,48 @@
 @section('content')
 
     @foreach ($deportedata as $item)
-    <form action={{ url('deporte/actualizar/'.$item->DeporteId ) }} method="post">
+        <form action={{ url('deporte/actualizar/' . $item->DeporteId) }} method="post">
     @endforeach
 
-        @csrf
-        <div class="grid_triple_center">
-            <div class="grid_span_2a3">
+    @csrf
+    <div class="container p-5 text-center">
+        <div class="row justify-content-center">
+        <div class="card col-6">
+                <div class="grid_triple_center">
+                    <div class="grid_span_2a3">
 
-                <div class="adicion_title">
-                    <h1>Editar Deporte</h1>
-                </div>
+                        <div class="adicion_title">
+                            <h1>Editar Deporte</h1>
+                        </div>
 
 
-                @foreach ($deportedata as $item)
-                    <div class="adicion_content" id="addsed">
-                        <div class="mb-3  col-5">
-                            <label class="form-label">Nombre Deporte</label>
-                            <input type="text" class="form-control" name="NombreDeporte"
-                                value=" {{ old('NombreDeporte', $item->NombreDeporte) }} ">
-                                @error('NombreDeporte')
-                                <div>
-                                    @foreach ($errors->get('NombreDeporte') as $item)
-                                        <small> {{$item}} </small>
-                                    @endforeach
+                        @foreach ($deportedata as $item)
+                            <div class="adicion_content" id="addsed">
+                                <div class="col-8">
+                                    <label class="form-label">Nombre Deporte</label>
+                                    <input type="text" class="form-control" name="NombreDeporte"
+                                        value=" {{ old('NombreDeporte', $item->NombreDeporte) }} ">
+                                    @error('NombreDeporte')
+                                        <div>
+                                            @foreach ($errors->get('NombreDeporte') as $item)
+                                                <small> {{ $item }} </small>
+                                            @endforeach
+                                        </div>
+                                    @enderror
                                 </div>
-                            @enderror
+                            </div>
+                        @endforeach
+
+                        <div class="botonesdeporte p-5">
+                            <button type="submit" class="btn btn-outline-primary">Guardar</i></button>
+                            <a href=" {{ url('deporte/listar') }} "><button type="button"
+                                    class="btn btn-outline-secondary">Cancelar</i></button></a>
                         </div>
                     </div>
-                @endforeach
-
-                <div class="mb-3 col-7">
-                    <button type="submit" class="btn btn-primary btn-success">Guardar</i></button>
-                    <a href=" {{url('deporte/listar')}} "><button type="button" class="btn btn-primary btn-danger">Cancelar</i></button></a>
                 </div>
             </div>
         </div>
-
+    </div>
     </form>
 
 @endsection

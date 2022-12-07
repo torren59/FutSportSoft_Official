@@ -23,7 +23,7 @@
         <div class="main_area">
             <div class="zonaalta">
                 <div class="h1Access">
-                    FutSportSoft
+                    <h1>FutSportSoft</h1>
                 </div>
             </div>
             <div class="contenido">
@@ -37,14 +37,14 @@
                                 <input  hidden type="text" name="token"
                                 @if ($errors->any()) value = "{{ old('token') }}"
                                 @else
-                                value = " {{ $Info['Token'] }} " 
+                                value = " {{ $Info['Token'] }} "
                                 @endif>
 
                                 <input  hidden type="text" name="email"
                                 @if ($errors->any()) value = "{{ old('email') }}"
                                 @else
-                                value = " {{ $Info['email'] }} " 
-                                @endif> 
+                                value = " {{ $Info['email'] }} "
+                                @endif>
 
                                 <label for="nuevaclave" class="form-label">Nueva clave</label>
                                 <input type="text" name="nuevaclave" class="form-control"

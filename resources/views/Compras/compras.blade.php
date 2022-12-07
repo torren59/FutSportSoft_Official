@@ -3,8 +3,11 @@
 @section('title', 'Compras')
 
 @push('styles')
+{{-- Csrf para funcionamiento de Ajax --}}
+<meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href=" {{ asset('./css/layouts/datatable.css') }} ">
     <link rel="stylesheet" href="{{ asset('./css/layouts/cruds.css') }} ">
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @endpush
 
 @section('content')
@@ -66,7 +69,8 @@
 
                                 <div class="form-check form-switch">
                                     <input class="form-check-input" type="checkbox" role="switch"
-                                        id="flexSwitchCheckChecked" {{ $checkstate }}>
+                                        id="flexSwitchCheckChecked" {{ $checkstate }}
+                                        onclick="changeState2({{ $item->NumeroFactura }})">
                                 </div>
                             @endif
                         </td>
@@ -78,7 +82,7 @@
 
 
     </div>
-    </div>
+
 
     {{-- Detalles --}}
 
@@ -114,13 +118,23 @@
                     </select>
                 </div>
                 <div class="botonescompras p-5">
-                <button type="submit" class="btn btn-outline-primary">Enviar</button>
-                <button type="button" class="btn btn-outline-secondary"
-                    onclick="switchadicion2('selectproveedor')">Cerrar</i></button>
+                    <button type="submit" class="btn btn-outline-primary">Enviar</button>
+                    <button type="button" class="btn btn-outline-secondary"
+                        onclick="switchadicion2('selectproveedor')">Cerrar</i></button>
                 </div>
             </form>
         </div>
     </div>
+
+    {{-- Mensajes personalizados --}}
+    @if (isset($sweet_setAll))
+    <script>
+        setTimeout(() => {
+            swal_setAll("{{ $sweet_setAll['title'] }}", "{{ $sweet_setAll['msg'] }}",
+                "{{ $sweet_setAll['type'] }}");
+        }, 500);
+    </script>
+@endif
 @endsection
 
 
@@ -136,4 +150,5 @@
 
     <script src=" {{ asset('./js/layouts/cruds.js') }} "></script>
     <script src=" {{ asset('./js/layouts/asincronas.js') }} "></script>
+    <script src=" {{ asset('./js/layouts/Compras/Compras.js') }} "></script>
 @endpush

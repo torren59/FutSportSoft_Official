@@ -38,10 +38,10 @@ class SedesController extends Controller
      */
     public function create(Request $request)
     {
-        $validator = Validator::make($request->all(), 
+        $validator = Validator::make($request->all(),
         ['NombreSede'=>'min:1|unique:sedes,NombreSede|max:50','Municipio'=>'min:1|max:70','Barrio'=>'min:1|max:70','Direccion'=>'min:1|unique:sedes,Direccion|max:100'],
-        ['unique'=>'Este campo no acepta información que ya se ha registrado','min'=>'No puedes enviar este campo vacío','max'=>'Máximo de :max dígitos']);
-        
+        ['unique'=>'* Este campo no acepta información que ya se ha registrado','min'=>'* No puedes enviar este campo vacío','max'=>'* Máximo de :max dígitos']);
+
         if($validator->fails()){
             return back()->withErrors($validator)->withInput();
         }
@@ -128,13 +128,13 @@ class SedesController extends Controller
     public function update(Request $request, $id)
     {
 
-        $validator = Validator::make($request->all(), 
+        $validator = Validator::make($request->all(),
         ['NombreSede'=>'min:1','Municipio'=>'min:1|max:70','Barrio'=>'min:1|max:70','Direccion'=>'min:1|max:100'],
         ['unique'=>'Este campo no acepta información que ya se ha registrado','min'=>'No puedes enviar este campo vacío','max'=>'Máximo de :max dígitos']);
- 
+
         if($validator->fails()){
             return back()->withErrors($validator)->withInput();
-            
+
         }
         $sede = Sede::find($id);
         $Campos = ['NombreSede','Municipio','Barrio','Direccion'];

@@ -42,7 +42,7 @@
                             <input type="password" name="password" class="form-control">
 
                             @error('password')
-                                @foreach ($errors->get(-'password') as $item)
+                                @foreach ($errors->get('password') as $item)
                                     <div class="error_subtitle">
                                         {{ $item }}
                                     </div>
@@ -51,7 +51,7 @@
 
                         </div>
                         <div>
-                            <div class="a p-2">
+                            <div class="link p-2">
                                 <a href=" {{ url('acceso/restablececlave') }} ">He olvidado mi clave</a>
                             </div>
                         </div>

@@ -22,10 +22,9 @@
 
     <div class="service_list">
         <center>
-            <div class="tituloTabla">
-                <h1>PROGRAMACION</h1>
-            </div>
-            <br>
+
+            <h1>Gestión de programación</h1>
+
             @if (in_array(129, $permisos))
                 <div class="addbtn">
                     <button class="btn btn-outline-secondary col-2" onclick="switchadicion2('programacionadicion')">Nueva
@@ -85,8 +84,8 @@
 
         <div id="programacionadicion" class="adicion_off" style="width:700px;height:400px">
             <div class="floatcontent">
-                <h4 style="padding-top:5%;">Nueva Programacion</h4>
-                <hr>
+                <h2>Nueva Programacion</h2>
+
 
                 <form action={{ url('programacion/crear') }} method="post"> @csrf
 
@@ -104,8 +103,8 @@
                     @endif
 
 
-                    <div class="row">
-                        <div class="col-4">
+                    <div class="row justify-content-center">
+                        <div class="col-6">
                             <label for="DeporteId" class="form-label">Deporte</label>
                             <select name="DeporteId" class="form-select deporte_select">
                                 <option value="">Selecciona Deporte</option>
@@ -122,7 +121,7 @@
                             @enderror
                         </div>
 
-                        <div class="col-4">
+                        <div class="col-6">
                             <label for="CategoriaId" class="form-label">Categoria</label>
                             <select name="CategoriaId" class="form-select categoria_select">
                                 <option value="">Selecciona categoría</option>
@@ -136,7 +135,7 @@
                             @enderror
                         </div>
 
-                        <div class="col-4">
+                        <div class="col-6">
                             <label for="GrupoId" class="form-label">Grupo</label>
                             <select name="GrupoId" class="form-select grupo_select">
                                 <option value="">Selecciona grupo</option>
@@ -149,70 +148,74 @@
                                 </div>
                             @enderror
                         </div>
+
+
+                        <div class="col-6">
+                            <label for="SedeId" class="form-label">Sede</label>
+                            <select name="SedeId" class="form-select">
+                                <option value="">Selecciona sede</option>
+
+                                @foreach ($sedes as $item)
+                                    <option value=' {{ $item->SedeId }} '>{{ $item->NombreSede }}</option>
+                                @endforeach
+
+                            </select>
+                            @error('SedeId')
+                                <div>
+                                    @foreach ($errors->get('SedeId') as $item)
+                                        <small> {{ $item }} </small>
+                                    @endforeach
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="col-6">
+                            <label for="HorarioId" class="form-label">Horario</label>
+                            <select name="HorarioId" class="form-select">
+                                <option value="">Selecciona Horario</option>
+
+                                @foreach ($horarios as $item)
+                                    <option value=' {{ $item->HorarioId }} '>{{ $item->NombreHorario }}
+                                        {{ $item->Horario }}
+                                    </option>
+                                @endforeach
+
+                            </select>
+                            @error('HorarioId')
+                                <div>
+                                    @foreach ($errors->get('HorarioId') as $item)
+                                        <small> {{ $item }} </small>
+                                    @endforeach
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="col-6">
+                            <label for="FechaInicio" class="form-label">Fecha de Inicio</label>
+                            <input type="date" class="form-control" name="FechaInicio">
+                            @error('FechaInicio')
+                                <div>
+                                    @foreach ($errors->get('FechaInicio') as $item)
+                                        <small> {{ $item }} </small>
+                                    @endforeach
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="col-6">
+                            <label for="FechaFinalizacion" class="form-label">Fecha de Finalización</label>
+                            <input type="date" name="FechaFinalizacion" class="form-control">
+                            @error('FechaFinalizacion')
+                                <div>
+                                    @foreach ($errors->get('FechaFinalizacion') as $item)
+                                        <small> {{ $item }} </small>
+                                    @endforeach
+                                </div>
+                            @enderror
+                        </div>
                     </div>
-
-
-                    <label for="SedeId" class="form-label">Sede</label>
-                    <select name="SedeId" class="form-select">
-                        <option value="">Selecciona sede</option>
-
-                        @foreach ($sedes as $item)
-                            <option value=' {{ $item->SedeId }} '>{{ $item->NombreSede }}</option>
-                        @endforeach
-
-                    </select>
-                    @error('SedeId')
-                        <div>
-                            @foreach ($errors->get('SedeId') as $item)
-                                <small> {{ $item }} </small>
-                            @endforeach
-                        </div>
-                    @enderror
-
-                    <label for="HorarioId" class="form-label">Horario</label>
-                    <select name="HorarioId" class="form-select">
-                        <option value="">Selecciona Horario</option>
-
-                        @foreach ($horarios as $item)
-                            <option value=' {{ $item->HorarioId }} '>{{ $item->NombreHorario }} {{ $item->Horario }}
-                            </option>
-                        @endforeach
-
-                    </select>
-                    @error('HorarioId')
-                        <div>
-                            @foreach ($errors->get('HorarioId') as $item)
-                                <small> {{ $item }} </small>
-                            @endforeach
-                        </div>
-                    @enderror
-
-                    <label for="FechaInicio" class="form-label">Fecha de Inicio</label>
-                    <input type="date" class="form-control" name="FechaInicio">
-                    @error('FechaInicio')
-                        <div>
-                            @foreach ($errors->get('FechaInicio') as $item)
-                                <small> {{ $item }} </small>
-                            @endforeach
-                        </div>
-                    @enderror
-
-                    <label for="FechaFinalizacion" class="form-label">Fecha de Finalización</label>
-                    <input type="date" name="FechaFinalizacion" class="form-control">
-                    @error('FechaFinalizacion')
-                        <div>
-                            @foreach ($errors->get('FechaFinalizacion') as $item)
-                                <small> {{ $item }} </small>
-                            @endforeach
-                        </div>
-                    @enderror
-
-                    <br>
-
-                    <button type="submit" class="btn btn-primary btn-success">Guardar</i></button>
-                    <button type="button" class="btn btn-primary btn-danger"
-                        onclick="switchadicion2('programacionadicion')">Cancelar</i></button>
-
+                    <div class="botonesprogramacion p-5">
+                        <button type="submit" class="btn btn-outline-primary">Guardar</i></button>
+                        <button type="button" class="btn btn-outline-secondary"
+                            onclick="switchadicion2('programacionadicion')">Cancelar</i></button>
+                    </div>
                 </form>
             </div>
         </div>

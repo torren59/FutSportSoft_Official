@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Usuarios;
 
 use App\Http\Controllers\Controller;
 use App\Mail\passwordRetrieve;
+use App\Models\Roles\Rol;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,6 +23,10 @@ class AccesoController extends Controller
                 $sweet_setAll = ['title'=>'Cambio realizado', 'msg'=>'Ya puedes ingresar con tu nueva clave', 'type'=>'success'];
                 return view('Usuarios.login')->with('sweet_setAll',$sweet_setAll);
             break;
+            case 2:
+                $sweet_setAll = ['title'=>'Ingreso no autorizado', 'msg'=>'Tu usuario ha sido desactivado', 'type'=>'danger'];
+                return view('Usuarios.login')->with('sweet_setAll',$sweet_setAll);
+            break;
             default:
             return view('Usuarios.login');
             break;
@@ -34,23 +39,29 @@ class AccesoController extends Controller
         $credentials = request()->only('email', 'password');
 
         $validator = Validator::make(
-            $credentials,
+            $request->all(),
             ['email' => 'required|email', 'password' => 'required'],
-            ['required' => 'Campo obligatorio', 'email' => 'Necesario ingresar un email']
+            ['required' => '* Campo obligatorio', 'email' => '* Necesario ingresar un email']
         );
 
         if ($validator->fails()) {
-            return back()
+            return redirect('login')
                 ->withErrors($validator)
                 ->onlyInput('email');
         }
 
         if (Auth::attempt($credentials)) {
+            $UserId = User::select(['id'])->where('email','=',$request->email)->get();
+            $User = User::find($UserId);
+            $Rol = Rol::select(['Estado'])->where('id','=',$User[0]['RolId'] )->get();
+            if($Rol[0]['Estado'] == 0 || $User[0]['Estado'] == 0){
+                return redirect('login/2');
+            }
             $request->session()->regenerate();
-            return redirect('dashboard/panel');
+            return redirect('usuario/listar');
         }
 
-        return back()
+        return redirect('login')
             ->withErrors(['unautorizedAccess' => 'Correo o contraseña no concuerdan'])
             ->onlyInput('email');
     }
@@ -83,9 +94,9 @@ class AccesoController extends Controller
     public function SendMail(Request $request){
 
         // Validando email ingresado
-        $validator = Validator::make($request->all(), 
+        $validator = Validator::make($request->all(),
         ['email' => 'required|email|exists:users,email'],
-        ['required' => 'No envíe este campo vacío','email' => 'Solo puede ingresar un email en este campo', 
+        ['required' => 'No envíe este campo vacío','email' => 'Solo puede ingresar un email en este campo',
         'exists' => 'Esta dirección de correo electrónico no existe en nuestros registros']);
 
         if($validator->fails()){
@@ -95,7 +106,7 @@ class AccesoController extends Controller
         // Enviando email
         $Url = $this->getRetrieveUrl($request->email);
         $User = User::all(['Nombre','email'])->where('email','=',$request->email)->first();
-        Mail::to($User)->send(new passwordRetrieve($User, $Url)); 
+        Mail::to($User)->send(new passwordRetrieve($User, $Url));
 
         return view('Usuarios.passwordConfirmation')->with('email', $User->email);
 
@@ -138,7 +149,7 @@ class AccesoController extends Controller
         ])->setRememberToken(Str::random(60));
 
         $UserObj->save();
-        
+
         return redirect('login/1');
     }
 

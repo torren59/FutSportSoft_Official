@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class UsuarioController extends Controller
 {
@@ -17,29 +18,47 @@ class UsuarioController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($status = null)
     {
         $User = Auth::user();
         $RolId = $User->RolId;
         $id = $User->id;
         $ListadoUsuario = [];
-        
-        if($RolId == 1){
-            $ListadoUsuario = User::select(['users.id', 'Documento', 'Nombre', 'users.Estado', 'roles.name','Direccion','email','RolId','Celular'])
-            ->join('roles', 'users.RolId', '=', 'roles.id')
-            ->get();
-        }
-        else{
-            $ListadoUsuario = User::select(['users.id', 'Documento', 'Nombre', 'users.Estado', 'roles.name','Direccion','email','RolId','Celular'])
-            ->join('roles', 'users.RolId', '=', 'roles.id')
-            ->where('users.id','=',$id)
-            ->get();
+
+        if ($RolId == 1) {
+            $ListadoUsuario = User::select(['users.id', 'Documento', 'Nombre', 'users.Estado', 'roles.name', 'Direccion', 'email', 'RolId', 'Celular','password'])
+                ->join('roles', 'users.RolId', '=', 'roles.id')
+                ->get();
+        } else {
+            $ListadoUsuario = User::select(['users.id', 'Documento', 'Nombre', 'users.Estado', 'roles.name', 'Direccion', 'email', 'RolId', 'Celular','password'])
+                ->join('roles', 'users.RolId', '=', 'roles.id')
+                ->where('users.id', '=', $id)
+                ->get();
         }
 
         $ListadoRoles = Roles::all();
         $Listados = ['ListadoUsuario' => $ListadoUsuario, 'ListadoRoles' => $ListadoRoles];
-        return view('Usuarios.Usuario')->with('listado', $Listados);
+
+        switch ($status) {
+            case 1:
+                $sweet_setAll = ['title' => 'Registro guardado', 'msg' => 'El registro se guardó exitosamente', 'type' => 'success'];
+                return view('Usuarios.Usuario')->with('listado', $Listados)->with('sweet_setAll', $sweet_setAll);
+                break;
+            case 2:
+                $sweet_setAll = ['title' => 'Registro editado', 'msg' => 'El registro se editó exitosamente', 'type' => 'success'];
+                return view('Usuarios.Usuario')->with('listado', $Listados)->with('sweet_setAll', $sweet_setAll);
+                break;
+                case 3:
+                    $sweet_setAll = ['title' => 'Contraseña cambiada', 'msg' => 'La contraseña se cambio exitosamente', 'type' => 'success'];
+                    return view('Usuarios.Usuario')->with('listado', $Listados)->with('sweet_setAll', $sweet_setAll);
+                    break;
+                default:
+                    return view('Usuarios.Usuario')->with('listado', $Listados);
+                    break;
+        }
     }
+
+
 
 
     /**
@@ -51,8 +70,8 @@ class UsuarioController extends Controller
     {
         $validator = Validator::make(
             $request->all(),
-            ['Documento' => 'min:1|unique:users,Documento|max:11', 'Nombre' => 'min:1|max:50', 'IdRol' => 'min:1|max:30|required', 'Direccion' => 'min:1|max:50', 'FechaNacimiento' => 'min:1|max:30','email' => 'min:1|max:70','Celular' => 'min:1|max:11'],
-            ['unique' => 'Este campo no acepta información que ya se ha registrado', 'min' => 'No puedes enviar este campo vacío', 'max' => 'Máximo de :max dígitos']
+            ['Documento' => 'min:1|unique:users,Documento|max:10', 'Nombre' => 'min:1|max:50', 'RolId' => 'min:1|max:30|required', 'Direccion' => 'min:1|max:50', 'FechaNacimiento' => 'min:1|max:30', 'email' => 'min:1|unique:users,email|max:50', 'Celular' => 'min:1|max:11','password' => 'min:1|max:30'],
+            ['unique' => '* Este campo no acepta información que ya se ha registrado', 'min' => '* No puedes enviar este campo vacío', 'max' => '* Máximo de :max dígitos']
 
         );
 
@@ -63,13 +82,14 @@ class UsuarioController extends Controller
         $id = $Usuario::creadorPK($Usuario, 100);
         $Usuario->password = Hash::make($request->password);
         $Usuario->Documento = $id;
-        $Campos = ['Documento', 'Nombre', 'RolId', 'Direccion', 'Celular', 'email',  'FechaNacimiento', 'Estado'];
+        $Usuario->forceFill([])->setRememberToken(Str::random(60));
+        $Campos = ['Documento', 'Nombre', 'RolId', 'Direccion', 'Celular', 'email',  'FechaNacimiento','password'];
         foreach ($Campos as $item) {
             $Usuario->$item = $request->$item;
         }
 
         $Usuario->save();
-        return redirect('usuario/listar');
+        return redirect('usuario/listar/1');
     }
 
     /**
@@ -102,7 +122,7 @@ class UsuarioController extends Controller
      */
     public function edit($id)
     {
-        $Selected =  User::select('Nombre', 'roles.id as RolId', 'users.id', 'roles.name', 'Celular', 'email', 'Direccion', 'FechaNacimiento')
+        $Selected =  User::select('Nombre', 'roles.id as RolId', 'users.id', 'roles.name', 'Celular', 'email', 'Direccion', 'FechaNacimiento', 'users.Estado')
             ->join('roles', 'users.RolId', '=', 'roles.id')->where('users.id', '=', $id)
             ->get();
         $Roles = Roles::select(['roles.id', 'roles.name'])->get();
@@ -121,8 +141,8 @@ class UsuarioController extends Controller
     {
         $validator = Validator::make(
             $request->all(),
-            ['Nombre' => 'min:1|max:50', 'RolId' => 'min:1|max:50', 'Direccion' => 'min:1|max:70', 'Celular' => 'min:1|max:10', 'email' => 'min:1|max:70', 'Direccion' => 'min:1|max:70', 'FechaNacimiento' => 'min:1|max:50','Celular' => 'min:1|max:11'],
-            ['unique' => 'Este campo no acepta información que ya se ha registrado', 'min' => 'No puedes enviar este campo vacío', 'max' => 'Máximo de :max dígitos']
+            ['Nombre' => 'min:1|max:50', 'RolId' => 'min:1|max:50', 'Direccion' => 'min:1|max:70', 'Celular' => 'min:1|max:10','email' => 'min:1|max:50' , 'Direccion' => 'min:1|max:70', 'FechaNacimiento' => 'min:1|max:50', 'Celular' => 'min:1|max:11'],
+            ['unique' => '* Este campo no acepta información que ya se ha registrado', 'min' => '* No puedes enviar este campo vacío', 'max' => '* Máximo de :max dígitos']
         );
 
         if ($validator->fails()) {
@@ -134,13 +154,15 @@ class UsuarioController extends Controller
             $Usuario->$item = $request->$item;
         }
         $Usuario->save();
-        return redirect('usuario/listar');
+        return redirect('usuario/listar/2');
     }
 
     public function newPassword($id)
     {
         $User = User::find($id);
-        return view('Usuarios.cambiarclave')->with('User', $User);
+        $Operator = Auth::user();
+        $RolId = $Operator->RolId;
+        return view('Usuarios.cambiarclave')->with('User', $User)->with('RolId',$RolId);
     }
 
     public function changePassword(Request $request)
@@ -148,22 +170,29 @@ class UsuarioController extends Controller
         // Recibiendo ID y clave
         $UserId = $request->id;
         $NewPassword = $request->password;
+        $User = User::find($UserId);
+        $Operator = Auth::user();
+
+        $RolId = $Operator->RolId;
 
         // Validando clave
         $validator = Validator::make(
             $request->all(),
-            ['password' => 'required|max:15|same:confirmacion', 'confirmacion' => 'required', 'actual_password' => 'required'],
-            ['required' => 'Evite enviar este campo vacío', 'max' => 'La clave no debe exceder un máximo de :max caracteres', 'same' => 'Clave no coincide con confirmacion']
+            ['password' => 'required|max:15|same:confirmacion', 'confirmacion' => 'required'],
+            ['required' => '* Evite enviar este campo vacío', 'max' => '* La clave no debe exceder un máximo de :max caracteres', 'same' => '* Clave no coincide con confirmacion']
         );
+        if($RolId != 1){
 
-        $User = User::find($UserId);
-        if (!Hash::check($request->actual_password, $User->password)) {
-            $validator->after(function ($validator) {
-                $validator->errors()->add(
-                    'actual_password',
-                    'Esta no es tu clave actual'
-                );
-            });
+            $User = User::find($UserId);
+            if (!Hash::check($request->actual_password, $User->password)) {
+                $validator->after(function ($validator) {
+                    $validator->errors()->add(
+                        'actual_password',
+                        'Esta no es tu clave actual'
+                    );
+                });
+            }
+
         }
 
 
@@ -178,7 +207,7 @@ class UsuarioController extends Controller
         ]);
         $User->save();
 
-        return redirect('usuario/listar');
+        return redirect('usuario/listar/3');
     }
 
     /**
@@ -191,6 +220,24 @@ class UsuarioController extends Controller
     {
         //
     }
+
+    public function changeState(Request $request){
+        $id = json_decode($request->id);
+        $User = User::find($id);
+
+        if($User->Estado == true){
+            $User->Estado = false;
+        }
+        else{
+            $User->Estado = true;
+        }
+
+        $User->save();
+
+        return json_encode($User);
+
+    }
+
 
     public function getDetalle(Request $request)
     {

@@ -21,7 +21,7 @@
     <div class="service_list">
         <center>
             <div class="tituloTabla">
-                <h1>HORARIOS</h1>
+                <h1>Gestión de horarios</h1>
             </div>
         </center>
 
@@ -49,8 +49,8 @@
                     <tr>
                         <td>
                             @if (in_array(136, $permisos))
-                                <a href="{{ url('horario/editar/' . $item->HorarioId) }}"><button class="btn btn-primary"><i
-                                            class="fa-solid fa-pen"></i></button></a>
+                                <a href="{{ url('horario/editar/' . $item->HorarioId) }}"><button
+                                        class="btn btn-outline-primary"><i class="fa-solid fa-pen"></i></button></a>
                             @endif
                         </td>
                         <td>{{ $item->HorarioId }}</td>
@@ -88,8 +88,8 @@
 
         <div id="horarioadicion" class="adicion_off" style="width:500px;height:300px">
             <div class="floatcontent">
-                <h4 style="padding-top:5%;">Nuevo Horario</h4>
-                <hr>
+                <h2>Nuevo Horario</h2>
+
 
                 <form action={{ url('horario/crear') }} method="post"> @csrf
 
@@ -123,11 +123,11 @@
 
 
 
-                    <br>
-                    <button type="submit" class="btn btn-primary btn-success">Guardar</i></button>
-                    <button type="button" class="btn btn-primary btn-danger"
-                        onclick="switchadicion2('horarioadicion')">Cancelar</i></button>
-
+                    <div class="botoneshorarios p-5">
+                        <button type="submit" class="btn btn-outline-primary">Guardar</i></button>
+                        <button type="button" class="btn btn-outline-secondary"
+                            onclick="switchadicion2('horarioadicion')">Cancelar</i></button>
+                    </div>
                 </form>
             </div>
         </div>

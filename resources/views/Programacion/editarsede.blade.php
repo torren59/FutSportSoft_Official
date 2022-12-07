@@ -15,74 +15,82 @@
 
 @section('content')
     @foreach ($sededata as $item)
-        <form action={{ url('sede/actualizar/'.$item->SedeId) }} method="post">
+        <form action={{ url('sede/actualizar/' . $item->SedeId) }} method="post">
     @endforeach
 
     @csrf
     <div class="grid_triple_center">
         <div class="grid_span_2a3">
-            <div class="adicion_title">
-                <h1>Editar Sede</h1>
-            </div>
+            <div class="container text-center">
+                <div class="row justify-content-center p-5">
+                    <div class="card col-6">
 
-            @foreach ($sededata as $item)
-            <div class="col-12">
-                <label for="NombreSede" class="form-label">Nombre</label>
-                <input type="text" class="form-control" name="NombreSede" value="{{ old('NombreSede',$item->NombreSede) }}">
-                @error('NombreSede')
-                    <div>
-                        @foreach ($errors->get('NombreSede') as $item)
-                            <small> {{ $item }} </small>
+                        <h1>Editar Sede</h1>
+
+
+                        @foreach ($sededata as $item)
+                        <div class="row justify-content-center">
+                            <div class="col-6">
+                                <label for="NombreSede" class="form-label">Nombre</label>
+                                <input type="text" class="form-control" name="NombreSede"
+                                    value="{{ old('NombreSede', $item->NombreSede) }}">
+                                @error('NombreSede')
+                                    <div>
+                                        @foreach ($errors->get('NombreSede') as $item)
+                                            <small> {{ $item }} </small>
+                                        @endforeach
+                                    </div>
+                                @enderror
+                            </div>
+
+                                <div class="col-6">
+                                    <label for="Municipio" class="form-label">Municipio</label>
+                                    <input type="text" class="form-control" name="Municipio"
+                                        value=" {{ old('Municipio', $item->Municipio) }} ">
+                                    @error('Municipio')
+                                        <div>
+                                            @foreach ($errors->get('Municipio') as $item)
+                                                <small> {{ $item }} </small>
+                                            @endforeach
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="col-6">
+                                    <label for="Barrio" class="form-label">Barrio</label>
+                                    <input type="text" class="form-control" name="Barrio"
+                                        value=" {{ old('Barrio', $item->Barrio) }} ">
+                                    @error('Barrio')
+                                        <div>
+                                            @foreach ($errors->get('Barrio') as $item)
+                                                <small> {{ $item }} </small>
+                                            @endforeach
+                                        </div>
+                                    @enderror
+                                </div>
+
+                            <div class="col-6">
+                                <label for="Direccion" class="form-label">Direccion</label>
+                                <input type="text" class="form-control" name="Direccion"
+                                    value=" {{ old('Direccion', $item->Direccion) }} ">
+                                @error('Direccion')
+                                    <div>
+                                        @foreach ($errors->get('Direccion') as $item)
+                                            <small> {{ $item }} </small>
+                                        @endforeach
+                                    </div>
+                                @enderror
+                            </div>
                         @endforeach
                     </div>
-                @enderror
-            </div>
-
-            <div class="row col-12">
-                <div class="col-6">
-                    <label for="Municipio" class="form-label">Municipio</label>
-                    <input type="text" class="form-control" name="Municipio" value=" {{ old('Municipio',$item->Municipio) }} ">
-                    @error('Municipio')
-                        <div>
-                            @foreach ($errors->get('Municipio') as $item)
-                                <small> {{ $item }} </small>
-                            @endforeach
+                        <div class="botonessedes p-5">
+                            <button type="submit" class="btn btn-outline-primary">Guardar</i></button>
+                            <a href=" {{ url('sede/listar') }} "><button type="button"
+                                    class="btn btn-outline-secondary">Cancelar</i></button></a>
                         </div>
-                    @enderror
-                </div>
-                <div class="col-6">
-                    <label for="Barrio" class="form-label">Barrio</label>
-                    <input type="text" class="form-control" name="Barrio" value=" {{ old('Barrio',$item->Barrio) }} ">
-                    @error('Barrio')
-                        <div>
-                            @foreach ($errors->get('Barrio') as $item)
-                                <small> {{ $item }} </small>
-                            @endforeach
-                        </div>
-                    @enderror
-                </div>
-            </div>
 
-            <div class="col-12">
-                <label for="Direccion" class="form-label">Direccion</label>
-                <input type="text" class="form-control" name="Direccion" value=" {{ old('Direccion',$item->Direccion) }} ">
-                @error('Direccion')
-                    <div>
-                        @foreach ($errors->get('Direccion') as $item)
-                            <small> {{ $item }} </small>
-                        @endforeach
                     </div>
-                @enderror
+                </div>
             </div>
-            @endforeach
-
-            <div class="col-12">
-                <button type="submit" class="btn btn-primary btn-success">Guardar</i></button>
-                <a href=" {{ url('sede/listar') }} "><button type="button"
-                        class="btn btn-primary btn-danger">Cancelar</i></button></a>
-            </div>
-
-
         </div>
     </div>
 

@@ -16,30 +16,24 @@
     @foreach ($data['categorias'] as $item)
         <form action={{ url('categoria/actualizar/' . $item->CategoriaId) }} method="post"> @csrf
     @endforeach
-    <div class="container p-5">
-        <div class="row justify-content-center" style="margin-top: 2rem;">
+    <div class="container p-5 text-center">
+        <div class="row justify-content-center">
             <div class="card col-6">
                 <div class="titulo text-center">
-                    <h1>Editar Categoria</h1>
+                    <h1>Editar Categoría</h1>
                 </div>
-                <br>
-                <div class="row">
-                    @foreach ($data['categorias'] as $item)
-                        <div class="col-4">
-                            <label for="roles" class="form-label">Deportes</label>
-                            <select class="form-select"  name="DeporteId" aria-label="Default select example">
-                                <option selected value="{{$item->DeporteId}}">{{$item->NombreDeporte}}</option>
-                                @foreach ($data['deportes'] as $item2)
-                                    <option value="{{ $item2->DeporteId }}">{{ $item2->NombreDeporte }}</option>
-                                @endforeach
-                            </select>
-                        </div>
 
-
-                        <div class="col-4">
+                @foreach ($data['categorias'] as $item)
+                    <div class="row justify-content-center">
+                        <div class="col-8">
                             <label for="NombreCategoria" class="form-label">Nombre de Categoría</label>
                             <input type="text" class="form-control" name="NombreCategoria"
-                                value=" {{ old('NombreCategoria', $item->NombreCategoria) }}">
+                            @if ($errors->any())
+                            value = {{old('NombreCategoria')}}
+                            @else
+                            value={{$item->NombreCategoria}}
+                            @endif>
+
                             @error('NombreCategoria')
                                 <div>
                                     @foreach ($errors->get('NombreCategoria') as $item)
@@ -50,13 +44,24 @@
                             @enderror
                         </div>
 
-
-
+                        <div class="col-6">
+                            <label for="roles" class="form-label">Deportes</label>
+                            <select class="form-select" name="DeporteId" aria-label="Default select example">
+                                <option selected value="{{ $item->DeporteId }}">{{ $item->NombreDeporte }}</option>
+                                @foreach ($data['deportes'] as $item2)
+                                    <option value="{{ $item2->DeporteId }}">{{ $item2->NombreDeporte }}</option>
+                                @endforeach
+                            </select>
+                        </div>
 
                         <div class="col-6">
                             <label for="RangoEdad" class="form-label">Rango de Edad</label>
                             <input type="text" class="form-control" name="RangoEdad"
-                                value="{{ old('RangoEdad', $item->RangoEdad)}}">
+                            @if ($errors->any())
+                            value = {{old('RangoEdad')}}
+                            @else
+                            value={{$item->RangoEdad}}
+                            @endif>
                             @error('RangoEdad')
                                 <div>
                                     @foreach ($errors->get('RangoEdad') as $item)
@@ -65,9 +70,9 @@
                                 </div>
                             @enderror
                         </div>
+                    </div>
+                @endforeach
 
-                    @endforeach
-                </div>
 
                 <div class="botonesusuarios p-5 text-center">
                     <button type="submit" class="btn btn-outline-primary">Guardar</i></button>
@@ -91,7 +96,4 @@
 
 
     <script src=" {{ asset('./js/layouts/cruds.js') }} "></script>
-
-
-
 @endpush

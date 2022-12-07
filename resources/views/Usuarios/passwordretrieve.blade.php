@@ -16,36 +16,38 @@
 <body>
     <div id="background-container-mainsite">
         <div class="contenido" style="height:100%">
-            <div class="floatmodal" style="width:40%;height:40%">
+            <div class="floatmodal" style="width:30%;height:40%">
                 <div class="floatcontent">
-                    <div>
+                    <div class="p-5">
                         <h3>Ingrese su correo</h3>
-                        <small>Recuerda que debe ser el correo con el cual accedes a tu perfil</small>
+                        <small>* Recuerda que debe ser el correo con el cual accedes a tu perfil</small>
                     </div>
                     <form action=" {{ url('acceso/enviamail') }} " method="post">
                         @csrf
-                        <div>
-                            <label for="email" class="form-label">Correo</label>
-                            <input type="email" name="email" class="form-control" value=" {{ old('email') }} ">
+                        <div class="row justify-content-center">
+                            <div class="col-6">
+                                <label for="email" class="form-label">Correo</label>
+                                <input type="email" name="email" class="form-control" value=" {{ old('email') }} ">
 
-                            @error('email')
-                                @foreach ($errors->get('email') as $item)
-                                    <div class="error_subtitle">
-                                        {{ $item }}
-                                    </div>
-                                @endforeach
-                            @enderror
+                                @error('email')
+                                    @foreach ($errors->get('email') as $item)
+                                        <div class="error_subtitle">
+                                            {{ $item }}
+                                        </div>
+                                    @endforeach
+                                @enderror
 
+                            </div>
                         </div>
 
-                        <br>
-                        <div>
-                            <button type="submit" class="btn btn-success">Recuperar</button>
+
+                        <div class="botnesrecuperarpassword p-5">
+                            <button type="submit" class="btn btn-outline-primary">Recuperar</button>
+                            <a href=" {{ url('/') }} "><button type="button" class="btn btn-outline-secondary">Volver al
+                                    login</button></a>
                         </div>
-                        <br>
-                        <div>
-                            <a href=" {{url('/')}} "><button type="button" class="btn btn-warning">Volver al login</button></a>
-                        </div>
+
+
                     </form>
                 </div>
             </div>
@@ -55,5 +57,22 @@
 
     <script src=" {{ asset('js/layouts/cruds.js') }} "></script>
 </body>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        background-image: url("../../img/layouts/login2.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center center;
+        background-attachment: fixed;
+
+
+    }
+</style>
 
 </html>

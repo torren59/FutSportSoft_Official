@@ -331,3 +331,18 @@ h4 {
 .One_In_Flex {
     width: 100%;
 }
+
+.grid_doble_superderecharoles {
+    display: grid;
+    width: 100%;
+    height: 30vh;
+    grid-template-columns: 4fr 0fr;
+    text-align: justify;
+}
+
+small{
+    -webkit-text-stroke: 0.9px red !important;
+    font-family: 'Source Sans Pro', sans-serif;
+        text-align: justify;
+        color:red;
+}

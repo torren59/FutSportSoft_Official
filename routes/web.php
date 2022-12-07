@@ -65,23 +65,26 @@ Route::controller(DashboardController::class)->middleware('auth')->group(
 
 Route::controller(RolesController::class)->middleware('auth')->group(
     function () {
-        Route::get('roles/listar', 'index')->middleware('IsAuthorized:100');
+        Route::get('roles/listar/{status?}', 'index')->middleware('IsAuthorized:100');
         Route::post('roles/crear', 'create')->middleware('IsAuthorized:119');
         Route::get('roles/editar/{id}','edit')->middleware('IsAuthorized:132');
         Route::get('roles/getDetalle/{id?}','getDetalle')->middleware('IsAuthorized:114');
-        Route::post('roles/actualizar/{id}','update');
+        Route::post('roles/actualizar','update');
+        Route::post('roles/cambiarEstado','changeState');
+
     }
 );
 
 Route::controller(ComprasController::class)->middleware('auth')->group(
     function () {
-        Route::get('compras/listar', 'index')->middleware('IsAuthorized:102');
+        Route::get('compras/listar/{status?}', 'index')->middleware('IsAuthorized:102');
         Route::any('compras/crearproveedor', 'create')->middleware('IsAuthorized:121');
-        Route::get('compras/create', 'createview')->middleware('IsAuthorized:121');
+        // Route::get('compras/create', 'createview')->middleware('IsAuthorized:121');
         Route::post('compras/store', 'store');
         Route::get('compras/editar/{id}','edit');
         Route::get('compras/getDetalle/{NumeroFactura?}','getDetalle')->middleware('IsAuthorized:116');
         Route::post('/compras/listaseleccionados','listselected');
+        Route::post('compras/cambiarEstado','changeState');
 
 
     }
@@ -91,9 +94,10 @@ Route::controller(GruposController::class)->middleware('auth')->group(
     function () {
         Route::get('grupos/listar', 'index')->middleware('IsAuthorized:109');
         Route::post('grupos/store', 'store')->middleware('IsAuthorized:128');
+        Route::post('grupos/crear', 'create')->middleware('IsAuthorized:128');
         Route::get('grupos/editar/{GrupoId}','edit')->middleware('IsAuthorized:140');
         Route::get('grupos/getDetalle/{GruposId?}','getDetalle')->middleware('IsAuthorized:117');
-        Route::post('/grupos/listaseleccionados','listselected');
+
 
 
     }
@@ -101,22 +105,25 @@ Route::controller(GruposController::class)->middleware('auth')->group(
 
 Route::controller(UsuarioController::class)->middleware('auth')->group(
     function () {
-        Route::get('usuario/listar', 'index')->middleware('IsAuthorized:101');
+        Route::get('usuario/listar/{status?}', 'index')->middleware('IsAuthorized:101');
         Route::post('usuario/crear', 'create')->middleware('IsAuthorized:120');
         Route::get('usuario/editar/{id}','edit')->middleware('IsAuthorized:133');
         Route::get('usuario/getDetalle/{id?}','getDetalle')->middleware('IsAuthorized:115');
         Route::post('usuario/actualizar/{id}','update');
         Route::get('usuario/newpassword/{id}','newPassword')->middleware('IsAuthorized:142');
         Route::post('usuario/changepassword','changePassword');
+        Route::post('usuario/cambiarEstado','changeState');
     }
 );
 
 Route::controller(CategoriaController::class)->middleware('auth')->group(
     function () {
-        Route::get('categoria/listar', 'index')->middleware('IsAuthorized:108');
+        Route::get('categoria/listar/{status?}', 'index')->middleware('IsAuthorized:108');
         Route::post('categoria/crear', 'create')->middleware('IsAuthorized:127');
         Route::get('categoria/editar/{id}','edit')->middleware('IsAuthorized:139');
         Route::post('categoria/actualizar/{id}','update');
+        Route::post('categoria/cambiarEstado','changeState');
+        Route::post('categoria/puedeCambiar','canChange');
     }
 );
 

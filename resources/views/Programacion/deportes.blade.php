@@ -22,11 +22,11 @@
 
     <div class="service_list">
         <center>
-            <div class="tituloTabla">
-                <h1>Deportes</h1>
-            </div>
+
+            <h1> Gestión de deportes</h1>
+
         </center>
-        <br>
+
 
         @if (in_array(130, $permisos))
             <div class="addbtn">
@@ -50,8 +50,8 @@
                     <tr>
                         <td>
                             @if (in_array(141, $permisos))
-                                <a href="{{ url('deporte/editar/' . $item->DeporteId) }}"><button class="btn btn-primary"><i
-                                            class="fa-solid fa-pen"></i></button></a>
+                                <a href="{{ url('deporte/editar/' . $item->DeporteId) }}"><button
+                                        class="btn btn-outline-primary"><i class="fa-solid fa-pen"></i></button></a>
                             @endif
                         </td>
                         <td>{{ $item->DeporteId }}</td>
@@ -68,8 +68,8 @@
 
                                 <div class="form-check form-switch">
                                     <input class="form-check-input" type="checkbox" role="switch"
-                                    id="check_{{ $item->DeporteId }}" {{ $checkstate }}
-                                    onclick="tryChange('{{ $item->DeporteId }}', 'errorsEstado')">
+                                        id="check_{{ $item->DeporteId }}" {{ $checkstate }}
+                                        onclick="tryChange('{{ $item->DeporteId }}', 'errorsEstado')">
                                 </div>
                             @endif
                         </td>
@@ -84,26 +84,29 @@
 
         <div id="deporteadicion" class="adicion_off" style="width:600px;height:300px">
             <div class="floatcontent">
-                <h4 style="padding-top:5%;">Nuevo Deporte</h4>
-                <hr>
+                <h1>Nuevo Deporte</h1>
 
                 <form action={{ url('deporte/crear') }} method="post"> @csrf
-
-                    <label for="NombreSede" class="form-label">Nombre deporte</label>
-                    <input type="text" class="form-control" name="NombreDeporte" value="{{ old('NombreDeporte') }}">
-                    @error('NombreDeporte')
-                        <div>
-                            @foreach ($errors->get('NombreDeporte') as $item)
-                                <small> {{ $item }} </small>
-                            @endforeach
+                    <div class="row justify-content-center">
+                        <div class="col-8">
+                            <label for="Nombredeporte" class="form-label">Nombre deporte</label>
+                            <input type="text" class="form-control" name="NombreDeporte"
+                                value="{{ old('NombreDeporte') }}">
+                            @error('NombreDeporte')
+                                <div>
+                                    @foreach ($errors->get('NombreDeporte') as $item)
+                                        <small> {{ $item }} </small>
+                                    @endforeach
+                                </div>
+                            @enderror
                         </div>
-                    @enderror
+                    </div>
 
-                    <br>
-                    <button type="submit" class="btn btn-primary btn-success">Guardar</i></button>
-                    <button type="button" class="btn btn-primary btn-danger"
-                        onclick="switchadicion2('deporteadicion')">Cancelar</i></button>
-
+                    <div class="botonesdeporte p-5">
+                        <button type="submit" class="btn btn-outline-primary">Guardar</i></button>
+                        <button type="button" class="btn btn-outline-secondary"
+                            onclick="switchadicion2('deporteadicion')">Cancelar</i></button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -137,14 +140,15 @@
             @endforeach
         @endif
 
-                {{-- Mensajes personalizados --}}
-                @if (isset($sweet_setAll))
-                <script>
-                    setTimeout(() => {
-                        swal_setAll("{{$sweet_setAll['title']}}","{{$sweet_setAll['msg']}}","{{$sweet_setAll['type']}}");
-                    },500);
-                </script>
-            @endif
+        {{-- Mensajes personalizados --}}
+        @if (isset($sweet_setAll))
+            <script>
+                setTimeout(() => {
+                    swal_setAll("{{ $sweet_setAll['title'] }}", "{{ $sweet_setAll['msg'] }}",
+                        "{{ $sweet_setAll['type'] }}");
+                }, 500);
+            </script>
+        @endif
 
     </div>
 

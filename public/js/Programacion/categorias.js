@@ -1,17 +1,17 @@
 /**
- * @param {int} sedeId
+ * @param {int} categoriaId
  * @return boolean Estado
  */
- function changeNow(sedeId){
-    let Estado = $('#check_'+sedeId).prop('checked');
+ function changeNow(categoriaId){
+    let Estado = $('#check_'+categoriaId).prop('checked');
     return Estado;
 }
 
 /**
- * @param {int} SedeId
+ * @param {int} CategoriaId
  * @return {string} Msg
  */
- async function getRows(sedeId){
+ async function getRows(categoriaId){
 
     $.ajaxSetup({
         headers: {
@@ -19,11 +19,11 @@
         }
     });
 
-    let sedes = await $.ajax({
+    let categorias = await $.ajax({
         type: 'post',
-        url: '/sede/puedeCambiar',
+        url: '/categoria/puedeCambiar',
         dataType: 'json',
-        data: { 'SedeId': JSON.stringify(sedeId) },
+        data: { 'CategoriaId': JSON.stringify(categoriaId) },
         success: function (data) {
         },
         error: function (data) {
@@ -32,18 +32,18 @@
     });
 
     console.log('rows');
-    console.log(sedes);
+    console.log(categorias);
 
-    return sedes;
+    return categorias;
 }
 
 
 /**
- * @param {array} sedes
+ * @param {array} categorias
  * @return boolean Permission
  */
- function canChange(sedes){
-    if(sedes.length > 0){
+ function canChange(categorias){
+    if(categorias.length > 0){
         return false;
     }
     else{
@@ -52,20 +52,20 @@
 }
 
 /**
- * @param {int} sedeId
+ * @param {int} categoriaId
  */
-function cancelUncheck(sedeId){
-    $('#check_'+sedeId).prop('checked',true);
+function cancelUncheck(categoriaId){
+    $('#check_'+categoriaId).prop('checked',true);
 }
 
 /**
- * @param {Array} sedes
+ * @param {Array} categorias
  */
-function setMsg(sedes){
+function setMsg(categorias){
     let msg = "";
-    let rows = sedes.length;
-    msg += 'Sede '+ sedes[0].NombreSede +' vinculada a la programación con id ';
-    msg += sedes[0].ProgramacionId+' <br> Total programaciones vinculadas: '+(rows);
+    let rows = categorias.length;
+    msg += 'Categoria '+ categorias[0].NombreCategoria +' vinculada al grupo con id ';
+    msg += categorias[0].GrupoId+' <br> Total grupos vinculados: '+(rows);
 
     $('#errorsEstadoMsg').html(msg);
 }
@@ -88,9 +88,9 @@ function alterModal(modalId){
 }
 
 /**
- * @param {int} sedeId
+ * @param {int} categoriaId
  */
-async function changeState(sedeId){
+async function changeState(categoriaId){
 
     $.ajaxSetup({
         headers: {
@@ -100,10 +100,10 @@ async function changeState(sedeId){
 
     $.ajax({
         type: 'post',
-        url: '/sede/cambiarEstado',
+        url: '/categoria/cambiarEstado',
         dataType: 'json',
         data: {
-            'SedeId': JSON.stringify(sedeId),
+            'CategoriaId': JSON.stringify(categoriaId),
         },
         success: function (data) {
         },
@@ -116,23 +116,23 @@ async function changeState(sedeId){
 
 /**
  *
- * @param {int} sedeId
+ * @param {int} categoriaId
  * @param {string} modalId
  */
-async function tryChange(sedeId, modalId){
-    if(changeNow(sedeId)){
-        changeState(sedeId);
+async function tryChange(categoriaId, modalId){
+    if(changeNow(categoriaId)){
+        changeState(categoriaId);
         return;
     }
 
-    let sedes = await getRows(sedeId);
+    let categorias = await getRows(categoriaId);
 
-    if(!canChange(sedes)){
-        cancelUncheck(sedeId);
-        setMsg(sedes);
+    if(!canChange(categorias)){
+        cancelUncheck(categoriaId);
+        setMsg(categorias);
         alterModal(modalId);
         return;
     }
 
-    changeState(sedeId);
+    changeState(categoriaId);
 }

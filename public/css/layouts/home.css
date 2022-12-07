@@ -339,11 +339,12 @@ font-family: 'Source Sans Pro', sans-serif;
   .btn-outline-dark{
     color: whitesmoke;
   }
-  a{
+   .link{
     -webkit-text-stroke: 0.9px grey !important;
     font-family: 'Source Sans Pro', sans-serif;
         text-align: justify;
         color: black;
+        text-align: center;
   }
 
 

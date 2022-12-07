@@ -72,50 +72,7 @@ function listar() {
     });
 }
 
-function listarDeportistas() {
-    let checks = $(".lista_productos").find(".productcheck");
-    let arr = new Array();
-    arr = checks.toArray();
-    let Seleccionados = new Array();
 
-    arr.forEach((element) => {
-        if ($(element).prop("checked")) {
-            Seleccionados.push($(element).val());
-        }
-    });
-
-    $.ajaxSetup({
-        headers: {
-            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-        },
-    });
-
-    $.ajax({
-        type: "post",
-        url: "/grupos/listaseleccionados",
-        dataType: "json",
-        data: { seleccionados: JSON.stringify(Seleccionados) },
-        success: function (data) {
-            let lista_selects = "";
-
-            data.forEach((element) => {
-                lista_selects +=
-                    '<div class="col-md-6 btn btn-primary" style="width:100%;height:170px;margin-bottom:5px;">' +
-                    element.Nombre +
-                    "<br>" +
-                    "Documento " +
-                    element.Documento +
-                    "</div>";
-                console.log(element.Nombre, element.Documento);
-            });
-
-            $(".lista_selects").html(lista_selects);
-        },
-        error: function (data) {
-            alert("Error " + data);
-        },
-    });
-}
 
 function push_categorias() {
     let DeporteId = parseInt($(".deporte_select").val());
@@ -177,13 +134,7 @@ function push_grupos() {
     });
 }
 
-function changeState(Nombre, Id) {
-    swal.fire({
-        title: "Guardado",
-        icon: "success",
-        text: "Deseas desactivar " + Nombre + "Con ID" + Id,
-    });
-}
+
 
 function detalleCompras(NumeroFactura, IdModal, IdDiv) {
     Contenido = "";
@@ -247,18 +198,58 @@ function detalleCompras(NumeroFactura, IdModal, IdDiv) {
                 Contenido += "<hr/>";
             });
 
-            // NumeroFactura
-            // NombreEmpresa
-            // FechaCompra
-            // NombreProducto
-            // Talla
-            // Cantidad
-            // Precio Unitario
-
             // Inyección de info en el documento y llamado al modal
             $("#" + IdDiv).html(Contenido);
             switchadicion2(IdModal);
             console.log(Compra["NombreEmpresa"]);
+        },
+
+        error: function (data) {
+            alert("Error " + data);
+        },
+    });
+}
+
+// Detalles para roles
+function DetalleRoles(id, IdModal, IdDiv) {
+    Contenido = "";
+
+    $.ajax({
+        type: "get",
+        url: "/roles/getDetalle/",
+        dataType: "json",
+        data: { id: JSON.stringify(id) },
+
+        success: function (data) {
+            PermisosTotalData = Object.entries(data);
+            // Las variables contiene la info de compra y los artículos de la misma respectivamente
+            Roles = PermisosTotalData[0][1][0];
+            Permiso = PermisosTotalData[1][1];
+
+            //  Llenado de variable con html, cambiar diseño o estructura HTML desde aquí
+            Contenido +=
+                '<div class="container" style="text-align:center">' +
+                "<p><h4>Nombre del Rol: " +
+                Roles["name"] +
+                "</h4>" +
+                "</div>";
+            Contenido +=
+                "<center><div><h1>Permisos Asociados</h1></div></center>";
+            Contenido += "<hr/>";
+            Permiso.forEach((element) => {
+                Contenido +=
+                    '<div class=" card p-2 col-md-6" style="width:90%;height:50px;box-shadow: 0px 10px 10px -6px black;margin:5px;">' +
+                    "<h4>Producto: " +
+                    element["NombrePermiso"] +
+                    "</h4>" +
+                    "</div>";
+                Contenido += "<hr/>";
+            });
+
+            // Inyección de info en el documento y llamado al modal
+            $("#" + IdDiv).html(Contenido);
+            switchadicion2(IdModal);
+            console.log(Roles["name"]);
         },
 
         error: function (data) {
@@ -283,17 +274,30 @@ function detalleUsuario(id, IdModal, IdDiv) {
             Usuario = TotalData[0][1];
 
             // // Llenado de variable con html, cambiar diseño o estructura HTML desde aquí
-            Contenido += "<div>Documento: " + Usuario["Documento"] + "</div>";
-            Contenido += "<div>Nombre: " + Usuario["Nombre"] + "</div>";
-            Contenido += "<div>Rol: " + Usuario["name"] + "</div>";
-            Contenido += "<div>N° Contacto: " + Usuario["Celular"] + "</div>";
             Contenido +=
-                "<div>Correo electrónico: " + Usuario["email"] + "</div>";
-            Contenido +=
-                "<div>Fecha de nacimiento: " +
+                '<div class="container" style="text-align:center">' +
+                "<h4>Documento: " +
+                Usuario["Documento"] +
+                "</h4>" +
+                "<h4>Nombre: " +
+                Usuario["Nombre"] +
+                "</h4>" +
+                "<h4>Rol: " +
+                Usuario["name"] +
+                "</h4>" +
+                "<h4>N° Contacto: " +
+                Usuario["Celular"] +
+                "</h4>" +
+                "<h4>Correo electrónico: " +
+                Usuario["email"] +
+                "</h4>" +
+                "<h4>Fecha de nacimiento: " +
                 Usuario["FechaNacimiento"] +
+                "</h4>" +
+                "<h4>Dirección: " +
+                Usuario["Direccion"] +
+                "</h4>" +
                 "</div>";
-            Contenido += "<div>Dirección: " + Usuario["Direccion"] + "</div>";
 
             // Inyección de info en el documento y llamado al modal
             $("#" + IdDiv).html(Contenido);

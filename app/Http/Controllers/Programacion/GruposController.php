@@ -21,16 +21,15 @@ class GruposController extends Controller
      */
     public function index()
     {
-        $ListadoGrupos = Grupos::select(['GrupoId','categorias.NombreCategoria','users.Nombre','NombreGrupo','grupos.Estado'])
-        ->join('users','grupos.Documento','=','users.Documento')
-        ->join('categorias','grupos.CategoriaId','=','categorias.CategoriaId')
-
-        ->get();
+        $ListadoGrupos = Grupos::select(['GrupoId', 'categorias.NombreCategoria', 'users.Nombre', 'NombreGrupo', 'grupos.Estado'])
+            ->join('users', 'grupos.Documento', '=', 'users.Documento')
+            ->join('categorias', 'grupos.CategoriaId', '=', 'categorias.CategoriaId')
+            ->get();
         $ListadoCategoria = Categoria::all();
         $ListadoUsuario = User::all();
-        $Listados = ['ListadoGrupos'=>$ListadoGrupos,'ListadoCtegoria'=>$ListadoCategoria,'ListadoUsuario'=>$ListadoUsuario];
-         return view('Programacion.grupos')->with('listado', $Listados);
-
+        $Deportista = Deportista::select(['Documento', 'Nombre', 'FechaNacimiento'])->get();
+        $Listados = ['ListadoGrupos' => $ListadoGrupos, 'ListadoCategoria' => $ListadoCategoria, 'ListadoUsuario' => $ListadoUsuario];
+        return view('Programacion.grupos')->with('listado', $Listados)->with('deportistas_crear', $Deportista);
     }
 
     /**
@@ -38,11 +37,44 @@ class GruposController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        $ProductModel = new Deportista();
-        $Deportista = $ProductModel->all();
-        return view('Programacion.grupos')->with('deportistas', $Deportista);
+        $validator = Validator::make(
+            $request->all(),
+            ['NombreGrupo' => 'min:1|unique:grupos,NombreGrupo|max:50', 'CategoriaId' => 'min:1|max:50', 'Documento' => 'min:1|max:50'],
+            ['unique' => '* Este campo no acepta información que ya se ha registrado', 'min' => '* No puedes enviar este campo vacío', 'max' => '* Máximo de :max dígitos']
+        );
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+        $Grupos = new Grupo();
+        $GrupoId = $Grupos::creadorPK($Grupos, 100);
+        $Grupos->GrupoId = $GrupoId;
+        $Campos = ['CategoriaId', 'Documento', 'NombreGrupo'];
+        foreach ($Campos as $item) {
+            $Grupos->$item = $request->$item;
+        }
+
+        $Grupos->save();
+
+
+
+        $Deportista = $request->deportistas;
+
+
+        foreach ($Deportista as $item) {
+
+            // Llena el objeto con los datos de un producto adicionado
+            $Adicionados = new Grupos_Deportistas();
+            $Adicionados->Documento = $item;
+            $Adicionados->GruposDeportistasId = Grupos_Deportistas::creadorPK($Adicionados, 100);
+            $Adicionados->GrupoId = $GrupoId;
+            $Adicionados->FechaIngreso =  date('Y-m-d');
+            $Adicionados->save();
+        }
+
+        return redirect('grupos/listar');
     }
 
     /**
@@ -53,46 +85,6 @@ class GruposController extends Controller
      */
     public function store(Request $request)
     {
-
-        // $validator = Validator::make($request->all(),
-        // ['NumeroFactura'=>'min:1|unique:compras,NumeroFactura|max:20','Nit'=>'min:1|max:12','FechaCompra'=>'min:1|max:20','ValorCompra'=>'min:1||max:20','SubTotal'=>'min:1||max:20','Iva'=>'min:1||max:20','Descuento'=>'min:1||max:20'],
-        // ['unique'=>'Este campo no acepta información que ya se ha registrado','min'=>'No puedes enviar este campo vacío','max'=>'Máximo de :max dígitos']);
-
-        // if($validator->fails()){
-        //     return back()->withErrors($validator)->withInput();
-        // }
-        $Grupo = new Grupo();
-        $GrupoId= Grupo::creadorPK($Grupo,1000);
-        $Grupo->GrupoId=$GrupoId;
-        $Campos = ['GrupoId','CategoriaId','Documento','NombreGrupo','Estado'];
-        foreach($Campos as $item){
-            $Grupo->$item = $request->$item;
-
-        }
-
-        $Grupo->save();
-
-        $Deportista = $request->deportistas;
-
-
-        if($Deportista == null){
-            return 'Evite enviar adicionar Deportistas vacío';
-        }
-
-
-
-        foreach($Deportista as $item){
-            // Crea registros en la tabla de artículos comprados
-            $articulo = new Grupos_Deportistas();
-            $articulo->GruposDeportistasId = Grupos_Deportistas::creadorPK($articulo, 1000);
-            $articulo->GrupoId = $GrupoId;
-            $articulo->Documento = $item->Documento;
-            $articulo->FechaIngreso = date('Y-m-d');
-            $articulo->save();
-
-        }
-
-        return redirect('dashboard/panel');
     }
 
     /**
@@ -112,10 +104,29 @@ class GruposController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($GrupoId)
     {
-        //
+        $Selected =  Grupos::all()->where('GrupoId', '=', $GrupoId);
+
+        $Deportistas_total = Deportista::all();
+
+        $deportistasdelgrupo = Grupo::select(['deportistas.DeportistaId'])
+            ->join('grupos_deportistas', 'grupos_deportistas.GrupoId', '=', 'grupos.GrupoId')
+            ->join('deportistas', 'grupos_deportistas.DeportistaId', '=', 'deportistas.DeportistaId')
+            ->where('grupos.GrupoId', '=', $GrupoId)
+            ->get();
+
+
+
+
+        $deportistas_seleccionados = [];
+        foreach ($deportistasdelgrupo as $item) {
+            array_push($deportistas_seleccionados, $item->DeportistaId);
+        }
+
+        return view('Programacion.editargrupos')->with('grupodata', $Selected)->with('total_deportistas', $Deportistas_total)->with('permisos_checked', $deportistas_seleccionados);
     }
+
 
     /**
      * Update the specified resource in storage.
@@ -124,9 +135,64 @@ class GruposController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $GrupoId)
     {
-        //
+        $validator = Validator::make(
+            $request->all(),
+            ['NombreGrupo' => 'min:1|unique:grupos,NombreGrupo|max:50', 'CategoriaId' => 'min:1|max:50', 'Documento' => 'min:1|max:50'],
+            ['unique' => '* Este campo no acepta información que ya se ha registrado', 'min' => '* No puedes enviar este campo vacío', 'max' => '* Máximo de :max dígitos']
+        );
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+        $GrupoId = $request->IdGrupo;
+        $Grupos = Grupo::find($GrupoId);
+        $Campos = ['CategoriaId', 'Documento', 'NombreGrupo'];
+        foreach ($Campos as $item) {
+            $Grupos->$item = $request->$item;
+        }
+        $Grupos->save();
+
+
+        $Deportistasenviados = $request->chequeados;
+        $deportistasdelgrupo = Grupo::select(['deportistas.DeportistaId'])
+            ->join('grupos_deportistas', 'grupos_deportistas.GrupoId', '=', 'grupos.GrupoId')
+            ->join('deportistas', 'grupos_deportistas.DeportistaId', '=', 'deportistas.DeportistaId')
+            ->where('grupos.GrupoId', '=', $GrupoId)
+            ->get();
+        $Registrados = [];
+        foreach ($deportistasdelgrupo as $item) {
+            array_push($Registrados, $item->DeportistaId);
+        }
+        $Deportistasnuevos = [];
+        foreach ($deportistasdelgrupo as $item) {
+            if (!in_array($item, $Registrados)) {
+                array_push($Deportistasnuevos, $item);
+            }
+        }
+
+        $Deportistaseliminados = [];
+        foreach ($Registrados as $item) {
+            if (!in_array($item, $Deportistasenviados)) {
+                array_push($Deportistaseliminados, $item);
+            }
+        }
+
+        foreach ($Deportistaseliminados as $item) {
+            $GruposDeportistasID = Grupos_Deportistas::select(['GruposDeportistasId'])->where('GrupoId', '=', $request->IdGrupo)->where('DeportistaId', '=', $item)->get();
+            $GrupoDeportista = Grupos_Deportistas::find($GruposDeportistasID[0]['GruposDeportistasId']);
+            $GrupoDeportista->delete();
+        }
+
+        foreach ($Deportistasnuevos as $item) {
+            $GruposDeportistas = new Grupos_Deportistas();
+            $GruposDeportistas->GruposDeportistasId = Grupos_Deportistas::creadorPK($GruposDeportistas, 1000);
+            $GruposDeportistas->DeportistaId = $item;
+            $GruposDeportistas->GrupoId = $request->IdGrupo;
+            $GruposDeportistas->save();
+        }
+        return redirect('grupos/listar');
     }
 
     /**
@@ -138,13 +204,5 @@ class GruposController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    public function listselected(Request $request)
-    {
-        $DeportistaModel = new Deportista();
-        $Selecteds = json_decode($request->seleccionados);
-        $checkeds = $DeportistaModel->whereIn('Documento', $Selecteds)->select('Nombre','Documento')->get();
-        return json_encode($checkeds);
     }
 }

@@ -5,9 +5,10 @@
 @section('title', 'Categorias')
 
 @push('styles')
+    {{-- Csrf para funcionamiento de Ajax --}}
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href=" {{ asset('./css/layouts/datatable.css') }} ">
     <link rel="stylesheet" href="{{ asset('./css/layouts/cruds.css') }} ">
-
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @endpush
 
@@ -66,7 +67,8 @@
 
                                 <div class="form-check form-switch">
                                     <input class="form-check-input" type="checkbox" role="switch"
-                                        id="flexSwitchCheckChecked" {{ $checkstate }}>
+                                        id="check_{{ $item->CategoriaId }}" {{ $checkstate }}
+                                        onclick="tryChange('{{ $item->CategoriaId }}', 'errorsEstado')">
                                 </div>
                             @endif
                         </td>
@@ -83,20 +85,22 @@
         <div id="categoriaadicion" class="adicion_off" style="width:600px;height:400px">
             <div class="floatcontent">
                 <h1 style="padding-top:5%;">Crear Categoría</h1>
-                <hr>
+
 
                 <form action={{ url('categoria/crear') }} method="post"> @csrf
-                    <div class="row">
-                        <label for="NombreCategoria" class="form-label">Categoría</label>
-                        <input type="text" class="form-control" name="NombreCategoria"
-                            value="{{ old('NombreCategoria') }}">
-                        @error('NombreCategoria')
-                            <div>
-                                @foreach ($errors->get('NombreCategoria') as $item)
-                                    <small> {{ $item }} </small>
-                                @endforeach
-                            </div>
-                        @enderror
+                    <div class="row justify-content-center">
+                        <div class="col-8">
+                            <label for="NombreCategoria" class="form-label">Categoría</label>
+                            <input type="text" class="form-control" name="NombreCategoria"
+                                value="{{ old('NombreCategoria') }}">
+                            @error('NombreCategoria')
+                                <div>
+                                    @foreach ($errors->get('NombreCategoria') as $item)
+                                        <small> {{ $item }} </small>
+                                    @endforeach
+                                </div>
+                            @enderror
+                        </div>
                         <div class="col-6">
                             <label for="deportes" class="form-label">Deportes</label>
                             <select class="form-select" name="DeporteId" aria-label="Default select example">
@@ -120,12 +124,29 @@
                     </div>
 
 
-                    <br>
-                    <button type="submit" class="btn btn-outline-primary">Guardar</i></button>
-                    <button type="button" class="btn btn-outline-secondary"
-                        onclick="switchadicion2('categoriaadicion')">Cancelar</i></button>
-
+                    <div class="botonescategoria p-5">
+                        <button type="submit" class="btn btn-outline-primary">Guardar</i></button>
+                        <button type="button" class="btn btn-outline-secondary"
+                            onclick="switchadicion2('categoriaadicion')">Cancelar</i></button>
+                    </div>
                 </form>
+            </div>
+        </div>
+
+        {{-- Alerta cambio de estado --}}
+        <div class="adicion_off" id="errorsEstado" style="width:550px">
+            <div class="floatcontent">
+                <h4 style="padding-top:5%;">Operación cancelada</h4>
+                <div>
+                    No fue posible realizar el cambio de estado. <br>
+                    Esta categoria está vinculada a grupos activos.
+                </div>
+                <div id="errorsEstadoMsg">
+                    {{-- Acá se imprimen las programaciones vinculadas --}}
+                </div>
+                <br>
+                <button type="button" class="btn btn-primary btn-danger"
+                    onclick="alterModal('errorsEstado')">Cancelar</i></button> <br>
             </div>
         </div>
 
@@ -136,6 +157,16 @@
                 }, 500);
             </script>
         @endif
+
+         {{-- Mensajes personalizados --}}
+         @if (isset($sweet_setAll))
+         <script>
+             setTimeout(() => {
+                 swal_setAll("{{ $sweet_setAll['title'] }}", "{{ $sweet_setAll['msg'] }}",
+                     "{{ $sweet_setAll['type'] }}");
+             }, 500);
+         </script>
+     @endif
 
     </div>
 @endsection
@@ -148,4 +179,6 @@
     </script>
 
     <script src=" {{ asset('./js/layouts/cruds.js') }} "></script>
+    <script src=" {{ asset('./js/Programacion/categorias.js') }} "></script>
+
 @endpush

@@ -13,10 +13,10 @@
     <div class="floatmodal" style="width: 400px; height:450px;">
         <div class="floatcontent">
 
-            <h4>Cambiando clave de {{ $User->Nombre }} </h4>
+            <h2>Cambiando clave de: {{ $User->Nombre }} </h2>
             <form action=" {{ url('usuario/changepassword') }} " method="post"> @csrf
                 <input hidden type="text" value=" {{ $User->id }} " name="id">
-
+                @if($RolId != 1)
                 <label for="actual_password" class="form-label">Clave actual</label>
                 <input type="text" class="form-control" name="actual_password"
                 @if ($errors->any())
@@ -29,7 +29,7 @@
                     @endforeach
                 </div>
                 @enderror
-
+               @endif
                 <label for="password" class="form-label">Nueva clave</label>
                 <input type="text" class="form-control" name="password"
                 @if ($errors->any())
@@ -49,18 +49,11 @@
                 </div>
                 @enderror
                 <br>
-                <div class="row">
-
-                    <div class="col-6">
-                        <button type="submit" class="btn btn-outline-success">Aceptar</button>
-                    </div>
-
-                    <div class="col-6">
+                <div class="botonescambiodeclave p-5">
+                        <button type="submit" class="btn btn-outline-primary">Aceptar</button>
                         <a href=" {{ url('usuario/listar') }} ">
-                            <button type="button" class="btn btn-outline-danger">Cancelar</button>
+                            <button type="button" class="btn btn-outline-secondary">Cancelar</button>
                         </a>
-                    </div>
-
                 </div>
 
             </form>

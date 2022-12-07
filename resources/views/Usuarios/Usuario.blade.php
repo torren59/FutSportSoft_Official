@@ -5,10 +5,10 @@
 @section('title', 'Usuario')
 
 @push('styles')
+{{-- Csrf para funcionamiento de Ajax --}}
+<meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href=" {{ asset('./css/layouts/datatable.css') }} ">
     <link rel="stylesheet" href="{{ asset('./css/layouts/cruds.css') }} ">
-
-
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @endpush
 
@@ -88,8 +88,9 @@
                                 @endphp
 
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input " type="checkbox" role="switch"
-                                        id="flexSwitchCheckChecked" {{ $checkstate }}>
+                                    <input class="form-check-input" type="checkbox" role="switch"
+                                        id="flexSwitchCheckChecked" {{ $checkstate }}
+                                        onclick="changeState2({{ $item->id }})">
                                 </div>
                             @endif
                         </td>
@@ -122,7 +123,7 @@
                     <div class="row">
                         <div class="col-6">
                             <label for="Documento" class="form-label">Documento</label>
-                            <input type="text" class="form-control" name="Documento" value="{{ old('Documento') }}">
+                            <input type="number" class="form-control" name="Documento" value="{{ old('Documento') }}">
                             @error('Documento')
                                 <div>
                                     @foreach ($errors->get('Documento') as $item)
@@ -133,7 +134,7 @@
                         </div>
                         <div class="col-6">
                             <label for="Celular" class="form-label">Celular</label>
-                            <input type="text" class="form-control" name="Celular" value=" {{ old('Celular') }} ">
+                            <input type="number" class="form-control" name="Celular" value=" {{ old('Celular') }} ">
                             @error('Celular')
                                 <div>
                                     @foreach ($errors->get('Celular') as $item)
@@ -156,7 +157,7 @@
 
                         <div class="col-6">
                             <label for="email" class="form-label">Correo electrónico</label>
-                            <input type="text" class="form-control" name="email" value=" {{ old('email') }} ">
+                            <input type="email" class="form-control" name="email" value=" {{ old('email') }} ">
                             @error('email')
                                 <div>
                                     @foreach ($errors->get('email') as $item)
@@ -182,14 +183,24 @@
 
                         <div class="col-6">
                             <label for="roles" class="form-label">Roles</label>
-                            <select class="form-select" name="IdRol" aria-label="Default select example">
+                            <select class="form-select" name="RolId" aria-label="Default select example">
                                 <option selected>Selecione un rol</option>
                                 @foreach ($listado['ListadoRoles'] as $item)
                                     <option value="{{ $item->id }}">{{ $item->name }}</option>
                                 @endforeach
                             </select>
                         </div>
-
+                        <div class="col-6">
+                            <label for="password" class="form-label">Contraseña</label>
+                            <input type="text" class="form-control" name="password" value="{{ old('password') }}">
+                            @error('password')
+                                <div>
+                                    @foreach ($errors->get('password') as $item)
+                                        <small> {{ $item }} </small>
+                                    @endforeach
+                                </div>
+                            @enderror
+                        </div>
 
 
                     </div>
@@ -207,6 +218,16 @@
             <script>
                 setTimeout(() => {
                     switchadicion2('usuarioadicion');
+                }, 500);
+            </script>
+        @endif
+
+        {{-- Mensajes personalizados --}}
+        @if (isset($sweet_setAll))
+            <script>
+                setTimeout(() => {
+                    swal_setAll("{{ $sweet_setAll['title'] }}", "{{ $sweet_setAll['msg'] }}",
+                        "{{ $sweet_setAll['type'] }}");
                 }, 500);
             </script>
         @endif
@@ -241,4 +262,5 @@
 
     <script src=" {{ asset('./js/layouts/cruds.js') }} "></script>
     <script src=" {{ asset('./js/layouts/asincronas.js') }} "></script>
+    <script src=" {{ asset('./js/layouts/Usuario/Usuario.js') }} "></script>
 @endpush

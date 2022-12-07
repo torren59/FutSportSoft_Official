@@ -67,14 +67,17 @@
 
                         <div class="col-6">
                             <label for="FechaNacimiento" class="form-label">Fecha de nacimiento</label>
-                            <input type="text-local" class="form-control" name="FechaNacimiento"
-                                value=" {{ old('FechaNacimiento', $item->FechaNacimiento) }}">
+                            <input type="date" class="form-control" name="FechaNacimiento"
+                            @if ($errors->any())
+                            value = {{old('FechaNacimiento')}}
+                            @else
+                            value={{$item->FechaNacimiento}}
+                            @endif>
                             @error('FechaNacimiento')
                                 <div>
                                     @foreach ($errors->get('FechaNacimiento') as $item)
                                         <small> {{ $item }} </small>
                                     @endforeach
-                                    {{ $item->FechaNacimiento}}
                                 </div>
                             @enderror
                         </div>
@@ -99,7 +102,11 @@
                         <div class="col-6">
                             <label for="Direccion" class="form-label">Direccion</label>
                             <input type="text" class="form-control" name="Direccion"
-                                value="{{ old('Direccion', $item->Direccion) }}">
+                            @if ($errors->any())
+                            value = {{old('Direccion')}}
+                            @else
+                            value={{$item->Direccion}}
+                            @endif>
                             @error('Direccion')
                                 <div>
                                     @foreach ($errors->get('Direccion') as $item)
@@ -135,7 +142,7 @@
     <script src=" {{ asset('./js/layouts/cruds.js') }} "></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
-    <script>
+    {{-- <script>
         flatpickr("input[type=text-local]",{})
-    </script>
+    </script> --}}
 @endpush

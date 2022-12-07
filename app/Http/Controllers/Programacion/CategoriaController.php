@@ -15,16 +15,29 @@ class CategoriaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($status = null)
     {
 
-        $ListadoCategoria = Categoria::select(['CategoriaId','NombreCategoria','deportes.NombreDeporte','RangoEdad',])
-        ->join('deportes','categorias.DeporteId','=','deportes.DeporteId')
-        ->get();
+        $ListadoCategoria = Categoria::select(['CategoriaId', 'NombreCategoria', 'deportes.NombreDeporte', 'RangoEdad', 'categorias.Estado'])
+            ->join('deportes', 'categorias.DeporteId', '=', 'deportes.DeporteId')
+            ->get();
         $ListadoDeporte = Deporte::all();
-        $Listados = ['ListadoCategoria'=>$ListadoCategoria,'ListadoDeporte'=>$ListadoDeporte];
-         return view('Programacion.Categoria')->with('listado', $Listados);
+        $Listados = ['ListadoCategoria' => $ListadoCategoria, 'ListadoDeporte' => $ListadoDeporte];
 
+
+        switch ($status) {
+            case 1:
+                $sweet_setAll = ['title' => 'Registro guardado', 'msg' => 'El registro se guardó exitosamente', 'type' => 'success'];
+                return view('Programacion.Categoria')->with('listado', $Listados)->with('sweet_setAll', $sweet_setAll);
+                break;
+            case 2:
+                $sweet_setAll = ['title' => 'Registro editado', 'msg' => 'El registro se editó exitosamente', 'type' => 'success'];
+                return view('Programacion.Categoria')->with('listado', $Listados)->with('sweet_setAll', $sweet_setAll);
+                break;
+            default:
+            return view('Programacion.Categoria')->with('listado', $Listados);
+                break;
+        }
     }
 
     /**
@@ -34,14 +47,15 @@ class CategoriaController extends Controller
      */
     public function create(Request $request)
     {
-        // $validator = Validator::make($request->all(),
-        // $request->all(),
-        //      ['NombreCategoria' => 'min:1|unique:categorias,NombreCategoria|max:50','DeporteId' => 'min:1|max:5|required', 'RangoEdad' => 'min:1|unique:categorias,RangoEdad|max:100'],
-        //      ['unique' => 'Este campo no acepta información que ya se ha registrado', 'min' => 'No puedes enviar este campo vacío', 'max' => 'Máximo de :max dígitos']);
+        $validator = Validator::make(
+            $request->all(),
+            ['NombreCategoria' => 'min:1|unique:categorias,NombreCategoria|max:50', 'DeporteId' => 'min:1|max:50|required', 'RangoEdad' => 'min:1|max:30'],
+            ['unique' => '* Este campo no acepta información que ya se ha registrado', 'min' => '* No puedes enviar este campo vacío', 'max' => '* Máximo de :max dígitos']
+        );
 
-        // if ($validator->fails()) {
-        //     return back()->withErrors($validator)->withInput();
-        // }
+        if ($validator->fails()) {
+            return redirect('categoria/listar')->withErrors($validator)->withInput();
+        }
         $Categoria = new Categoria();
         $id = $Categoria::creadorPK($Categoria, 100);
         $Categoria->CategoriaId = $id;
@@ -51,7 +65,7 @@ class CategoriaController extends Controller
         }
 
         $Categoria->save();
-        return redirect('categoria/listar');
+        return redirect('categoria/listar/1');
     }
 
     /**
@@ -84,12 +98,41 @@ class CategoriaController extends Controller
      */
     public function edit($id)
     {
-        $Selected =  Categoria::select(['CategoriaId','deportes.DeporteId','deportes.NombreDeporte','NombreCategoria','RangoEdad'])
-        ->join('deportes','categorias.DeporteId','=','deportes.DeporteId')->where('CategoriaId', '=', $id)
-        ->get();
-        $Deporte = Deporte::select(['DeporteId','NombreDeporte'])->get();
-        $data = ['categorias'=>$Selected,'deportes'=>$Deporte];
+        $Selected =  Categoria::select(['categorias.CategoriaId', 'deportes.DeporteId', 'deportes.NombreDeporte', 'NombreCategoria', 'RangoEdad'])
+            ->join('deportes', 'categorias.DeporteId', '=', 'deportes.DeporteId')->where('categorias.CategoriaId', '=', $id)
+            ->get();
+        $Deporte = Deporte::select(['DeporteId', 'NombreDeporte'])->get();
+        $data = ['categorias' => $Selected, 'deportes' => $Deporte];
         return view('Programacion.editarcategoria')->with('data', $data);
+
+    }
+
+    public function changeState(Request $request)
+    {
+        $CategoriaId = json_decode($request->CategoriaId);
+        $Categoria = Categoria::find($CategoriaId);
+
+        if ($Categoria->Estado == false) {
+            $Categoria->Estado = true;
+        } else {
+            $Categoria->Estado = false;
+        }
+        $Categoria->save();
+
+        $Estado = ['Estado' => $request->Estado];
+        return json_encode($Estado);
+    }
+
+    public function canChange(Request $request)
+    {
+        $CategoriaId = json_decode($request->CategoriaId);
+        $Categoria = Categoria::select(['grupos.GrupoId', 'categorias.NombreCategoria'])
+            ->join('grupos', 'categorias.CategoriaId', '=', 'grupos.CategoriaId')
+            ->where('categorias.CategoriaId', '=', intval($CategoriaId))
+            ->where('grupos.Estado', '=', true)
+            ->get();
+
+        return json_encode($Categoria);
     }
 
     /**
@@ -101,20 +144,23 @@ class CategoriaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // $validator = Validator::make($request->all(),
-        //  ['Nombre'=>'min:1|max:30','RolId'=>'min:1|max:50','Direccion'=>'min:1|max:70','Celular'=>'min:1|max:10','email'=>'min:1|max:70','Direccion'=>'min:1|max:70','FechaNacimiento'=>'min:1|max:50','password'=>'min:1|max:30'],
-        //  ['unique'=>'Este campo no acepta información que ya se ha registrado','min'=>'No puedes enviar este campo vacío','max'=>'Máximo de :max dígitos']);
 
-        //  if($validator->fails()){
-        //      return back()->withErrors($validator)->withInput();
-        // }
+        $validator = Validator::make(
+            $request->all(),
+            ['NombreCategoria' => 'min:1|unique:categorias,NombreCategoria|max:50', 'DeporteId' => 'max:50|required', 'RangoEdad' => 'min:1|max:30'],
+            ['unique' => '* Este campo no acepta información que ya se ha registrado', 'min' => '* No puedes enviar este campo vacío', 'max' => '* Máximo de :max dígitos']
+        );
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
         $Categoria = Categoria::find($id);
-        $Campos = ['DeporteId','NombreCategoria','RangoEdad'];
-        foreach($Campos as $item){
+        $Campos = ['DeporteId', 'NombreCategoria', 'RangoEdad'];
+        foreach ($Campos as $item) {
             $Categoria->$item = $request->$item;
         }
         $Categoria->save();
-        return redirect('categoria/listar');
+        return redirect('categoria/listar/2');
     }
 
     /**

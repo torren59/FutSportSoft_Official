@@ -24,18 +24,22 @@
         <div class="main_area">
             <div class="zonaalta">
                 <div class="h1Access">
-                    FutSportSoft
+                    <h1>FutSportSoft</h1>
                 </div>
             </div>
-            <div class="contenido">
-                <br>
-                <div >
-                    <center>
-                        <h6>Se ha enviado un correo de recuperación a {{$email}} </h6>
-                        <small>Recuerda revisar en la bandeja principal y la bandeja de no deseados</small>
-                    </center>
+            <div class="contenido p-5">
+                <div class="row justify-content-center">
+                    <div class="card col-4 text-align-center">
+                        <div class="p-2">
+                            <center>
+                                <h1>Se ha enviado un correo de recuperación a {{ $email }} </h1>
+                                <small>* Recuerda revisar en la bandeja principal y la bandeja de no deseados</small>
+                            </center>
+                        </div>
+                    </div>
+                    <script src=" {{ asset('js/layouts/home.js') }} "></script>
+                    <script src=" {{ asset('js/layouts/cruds.js') }} "></script>
                 </div>
-                <script src=" {{ asset('js/layouts/home.js') }} "></script>
             </div>
         </div>
 
@@ -44,4 +48,20 @@
 
 </body>
 
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        background-image: url("../../img/layouts/login2.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center center;
+        background-attachment: fixed;
+
+
+    }
+</style>
 </html>
