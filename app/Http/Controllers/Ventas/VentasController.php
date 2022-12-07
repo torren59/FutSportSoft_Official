@@ -129,6 +129,23 @@ class VentasController extends Controller
         //
     }
 
+    public function changeState(Request $request){
+        $VentaId = json_decode($request->VentaId);
+        $ventas = deportista::find($VentaId);
+        
+        if($ventas->Estado == true){
+            $ventas->Estado = false;
+        }
+        else{
+            $ventas->Estado = true;
+        }
+
+        $ventas->save();
+
+        return json_encode($ventas);
+
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -140,6 +157,27 @@ class VentasController extends Controller
         $Selected =  Venta::all()->where('VentaId', '=', $id);
         return view('Ventas.editarventas')->with('ventadata', $Selected);
     }
+
+
+
+    public function getDetalle($id)
+    {
+        
+        $detalleVenta = Venta::select(['ventas.FechaVenta','ventas.ValorVenta','ventas.SubTotal','ventas.Iva','ventas.Descuento','ventas.Estado','deportistas.Documento','deportistas.Nombre'])
+        ->join('deportistas','deportistas.Documento','=','ventas.Documento')
+        ->where('ventas.VentaId','=',$id)
+        ->get();
+        $articulosVendidos = Articulo_Vendido::select(['productos.NombreProducto','articulos_vendidos.Cantidad','articulos_vendidos.PrecioVenta'])
+        ->join('productos','productos.ProductoId','=','articulos_vendidos.ProductoId')
+        ->where('articulos_vendidos.VentaId','=',$detalleVenta[0]['VentaId'])
+        ->get();
+       return view('Ventas.detalleventa')->with('detalleventa',$detalleVenta)->with('articulosVendidos',$articulosVendidos);
+       
+        
+        
+    }
+
+
 
     /**
      * Update the specified resource in storage.

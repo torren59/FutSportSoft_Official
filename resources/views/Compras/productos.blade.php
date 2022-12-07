@@ -93,11 +93,11 @@
 
                 <form action={{ url('producto/crear') }} method="post"> @csrf
 
-                    <label for="Nit" class="form-label">Nit Proveedor</label>
+                    <label for="Nit" class="form-label">Proveedor</label>
                     <select name="Nit" class="form-select deporte_select">
                         <option value="">Seleccione el Proveedor</option>
                         @foreach ($proveedores as $item)
-                            <option value=' {{ $item->Nit }} '>{{ $item->Nit }}</option>
+                            <option value=' {{ $item->Nit }} '>{{ $item->NombreEmpresa }}</option>
                         @endforeach
                     </select>
                     @error('Nit')
@@ -126,7 +126,7 @@
                             <select name="TipoProducto" class="form-select deporte_select">
                                 <option value="">Seleccione el Tipo</option>
                                 @foreach ($tipos_productos as $item)
-                                    <option value=' {{ $item->TipoId }} '>{{ $item->Tipo }}</option>
+                                    <option value=' {{ $item->Tipo }} '>{{ $item->Tipo }}</option>
                                 @endforeach
                             </select>
                             @error('TipoProducto')

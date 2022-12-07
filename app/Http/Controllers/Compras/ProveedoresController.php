@@ -70,6 +70,22 @@ class ProveedoresController extends Controller
         //
     }
 
+    public function changeState(Request $request){
+        $Nit = json_decode($request->Nit);
+        $Proveedor = Proveedor::find($Nit);
+        
+        if($Proveedor->Estado == true){
+            $Proveedor->Estado = false;
+        }
+        else{
+            $Proveedor->Estado = true;
+        }
+
+        $Proveedor->save();
+
+        return json_encode($Proveedor);
+
+    }
     /**
      * Show the form for editing the specified resource.
      *

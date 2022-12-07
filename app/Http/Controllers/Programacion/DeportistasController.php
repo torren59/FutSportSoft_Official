@@ -75,6 +75,22 @@ class DeportistasController extends Controller
         //
     }
 
+    public function changeState(Request $request){
+        $Documento = json_decode($request->Documento);
+        $deportista = deportista::find($Documento);
+        
+        if($deportista->Estado == true){
+            $deportista->Estado = false;
+        }
+        else{
+            $deportista->Estado = true;
+        }
+
+        $deportista->save();
+
+        return json_encode($deportista);
+
+    }
     /**
      * Show the form for editing the specified resource.
      *

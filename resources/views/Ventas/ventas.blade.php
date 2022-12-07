@@ -27,7 +27,7 @@
         @if (in_array(131, $permisos))
             <div class="addbtn">
                 <a href=" {{ url('venta/crear') }} ">
-                    <button class="btn btn-outline-secondary col-2">Nueva Venta <i
+                    <button class="btn btn-outline-secondary col-12" onclick="switchadicion2('ventaadicion')">Nueva Venta <i
                             class="fa-solid fa-circle-plus"></i></button>
                 </a>
             </div>

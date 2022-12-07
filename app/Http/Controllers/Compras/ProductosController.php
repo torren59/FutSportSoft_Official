@@ -24,7 +24,7 @@ class ProductosController extends Controller
 
         $tallas = Talla::select(['TallaID','Talla'])->get();
         $tipos_productos = Tipo_Producto::select(['TipoId','Tipo'])->get();
-        $proveedores = Proveedor::select(['Nit','Nit'])->get();
+        $proveedores = Proveedor::select(['Nit','NombreEmpresa'])->get();
         
 
         $Producto = new Producto();
@@ -40,7 +40,7 @@ class ProductosController extends Controller
     public function create(Request $request)
     {
         $validator = Validator::make($request->all(), 
-        ['Nit'=>'min:1|unique:productos,Nit|max:11','NombreProducto'=>'min:1|max:100','TipoProducto'=>'min:1|max:2','Talla'=>'min:1|max:6','PrecioVenta'=>'min:1|max:8','Cantidad'=>'min:1|max:4'],
+        ['Nit'=>'min:1|max:11','NombreProducto'=>'min:1|max:100','TipoProducto'=>'min:1|max:10','Talla'=>'min:1|max:6','PrecioVenta'=>'min:1|max:8','Cantidad'=>'min:1|max:4'],
         ['unique'=>'Este campo no acepta información que ya se ha registrado','min'=>'No puedes enviar este campo vacío','max'=>'Máximo de :max dígitos']);
         // ,'Municipio'=>70,'Barrio'=>70,'Direccion'=>100
         if($validator->fails()){
@@ -78,6 +78,23 @@ class ProductosController extends Controller
     public function show($id)
     {
         //
+    }
+
+    public function changeState(Request $request){
+        $ProductoId = json_decode($request->ProductoId);
+        $Producto = Producto::find($ProductoId);
+        
+        if($Producto->Estado == true){
+            $Producto->Estado = false;
+        }
+        else{
+            $Producto->Estado = true;
+        }
+
+        $Producto->save();
+
+        return json_encode($Producto);
+
     }
 
     /**
