@@ -190,7 +190,8 @@
                         </div>
                         <div class="col-6">
                             <label for="FechaInicio" class="form-label">Fecha de Inicio</label>
-                            <input type="date" class="form-control" name="FechaInicio">
+                            <input type="date" class="form-control" name="FechaInicio"
+                            value = "{{old('FechaInicio')}}">
                             @error('FechaInicio')
                                 <div>
                                     @foreach ($errors->get('FechaInicio') as $item)
@@ -201,7 +202,8 @@
                         </div>
                         <div class="col-6">
                             <label for="FechaFinalizacion" class="form-label">Fecha de Finalización</label>
-                            <input type="date" name="FechaFinalizacion" class="form-control">
+                            <input type="date" name="FechaFinalizacion" class="form-control"
+                            value = "{{old('FechaFinalizacion')}}">
                             @error('FechaFinalizacion')
                                 <div>
                                     @foreach ($errors->get('FechaFinalizacion') as $item)

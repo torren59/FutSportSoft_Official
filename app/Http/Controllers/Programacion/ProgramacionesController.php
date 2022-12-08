@@ -55,7 +55,12 @@ class ProgramacionesController extends Controller
      */
     public function create(Request $request)
     {
-        $validator = Validator::make($request->all(),['GrupoId'=>'required','SedeId'=>'required','HorarioId'=>'required','FechaInicio'=>'required','FechaFinalizacion'=>'required'],
+        $validator = Validator::make($request->all(),
+        ['GrupoId'=>'required',
+        'SedeId'=>'required',
+        'HorarioId'=>'required',
+        'FechaInicio'=>'required',
+        'FechaFinalizacion'=>'required'],
         ['required'=>'Evite enviar el campo vacío']);
 
         if($validator->fails()){

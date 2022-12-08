@@ -80,8 +80,8 @@ class HorariosController extends Controller
         $id = $Horario::creadorPK($Horario,10000);
         $Horario->HorarioId = $id;
         $Horario->NombreHorario = $request->NombreHorario;
-        $Horario->HoraInicio = $request->HoraInicial;
-        $Horario->HoraFinalizacion = $request->HoraFinal;
+        $Horario->HoraInicio = $request->HoraInicio;
+        $Horario->HoraFinalizacion = $request->HoraFinalizacion;
         $Horario->save();
 
         return redirect('horario/listar/1'); 
