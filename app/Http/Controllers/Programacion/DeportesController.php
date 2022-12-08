@@ -56,7 +56,8 @@ class DeportesController extends Controller
         $Deporte = new Deporte();
         $Id = $Deporte::creadorPK($Deporte, 10);
         $Deporte->DeporteId = $Id;
-        $Deporte->NombreDeporte = strtoupper($request->NombreDeporte);
+         $Deporte->NombreDeporte =$request->NombreDeporte;
+        // strtoupper($request->NombreDeporte);
         $Deporte->save();
 
         return redirect('deporte/listar/1');

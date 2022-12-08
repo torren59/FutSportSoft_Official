@@ -93,7 +93,7 @@
 
         {{-- Creacion de productos --}}
 
-        <div id="deportistaadicion" class="adicion_off" style="width:600px;height:400px">
+        <div id="deportistaadicion" class="adicion_off" style="width:800px;height:500px">
             <div class="floatcontent">
                 <h4 style="padding-top:5%;">Nuevo Deportista</h4>
                 <hr>

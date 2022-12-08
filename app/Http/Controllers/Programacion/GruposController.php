@@ -106,10 +106,13 @@ class GruposController extends Controller
      */
     public function edit($GrupoId)
     {
-        $Selected =  Grupos::all()->where('GrupoId', '=', $GrupoId);
+        $Selected =  Grupos::select(['NombreGrupo', 'GrupoId', 'categorias.CategoriaId', 'categorias.NombreCategoria', 'users.Documento', 'users.Nombre'])
+            ->join('categorias', 'categorias.CategoriaId', '=', 'grupos.CategoriaId')
+            ->join('users', 'users.Documento', '=', 'grupos.Documento')->where('GrupoId', '=', $GrupoId)->get();
 
         $Deportistas_total = Deportista::all();
-
+        $Categorias_total = Categoria::all();
+        $Usuarios_total = User::all();
         $deportistasdelgrupo = Grupo::select(['deportistas.Documento'])
             ->join('grupos_deportistas', 'grupos_deportistas.GrupoId', '=', 'grupos.GrupoId')
             ->join('deportistas', 'grupos_deportistas.Documento', '=', 'deportistas.Documento')
@@ -121,10 +124,13 @@ class GruposController extends Controller
 
         $deportistas_seleccionados = [];
         foreach ($deportistasdelgrupo as $item) {
-            array_push($deportistas_seleccionados, $item->DeportistaId);
+            array_push($deportistas_seleccionados, $item->Documento);
         }
 
-        return view('Programacion.editargrupos')->with('grupodata', $Selected)->with('total_deportistas', $Deportistas_total)->with('permisos_checked', $deportistas_seleccionados);
+        return view('Programacion.editargrupos')->with('total_categorias', $Categorias_total)->with('deportistas_crear', $Deportistas_total)->with('grupodata', $Selected)
+            ->with('deportistas_checked', $deportistas_seleccionados)->with('total_usuarios', $Usuarios_total);
+
+        // return $Categorias_total;
     }
 
 
@@ -135,7 +141,7 @@ class GruposController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $GrupoId)
+    public function update(Request $request)
     {
         $validator = Validator::make(
             $request->all(),
@@ -149,6 +155,7 @@ class GruposController extends Controller
         $GrupoId = $request->IdGrupo;
         $Grupos = Grupo::find($GrupoId);
         $Campos = ['CategoriaId', 'Documento', 'NombreGrupo'];
+
         foreach ($Campos as $item) {
             $Grupos->$item = $request->$item;
         }
@@ -156,21 +163,38 @@ class GruposController extends Controller
 
 
         $Deportistasenviados = $request->chequeados;
+
         $deportistasdelgrupo = Grupo::select(['deportistas.Documento'])
             ->join('grupos_deportistas', 'grupos_deportistas.GrupoId', '=', 'grupos.GrupoId')
             ->join('deportistas', 'grupos_deportistas.Documento', '=', 'deportistas.Documento')
             ->where('grupos.GrupoId', '=', $GrupoId)
             ->get();
+
         $Registrados = [];
         foreach ($deportistasdelgrupo as $item) {
-            array_push($Registrados, $item->DeportistaId);
+            array_push($Registrados, $item->Documento);
         }
+
         $Deportistasnuevos = [];
-        foreach ($deportistasdelgrupo as $item) {
-            if (!in_array($item, $Registrados)) {
+        if ($Deportistasenviados != null) {
+            foreach ($Deportistasenviados as $item) {
+                if (!in_array($item, $Registrados)) {
+                    array_push($Deportistasnuevos, $item);
+                }
+
+            }
+        }
+        else{
+            $Deportistasenviados = [];
+        }
+
+        if (sizeof($Registrados) < 1) {
+            foreach ($Deportistasenviados as $item) {
+
                 array_push($Deportistasnuevos, $item);
             }
         }
+
 
         $Deportistaseliminados = [];
         foreach ($Registrados as $item) {
@@ -180,7 +204,7 @@ class GruposController extends Controller
         }
 
         foreach ($Deportistaseliminados as $item) {
-            $GruposDeportistasID = Grupos_Deportistas::select(['GruposDeportistasId'])->where('GrupoId', '=', $request->IdGrupo)->where('DeportistaId', '=', $item)->get();
+            $GruposDeportistasID = Grupos_Deportistas::select(['GruposDeportistasId'])->where('GrupoId', '=', $request->IdGrupo)->where('Documento', '=', $item)->get();
             $GrupoDeportista = Grupos_Deportistas::find($GruposDeportistasID[0]['GruposDeportistasId']);
             $GrupoDeportista->delete();
         }
@@ -189,6 +213,7 @@ class GruposController extends Controller
             $GruposDeportistas = new Grupos_Deportistas();
             $GruposDeportistas->GruposDeportistasId = Grupos_Deportistas::creadorPK($GruposDeportistas, 1000);
             $GruposDeportistas->Documento = $item;
+            $GruposDeportistas->FechaIngreso = date('Y-m-d');
             $GruposDeportistas->GrupoId = $request->IdGrupo;
             $GruposDeportistas->save();
         }

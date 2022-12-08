@@ -27,7 +27,12 @@
                 <div class="row justify-content-center">
                     <div class="col-6">
                         <label for="name" class="form-label">Nombre</label>
-                        <input type="text" class="form-control" name="name" value="{{ old('name', $item->name) }}">
+                        <input type="text" class="form-control" name="name"
+                        @if ($errors->any())
+                        value = "{{old('name')}}"
+                        @else
+                        value= "{{$item->name}}"
+                        @endif>
                         @error('name')
                             <div>
                                 @foreach ($errors->get('name') as $item)
@@ -39,7 +44,11 @@
 
                     <div class="col-12">
                         <label for="IdRol" class="form-label"></label>
-                        <input type="hidden" class="form-control" name="IdRol" value="{{ $item->id }}">
+                        <input type="hidden" class="form-control" name="IdRol" @if ($errors->any())
+                        value = "{{old('IdRol')}}"
+                        @else
+                        value= "{{$item->id}}"
+                        @endif>
                         @error('IdRol')
                             <div>
                                 @foreach ($errors->get('IdRol') as $item)

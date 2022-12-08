@@ -81,7 +81,7 @@
 
         {{-- Creacion de grupos --}}
 
-        <div id="grupoadicion" class="adicion_off" style="width:600px;height:600px">
+        <div id="grupoadicion" class="adicion_off" style="width:600px;height:700px">
             <div class="floatcontent">
                 <div class="container">
                     <div class="row justify-content-center">
@@ -125,7 +125,7 @@
                                     </div>
                                 </div>
                                 <h1>Listado de Deportistas</h1>
-                                <div class="grid_doble_superderecharoles p-4">
+                                <div class="grid_doble_superderechagrupos p-4">
                                     <div class="grid_span_1">
                                         <table class="table table-striped">
                                             <thead>
@@ -213,7 +213,13 @@
 @endsection
 
 
-
+@if ($errors->any())
+        <script>
+            setTimeout(() => {
+                switchadicion2('grupoadicion');
+            }, 500);
+        </script>
+    @endif
 
 
 @push('scripts')
