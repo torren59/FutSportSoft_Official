@@ -36,7 +36,11 @@
                                 <div class="col-8">
                                     <label class="form-label">Nombre Deporte</label>
                                     <input type="text" class="form-control" name="NombreDeporte"
-                                        value=" {{ old('NombreDeporte', $item->NombreDeporte) }} ">
+                                    @if ($errors->any())
+                                    value = {{old('NombreDeporte')}}
+                                    @else
+                                    value={{$item->NombreDeporte}}
+                                    @endif>
                                     @error('NombreDeporte')
                                         <div>
                                             @foreach ($errors->get('NombreDeporte') as $item)

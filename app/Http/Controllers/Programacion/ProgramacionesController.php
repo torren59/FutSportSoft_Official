@@ -22,7 +22,7 @@ class ProgramacionesController extends Controller
     public function index($status = null)
     {
 
-        $programaciones = Programacion::select(['ProgramacionId','sedes.NombreSede','grupos.NombreGrupo','horarios.Horario','FechaInicio','FechaFinalizacion','programacion.Estado'])
+        $programaciones = Programacion::select(['ProgramacionId','sedes.NombreSede','grupos.NombreGrupo','horarios.NombreHorario','FechaInicio','FechaFinalizacion','programacion.Estado'])
         ->join('sedes','sedes.SedeId','=','Programacion.SedeId')
         ->join('grupos','grupos.GrupoId','=','Programacion.GrupoId')
         ->join('horarios','horarios.HorarioId','=','Programacion.HorarioId')
@@ -30,7 +30,7 @@ class ProgramacionesController extends Controller
 
         $sedes = Sede::all(['SedeId','NombreSede']);
         $deportes = Deporte::all(['DeporteId','NombreDeporte']);
-        $horarios = Horario::all(['HorarioId','NombreHorario','Horario']);
+        $horarios = Horario::all(['HorarioId','NombreHorario','HoraInicio','HoraFinalizacion']);
         $progData = ['sedes'=>$sedes, 'horarios'=>$horarios, 'deportes'=>$deportes, 'horarios'=>$horarios,'programaciones'=>$programaciones];
 
         switch($status){
@@ -59,16 +59,18 @@ class ProgramacionesController extends Controller
         ['required'=>'Evite enviar el campo vacío']);
 
         if($validator->fails()){
-            return back()->withErrors($validator)->withInput();
+            return redirect('programacion/listar')->withErrors($validator)->withInput();
         }
 
         $campos = ['SedeId','GrupoId','HorarioId','FechaInicio','FechaFinalizacion'];
         $programacion = new Programacion();
         $ProgramacionId = Programacion::creadorPK($programacion,1000);
         $programacion->ProgramacionId = $ProgramacionId;
+
         foreach ($campos as $item) {
             $programacion->$item = $request->$item;
         }
+        
         $programacion->save();
         return redirect('programacion/listar/1');
     }

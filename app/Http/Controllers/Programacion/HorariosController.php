@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Programacion;
 
 use App\Http\Controllers\Controller;
 use App\Models\Programacion\Horario;
+use App\Rules\customRuleHorarios;
+use Brick\Math\BigInteger;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -64,20 +66,22 @@ class HorariosController extends Controller
     {
         
         $validator = Validator::make($request->all(),
-        ['NombreHorario'=>'required|max:50','HorarioInicial'=>'required','HorarioFinal'=>'required'],
+        ['NombreHorario'=>'required|max:50',
+        'HoraInicio'=>'required',
+        'HoraFinalizacion'=>['required', new customRuleHorarios]],
         ['required'=>'No puedes enviar este campo vacío','max'=>'Máximo de :max dígitos']);
 
+
         if($validator->fails()){
-            return back()->withErrors($validator)->withInput();
+            return redirect('horario/listar')->withErrors($validator)->withInput();
         }
 
         $Horario = new Horario();
         $id = $Horario::creadorPK($Horario,10000);
-        $HorarioTot = $this->timeToString($request->HorarioInicial).' - '.$this->timeToString($request->HorarioFinal);
-
         $Horario->HorarioId = $id;
         $Horario->NombreHorario = $request->NombreHorario;
-        $Horario->Horario = $HorarioTot;
+        $Horario->HoraInicio = $request->HoraInicial;
+        $Horario->HoraFinalizacion = $request->HoraFinal;
         $Horario->save();
 
         return redirect('horario/listar/1'); 
@@ -114,6 +118,7 @@ class HorariosController extends Controller
     public function edit($id)
     {
         $Selected =  Horario::all()->where('HorarioId','=',$id);
+        
         return view('Programacion.editarhorario')->with('horariodata',$Selected);
     }
 
@@ -126,16 +131,19 @@ class HorariosController extends Controller
      */
     public function update(Request $request, $id)
     {
-
+        $request['id'] = $id;
         $validator = Validator::make($request->all(),
-        ['NombreHorario'=>'min:1|max:50','Horario'=>'min:1|max:20'],
-        ['min'=>'No puedes enviar este campo vacío','max'=>'Máximo de :max dígitos']);
+        ['NombreHorario'=>'required|max:50',
+        'HoraInicio'=>'required',
+        'HoraFinalizacion'=> ['required',new customRuleHorarios]],
+        ['required'=>'No puedes enviar este campo vacío','max'=>'Máximo de :max dígitos']);
+
         if($validator->fails()){
             return back()->withErrors($validator)->withInput();
         }
 
         $horario = Horario::find($id);
-        $Campos = ['NombreHorario','Horario'];
+        $Campos = ['NombreHorario','HoraInicio','HoraFinalizacion'];
 
         foreach($Campos as $item){
             $horario->$item = $request->$item;

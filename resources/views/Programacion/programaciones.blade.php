@@ -51,7 +51,7 @@
                         <td> {{ $item->ProgramacionId }} </td>
                         <td> {{ $item->NombreSede }} </td>
                         <td> {{ $item->NombreGrupo }} </td>
-                        <td> {{ $item->Horario }}</td>
+                        <td> {{ $item->NombreHorario }}</td>
                         <td> {{ $item->FechaInicio }} </td>
                         <td> {{ $item->FechaFinalizacion }}</td>
                         <td>
@@ -80,7 +80,7 @@
 
 
 
-        {{-- Creacion de sedes --}}
+        {{-- Creacion de programaciones --}}
 
         <div id="programacionadicion" class="adicion_off" style="width:700px;height:400px">
             <div class="floatcontent">
@@ -174,8 +174,8 @@
                                 <option value="">Selecciona Horario</option>
 
                                 @foreach ($horarios as $item)
-                                    <option value=' {{ $item->HorarioId }} '>{{ $item->NombreHorario }}
-                                        {{ $item->Horario }}
+                                    <option value="{{ $item->HorarioId }}">{{ $item->NombreHorario }}
+                                        {{ $item->HoraInicio }} - {{$item->HoraFinalizacion}}
                                     </option>
                                 @endforeach
 

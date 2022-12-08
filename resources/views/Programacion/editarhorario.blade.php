@@ -27,10 +27,14 @@
                         <h1>Editar Horario</h1>
                         @foreach ($horariodata as $item)
                             <div class="row justify-content-center">
-                                <div class="col-8">
+                                <div class="col-12">
                                     <label for="NombreHorario" class="form-label">Nombre</label>
                                     <input type="text" class="form-control" name="NombreHorario"
-                                        value="{{ old('NombreHorario', $item->NombreHorario) }}">
+                                    @if ($errors->any())
+                                    value = "{{old('NombreHorario')}}"
+                                    @else
+                                    value="{{$item->NombreHorario}}"
+                                    @endif>  
                                     @error('NombreHorario')
                                         <div>
                                             @foreach ($errors->get('NombreHorario') as $item)
@@ -38,19 +42,40 @@
                                             @endforeach
                                         </div>
                                     @enderror
-                                </div>
+                                </div> <br>
 
-                                <div class="col-8">
-                                    <label for="Horario" class="form-label">Horario</label>
-                                    <input type="text" class="form-control" name="Horario"
-                                        value=" {{ old('Horario', $item->Horario) }} ">
-                                    @error('Horario')
-                                        <div>
-                                            @foreach ($errors->get('Horario') as $item)
-                                                <small> {{ $item }} </small>
-                                            @endforeach
+                                <div class="row" style="margin-top:7%;">
+                                    <div class="col-6">
+                                        <input type="time" class="form-control" name="HoraInicio"
+                                        @if ($errors->any())
+                                        value = {{old('HoraInicio')}}
+                                        @else
+                                        value={{$item->HoraInicio}}
+                                        @endif>                                        
+                                        @error('HoraInicio')
+                                            <div>
+                                                @foreach ($errors->get('HoraInicio') as $item)
+                                                    <small> {{ $item }} </small>
+                                                @endforeach
+                                            </div>
+                                        @enderror
+                                    </div>
+            
+                                    <div class="col-6">
+                                        <input type="time" class="form-control" name="HoraFinalizacion"
+                                        @if ($errors->any())
+                                        value = "{{old('HoraFinalizacion')}}"
+                                        @else
+                                        value="{{$item->HoraFinalizacion}}"
+                                        @endif>   
+                                        @error('HoraFinalizacion')
+                                            <div>
+                                                @foreach ($errors->get('HoraFinalizacion') as $item)
+                                                    <small> {{ $item }} </small>
+                                                @endforeach
+                                            </div>
+                                        @enderror
                                         </div>
-                                    @enderror
                                 </div>
                             </div>
                         @endforeach

@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Programacion;
 
 use App\Http\Controllers\Controller;
 use App\Models\Programacion\Sede;
+use App\Rules\customRuleSedes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -38,15 +39,22 @@ class SedesController extends Controller
      */
     public function create(Request $request)
     {
+        $Sede = new Sede();
+        $id = Sede::creadorPK($Sede,100);
+
+        $request['SedeId'] = $id;
+
         $validator = Validator::make($request->all(),
-        ['NombreSede'=>'min:1|unique:sedes,NombreSede|max:50','Municipio'=>'min:1|max:70','Barrio'=>'min:1|max:70','Direccion'=>'min:1|unique:sedes,Direccion|max:100'],
-        ['unique'=>'* Este campo no acepta información que ya se ha registrado','min'=>'* No puedes enviar este campo vacío','max'=>'* Máximo de :max dígitos']);
+        ['NombreSede'=>['required',new customRuleSedes,'max:50'],
+        'Municipio'=>'required|max:70',
+        'Barrio'=>'required|max:70',
+        'Direccion'=>['required',new customRuleSedes,'max:100']],
+        ['unique'=>'* Este campo no acepta información que ya se ha registrado','required'=>'* No puedes enviar este campo vacío','max'=>'* Máximo de :max dígitos']);
 
         if($validator->fails()){
             return redirect('sede/listar')->withErrors($validator)->withInput();
         }
-        $Sede = new Sede();
-        $id = Sede::creadorPK($Sede,100);
+
         $Sede->SedeId = $id;
         $Campos = ['NombreSede','Municipio','Barrio','Direccion'];
         foreach($Campos as $item){
@@ -127,38 +135,26 @@ class SedesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        session(['SedeId' => $id]);
+        $request['SedeId'] = $id;
+
         $validator = Validator::make($request->all(),
-        ['NombreSede'=>['min:1',
-        function ($attribute, $value, $fail) {
-            $id = session('SedeId');
-            $outRegisterItem = Sede::where('NombreSede', '=', $value)
-                ->where('SedeId', '!=', $id)->count();
-            if ($outRegisterItem > 0) {
-                return $fail($attribute . ' ya está registrado para otra sede');
-            }
-        },
-        'max:50'],'Municipio'=>'min:1|max:70','Barrio'=>'min:1|max:70','Direccion'=>['min:1',
-        function ($attribute, $value, $fail) {
-            $id = session('SedeId');
-            $outRegisterItem = Sede::where('Direccion', '=', $value)
-                ->where('SedeId', '!=', $id)->count();
-            if ($outRegisterItem > 0) {
-                return $fail($attribute . ' ya está registrado para otra sede');
-            }
-        }
-        ,'max:50']],
+        ['NombreSede'=>['min:1', new customRuleSedes ,'max:50'],
+        'Municipio'=>'min:1|max:70',
+        'Barrio'=>'min:1|max:70',
+        'Direccion'=>['min:1',new customRuleSedes,'max:50']],
         ['unique'=>'Este campo no acepta información que ya se ha registrado','min'=>'No puedes enviar este campo vacío','max'=>'Máximo de :max dígitos']);
-        session()->forget('SedeId');
+
         if($validator->fails()){
             return back()->withErrors($validator)->withInput();
-
         }
+
         $sede = Sede::find($id);
         $Campos = ['NombreSede','Municipio','Barrio','Direccion'];
+
         foreach($Campos as $item){
             $sede->$item = $request->$item;
         }
+
         $sede->save();
         return redirect('sede/listar/2');
     }

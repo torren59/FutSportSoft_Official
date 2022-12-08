@@ -28,7 +28,12 @@
             @foreach ($deportistadata as $item)
                 <div class="col-6">
                     <label for="Documento" class="form-label">Documento</label>
-                    <input type="number" class="form-control" name="Documento" value="{{ old('Documento', $item->Documento) }}">
+                    <input type="number" class="form-control" name="Documento" 
+                    @if ($errors->any())
+                    value = {{old('Documento')}}
+                    @else
+                    value={{$item->Documento}}
+                    @endif>                    
                     @error('Documento')
                         <div>
                             @foreach ($errors->get('Documento') as $item)
@@ -62,7 +67,12 @@
                 </div>
                 <div class="col-6">
                     <label for="Nombre" class="form-label">Nombre</label>
-                    <input type="text" class="form-control" name="Nombre" value="{{ old('Nombre', $item->Nombre) }}">
+                    <input type="text" class="form-control" name="Nombre" 
+                    @if ($errors->any())
+                    value = {{old('Nombre')}}
+                    @else
+                    value={{$item->Nombre}}
+                    @endif>                    
                     @error('Nombre')
                         <div>
                             @foreach ($errors->get('Nombre') as $item)

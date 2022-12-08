@@ -40,7 +40,8 @@
                     <td>Acción</td>
                     <td>Horario Id</td>
                     <td>Nombre</td>
-                    <td>Horario</td>
+                    <td>Inicia</td>
+                    <td>Finaliza</td>
                     <td>Estado</td>
                 </tr>
             </thead>
@@ -55,7 +56,8 @@
                         </td>
                         <td>{{ $item->HorarioId }}</td>
                         <td>{{ $item->NombreHorario }}</td>
-                        <td> {{ $item->Horario }} </td>
+                        <td> {{ $item->HoraInicio }} </td>
+                        <td> {{ $item->HoraFinalizacion }} </td>
                         <td>
                             @if (in_array(148, $permisos))
                                 {{-- Definiendo estado --}}
@@ -84,7 +86,7 @@
 
 
 
-        {{-- Creacion de sedes --}}
+        {{-- Creacion de Horarios --}}
 
         <div id="horarioadicion" class="adicion_off" style="width:500px;height:300px">
             <div class="floatcontent">
@@ -106,27 +108,34 @@
                     <label for="Horario" class="form-label">Horario</label>
                     <div class="row">
                         <div class="col-6">
-                            <input type="time" class="form-control" name="HorarioInicial"
-                                value=" {{ old('Horario') }} ">
+                            <input type="time" class="form-control" name="HoraInicio"
+                                value="{{ old('HoraInicio') }}">
+                            @error('HoraInicio')
+                                <div>
+                                    @foreach ($errors->get('HoraInicio') as $item)
+                                        <small> {{ $item }} </small>
+                                    @endforeach
+                                </div>
+                            @enderror
                         </div>
+                        
                         <div class="col-6">
-                            <input type="time" class="form-control" name="HorarioFinal" value=" {{ old('Horario') }} ">
+                            <input type="time" class="form-control" name="HoraFinalizacion" 
+                            value="{{ old('HoraFinalizacion') }}">
+                            @error('HoraFinalizacion')
+                                <div>
+                                    @foreach ($errors->get('HoraFinalizacion') as $item)
+                                        <small> {{ $item }} </small>
+                                    @endforeach
+                                </div>
+                            @enderror
                         </div>
-                    </div>
-                    @error('Horario')
-                        <div>
-                            @foreach ($errors->get('Horario') as $item)
-                                <small> {{ $item }} </small>
-                            @endforeach
+
+                        <div class="botoneshorarios p-5">
+                            <button type="submit" class="btn btn-outline-primary">Guardar</i></button>
+                            <button type="button" class="btn btn-outline-secondary"
+                                onclick="switchadicion2('horarioadicion')">Cancelar</i></button>
                         </div>
-                    @enderror
-
-
-
-                    <div class="botoneshorarios p-5">
-                        <button type="submit" class="btn btn-outline-primary">Guardar</i></button>
-                        <button type="button" class="btn btn-outline-secondary"
-                            onclick="switchadicion2('horarioadicion')">Cancelar</i></button>
                     </div>
                 </form>
             </div>
