@@ -49,8 +49,8 @@ class RolesController extends Controller
     {
         $validator = Validator::make(
             $request->all(),
-            ['name' => 'min:1|unique:roles,name|max:50'],
-            ['unique' => 'Este campo no acepta información que ya se ha registrado', 'min' => 'No puedes enviar este campo vacío', 'max' => 'Máximo de :max dígitos']
+            ['name' => 'min:1|max:50'],
+            ['unique' => '* Este campo no acepta información que ya se ha registrado', 'min' => '* No puedes enviar este campo vacío', 'max' => '* Máximo de :max dígitos']
         );
 
         if ($validator->fails()) {
@@ -150,16 +150,31 @@ if($Permisos == null){
      */
     public function update(Request $request)
     {
+        $id = $request->IdRol;
+        session(['id' => $request->IdRol]);
         $validator = Validator::make(
             $request->all(),
-            ['name' => 'min:1|max:50'],
+            ['name' => ['min:1',
+            function ($attribute, $value, $fail) {
+                $a = session('id');
+                $outRegisterItem = Roles::where('name', '=', $value)
+                    ->where('id', '!=', $a)->count();
+                if (intval($outRegisterItem) != 0) {
+                    return $fail($attribute . ' ya está registrado para otro rol');
+                }
+            },'max:50']],
             ['unique' => '* Este campo no acepta información que ya se ha registrado', 'min' => '* No puedes enviar este campo vacío', 'max' => '* Máximo de :max dígitos']
         );
 
+        session()->forget('id');
+
+        // $outRegisterItem = Roles::where('name', '=', $request->name)
+        // ->where('id', '!=', $request->IdRol)->count();
+        // return $outRegisterItem;
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
-        $id = $request->IdRol;
+
         $Roles = Roles::find($id);
         $Campos = ['name'];
         foreach ($Campos as $item) {

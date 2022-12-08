@@ -94,6 +94,7 @@ Route::controller(GruposController::class)->middleware('auth')->group(
         Route::post('grupos/store', 'store')->middleware('IsAuthorized:128');
         Route::post('grupos/crear', 'create')->middleware('IsAuthorized:128');
         Route::get('grupos/editar/{GrupoId}','edit')->middleware('IsAuthorized:140');
+        Route::post('grupos/actualizar','update')->middleware('IsAuthorized:140');
         Route::get('grupos/getDetalle/{GruposId?}','getDetalle')->middleware('IsAuthorized:117');
 
 

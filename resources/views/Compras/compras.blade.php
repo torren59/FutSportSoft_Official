@@ -111,7 +111,7 @@
                 <div class="col-12">
                     <label for="proveedores" class="form-label">Proveedores</label>
                     <select name="Nit" class="form-select" aria-label="Default select example">
-                        <option selected>Selecione un Proveedor</option>
+
                         @foreach ($listado['ListadoProveedor'] as $item)
                             <option value="{{ $item->Nit }}">{{ $item->NombreEmpresa }}</option>
                         @endforeach
