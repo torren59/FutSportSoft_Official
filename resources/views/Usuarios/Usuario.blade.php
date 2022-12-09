@@ -170,7 +170,7 @@
                         <div class="col-6">
                             <label for="FechaNacimiento" class="form-label">FechaNacimiento</label>
                             <input type="date" class="form-control" name="FechaNacimiento"
-                                value=" {{ old('FechaNacimiento') }} ">
+                                value="{{ old('FechaNacimiento') }}">
                             @error('FechaNacimiento')
                                 <div>
                                     @foreach ($errors->get('FechaNacimiento') as $item)

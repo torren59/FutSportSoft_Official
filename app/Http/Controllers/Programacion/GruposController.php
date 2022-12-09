@@ -9,6 +9,7 @@ use App\Models\Programacion\Deportista;
 use App\Models\Programacion\Grupo;
 use App\Models\Programacion\Grupos_Deportistas;
 use App\Models\User;
+use App\Rules\noRepeatGrupos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -41,8 +42,8 @@ class GruposController extends Controller
     {
         $validator = Validator::make(
             $request->all(),
-            ['NombreGrupo' => 'min:1|unique:grupos,NombreGrupo|max:50', 'CategoriaId' => 'min:1|max:50', 'Documento' => 'min:1|max:50'],
-            ['unique' => '* Este campo no acepta información que ya se ha registrado', 'min' => '* No puedes enviar este campo vacío', 'max' => '* Máximo de :max dígitos']
+            ['NombreGrupo' => 'min:1|unique:grupos,NombreGrupo|max:50', 'CategoriaId' => 'numeric|max:50', 'Documento' => 'numeric'],
+            ['unique' => '* Este campo no acepta información que ya se ha registrado', 'min' => '* No puedes enviar este campo vacío', 'max' => '* Máximo de :max dígitos', 'numeric'=>'* Selecciona alguna opción']
         );
 
         if ($validator->fails()) {
@@ -61,6 +62,10 @@ class GruposController extends Controller
 
 
         $Deportista = $request->deportistas;
+
+        if ($Deportista == null) {
+            return redirect('grupos/listar');
+        }
 
 
         foreach ($Deportista as $item) {
@@ -143,9 +148,10 @@ class GruposController extends Controller
      */
     public function update(Request $request)
     {
+
         $validator = Validator::make(
             $request->all(),
-            ['NombreGrupo' => 'min:1|unique:grupos,NombreGrupo|max:50', 'CategoriaId' => 'min:1|max:50', 'Documento' => 'min:1|max:50'],
+            ['NombreGrupo' => ['min:1',new noRepeatGrupos,'max:50'], 'CategoriaId' => 'min:1|max:50', 'Documento' => 'min:1|max:50'],
             ['unique' => '* Este campo no acepta información que ya se ha registrado', 'min' => '* No puedes enviar este campo vacío', 'max' => '* Máximo de :max dígitos']
         );
 

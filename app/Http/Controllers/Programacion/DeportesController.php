@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Programacion\Categoria;
 use App\Models\Programacion\Deporte;
 use App\Models\Programacion\Grupo;
+use App\Rules\noRepeatDeportes;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Unique;
@@ -106,19 +107,10 @@ class DeportesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        session(['DeporteId' => $id]);
+        $request['DeporteId'] = $id;
         $validator = Validator::make(
             $request->all(),
-            ['NombreDeporte' => ['min:1',
-            function ($attribute, $value, $fail) {
-                $id = session('DeporteId');
-                $outRegisterItem = Deporte::where('NombreDeporte', '=', $value)
-                    ->where('DeporteId', '!=', $id)->count();
-                if ($outRegisterItem > 0) {
-                    return $fail($attribute . ' ya está registrado en otro deporte');
-                }
-            }
-            ,'max:50']],
+            ['NombreDeporte' => ['min:1',new noRepeatDeportes,'max:50']],
             ['unique' => 'Deporte ya se encuentra registrado el sistema', 'min' => 'No es posible enviar este campo vacío', 'max' => 'Máximo de :max dígitos']
         );
         session()->forget('DeporteId');
@@ -126,7 +118,8 @@ class DeportesController extends Controller
             return back()->withErrors($validator)->withInput();
         }
         $deporte = Deporte::find($id);
-        $deporte->NombreDeporte = strtoupper($request->NombreDeporte);
+        $deporte->NombreDeporte = $request->NombreDeporte;
+        // strtoupper($request->NombreDeporte);
         $deporte->save();
         return redirect('deporte/listar/2');
     }

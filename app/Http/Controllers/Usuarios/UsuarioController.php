@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Usuarios;
 use App\Http\Controllers\Controller;
 use App\Models\Configuracion\Roles;
 use App\Models\User;
+use App\Rules\noRepeatUsuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -140,18 +141,10 @@ class UsuarioController extends Controller
      */
     public function update(Request $request, $id)
     {
-        session(['userid' => $id]);
+        $request['id'] = $id;
         $validator = Validator::make(
             $request->all(),
-            ['Nombre' => 'min:1|max:50', 'RolId' => 'min:1|max:50', 'Direccion' => 'min:1|max:70', 'Celular' => 'min:1|max:10','email' => ['min:1','max:50',
-            function($attribute, $value, $fail){
-                $id= session('userid');
-                $outRegisterItem = User::where('email','=',$value)
-                ->where('id','!=',$id)->count();
-                if($outRegisterItem > 0){
-                    session()->forget('userid');
-                return $fail($attribute.' ya está registrado para otro usuario');
-                }}] , 'Direccion' => 'min:1|max:70', 'FechaNacimiento' => 'min:1|max:50', 'Celular' => 'min:1|max:11'],
+            ['Nombre' => 'min:1|max:50', 'RolId' => 'min:1|max:50', 'Direccion' => 'min:1|max:70', 'Celular' => 'min:1|max:10','email' => ['min:1',new noRepeatUsuario,'max:50'] , 'Direccion' => 'min:1|max:70', 'FechaNacimiento' => 'min:1|max:50', 'Celular' => 'min:1|max:11'],
             ['unique' => '* Este campo no acepta información que ya se ha registrado', 'min' => '* No puedes enviar este campo vacío', 'max' => '* Máximo de :max dígitos']
         );
 

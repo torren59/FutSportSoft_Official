@@ -7,6 +7,7 @@ use App\Models\Configuracion\Roles;
 use App\Models\Roles\Permiso;
 use App\Models\Roles\Permiso_Rol;
 use App\Models\Roles\Rol;
+use App\Rules\noRepeatRolName;
 use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -35,7 +36,7 @@ class RolesController extends Controller
                 return view('configuracion.Roles')->with('listado', $ListadoRoles)->with('permisos_crear', $permisos)->with('sweet_setAll', $sweet_setAll);
                 break;
             default:
-            return view('configuracion.Roles')->with('listado', $ListadoRoles)->with('permisos_crear', $permisos);
+                return view('configuracion.Roles')->with('listado', $ListadoRoles)->with('permisos_crear', $permisos);
                 break;
         }
     }
@@ -69,9 +70,9 @@ class RolesController extends Controller
 
         $Permisos = $request->permisos;
 
-if($Permisos == null){
-    return redirect('roles/listar');
-}
+        if ($Permisos == null) {
+            return redirect('roles/listar');
+        }
         foreach ($Permisos as $item) {
 
             // Llena el objeto con los datos de un producto adicionado
@@ -151,26 +152,13 @@ if($Permisos == null){
     public function update(Request $request)
     {
         $id = $request->IdRol;
-        session(['id' => $request->IdRol]);
+
         $validator = Validator::make(
             $request->all(),
-            ['name' => ['min:1',
-            function ($attribute, $value, $fail) {
-                $a = session('id');
-                $outRegisterItem = Roles::where('name', '=', $value)
-                    ->where('id', '!=', $a)->count();
-                if (intval($outRegisterItem) != 0) {
-                    return $fail($attribute . ' ya está registrado para otro rol');
-                }
-            },'max:50']],
+            ['name' => ['min:1', new noRepeatRolName, 'max:50']],
             ['unique' => '* Este campo no acepta información que ya se ha registrado', 'min' => '* No puedes enviar este campo vacío', 'max' => '* Máximo de :max dígitos']
         );
 
-        session()->forget('id');
-
-        // $outRegisterItem = Roles::where('name', '=', $request->name)
-        // ->where('id', '!=', $request->IdRol)->count();
-        // return $outRegisterItem;
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
@@ -193,12 +181,28 @@ if($Permisos == null){
         foreach ($Permisosdelrol as $item) {
             array_push($Registrados, $item->PermisoId);
         }
+
+
         $Permisosnuevos = [];
-        foreach ($Permisosenviados as $item) {
-            if (!in_array($item, $Registrados)) {
+        if ($Permisosenviados != null) {
+            foreach ($Permisosenviados as $item) {
+                if (!in_array($item, $Registrados)) {
+                    array_push($Permisosnuevos, $item);
+                }
+            }
+        } else {
+            $Permisosenviados = [];
+        }
+
+        if (sizeof($Registrados) < 1) {
+            foreach ($Permisosenviados as $item) {
+
                 array_push($Permisosnuevos, $item);
             }
         }
+
+
+
 
         $Permisoseliminados = [];
         foreach ($Registrados as $item) {

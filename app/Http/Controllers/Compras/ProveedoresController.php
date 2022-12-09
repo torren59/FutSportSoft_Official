@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Compras;
 
 use App\Models\Compras\Proveedor;
 use App\Http\Controllers\Controller;
+use App\Rules\noRepeatAttribute;
+use App\Rules\noRepeatRolName;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Unique;
@@ -106,39 +108,16 @@ class ProveedoresController extends Controller
      */
     public function update(Request $request, $id)
     {
-        session(['Nit' => $id]);
+        $request['Nit'] = $id;
+
         $validator = Validator::make(
             $request->all(),
             ['NombreEmpresa' => [
-                'min:1',
-                function ($attribute, $value, $fail) {
-                    $id = session('Nit');
-                    $outRegisterItem = Proveedor::where('NombreEmpresa', '=', $value)
-                        ->where('Nit', '!=', $id)->count();
-                    if ($outRegisterItem > 0) {
-                        return $fail($attribute . ' ya está registrado para otro proveedor');
-                    }
-                }, 'max:50'
+                'min:1',new noRepeatAttribute,'max:50'
             ], 'Titular' => 'min:1|max:50', 'NumeroContacto' => 'min:1|max:15', 'Correo' => [
-                'min:1',
-                function ($attribute, $value, $fail) {
-                    $id = session('Nit');
-                    $outRegisterItem = Proveedor::where('Correo', '=', $value)
-                        ->where('Nit', '!=', $id)->count();
-                    if ($outRegisterItem > 0) {
-                        return $fail($attribute . ' ya está registrado para otro correo');
-                    }
-                }, 'max:50'
+                'min:1',new noRepeatAttribute, 'max:50'
             ], 'Direccion' => [
-                'min:1',
-                function ($attribute, $value, $fail) {
-                    $id = session('Nit');
-                    $outRegisterItem = Proveedor::where('Direccion', '=', $value)
-                        ->where('Nit', '!=', $id)->count();
-                    if ($outRegisterItem > 0) {
-                        return $fail($attribute . ' ya está registrado para otra direccion');
-                    }
-                }, 'max:50'
+                'min:1',new noRepeatAttribute, 'max:50'
             ]],
             ['unique' => '* Este campo no acepta información que ya se ha registrado', 'min' => '* No puedes enviar este campo vacío', 'max' => '* Máximo de :max dígitos']
         );

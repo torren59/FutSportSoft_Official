@@ -2,13 +2,12 @@
 
 namespace App\Rules;
 
-use App\Models\Configuracion\Roles;
+use App\Models\Programacion\Grupo;
 use Illuminate\Contracts\Validation\InvokableRule;
 use Illuminate\Contracts\Validation\DataAwareRule;
 
-class noRepeatRolName implements InvokableRule , DataAwareRule
+class noRepeatGrupos implements InvokableRule , DataAwareRule
 {
-
     protected $data =[];
     public function setData($data)
     {
@@ -27,14 +26,10 @@ class noRepeatRolName implements InvokableRule , DataAwareRule
     public function __invoke($attribute, $value, $fail)
     {
         $data=$this->data;
-        $outRegisterItem = Roles::where('name', '=', $value)
-        ->where('id', '!=', $data['IdRol'])->count();
+        $outRegisterItem = Grupo::where('NombreGrupo', '=', $value)
+        ->where('GrupoId', '!=', $data['IdGrupo'])->count();
     if ($outRegisterItem > 0) {
-        $fail('Este nombre ya corresponde a otro rol');
+        $fail('Este nombre ya corresponde a otro grupo');
     }
-
-
     }
 }
-
-

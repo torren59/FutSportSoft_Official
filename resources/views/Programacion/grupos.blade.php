@@ -95,8 +95,8 @@
                                             value="{{ old('NombreGrupo') }}">
                                         @error('NombreGrupo')
                                             <div>
-                                                @foreach ($errors->get('NombreGrupo') as $item)
-                                                    <small> {{ $item }} </small>
+                                                @foreach ($errors->get('NombreGrupo') as $NombreError)
+                                                    <small> {{ $NombreError }} </small>
                                                 @endforeach
                                             </div>
                                         @enderror
@@ -112,6 +112,13 @@
                                                 </option>
                                             @endforeach
                                         </select>
+                                        @error('CategoriaId')
+                                        <div>
+                                            @foreach ($errors->get('CategoriaId') as $NombreError)
+                                                <small> {{ $NombreError }} </small>
+                                            @endforeach
+                                        </div>
+                                    @enderror
                                     </div>
 
                                     <div class="col-6">
@@ -119,9 +126,16 @@
                                         <select class="form-select" name="Documento" aria-label="Default select example">
                                             <option selected>Selecione un Usuario</option>
                                             @foreach ($listado['ListadoUsuario'] as $item)
-                                                <option value="{{ $item->Documento }}">{{ $item->Nombre }}</option>
+                                                <option value="{{ $item->Documento }}">{{ $item->Nombre }}  {{$item->Documento}}</option>
                                             @endforeach
                                         </select>
+                                        @error('Documento')
+                                        <div>
+                                            @foreach ($errors->get('Documento') as $NombreError)
+                                                <small> {{ $NombreError }} </small>
+                                            @endforeach
+                                        </div>
+                                    @enderror
                                     </div>
                                 </div>
                                 <h1>Listado de Deportistas</h1>
