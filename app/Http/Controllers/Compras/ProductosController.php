@@ -85,18 +85,18 @@ class ProductosController extends Controller
 
     public function changeState(Request $request){
         $ProductoId = json_decode($request->ProductoId);
-        $Producto = Producto::find($ProductoId);
+        $Productos = Producto::find($ProductoId);
 
-        if($Producto->Estado == true){
-            $Producto->Estado = false;
+        if($Productos->Estado == true){
+            $Productos->Estado = false;
         }
         else{
-            $Producto->Estado = true;
+            $Productos->Estado = true;
         }
 
-        $Producto->save();
+        $Productos->save();
 
-        return json_encode($Producto);
+        return json_encode($Productos);
 
     }
 
