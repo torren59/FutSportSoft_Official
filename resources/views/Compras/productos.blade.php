@@ -5,6 +5,8 @@
 @section('title', 'Productos')
 
 @push('styles')
+{{-- Csrf para funcionamiento de Ajax --}}
+<meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href=" {{ asset('./css/layouts/datatable.css') }} ">
     <link rel="stylesheet" href="{{ asset('./css/layouts/cruds.css') }} ">
     <link href="https://unpkg.com/vanilla-datatables@latest/dist/vanilla-dataTables.min.css" rel="stylesheet" type="text/css">
@@ -74,7 +76,7 @@
 
                                 <div class="form-check form-switch">
                                     <input class="form-check-input" type="checkbox" role="switch"
-                                        id="flexSwitchCheckChecked" {{ $checkstate }}>
+                                        id="flexSwitchCheckChecked" {{ $checkstate }} onclick="changeState('{{$item->ProductoId}}')">
                                 </div>
                             @endif
                         </td>
@@ -201,4 +203,5 @@
     </script>
 
     <script src=" {{ asset('./js/layouts/cruds.js') }} "></script>
+    <script src=" {{ asset('./js/Programacion/producto.js') }} "></script>
 @endpush
