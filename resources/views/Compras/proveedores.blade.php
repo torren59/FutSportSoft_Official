@@ -5,6 +5,8 @@
 @section('title', 'Proveedores')
 
 @push('styles')
+{{-- Csrf para funcionamiento de Ajax --}}
+<meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href=" {{ asset('./css/layouts/datatable.css') }} ">
     <link rel="stylesheet" href="{{ asset('./css/layouts/cruds.css') }} ">
     <link href="https://unpkg.com/vanilla-datatables@latest/dist/vanilla-dataTables.min.css" rel="stylesheet" type="text/css">
@@ -18,9 +20,9 @@
 
     <div class="service_list">
         <center>
-            <div class="tituloTabla">
-                <h1>PROVEEDORES</h1>
-            </div>
+
+            <h1>Gestión de proveedores</h1>
+
         </center>
 
         @if (in_array(122, $permisos))
@@ -49,8 +51,8 @@
                         <td>
 
                             @if (in_array(134, $permisos))
-                                <a href="{{ url('proveedor/editar/' . $item->Nit) }}"><button class="btn btn-primary"><i
-                                            class="fa-solid fa-pen"></i></button></a>
+                                <a href="{{ url('proveedor/editar/' . $item->Nit) }}"><button
+                                        class="btn btn-outline-primary"><i class="fa-solid fa-pen"></i></button></a>
                             @endif
                         </td>
                         <td>{{ $item->Nit }}</td>
@@ -71,7 +73,8 @@
 
                                 <div class="form-check form-switch">
                                     <input class="form-check-input" type="checkbox" role="switch"
-                                        id="flexSwitchCheckChecked" {{ $checkstate }}>
+                                        id="flexSwitchCheckChecked" {{ $checkstate }}
+                                        onclick="changeState2({{ $item->Nit }})">
                                 </div>
                             @endif
                         </td>
@@ -85,22 +88,23 @@
 
         <div id="proveedoradicion" class="adicion_off" style="width:600px;height:400px">
             <div class="floatcontent">
-                <h4 style="padding-top:5%;">Nuevo Proveedor</h4>
-                <hr>
+                <h2 style="padding-top:5%;">Nuevo Proveedor</h2>
+
 
                 <form action={{ url('proveedor/crear') }} method="post"> @csrf
-
-                    <label for="Nit" class="form-label">Nit</label>
-                    <input type="number" class="form-control" name="Nit" value="{{ old('Nit') }}">
-                    @error('Nit')
-                        <div>
-                            @foreach ($errors->get('Nit') as $item)
-                                <small> {{ $item }} </small>
-                            @endforeach
+                    <div class="row justify-content-center">
+                        <div class="col-6">
+                            <label for="Nit" class="form-label">Nit</label>
+                            <input type="number" class="form-control" name="Nit" value="{{ old('Nit') }}">
+                            @error('Nit')
+                                <div>
+                                    @foreach ($errors->get('Nit') as $item)
+                                        <small> {{ $item }} </small>
+                                    @endforeach
+                                </div>
+                            @enderror
                         </div>
-                    @enderror
 
-                    <div class="row">
                         <div class="col-6">
                             <label for="NombreEmpresa" class="form-label">Nombre Empresa</label>
                             <input type="text" class="form-control" name="NombreEmpresa"
@@ -124,41 +128,48 @@
                                 </div>
                             @enderror
                         </div>
+
+                        <div class="col-6">
+                            <label for="NumeroContacto" class="form-label">Numero Contacto</label>
+                            <input type="number" class="form-control" name="NumeroContacto"
+                                value=" {{ old('NumeroContacto') }} ">
+                            @error('NumeroContacto')
+                                <div>
+                                    @foreach ($errors->get('NumeroContacto') as $item)
+                                        <small> {{ $item }} </small>
+                                    @endforeach
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="col-6">
+                            <label for="Correo" class="form-label">Correo</label>
+                            <input type="text" class="form-control" name="Correo" value=" {{ old('Correo') }} ">
+                            @error('Correo')
+                                <div>
+                                    @foreach ($errors->get('Correo') as $item)
+                                        <small> {{ $item }} </small>
+                                    @endforeach
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="col-6">
+                            <label for="Direccion" class="form-label">Dirección</label>
+                            <input type="text" class="form-control" name="Direccion" value=" {{ old('Direccion') }} ">
+                            @error('Direccion')
+                                <div>
+                                    @foreach ($errors->get('Direccion') as $item)
+                                        <small> {{ $item }} </small>
+                                    @endforeach
+                                </div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="botonesproveedor p-5"><button type="submit"
+                            class="btn btn-outline-primary">Guardar</i></button>
+                        <button type="button" class="btn btn-outline-secondary"
+                            onclick="switchadicion2('proveedoradicion')">Cancelar</i></button>
                     </div>
 
-                    <label for="NumeroContacto" class="form-label">Numero Contacto</label>
-                    <input type="number" class="form-control" name="NumeroContacto" value=" {{ old('NumeroContacto') }} ">
-                    @error('NumeroContacto')
-                        <div>
-                            @foreach ($errors->get('NumeroContacto') as $item)
-                                <small> {{ $item }} </small>
-                            @endforeach
-                        </div>
-                    @enderror
-
-                    <label for="Correo" class="form-label">Correo</label>
-                    <input type="text" class="form-control" name="Correo" value=" {{ old('Correo') }} ">
-                    @error('Correo')
-                        <div>
-                            @foreach ($errors->get('Correo') as $item)
-                                <small> {{ $item }} </small>
-                            @endforeach
-                        </div>
-                    @enderror
-
-                    <label for="Direccion" class="form-label">Dirección</label>
-                    <input type="text" class="form-control" name="Direccion" value=" {{ old('Direccion') }} ">
-                    @error('Direccion')
-                        <div>
-                            @foreach ($errors->get('Direccion') as $item)
-                                <small> {{ $item }} </small>
-                            @endforeach
-                        </div>
-                    @enderror
-                    <br>
-                    <button type="submit" class="btn btn-primary btn-success">Guardar</i></button>
-                    <button type="button" class="btn btn-primary btn-danger"
-                        onclick="switchadicion2('proveedoradicion')">Cancelar</i></button>
 
                 </form>
             </div>
@@ -173,6 +184,16 @@
         @endif
 
     </div>
+
+     {{-- Mensajes personalizados --}}
+     @if (isset($sweet_setAll))
+     <script>
+         setTimeout(() => {
+             swal_setAll("{{ $sweet_setAll['title'] }}", "{{ $sweet_setAll['msg'] }}",
+                 "{{ $sweet_setAll['type'] }}");
+         }, 500);
+     </script>
+ @endif
 @endsection
 
 
@@ -183,4 +204,5 @@
     </script>
 
     <script src=" {{ asset('./js/layouts/cruds.js') }} "></script>
+    <script src=" {{ asset('./js/layouts/Compras/proveedores.js') }} "></script>
 @endpush

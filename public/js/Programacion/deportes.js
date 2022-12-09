@@ -60,19 +60,19 @@ function cancelUncheck(deporteId){
 }
 
 /**
- * @param {Array} deportes 
+ * @param {Array} deportes
  */
 function setMsg(deportes){
     let msg = "";
     let rows = deportes.length;
-    msg += 'Deporte '+ deportes[0].NombreDeporte +' vinculado a la categoría con id ';
-    msg += deportes[0].CategoriaId+' <br> Total programaciones vinculadas: '+(rows);
+    msg += '<h3>'+'Deporte '+ deportes[0].NombreDeporte +'<br>'+' vinculado a la categoría con id '+
+     deportes[0].CategoriaId+' <br> Total programaciones vinculadas: '+(rows)+'</h3>';
 
     $('#errorsEstadoMsg').html(msg);
 }
 
 /**
- * @param {int} modalId 
+ * @param {int} modalId
  */
 function alterModal(modalId){
     let adicion = document.getElementById(modalId);
@@ -89,7 +89,7 @@ function alterModal(modalId){
 }
 
 /**
- * @param {int} deporteId 
+ * @param {int} deporteId
  */
 async function changeState(deporteId){
 
@@ -116,9 +116,9 @@ async function changeState(deporteId){
 }
 
 /**
- * 
- * @param {int} deporteId 
- * @param {string} modalId 
+ *
+ * @param {int} deporteId
+ * @param {string} modalId
  */
 async function tryChange(deporteId, modalId){
     if(changeNow(deporteId)){

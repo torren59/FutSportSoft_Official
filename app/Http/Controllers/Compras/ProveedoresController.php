@@ -17,11 +17,25 @@ class ProveedoresController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($status = null)
     {
         $Proveedor = new Proveedor();
         $ListadoProveedor = $Proveedor->all();
-        return view('Compras.proveedores')->with('listado', $ListadoProveedor);
+
+
+        switch ($status) {
+            case 1:
+                $sweet_setAll = ['title' => 'Registro guardado', 'msg' => 'El registro se guardó exitosamente', 'type' => 'success'];
+                return view('Compras.proveedores')->with('listado', $ListadoProveedor)->with('sweet_setAll', $sweet_setAll);
+                break;
+            case 2:
+                $sweet_setAll = ['title' => 'Registro editado', 'msg' => 'El registro se editó exitosamente', 'type' => 'success'];
+                return view('Compras.proveedores')->with('listado', $ListadoProveedor)->with('sweet_setAll', $sweet_setAll);
+                break;
+            default:
+            return view('Compras.proveedores')->with('listado', $ListadoProveedor);
+                break;
+        }
     }
 
     /**
@@ -47,7 +61,7 @@ class ProveedoresController extends Controller
         }
 
         $Proveedor->save();
-        return redirect('proveedor/listar');
+        return redirect('proveedor/listar/1');
     }
 
     /**
@@ -113,15 +127,15 @@ class ProveedoresController extends Controller
         $validator = Validator::make(
             $request->all(),
             ['NombreEmpresa' => [
-                'min:1',new noRepeatAttribute,'max:50'
+                'min:1', new noRepeatAttribute, 'max:50'
             ], 'Titular' => 'min:1|max:50', 'NumeroContacto' => 'min:1|max:15', 'Correo' => [
-                'min:1',new noRepeatAttribute, 'max:50'
+                'min:1', new noRepeatAttribute, 'max:50'
             ], 'Direccion' => [
-                'min:1',new noRepeatAttribute, 'max:50'
+                'min:1', new noRepeatAttribute, 'max:50'
             ]],
             ['unique' => '* Este campo no acepta información que ya se ha registrado', 'min' => '* No puedes enviar este campo vacío', 'max' => '* Máximo de :max dígitos']
         );
-        session()->forget('Nit');
+
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
@@ -131,7 +145,7 @@ class ProveedoresController extends Controller
             $Proveedor->$item = $request->$item;
         }
         $Proveedor->save();
-        return redirect('proveedor/listar');
+        return redirect('proveedor/listar/2');
     }
 
 

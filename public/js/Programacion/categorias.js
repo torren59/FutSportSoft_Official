@@ -64,8 +64,8 @@ function cancelUncheck(categoriaId){
 function setMsg(categorias){
     let msg = "";
     let rows = categorias.length;
-    msg += 'Categoria '+ categorias[0].NombreCategoria +' vinculada al grupo con id ';
-    msg += categorias[0].GrupoId+' <br> Total grupos vinculados: '+(rows);
+    msg += '<h3>'+'Categoria: '+ categorias[0].NombreCategoria +'<br>'+' vinculada al grupo con id: '+
+     categorias[0].GrupoId+' <br>'+ 'Total grupos vinculados: '+(rows)+'</h3>';
 
     $('#errorsEstadoMsg').html(msg);
 }

@@ -60,19 +60,19 @@ function cancelUncheck(horarioId){
 }
 
 /**
- * @param {Array} horarios 
+ * @param {Array} horarios
  */
 function setMsg(horarios){
     let msg = "";
     let rows = horarios.length;
-    msg += 'Horario '+ horarios[0].NombreHorario +' vinculado a la programación con id ';
-    msg += horarios[0].ProgramacionId+' <br> Total programaciones vinculadas: '+(rows);
+    msg += '<h3>'+'Horario '+ horarios[0].NombreHorario +'<br>'+' vinculado a la programación con id '+
+     horarios[0].ProgramacionId+' <br> Total programaciones vinculadas: '+(rows)+'<h3>';
 
     $('#errorsEstadoMsg').html(msg);
 }
 
 /**
- * @param {int} modalId 
+ * @param {int} modalId
  */
 function alterModal(modalId){
     let adicion = document.getElementById(modalId);
@@ -89,7 +89,7 @@ function alterModal(modalId){
 }
 
 /**
- * @param {int} horarioId 
+ * @param {int} horarioId
  */
 async function changeState(horarioId){
 
@@ -116,9 +116,9 @@ async function changeState(horarioId){
 }
 
 /**
- * 
- * @param {int} horarioId 
- * @param {string} modalId 
+ *
+ * @param {int} horarioId
+ * @param {string} modalId
  */
 async function tryChange(horarioId, modalId){
     if(changeNow(horarioId)){
