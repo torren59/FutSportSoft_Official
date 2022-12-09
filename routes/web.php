@@ -90,12 +90,13 @@ Route::controller(ComprasController::class)->middleware('auth')->group(
 
 Route::controller(GruposController::class)->middleware('auth')->group(
     function () {
-        Route::get('grupos/listar', 'index')->middleware('IsAuthorized:109');
+        Route::get('grupos/listar/{status?}', 'index')->middleware('IsAuthorized:109');
         Route::post('grupos/store', 'store')->middleware('IsAuthorized:128');
         Route::post('grupos/crear', 'create')->middleware('IsAuthorized:128');
         Route::get('grupos/editar/{GrupoId}','edit')->middleware('IsAuthorized:140');
         Route::post('grupos/actualizar','update')->middleware('IsAuthorized:140');
-        Route::get('grupos/getDetalle/{GruposId?}','getDetalle')->middleware('IsAuthorized:117');
+        Route::get('grupos/getDetalle/{GrupoId?}','getDetalle')->middleware('IsAuthorized:117');
+        Route::post('grupos/cambiarEstado','changeState');
 
 
 

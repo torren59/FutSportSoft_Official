@@ -172,27 +172,37 @@ class RolesController extends Controller
 
 
         $Permisosenviados = $request->chequeados;
+        if($Permisosenviados == null){
+            $Permisosenviados = [];
+        }
+
         $Permisosdelrol = Rol::select(['permisos.PermisoId'])
             ->join('permisos_roles', 'permisos_roles.id', '=', 'roles.id')
             ->join('permisos', 'permisos_roles.PermisoId', '=', 'permisos.PermisoId')
             ->where('roles.id', '=', $id)
             ->get();
+
+
         $Registrados = [];
-        foreach ($Permisosdelrol as $item) {
-            array_push($Registrados, $item->PermisoId);
+        if(sizeof($Permisosdelrol) > 0){
+            foreach ($Permisosdelrol as $item) {
+                array_push($Registrados, $item->PermisoId);
+            }
         }
 
 
+
+
         $Permisosnuevos = [];
-        if ($Permisosenviados != null) {
+        if (sizeof($Permisosenviados) > 0 && sizeof($Registrados) > 0 ) {
             foreach ($Permisosenviados as $item) {
                 if (!in_array($item, $Registrados)) {
                     array_push($Permisosnuevos, $item);
                 }
             }
-        } else {
-            $Permisosenviados = [];
         }
+
+
 
         if (sizeof($Registrados) < 1) {
             foreach ($Permisosenviados as $item) {

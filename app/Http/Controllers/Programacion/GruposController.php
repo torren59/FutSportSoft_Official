@@ -20,7 +20,7 @@ class GruposController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($status = null)
     {
         $ListadoGrupos = Grupos::select(['GrupoId', 'categorias.NombreCategoria', 'users.Nombre', 'NombreGrupo', 'grupos.Estado'])
             ->join('users', 'grupos.Documento', '=', 'users.Documento')
@@ -30,7 +30,21 @@ class GruposController extends Controller
         $ListadoUsuario = User::all();
         $Deportista = Deportista::select(['Documento', 'Nombre', 'FechaNacimiento'])->get();
         $Listados = ['ListadoGrupos' => $ListadoGrupos, 'ListadoCategoria' => $ListadoCategoria, 'ListadoUsuario' => $ListadoUsuario];
-        return view('Programacion.grupos')->with('listado', $Listados)->with('deportistas_crear', $Deportista);
+
+
+        switch ($status) {
+            case 1:
+                $sweet_setAll = ['title' => 'Registro guardado', 'msg' => 'El registro se guardó exitosamente', 'type' => 'success'];
+                return view('Programacion.grupos')->with('listado', $Listados)->with('deportistas_crear', $Deportista)->with('sweet_setAll', $sweet_setAll);
+                break;
+            case 2:
+                $sweet_setAll = ['title' => 'Registro editado', 'msg' => 'El registro se editó exitosamente', 'type' => 'success'];
+                return view('Programacion.grupos')->with('listado', $Listados)->with('deportistas_crear', $Deportista)->with('sweet_setAll', $sweet_setAll);
+                break;
+            default:
+            return view('Programacion.grupos')->with('listado', $Listados)->with('deportistas_crear', $Deportista);
+                break;
+        }
     }
 
     /**
@@ -64,7 +78,7 @@ class GruposController extends Controller
         $Deportista = $request->deportistas;
 
         if ($Deportista == null) {
-            return redirect('grupos/listar');
+            return redirect('grupos/listar/1');
         }
 
 
@@ -169,6 +183,9 @@ class GruposController extends Controller
 
 
         $Deportistasenviados = $request->chequeados;
+        if($Deportistasenviados == null){
+            $Deportistasenviados = [];
+        }
 
         $deportistasdelgrupo = Grupo::select(['deportistas.Documento'])
             ->join('grupos_deportistas', 'grupos_deportistas.GrupoId', '=', 'grupos.GrupoId')
@@ -177,12 +194,16 @@ class GruposController extends Controller
             ->get();
 
         $Registrados = [];
-        foreach ($deportistasdelgrupo as $item) {
-            array_push($Registrados, $item->Documento);
+        if(sizeof($deportistasdelgrupo) > 0){
+            foreach ($deportistasdelgrupo as $item) {
+                array_push($Registrados, $item->Documento);
+            }
         }
 
+
+
         $Deportistasnuevos = [];
-        if ($Deportistasenviados != null) {
+        if (sizeof($Deportistasenviados) > 0 && sizeof($Registrados) > 0 ) {
             foreach ($Deportistasenviados as $item) {
                 if (!in_array($item, $Registrados)) {
                     array_push($Deportistasnuevos, $item);
@@ -190,9 +211,7 @@ class GruposController extends Controller
 
             }
         }
-        else{
-            $Deportistasenviados = [];
-        }
+
 
         if (sizeof($Registrados) < 1) {
             foreach ($Deportistasenviados as $item) {
@@ -200,6 +219,7 @@ class GruposController extends Controller
                 array_push($Deportistasnuevos, $item);
             }
         }
+
 
 
         $Deportistaseliminados = [];
@@ -210,10 +230,12 @@ class GruposController extends Controller
         }
 
         foreach ($Deportistaseliminados as $item) {
-            $GruposDeportistasID = Grupos_Deportistas::select(['GruposDeportistasId'])->where('GrupoId', '=', $request->IdGrupo)->where('Documento', '=', $item)->get();
+            $GruposDeportistasID = Grupos_Deportistas::select(['GruposDeportistasId'])
+            ->where('GrupoId', '=', $request->IdGrupo)->where('Documento', '=', $item)->get();
             $GrupoDeportista = Grupos_Deportistas::find($GruposDeportistasID[0]['GruposDeportistasId']);
             $GrupoDeportista->delete();
         }
+
 
         foreach ($Deportistasnuevos as $item) {
             $GruposDeportistas = new Grupos_Deportistas();
@@ -223,7 +245,49 @@ class GruposController extends Controller
             $GruposDeportistas->GrupoId = $request->IdGrupo;
             $GruposDeportistas->save();
         }
-        return redirect('grupos/listar');
+        return redirect('grupos/listar/2');
+    }
+
+
+    public function changeState(Request $request)
+    {
+        //   $GrupoId = $request->GrupoId;
+        $GrupoId = json_decode($request->GrupoId);
+        $Grupo = Grupo::find($GrupoId);
+
+        if ($Grupo->Estado == true) {
+            $Grupo->Estado = false;
+        } else {
+            $Grupo->Estado = true;
+        }
+
+        $Grupo->save();
+
+        return json_encode($Grupo);
+    }
+
+
+    public function getDetalle(Request $request)
+    {
+        $GrupoId = $request->GrupoId;
+        $DeportasRescatados = [];
+
+
+        $Grupo = Grupo::select(['NombreGrupo','categorias.NombreCategoria','users.Nombre'])
+        ->join('categorias', 'grupos.CategoriaId', '=', 'categorias.CategoriaId')
+        ->join('users', 'grupos.Documento', '=', 'users.Documento')->where('GrupoId', '=', $GrupoId)
+        ->get();
+
+
+
+        $Deportista = Grupos_Deportistas::select(['deportistas.Nombre'])
+            ->join('deportistas', 'grupos_deportistas.Documento', '=', 'deportistas.Documento')
+            ->where('grupos_deportistas.GrupoId', '=', $GrupoId)
+            ->get();
+
+        array_push($DeportasRescatados, $Grupo, $Deportista);
+
+        return $DeportasRescatados;
     }
 
     /**

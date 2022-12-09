@@ -229,12 +229,12 @@ function DetalleRoles(id, IdModal, IdDiv) {
             //  Llenado de variable con html, cambiar diseño o estructura HTML desde aquí
             Contenido +=
                 '<div class="container" style="text-align:center">' +
-                "<p><h4>Nombre del Rol: " +
+                "<h4>Nombre del Rol: " +
                 Roles["name"] +
                 "</h4>" +
                 "</div>";
             Contenido +=
-                "<center><div><h1>Permisos Asociados</h1></div></center>";
+                "<center><div><h1>Permisos asociados</h1></div></center>";
             Contenido += "<hr/>";
             Permiso.forEach((element) => {
                 Contenido +=
@@ -257,6 +257,68 @@ function DetalleRoles(id, IdModal, IdDiv) {
         },
     });
 }
+
+
+
+
+
+// Detalles para grupos
+function DetalleGrupos(GrupoId, IdModal, IdDiv) {
+    Contenido = "";
+
+    $.ajax({
+        type: "get",
+        url: "/grupos/getDetalle/",
+        dataType: "json",
+        data: { GrupoId: JSON.stringify(GrupoId) },
+
+        success: function (data) {
+            GruposTotalData = Object.entries(data);
+            // Las variables contiene la info de compra y los artículos de la misma respectivamente
+            Grupo = GruposTotalData[0][1][0];
+            Deportista = GruposTotalData[1][1];
+            //  Llenado de variable con html, cambiar diseño o estructura HTML desde aquí
+            Contenido +=
+                '<div class="container" style="text-align:center">' +
+                "<h4>Nombre del Grupo: " +
+                Grupo["NombreGrupo"] +
+                "</h4>" +
+                "<h4>Nombre de la categoría: " +
+                Grupo["NombreCategoria"] +
+                "</h4>" +
+                "<h4>Nombre del encargado: " +
+                Grupo["Nombre"] +
+                "</h4>" +
+                "</div>";
+            Contenido +=
+                "<center><div><h1>Deportistas asociados</h1></div></center>";
+            Contenido += "<hr/>";
+            Deportista.forEach((element) => {
+                Contenido +=
+                    '<div class=" card p-2 col-md-6" style="width:90%;height:50px;box-shadow: 0px 10px 10px -6px black;margin:5px;">' +
+                    "<h4>Producto: " +
+                    element["Nombre"] +
+                    "</h4>" +
+                    "</div>";
+                Contenido += "<hr/>";
+            });
+
+            // Inyección de info en el documento y llamado al modal
+            $("#" + IdDiv).html(Contenido);
+            switchadicion2(IdModal);
+            console.log(Grupo["NombreGrupo"]);
+        },
+
+        error: function (data) {
+            alert("Error " + data);
+        },
+    });
+}
+
+
+
+
+
 
 function detalleUsuario(id, IdModal, IdDiv) {
     Contenido = "";

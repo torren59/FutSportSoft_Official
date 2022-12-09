@@ -198,8 +198,6 @@
         }, 500);
     </script>
 @endif
-
-    </div>
 @endsection
 
 

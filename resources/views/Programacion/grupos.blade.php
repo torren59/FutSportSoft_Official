@@ -3,8 +3,11 @@
 @section('title', 'Grupos')
 
 @push('styles')
+ {{-- Csrf para funcionamiento de Ajax --}}
+ <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href=" {{ asset('./css/layouts/datatable.css') }} ">
     <link rel="stylesheet" href="{{ asset('./css/layouts/cruds.css') }} ">
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @endpush
 
 @section('content')
@@ -48,6 +51,13 @@
                                 class="btn btn-outline-primary"><i
                                     class="fa-solid fa-pen"></i></button></a></abbr>
                             @endif
+
+
+                            @if (in_array(117, $permisos))
+                                <abbr title="Detalles"><button type="button" class="btn btn-outline-secondary"
+                                        onclick="DetalleGrupos({{ $item->GrupoId }},'detallegrupo','jsPrint')"><i
+                                            class="fa-solid fa-circle-info"></i></button></abbr>
+                            @endif
                         </td>
 
                         <td>{{ $item->GrupoId }}</td>
@@ -66,10 +76,11 @@
                                     }
                                 @endphp
 
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" role="switch"
-                                        id="flexSwitchCheckChecked" {{ $checkstate }}>
-                                </div>
+<div class="form-check form-switch">
+    <input class="form-check-input" type="checkbox" role="switch"
+        id="flexSwitchCheckChecked" {{ $checkstate }}
+        onclick="changeState2({{ $item->GrupoId }})">
+</div>
                             @endif
                         </td>
 
@@ -223,6 +234,15 @@
         </div>
     </div>
 
+ {{-- Mensajes personalizados --}}
+ @if (isset($sweet_setAll))
+ <script>
+     setTimeout(() => {
+         swal_setAll("{{ $sweet_setAll['title'] }}", "{{ $sweet_setAll['msg'] }}",
+             "{{ $sweet_setAll['type'] }}");
+     }, 500);
+ </script>
+@endif
 
 @endsection
 
@@ -236,6 +256,8 @@
     @endif
 
 
+
+
 @push('scripts')
     <script>
         let tabla = document.getElementById("tabla");
@@ -245,4 +267,5 @@
 
     <script src=" {{ asset('./js/layouts/cruds.js') }} "></script>
     <script src=" {{ asset('./js/layouts/asincronas.js') }} "></script>
+    <script src=" {{ asset('./js/Programacion/grupos.js') }} "></script>
 @endpush
