@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Programacion;
 use App\Http\Controllers\Controller;
 use App\Models\Programacion\Categoria;
 use App\Models\Programacion\Deporte;
+use App\Rules\customRuleCategorias;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -52,7 +53,7 @@ class CategoriaController extends Controller
         $request['CategoriaId'] = $id;
         $validator = Validator::make(
             $request->all(),
-            ['NombreCategoria' => '[required','max:50]', 
+            ['NombreCategoria' => ['required',new customRuleCategorias,'max:50'], 
             'DeporteId' => 'numeric|max:50|required', 
             'RangoEdad' => 'required|max:30'],
             ['unique' => '* Este campo no acepta información que ya se ha registrado', 'required' => '* No puedes enviar este campo vacío', 'max' => '* Máximo de :max dígitos', 'numeric'=>'* Debes seleccionar una opción']
@@ -149,18 +150,12 @@ class CategoriaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        session(['CategoriaId' => $id]);
+        $request['CategoriaId'] = $id;
         $validator = Validator::make(
             $request->all(),
-            ['NombreCategoria' => ['min:1',
-            function ($attribute, $value, $fail) {
-                $id = session('CategoriaId');
-                $outRegisterItem = Categoria::where('NombreCategoria', '=', $value)
-                    ->where('CategoriaId', '!=', $id)->count();
-                if ($outRegisterItem > 0) {
-                    return $fail($attribute . ' ya está registrado para otra categoría');
-                }
-            },'max:50'], 'DeporteId' => 'max:50|required', 'RangoEdad' => 'min:1|max:30'],
+            ['NombreCategoria' => ['min:1',new customRuleCategorias,'max:50'], 
+            'DeporteId' => 'max:50|required', 
+            'RangoEdad' => 'min:1|max:30'],
             ['unique' => '* Este campo no acepta información que ya se ha registrado', 'min' => '* No puedes enviar este campo vacío', 'max' => '* Máximo de :max dígitos']
         );
         session()->forget('CategoriaId');
