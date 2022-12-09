@@ -163,10 +163,11 @@ class VentasController extends Controller
     public function getDetalle($id)
     {
         
-        $detalleVenta = Venta::select(['ventas.FechaVenta','ventas.ValorVenta','ventas.SubTotal','ventas.Iva','ventas.Descuento','ventas.Estado','deportistas.Documento','deportistas.Nombre'])
+        $detalleVenta = Venta::select(['ventas.FechaVenta','ventas.ValorVenta','ventas.VentaId','ventas.SubTotal','ventas.Iva','ventas.Descuento','ventas.Estado','deportistas.Documento','deportistas.Nombre'])
         ->join('deportistas','deportistas.Documento','=','ventas.Documento')
         ->where('ventas.VentaId','=',$id)
         ->get();
+
         $articulosVendidos = Articulo_Vendido::select(['productos.NombreProducto','articulos_vendidos.Cantidad','articulos_vendidos.PrecioVenta'])
         ->join('productos','productos.ProductoId','=','articulos_vendidos.ProductoId')
         ->where('articulos_vendidos.VentaId','=',$detalleVenta[0]['VentaId'])

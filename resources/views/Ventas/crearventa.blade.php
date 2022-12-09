@@ -114,6 +114,8 @@
                 <div class="grid_span_2a3">
                     <button type="button" class="btn btn-outline-success"
                         onclick="openConfirmationModal('ConfirmationModal')">Continuar</button>
+                        <a href=" {{url('venta/listar')}} "><button type="button" class="btn btn-outline-danger">
+                            Cancelar</button></a>
                 </div>
             </div>
 
@@ -137,7 +139,55 @@
                 </div>
             </div>
         </div>
-a
+
+                {{-- Modal de confirmación --}}
+                <div id="ConfirmationModal" class="adicion_off" style="width: 300px;height:500px;">
+                    <div class="floatcontent">
+                        <h4 style="padding-top:5%;">Confirmación</h4>
+        
+                        <div>
+                            <label for="SubTotal_On_Confirm" class="form-label">SubTotal</label>
+                            <input disabled type="text" class="form-control" id="SubTotal_On_Confirm">
+                        </div>
+        
+                        <div>
+                            <label for="Iva_On_Confirm" class="form-label">Iva</label>
+                            <input disabled type="text" class="form-control" id="Iva_On_Confirm">
+                        </div>
+        
+                        <div>
+                            <label for="Total_On_Confirm" class="form-label">Total</label>
+                            <input disabled type="text" class="form-control" id="Total_On_Confirm">
+                        </div>
+        
+                        <div>
+                            <label for="Descuento_On_Confirm" class="form-label">Descuento</label>
+                            <input type="number" class="form-control" id="Descuento_On_Confirm" name="Descuento">
+                        </div>
+        
+        
+                        <div id="ConfirmationError">
+                            {{-- Acá se imprime error en caso de validación  --}}
+                        </div>
+                        <br>
+        
+                        <div class="col-12 row">
+                            <div class="col-6">
+                                <button class="btn btn-outline-success" onclick="openSendButton()">
+                                    Guardar
+                                </button>
+                            </div>
+        
+                            <div class="col-6">
+                                <button class="btn btn-outline-danger" onclick="closeModal('ConfirmationModal')">
+                                    Cancelar
+                                </button>
+                            </div>
+                        </div>
+        
+                    </div>
+                </div>
+                
         </form>
 
 
@@ -186,53 +236,7 @@ a
             </div>
         </div>
 
-        {{-- Modal de confirmación --}}
-        <div id="ConfirmationModal" class="adicion_off" style="width: 300px;height:500px;">
-            <div class="floatcontent">
-                <h4 style="padding-top:5%;">Confirmación</h4>
 
-                <div>
-                    <label for="SubTotal_On_Confirm" class="form-label">SubTotal</label>
-                    <input disabled type="text" class="form-control" id="SubTotal_On_Confirm">
-                </div>
-
-                <div>
-                    <label for="Iva_On_Confirm" class="form-label">Iva</label>
-                    <input disabled type="text" class="form-control" id="Iva_On_Confirm">
-                </div>
-
-                <div>
-                    <label for="Total_On_Confirm" class="form-label">Total</label>
-                    <input disabled type="text" class="form-control" id="Total_On_Confirm">
-                </div>
-
-                <div>
-                    <label for="Descuento_On_Confirm" class="form-label">Descuento</label>
-                    <input type="number" class="form-control" id="Descuento_On_Confirm">
-                </div>
-
-
-                <div id="ConfirmationError">
-                    {{-- Acá se imprime error en caso de validación  --}}
-                </div>
-                <br>
-
-                <div class="col-12 row">
-                    <div class="col-6">
-                        <button class="btn btn-outline-success" onclick="openSendButton()">
-                            Guardar
-                        </button>
-                    </div>
-
-                    <div class="col-6">
-                        <button class="btn btn-outline-danger" onclick="closeModal('ConfirmationModal')">
-                            Cancelar
-                        </button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
 
 
     </div>
