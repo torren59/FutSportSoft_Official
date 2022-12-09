@@ -143,6 +143,8 @@ function printFinalIva(data, Descuento){
 function printFinalSubTotal(data, Descuento){
     let Info = data;
 
+    console.log('SubTDes'+Descuento);
+
     if(Descuento == 0  || Descuento == null ){
         $('#SubTotal_On_Confirm').prop('value', Info[0]['VentaData']['SubTotal']);
         return;
@@ -161,6 +163,7 @@ async function addConfirmation(){
     let Confirmation = getErrorMessage_Confirmation(validateDescuento(Info, Descuento));
     console.log(Confirmation);
     console.log(validateDescuento(Info, Descuento));
+
     if(!Confirmation){
         return 0;
     }
@@ -200,10 +203,10 @@ function getFacturacion() {
         data: {
         },
         success: function (data) {
-            // data = Object.entries(data);
-            // let Info = data[0][1]['VentaData'];
-            // console.log(Info);
-            // return Info;
+            data = Object.entries(data);
+            let Info = data[0][1]['VentaData'];
+            console.log(Info);
+            return Info;
         },
         error: function (error) {
             alert(error);
