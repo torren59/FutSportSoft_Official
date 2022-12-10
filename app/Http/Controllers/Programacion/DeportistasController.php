@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Programacion;
 use App\Http\Controllers\Controller;
 use App\Models\Programacion\Acudiente;
 use App\Models\Programacion\Deportista;
+use App\Models\Programacion\tipo_documento;
+use App\Rules\customRuleDeportistas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Unique;
@@ -28,6 +30,7 @@ class DeportistasController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    /*
     public function create(Request $request)
     {
         $validator = Validator::make($request->all(), 
@@ -51,6 +54,56 @@ class DeportistasController extends Controller
 
         $Deportista->save();
         return redirect('deportista/listar');
+    }
+    */
+
+    public function create(){
+        $TiposDocumentos = tipo_documento::all();
+        return view('Programacion.creardeportista')->with('TiposDoc',$TiposDocumentos);
+    }
+
+    public function saveData(Request $request){
+
+
+
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'Nombre' => ['required','max:50'],
+                'TipoDocumento' => ['required'],
+                'Documento' => ['required','max:10', new customRuleDeportistas],
+                'FechaNacimiento' => ['required'],
+                'Celular' => ['required','numeric','max:13'],
+                'Direccion' => ['required','max:80']
+            ],
+            [
+                'required' => 'Evite enviar este campo vacío',
+                'max' => 'Campo excede los :max carácteres máximos',
+                'numeric' => 'Este campo SOLO acepta números'
+            ]
+        );
+
+        if(isset($request->newAcc)){
+            return $request->all();
+        }
+
+        if($validator->fails()){
+            return redirect('deportista/crear')->withErrors($validator)->withInput();
+        }
+
+        //session(['Deportista' => $request->all()]); 
+        $Ba = 0;
+        switch($Ba){
+            case 1:
+                return 'Nuevo acudiente';
+            break;
+            case 2:
+                return 'Guardar Ya';
+            break;
+            case 3:
+                return 'Seleccionar acudiente';
+            break;
+        }
     }
 
     /**

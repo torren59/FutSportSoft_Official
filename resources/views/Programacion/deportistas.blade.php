@@ -23,12 +23,22 @@
             </div>
         </center>
 
-        @if (in_array(126, $permisos))
+        {{-- @if (in_array(126, $permisos))
             <div class="addbtn">
                 <button class="btn btn-outline-secondary col-2" onclick="switchadicion2('deportistaadicion')">Nuevo
                     Deportista <i class="fa-solid fa-circle-plus"></i></button>
             </div>
-        @endif
+        @endif  --}}
+
+        @if (in_array(126, $permisos))
+        
+            <a href=" {{url('deportista/crear')}} ">
+                <div class="addbtn">
+                <button class="btn btn-outline-secondary col-2">Nuevo Deportista <i class="fa-solid fa-circle-plus"></i></button>
+            </div>
+            </a>
+        
+    @endif
 
         <table id="tabla">
             <thead>

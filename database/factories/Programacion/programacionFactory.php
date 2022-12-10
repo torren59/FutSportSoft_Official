@@ -22,7 +22,7 @@ class programacionFactory extends Factory
      */
     public function definition()
     {
-        $FechaInicio = date('Y-m-d',mt_rand(0,10565978));
+        $FechaInicio = date('Y-m-d',mt_rand(1577836800,1672444800));
         $FechaFinal = date('Y-m-d',strtotime('+1 month',strtotime($FechaInicio)));
         return [
             'ProgramacionId' => (intval(Programacion::all()->max('ProgramacionId'))+1),
