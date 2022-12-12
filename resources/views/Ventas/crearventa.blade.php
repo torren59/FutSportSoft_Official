@@ -19,45 +19,58 @@
             @csrf
             <div class="grid_triple_center">
 
-                <div class="grid_span_2a3">
+                <div class="grid_span_2a3 p-3">
 
-                    <div class="grid_doble_superderecha2">
 
-                        <div class="grid_span_1" id="product_added">
-                            <div>
-                                <h1 class="title text-center">Nueva Venta</h1>
-                            </div>
 
-                            <div hidden>
-                                <label for="Descuento" class="form-label">Descuento</label>
-                                <input disabled type="number" name="Descuento" id="Descuento" class="form-control">
-                            </div>
+                    <div class="container col-4" style="padding-top:4rem;">
+                        <div class="row justify-content-center p-5">
+                            <div class="card p-5">
+                                <div>
+                                    <h1 class="title text-center">Nueva Venta</h1>
+                                </div>
 
-                            <div>
-                                <label for="Deportista" class="form-label">Deportista</label>
-                                <select name="Documento" class="form-select">
+                                <div hidden>
+                                    <label for="Descuento" class="form-label">Descuento</label>
+                                    <input disabled type="number" name="Descuento" id="Descuento" class="form-control">
+                                </div>
 
-                                    @foreach ($Info['Deportistas'] as $item)
-                                        <option value="{{ $item->Documento }}">{{ $item->Nombre }}</option>
-                                    @endforeach
+                                <div>
+                                    <label for="Deportista" class="form-label">Deportista</label>
+                                    <select name="Documento" class="form-select">
 
-                                </select>
-                            </div>
+                                        @foreach ($Info['Deportistas'] as $item)
+                                            <option value="{{ $item->Documento }}">{{ $item->Nombre }}</option>
+                                        @endforeach
 
-                            <div>
-                                <label for="SubTotal" class="form-label">SubTotal</label>
-                                <input disabled type="text" name="SubTotal" id="SubTotal" class="form-control">
-                            </div>
-                            <div>
-                                <label for="Iva" class="form-label">Iva</label>
-                                <input disabled type="text" name="Iva" id="Iva" class="form-control">
-                            </div>
-                            <div>
-                                <label for="Total" class="form-label">Total</label>
-                                <input disabled type="text" name="Total" id="Total" class="form-control">
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label for="SubTotal" class="form-label">SubTotal</label>
+                                    <input disabled type="text" name="SubTotal" id="SubTotal" class="form-control">
+                                </div>
+                                <div>
+                                    <label for="Iva" class="form-label">Iva</label>
+                                    <input disabled type="text" name="Iva" id="Iva" class="form-control">
+                                </div>
+                                <div>
+                                    <label for="Total" class="form-label">Total</label>
+                                    <input disabled type="text" name="Total" id="Total" class="form-control">
+                                </div>
+
+                                <div class="grid_span_2a3 p-5">
+                                    <button type="button" class="btn btn-outline-primary"
+                                        onclick="openConfirmationModal('ConfirmationModal')">Continuar</button>
+                                    <a href=" {{ url('venta/listar') }} "><button type="button"
+                                            class="btn btn-outline-secondary">
+                                            Cancelar</button></a>
+                                </div>
+
                             </div>
                         </div>
-
+                    </div>
+                    <div class="container col-6">
                         <div class="grid_span_1" id="Products_Zone">
                             <h1>Productos</h1>
                             <div class="Container_Card_Venta">
@@ -97,8 +110,7 @@
                                             <div class="Card_Total_Orders" id="Card_Orden_{{ $item->ProductoId }}">
                                                 {{-- Aqui se imprime la cantidad ordenada --}}
                                             </div>
-
-                                            <div class="Card_Quit_Option">
+                                            <div class="Card_Quit_Option p-2">
                                                 <button type="button" class="btn btn-outline-danger"
                                                     onclick="deleteProduct(' {{ $item->ProductoId }} ')">Quitar</button>
                                             </div>
@@ -107,87 +119,77 @@
                                 @endforeach
 
                             </div>
+
                         </div>
                     </div>
                 </div>
 
-                <div class="grid_span_2a3">
-                    <button type="button" class="btn btn-outline-success"
-                        onclick="openConfirmationModal('ConfirmationModal')">Continuar</button>
-                        <a href=" {{url('venta/listar')}} "><button type="button" class="btn btn-outline-danger">
-                            Cancelar</button></a>
+
+
+            </div>
+
+            {{-- Modal guardado de venta --}}
+            <div id="SendButton" class="adicion_off" style="width: 500px;height:150px; background-color:white;">
+                <div class="floatcontent">
+                    <h4 style="padding-top:5%;">Desear guardar esta venta</h4>
+                    <br>
+                    <div class="col-12 row">
+                        <div class="col-6">
+                            <button type="submit" class="btn btn-outline-primary">
+                                Guardar
+                            </button>
+                        </div>
+
+                        <div class="col-6">
+                            <button type="button" class="btn btn-outline-secondary" onclick="closeModal('SendButton')">
+                                Cancelar
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-                    {{-- Modal guardado de venta --}}
-        <div id="SendButton" class="adicion_off" style="width: 500px;height:150px; background-color:white;">
-            <div class="floatcontent">
-                <h4 style="padding-top:5%;">Desear guardar esta venta</h4>
-                <br>
-                <div class="col-12 row">
-                    <div class="col-6">
-                        <button type="submit" class="btn btn-outline-success">
-                            Guardar
-                        </button>
+            {{-- Modal de confirmación --}}
+            <div id="ConfirmationModal" class="adicion_off" style="width: 400px;height:500px;">
+                <div class="floatcontent">
+                    <h4 style="padding-top:5%;">Confirmación</h4>
+
+                    <div>
+                        <label for="SubTotal_On_Confirm" class="form-label">SubTotal</label>
+                        <input disabled type="text" class="form-control" id="SubTotal_On_Confirm">
                     </div>
 
-                    <div class="col-6">
-                        <button type="button" class="btn btn-outline-danger" onclick="closeModal('SendButton')">
+                    <div>
+                        <label for="Iva_On_Confirm" class="form-label">Iva</label>
+                        <input disabled type="text" class="form-control" id="Iva_On_Confirm">
+                    </div>
+
+                    <div>
+                        <label for="Total_On_Confirm" class="form-label">Total</label>
+                        <input disabled type="text" class="form-control" id="Total_On_Confirm">
+                    </div>
+
+                    <div>
+                        <label for="Descuento_On_Confirm" class="form-label">Descuento</label>
+                        <input type="number" class="form-control" id="Descuento_On_Confirm" name="Descuento">
+                    </div>
+
+
+                    <div id="ConfirmationError">
+                        {{-- Acá se imprime error en caso de validación  --}}
+                    </div>
+                    <div class="botonesconf p-5">
+                        <button class="btn btn-outline-primary" onclick="openSendButton()">
+                            Guardar
+                        </button>
+                        <button class="btn btn-outline-secondary" onclick="closeModal('ConfirmationModal')">
                             Cancelar
                         </button>
                     </div>
+
                 </div>
             </div>
-        </div>
 
-                {{-- Modal de confirmación --}}
-                <div id="ConfirmationModal" class="adicion_off" style="width: 300px;height:500px;">
-                    <div class="floatcontent">
-                        <h4 style="padding-top:5%;">Confirmación</h4>
-        
-                        <div>
-                            <label for="SubTotal_On_Confirm" class="form-label">SubTotal</label>
-                            <input disabled type="text" class="form-control" id="SubTotal_On_Confirm">
-                        </div>
-        
-                        <div>
-                            <label for="Iva_On_Confirm" class="form-label">Iva</label>
-                            <input disabled type="text" class="form-control" id="Iva_On_Confirm">
-                        </div>
-        
-                        <div>
-                            <label for="Total_On_Confirm" class="form-label">Total</label>
-                            <input disabled type="text" class="form-control" id="Total_On_Confirm">
-                        </div>
-        
-                        <div>
-                            <label for="Descuento_On_Confirm" class="form-label">Descuento</label>
-                            <input type="number" class="form-control" id="Descuento_On_Confirm" name="Descuento">
-                        </div>
-        
-        
-                        <div id="ConfirmationError">
-                            {{-- Acá se imprime error en caso de validación  --}}
-                        </div>
-                        <br>
-        
-                        <div class="col-12 row">
-                            <div class="col-6">
-                                <button class="btn btn-outline-success" onclick="openSendButton()">
-                                    Guardar
-                                </button>
-                            </div>
-        
-                            <div class="col-6">
-                                <button class="btn btn-outline-danger" onclick="closeModal('ConfirmationModal')">
-                                    Cancelar
-                                </button>
-                            </div>
-                        </div>
-        
-                    </div>
-                </div>
-                
         </form>
 
 
@@ -208,48 +210,45 @@
                         <label for="Product_Cantidad_Camp" class="form-label">Existencias</label>
                         <input disabled type="text" class="form-control" id="Product_Cantidad_Camp">
                     </div>
-                </div>
 
-                <div class="col-12">
-                    <label for="Orden" class="label-form">Total a ordenar</label>
-                    <input type="number" class="form-control" name="Orden" id="Orden">
-                </div>
-                <div id="OrdenError">
-                    {{-- Acá se imprime error en caso de validación  --}}
-                </div>
-                <br>
 
-                <div class="col-12 row">
-                    <div class="col-6">
-                        <button class="btn btn-outline-success" onclick="saveProduct()">
-                            Agregar
-                        </button>
+                    <div class="col-12">
+                        <label for="Orden" class="label-form">Total a ordenar</label>
+                        <input type="number" class="form-control" name="Orden" id="Orden">
                     </div>
-
-                    <div class="col-6">
-                        <button class="btn btn-outline-danger" onclick="cancelAddProduct('OrderProduct')">
-                            Cancelar
-                        </button>
+                    <div id="OrdenError">
+                        {{-- Acá se imprime error en caso de validación  --}}
                     </div>
                 </div>
 
+                <div class="botones p-5">
+
+                    <button class="btn btn-outline-primary" onclick="saveProduct()">
+                        Agregar
+                    </button>
+                    <button class="btn btn-outline-secondary" onclick="cancelAddProduct('OrderProduct')">
+                        Cancelar
+                    </button>
+
+
+
+                </div>
             </div>
+
+
+
+
         </div>
 
 
+    @endsection
 
+    @push('scripts')
+        <script>
+            let tabla = document.getElementById("tabla");
+            let datatable = new DataTable(tabla);
+        </script>
 
-    </div>
-
-
-@endsection
-
-@push('scripts')
-    <script>
-        let tabla = document.getElementById("tabla");
-        let datatable = new DataTable(tabla);
-    </script>
-
-    <script src=" {{ asset('./js/layouts/cruds.js') }} "></script>
-    <script src=" {{ asset('./js/Ventas/Ventas.js') }} "></script>
-@endpush
+        <script src=" {{ asset('./js/layouts/cruds.js') }} "></script>
+        <script src=" {{ asset('./js/Ventas/Ventas.js') }} "></script>
+    @endpush

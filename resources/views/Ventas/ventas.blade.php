@@ -19,7 +19,7 @@
     <div class="service_list">
         <center>
             <div class="tituloTabla">
-                <h1>VENTAS</h1>
+                <h1>Gestión de ventas</h1>
             </div>
         </center>
         <br>
@@ -53,7 +53,7 @@
                     <tr>
                         <td>
                             @if (in_array(118, $permisos))
-                                <a href="{{ url('venta/getDetalle/' . $item->VentaId) }}"><button class="btn btn-primary"><i
+                                <a href="{{ url('venta/getDetalle/' . $item->VentaId) }}"><button class="btn btn-outline-primary"><i
                                             class="fa-solid fa-circle-info"></i></button></a>
                             @endif
                         </td>
@@ -87,21 +87,21 @@
         </table>
 
 
-        
+
 
     </div>
     {{-- Detalles --}}
 
     <div id="detalleventa" class="adicion_off" style="width:600px;height:400px">
         <div class="floatcontent">
-            
+
             <h1 style="padding-top:5%;">Detalles de la Venta</h1>
             <div id="jsPrint">
                 {{-- Aquí se imprime el contenido de detalles enviado desde JS --}}
             </div>
-            <button type="button" class="btn btn-primary btn-danger"
+            <button type="button" class="btn btn-outline-secondary"
                         onclick="switchadicion2('detalleventa')">Cerrar</i></button>
-                    
+
         </div>
     </div>
 @endsection

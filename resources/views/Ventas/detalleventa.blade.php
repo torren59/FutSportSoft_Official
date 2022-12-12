@@ -19,79 +19,105 @@
     @csrf
     <div class="grid_triple_center">
         <div class="grid_span_2a3">
-            <div class="adicion_title">
-                <h1>Detalle De Venta</h1>
-            </div>
-            @foreach ($detalleventa as $item)
-                <div class="col-6">
-                    <label for="Fecha" class="form-label">Nombre</label>
-                    <input disabled type="text" class="form-control" name="FechaVenta" value="{{ $item->Nombre }}">
-                </div>
 
-                <div class="col-6">
-                    <label for="FechaVenta" class="form-label">Fecha Venta</label>
-                    <input disabled type="date" class="form-control" name="FechaVenta" value="{{ $item->FechaVenta }}">
-                </div>
+            <div class="container col-4 p-5">
+                <div class="row justify-content-center">
+                    <div class="card text-center">
 
-                <div class="col-6">
-                    <label for="FechaVenta" class="form-label">SubTotal</label>
-                    <input disabled type="text" class="form-control" name="FechaVenta" value="{{ $item->SubTotal }}">
-                </div>
 
-                <div class="col-6">
-                    <label for="FechaVenta" class="form-label">Iva</label>
-                    <input disabled type="text" class="form-control" name="FechaVenta" value="{{ $item->Iva }}">
-                </div>
+                        <h1>Detalle De Venta</h1>
 
-                <div class="col-6">
-                    <label for="FechaVenta" class="form-label">Total</label>
-                    <input disabled type="text" class="form-control" name="FechaVenta" value="{{ $item->ValorVenta }}">
-                </div>
+                        @foreach ($detalleventa as $item)
+                            <div class="row justify-content-center p-5">
+                                <div class="col-12">
+                                    <label for="Fecha" class="form-label">Nombre</label>
+                                    <input disabled type="text" class="form-control" name="FechaVenta"
+                                        value="{{ $item->Nombre }}">
+                                </div>
 
-                <div class="col-6">
-                    <label for="FechaVenta" class="form-label">Descuento</label>
-                    <input disabled type="text" class="form-control" name="FechaVenta" value="{{ $item->Descuento }}">
-                </div>
+                                <div class="col-12">
+                                    <label for="FechaVenta" class="form-label">Fecha Venta</label>
+                                    <input disabled type="date" class="form-control" name="FechaVenta"
+                                        value="{{ $item->FechaVenta }}">
+                                </div>
 
-                @php
-                $SuperTot = intval($item->ValorVenta) + intval($item->Descuento);
-                @endphp
+                                <div class="col-12">
+                                    <label for="FechaVenta" class="form-label">SubTotal</label>
+                                    <input disabled type="text" class="form-control" name="FechaVenta"
+                                        value="{{ $item->SubTotal }}">
+                                </div>
 
-                <div class="col-6">
-                    <label for="FechaVenta" class="form-label">Total sin descuento</label>
-                    <input disabled type="text" class="form-control" name="FechaVenta" value="{{ $SuperTot }}">
-                </div>
-            @endforeach
+                                <div class="col-12">
+                                    <label for="FechaVenta" class="form-label">Iva</label>
+                                    <input disabled type="text" class="form-control" name="FechaVenta"
+                                        value="{{ $item->Iva }}">
+                                </div>
 
-            <div class="col-8">
-                <h2> Articulos Vendidos </h2>
+                                <div class="col-12">
+                                    <label for="FechaVenta" class="form-label">Total</label>
+                                    <input disabled type="text" class="form-control" name="FechaVenta"
+                                        value="{{ $item->ValorVenta }}">
+                                </div>
 
-                @foreach ($articulosVendidos as $item)
-                    <hr>
-                    <div style="width:100%;height:auto;box-shadow: 0px 10px 10px -6px black;margin:5px;">
-                        <div class="floatcontent">
-                            Nombre Producto: {{ $item->NombreProducto }} <br>
-                            Cantidad: {{ $item->Cantidad }} <br>
-                            Valor unitario: {{ $item->PrecioVenta }} <br>
-                            @php
-                                $TotProd = intval($item->Cantidad) * intval($item->PrecioVenta)
-                            @endphp
-                            Total: {{$TotProd}}
-                        </div>
+                                <div class="col-12">
+                                    <label for="FechaVenta" class="form-label">Descuento</label>
+                                    <input disabled type="text" class="form-control" name="FechaVenta"
+                                        value="{{ $item->Descuento }}">
+                                </div>
+
+                                @php
+                                    $SuperTot = intval($item->ValorVenta) + intval($item->Descuento);
+                                @endphp
+
+                                <div class="col-12">
+                                    <label for="FechaVenta" class="form-label">Total sin descuento</label>
+                                    <input disabled type="text" class="form-control" name="FechaVenta"
+                                        value="{{ $SuperTot }}">
+                                </div>
+                        @endforeach
                     </div>
-                @endforeach
-                <div style="margin-bottom: 10%;visibility:hidden"></div>
-            </div>
-
-            <div class="col-12" style="position: fixed; bottom: 5%;">
-                <center>
-                    <a href=" {{ url('venta/listar') }} "><button type="button" class="btn btn-primary btn-danger">Volver al
-                            listado</i></button></a>
-                </center>
+                </div>
             </div>
         </div>
 
-        <br>
+        <div class="container col-6 p-5">
+            <div class="row justify-content-center">
+                <div class="card">
+
+                    <h2> Articulos Vendidos </h2>
+
+                    @foreach ($articulosVendidos as $item)
+
+
+                        <div style="width:100%;height:auto;box-shadow: 0px 10px 10px -6px black;margin:5px;">
+                            <div class="floatcontent">
+                                Nombre Producto: {{ $item->NombreProducto }} <br>
+                                Cantidad: {{ $item->Cantidad }} <br>
+                                Valor unitario: {{ $item->PrecioVenta }} <br>
+                                @php
+                                    $TotProd = intval($item->Cantidad) * intval($item->PrecioVenta);
+                                @endphp
+                                Total: {{ $TotProd }}
+                            </div>
+                        </div>
+                    @endforeach
+                    <div style="margin-bottom: 10%;visibility:hidden"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12" style="position: fixed; bottom: 5%;">
+            <center>
+                <a href=" {{ url('venta/listar') }} "><button type="button" class="btn btn-outline-secondary">Volver
+                        al
+                        listado</i></button></a>
+            </center>
+        </div>
+
+
+    </div>
+
+
 
 
     </div>
