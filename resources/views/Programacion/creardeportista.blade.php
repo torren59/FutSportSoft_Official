@@ -96,7 +96,7 @@
                     </div>
 
                     <div class="col-4">
-                        <label for="Dirección" class="form-label">Dirección</label>
+                        <label for="Direccion" class="form-label">Dirección</label>
                         <input type="text" class="form-control" name="Direccion" value="{{ old('Direccion') }}">
                         @error('Direccion')
                             <div>
@@ -107,20 +107,29 @@
                         @enderror
                     </div>
                 </div>
+                <div>
+                    <label for="Correo" class="form-label">Correo</label>
+                    <input type="text" class="form-control" name="Correo" value="{{ old('Correo') }}">
+                    @error('Correo')
+                        <div>
+                            @foreach ($errors->get('Correo') as $errorCorreo)
+                                <small> {{ $errorCorreo }} </small>
+                            @endforeach
+                        </div>
+                    @enderror
+                </div>
 
                 @php
                     $newAccTabSt = '';
                     $noAccTabSt = '';
                     $choiceAccTabSt = '';
-
+                    
                     if ($errors->any() && !$errors->has('howAcc')) {
                         if (old('howAcc') == 'newAccTab') {
                             $newAccTabSt = 'checked';
-                        }
-                        else if (old('howAcc') == 'noAccTab') {
+                        } elseif (old('howAcc') == 'noAccTab') {
                             $noAccTabSt = 'checked';
-                        }
-                        else if (old('howAcc') == 'choiceAccTab') {
+                        } elseif (old('howAcc') == 'choiceAccTab') {
                             $choiceAccTabSt = 'checked';
                         }
                     }
@@ -129,15 +138,15 @@
                 <div class="row" style="margin-top:12%; display:flex; justify-content:flex-start;">
                     <div class="form-check col-4">
                         <input class="form-check-input" type="radio" name="howAcc" value="newAccTab"
-                            onclick="hideAccTab()"  {{$newAccTabSt}}>
+                            onclick="hideAccTab()" {{ $newAccTabSt }}>
                         <label class="form-check-label" for="flexRadioDefault1">
                             Nuevo acudiente
                         </label>
                     </div>
 
-                    <div class="form-check col-4">
+                    <div class="form-check col-4" style="display:none;">
                         <input class="form-check-input" type="radio" name="howAcc" value="noAccTab"
-                            onclick="hideAccTab()"  {{$noAccTabSt}} >
+                            onclick="hideAccTab()" {{ $noAccTabSt }}>
                         <label class="form-check-label" for="flexRadioDefault2">
                             Sin acudiente
                         </label>
@@ -145,7 +154,7 @@
 
                     <div class="form-check col-4">
                         <input class="form-check-input" type="radio" name="howAcc" value="choiceAccTab"
-                            onclick="hideAccTab()"  {{$choiceAccTabSt}} >
+                            onclick="hideAccTab()" {{ $choiceAccTabSt }}>
                         <label class="form-check-label" for="flexRadioDefault3">
                             Seleccionar acudiente
                         </label>
@@ -168,15 +177,13 @@
                     $newAccTabCl = 'oneOptionHide';
                     $noAccTabCl = 'oneOptionHide';
                     $choiceAccTabCl = 'oneOptionHide';
-
+                    
                     if ($errors->any() && !$errors->has('howAcc')) {
                         if (old('howAcc') == 'newAccTab') {
                             $newAccTabCl = 'oneOptionShow';
-                        }
-                        else if (old('howAcc') == 'noAccTab') {
+                        } elseif (old('howAcc') == 'noAccTab') {
                             $noAccTabCl = 'oneOptionShow';
-                        }
-                        else if (old('howAcc') == 'choiceAccTab') {
+                        } elseif (old('howAcc') == 'choiceAccTab') {
                             $choiceAccTabCl = 'oneOptionShow';
                         }
                     }
@@ -191,7 +198,7 @@
                                 <label for="TipoDocumentoAcc" class="form-label">Tipo de documento</label>
                                 <select class="form-select" name="TipoDocumentoAcc">
                                     <option value="" selected>Selecione un tipo de documento</option>
-                                    @foreach ($TiposDoc as $item)
+                                    @foreach ($TipoDocAcc as $item)
                                         <option value="{{ $item->TipoDocumento }}">{{ $item->Descripcion }}</option>
                                     @endforeach
                                 </select>
@@ -203,10 +210,11 @@
                                     </div>
                                 @enderror
                             </div>
-        
+
                             <div class="col-6">
                                 <label for="DocumentoAcc" class="form-label">Documento</label>
-                                <input type="number" class="form-control" name="DocumentoAcc" value="{{ old('DocumentoAcc') }}">
+                                <input type="number" class="form-control" name="DocumentoAcc"
+                                    value="{{ old('DocumentoAcc') }}">
                                 @error('DocumentoAcc')
                                     <div>
                                         @foreach ($errors->get('DocumentoAcc') as $item)
@@ -232,7 +240,8 @@
                         <div class="row">
                             <div class="col-6">
                                 <label for="CelularAcc" class="form-label">Celular</label>
-                                <input type="number" class="form-control" name="CelularAcc" value="{{ old('CelularAcc') }}">
+                                <input type="number" class="form-control" name="CelularAcc"
+                                    value="{{ old('CelularAcc') }}">
                                 @error('CelularAcc')
                                     <div>
                                         @foreach ($errors->get('CelularAcc') as $item)
@@ -244,7 +253,8 @@
 
                             <div class="col-6">
                                 <label for="CorreoAcc" class="form-label">Correo</label>
-                                <input type="number" class="form-control" name="CorreoAcc" value="{{ old('CorreoAcc') }}">
+                                <input type="text" class="form-control" name="CorreoAcc"
+                                    value="{{ old('CorreoAcc') }}">
                                 @error('CorreoAcc')
                                     <div>
                                         @foreach ($errors->get('CorreoAcc') as $item)
@@ -254,18 +264,45 @@
                                 @enderror
                             </div>
                         </div>
+                        <br>
+                        <div>
+                            <button type="submit" class="btn btn-success">
+                                Guardar
+                            </button>
+                        </div>
                     </div>
                     {{-- ENVIAR SIN ACUDIENTE --}}
                     <div class="{{ $noAccTabCl }}" id="noAccTab">
                         <div>
-                            <button type="submit" class="btn btn-success" >
+                            <button type="submit" class="btn btn-success">
                                 Guardar
                             </button>
                         </div>
                     </div>
                     {{-- LISTADO DE ACUDIENTES --}}
                     <div class="{{ $choiceAccTabCl }}" id="choiceAccTab">
-
+                        <div class="col-12">
+                            <label for="CurrentDocumentoAcc" class="form-label">Seleccionar acudiente</label>
+                            @error('CurrentDocumentoAcc')
+                                <div>
+                                    @foreach ($errors->get('CurrentDocumentoAcc') as $item)
+                                        <small> {{ $item }} </small>
+                                    @endforeach
+                                </div>
+                            @enderror
+                            <select class="form-select" name="CurrentDocumentoAcc">
+                                @foreach ($Acudientes as $Acudiente)
+                                    <option value="{{ $Acudiente->DocumentoAcudiente }}">
+                                        {{ $Acudiente->NombreAcudiente }}- {{ $Acudiente->DocumentoAcudiente }} </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <br>
+                        <div>
+                            <button type="submit" class="btn btn-success">
+                                Guardar
+                            </button>
+                        </div>
                     </div>
                 </div>
                 <br>

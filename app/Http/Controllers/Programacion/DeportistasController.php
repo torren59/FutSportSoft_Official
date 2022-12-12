@@ -72,53 +72,75 @@ class DeportistasController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'Nombre' => ['required','max_digits:50'],
+                'Nombre' => ['required','max:50'],
                 'TipoDocumento' => ['required'],
                 'Documento' => ['required','max_digits:10', new customRuleDeportistas],
                 'FechaNacimiento' => ['required'],
                 'Celular' => ['required','numeric','max_digits:13'],
-                'Direccion' => ['required','max_digits:80'],
-                'howAcc' => ['required']
+                'Direccion' => ['required','max:80'],
+                'Correo' => ['required','max:50'],
+                'howAcc' => ['required'],
+                'TipoDocumentoAcc' => ['exclude_unless:howAcc,newAccTab','required'],
+                'DocumentoAcc' => ['exclude_unless:howAcc,newAccTab','required','max_digits:10', new customRuleDeportistas],
+                'NombreAcc' => ['exclude_unless:howAcc,newAccTab','required','max:50'],
+                'CelularAcc' => ['exclude_unless:howAcc,newAccTab','numeric','max_digits:13'],
+                'CorreoAcc' => ['exclude_unless:howAcc,newAccTab','required','max:50'],
+                'CurrentDocumentoAcc' => ['exclude_unless:howAcc,choiceAccTab','required']
             ],
             [
                 'required' => 'Evite enviar este campo vacío',
+                'max' => 'Campo excede los :max carácteres máximos',
                 'max_digits' => 'Campo excede los :max carácteres máximos',
                 'numeric' => 'Este campo SOLO acepta números'
             ]
         );
 
-        if(isset($request->newAcc)){
-            return $request->all();
-        }
-
         if($validator->fails()){
             return redirect('deportista/crear')->withErrors($validator)->withInput();
         }
 
-        $Ba = 0;
-        switch($Ba){
-            case 1:
-                return 'Nuevo acudiente';
-            break;
-            case 2:
-                return 'Guardar Ya';
-            break;
-            case 3:
-                return 'Seleccionar acudiente';
-            break;
+        $deportista = new Deportista();
+        if($request->howAcc == 'noAccTab'){
+            $campos = ['Nombre','TipoDocumento','Documento','FechaNacimiento','Celular','Direccion','Correo'];
+            foreach($campos as $campo){
+                $deportista->$campo = $request->$campo;
+            }
+            $deportista->DocumentoAcudiente = '10001';
+            $deportista->save();
+            return redirect('deportista/listar');
         }
+
+        if($request->howAcc == 'newAccTab'){
+            $acudiente = new Acudiente();
+            $acudiente->DocumentoAcudiente = $request->DocumentoAcc;
+            $acudiente->TipoDocumento = $request->TipoDocumentoAcc;
+            $acudiente->NombreAcudiente = $request->NombreAcc;
+            $acudiente->CorreoAcudiente = $request->CorreoAcc;
+            $acudiente->CelularAcudiente = $request->CelularAcc;
+            $acudiente->save();
+
+            $campos = ['Nombre','TipoDocumento','Documento','FechaNacimiento','Celular','Direccion','Correo'];
+            foreach($campos as $campo){
+                $deportista->$campo = $request->$campo;
+            }
+            $deportista->DocumentoAcudiente = $request->DocumentoAcc;
+            $deportista->save();
+            return redirect('deportista/listar');
+        }
+
+        if($request->howAcc == 'choiceAccTab'){
+            $campos = ['Nombre','TipoDocumento','Documento','FechaNacimiento','Celular','Direccion','Correo'];
+            foreach($campos as $campo){
+                $deportista->$campo = $request->$campo;
+            }
+            $deportista->DocumentoAcudiente = $request->CurrentDocumentoAcc;
+            $deportista->save();
+            return redirect('deportista/listar');
+        }
+
+
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
     /**
      * Display the specified resource.
@@ -156,8 +178,11 @@ class DeportistasController extends Controller
     public function edit($id)
     {
         $Selected =  Deportista::all()->where('Documento','=',$id);
-        return view('Programacion.editardeportista')->with('deportistadata',$Selected);
-        return $Selected;
+        $Acudientes = Acudiente::all();
+        $TiposDocumentosAcc = tipo_documento::all()->where('TipoDocumento','!=',3);
+
+        return view('Programacion.editardeportista')->with('deportistaData',$Selected)
+        ->with('Acudientes',$Acudientes)->with('TipoDocAcc',$TiposDocumentosAcc);
     }
 
     /**
@@ -169,21 +194,64 @@ class DeportistasController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validator = Validator::make($request->all(), 
-        ['DocumentoAcudiente'=>'required|max:11','TipoDocumento'=>'required|max:5','Nombre'=>'required|max:100','FechaNacimiento'=>'required|max:10','Direccion'=>'required|max:80','Celular'=>'required|max:11','Correo'=>'required|max:70','UltimoPago'=>'required|max:10'],
-        ['required'=>'No puedes enviar este campo vacío','max'=>'Máximo de :max dígitos']);
-       
+
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'Nombre' => ['required','max:50'],
+                'FechaNacimiento' => ['required'],
+                'Celular' => ['required','numeric','max_digits:13'],
+                'Direccion' => ['required','max:80'],
+                'Correo' => ['required','max:50'],
+                'howAcc' => ['required'],
+                'TipoDocumentoAcc' => ['exclude_unless:howAcc,newAccTab','required'],
+                'DocumentoAcc' => ['exclude_unless:howAcc,newAccTab','required','max_digits:10', new customRuleDeportistas],
+                'NombreAcc' => ['exclude_unless:howAcc,newAccTab','required','max:50'],
+                'CelularAcc' => ['exclude_unless:howAcc,newAccTab','numeric','max_digits:13'],
+                'CorreoAcc' => ['exclude_unless:howAcc,newAccTab','required','max:50'],
+                'CurrentDocumentoAcc' => ['exclude_unless:howAcc,choiceAccTab','required']
+            ],
+            [
+                'required' => 'Evite enviar este campo vacío',
+                'max' => 'Campo excede los :max carácteres máximos',
+                'max_digits' => 'Campo excede los :max carácteres máximos',
+                'numeric' => 'Este campo SOLO acepta números'
+            ]
+        );
+
         if($validator->fails()){
             return back()->withErrors($validator)->withInput();
-            
         }
-        $Deportista = Deportista::find($id);
-        $Campos = ['DocumentoAcudiente','TipoDocumento','Nombre','FechaNacimiento','Direccion','Celular','Correo','UltimoPago'];
-        foreach($Campos as $item){
-            $Deportista->$item = $request->$item;
+
+        $deportista = Deportista::find($request->Documento);
+
+        if($request->howAcc == 'newAccTab'){
+            $acudiente = new Acudiente();
+            $acudiente->DocumentoAcudiente = $request->DocumentoAcc;
+            $acudiente->TipoDocumento = $request->TipoDocumentoAcc;
+            $acudiente->NombreAcudiente = $request->NombreAcc;
+            $acudiente->CorreoAcudiente = $request->CorreoAcc;
+            $acudiente->CelularAcudiente = $request->CelularAcc;
+            $acudiente->save();
+
+            $campos = ['Nombre','FechaNacimiento','Celular','Direccion','Correo'];
+            foreach($campos as $campo){
+                $deportista->$campo = $request->$campo;
+            }
+            $deportista->DocumentoAcudiente = $request->DocumentoAcc;
+            $deportista->save();
+            return redirect('deportista/listar');
         }
-        $Deportista->save();
-        return redirect('deportista/listar');
+
+        if($request->howAcc == 'choiceAccTab'){
+            $campos = ['Nombre','FechaNacimiento','Celular','Direccion','Correo'];
+            foreach($campos as $campo){
+                $deportista->$campo = $request->$campo;
+            }
+            $deportista->DocumentoAcudiente = $request->CurrentDocumentoAcc;
+            $deportista->save();
+            return redirect('deportista/listar');
+        }
     }
 
     /**

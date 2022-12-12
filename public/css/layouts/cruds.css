@@ -371,7 +371,7 @@ small{
 }
 
 .oneOptionShow{
-    border: 2px solid green;
+    /* border: 2px solid green; */
     animation-name: oneOptionAnimator;
     animation-fill-mode: forwards;
     animation-duration: 1s;
@@ -391,30 +391,3 @@ small{
 
 
 
-/*SideVar*/
-.sidevaron{
-    /*border: 1px solid blue;*/
-    position: absolute;
-    animation-name: sidevaron-animation;
-    animation-fill-mode: forwards;
-    animation-duration: 250ms;
-    z-index: +1;
-    content-visibility: visible;
-    background-image: url("../../img/layouts/neymarproyecto.jpg");
-    background-size: cover;
-     border-radius: 5px;
-    /* border: 2px solid yellow; */
-}
-
-@keyframes sidevaron-animation {
-    0%{
-        width: 0%;
-        height: 0%;
-    }
-    100%{
-        width: 85%;
-        height: 100%;
-
-        position: relative;
-    }
-}

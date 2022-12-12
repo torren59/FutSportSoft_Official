@@ -53,7 +53,6 @@
                     <td>Celular</td>
                     <td>Correo</td>
                     <td>Estado</td>
-                    <td>Ultimo pago</td>
                 </tr>
             </thead>
             <tbody>
@@ -92,7 +91,6 @@
                                 </div>
                             @endif
                         </td>
-                        <td>{{ $item->UltimoPago }}</td>
 
                     </tr>
                 @endforeach

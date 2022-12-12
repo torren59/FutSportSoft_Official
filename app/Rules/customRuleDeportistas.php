@@ -2,6 +2,7 @@
 
 namespace App\Rules;
 
+use App\Models\Programacion\Acudiente;
 use App\Models\Programacion\Deportista;
 use Illuminate\Contracts\Validation\InvokableRule;
 use Illuminate\Contracts\Validation\DataAwareRule;
@@ -49,6 +50,14 @@ class customRuleDeportistas implements InvokableRule, DataAwareRule
 
                 if ($outRegisterItem > 0) {
                     $fail('Documento ya se encuentra registrado');
+                }
+            break;
+            case 'DocumentoAcc':
+                $outRegisterItem = Acudiente::where('DocumentoAcudiente', '=', $value)
+                ->count();
+
+                if ($outRegisterItem > 0) {
+                    $fail('Documento ya está registrado para otro acudiente');
                 }
             break;
 
