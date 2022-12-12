@@ -40,6 +40,8 @@ class customRuleDeportistas implements InvokableRule, DataAwareRule
      */
     public function __invoke($attribute, $value, $fail)
     {
+        $data = $this->data;
+
         switch($attribute){
             case 'Documento':
                 $outRegisterItem = Deportista::where('Documento', '=', $value)
@@ -49,6 +51,12 @@ class customRuleDeportistas implements InvokableRule, DataAwareRule
                     $fail('Documento ya se encuentra registrado');
                 }
             break;
+
+            // case 'howAcc':
+            //     if(){
+            //         $fail('Selecciona una de las opciones');
+            //     }
+            // break;
         }
     }
 }

@@ -59,7 +59,10 @@ class DeportistasController extends Controller
 
     public function create(){
         $TiposDocumentos = tipo_documento::all();
-        return view('Programacion.creardeportista')->with('TiposDoc',$TiposDocumentos);
+        $TiposDocumentosAcc = tipo_documento::all()->where('TipoDocumento','!=',3);
+        $Acudientes = Acudiente::all();
+        return view('Programacion.creardeportista')->with('TiposDoc',$TiposDocumentos)->with('TipoDocAcc',$TiposDocumentosAcc)
+        ->with('Acudientes',$Acudientes);
     }
 
     public function saveData(Request $request){
@@ -69,16 +72,17 @@ class DeportistasController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'Nombre' => ['required','max:50'],
+                'Nombre' => ['required','max_digits:50'],
                 'TipoDocumento' => ['required'],
-                'Documento' => ['required','max:10', new customRuleDeportistas],
+                'Documento' => ['required','max_digits:10', new customRuleDeportistas],
                 'FechaNacimiento' => ['required'],
-                'Celular' => ['required','numeric','max:13'],
-                'Direccion' => ['required','max:80']
+                'Celular' => ['required','numeric','max_digits:13'],
+                'Direccion' => ['required','max_digits:80'],
+                'howAcc' => ['required']
             ],
             [
                 'required' => 'Evite enviar este campo vacío',
-                'max' => 'Campo excede los :max carácteres máximos',
+                'max_digits' => 'Campo excede los :max carácteres máximos',
                 'numeric' => 'Este campo SOLO acepta números'
             ]
         );
@@ -91,7 +95,6 @@ class DeportistasController extends Controller
             return redirect('deportista/crear')->withErrors($validator)->withInput();
         }
 
-        //session(['Deportista' => $request->all()]); 
         $Ba = 0;
         switch($Ba){
             case 1:
