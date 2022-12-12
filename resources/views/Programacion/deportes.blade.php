@@ -114,17 +114,18 @@
         {{-- Alerta cambio de estado --}}
         <div class="adicion_off" id="errorsEstado" style="width:550px">
             <div class="floatcontent">
-                <h4 style="padding-top:5%;">Operación cancelada</h4>
+                <h2>Operación cancelada</h2>
                 <div>
-                    No fue posible realizar el cambio de estado. <br>
-                    Este deporte está vinculado a categorías activas.
+                    <h4>* No fue posible realizar el cambio de estado. <br>
+                    Este deporte está vinculado a categorías activas.</h4>
                 </div>
                 <div id="errorsEstadoMsg">
                     {{-- Acá se imprimen las programaciones vinculadas --}}
                 </div>
-                <br>
-                <button type="button" class="btn btn-primary btn-danger"
+                <div class="botonesdeportes p-3">
+                <button type="button" class="btn btn-outline-secondary"
                     onclick="alterModal('errorsEstado')">Cancelar</i></button> <br>
+                </div>
             </div>
         </div>
 

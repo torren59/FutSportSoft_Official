@@ -188,7 +188,7 @@ Route::controller(VentasController::class)->middleware('auth')->group(
 
 Route::controller(ProveedoresController::class)->middleware('auth')->group(
     function () {
-        Route::get('proveedor/listar', 'index')->middleware('IsAuthorized:103');
+        Route::get('proveedor/listar/{status?}', 'index')->middleware('IsAuthorized:103');
         Route::post('proveedor/crear', 'create')->middleware('IsAuthorized:122');
         Route::get('proveedor/editar/{id}', 'edit')->middleware('IsAuthorized:134');
         Route::post('proveedor/actualizar/{id}','update');

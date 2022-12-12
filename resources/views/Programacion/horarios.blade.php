@@ -118,9 +118,9 @@
                                 </div>
                             @enderror
                         </div>
-                        
+
                         <div class="col-6">
-                            <input type="time" class="form-control" name="HoraFinalizacion" 
+                            <input type="time" class="form-control" name="HoraFinalizacion"
                             value="{{ old('HoraFinalizacion') }}">
                             @error('HoraFinalizacion')
                                 <div>
@@ -144,17 +144,18 @@
         {{-- Alerta cambio de estado --}}
         <div class="adicion_off" id="errorsEstado" style="width:550px">
             <div class="floatcontent">
-                <h4 style="padding-top:5%;">Operación cancelada</h4>
+                <h2>Operación cancelada</h2>
                 <div>
-                    No fue posible realizar el cambio de estado. <br>
-                    Este horario está vinculada a programaciones activas.
+                   <h4> * No fue posible realizar el cambio de estado. <br>
+                    Este horario está vinculada a programaciones activas.</h4>
                 </div>
                 <div id="errorsEstadoMsg">
                     {{-- Acá se imprimen las programaciones vinculadas --}}
                 </div>
-                <br>
-                <button type="button" class="btn btn-primary btn-danger"
+                <div class="botoneshorarios p-3">
+                <button type="button" class="btn btn-outline-secondary"
                     onclick="alterModal('errorsEstado')">Cancelar</i></button> <br>
+                </div>
             </div>
         </div>
 

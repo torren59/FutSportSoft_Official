@@ -64,8 +64,8 @@ function cancelUncheck(sedeId){
 function setMsg(sedes){
     let msg = "";
     let rows = sedes.length;
-    msg += 'Sede '+ sedes[0].NombreSede +' vinculada a la programación con id ';
-    msg += sedes[0].ProgramacionId+' <br> Total programaciones vinculadas: '+(rows);
+    msg += '<h3>'+'Sede: '+ sedes[0].NombreSede +'<br>'+' vinculada a la programación con id: '+
+     sedes[0].ProgramacionId+' <br>' +' Total programaciones vinculadas: '+(rows)+'</h3>';
 
     $('#errorsEstadoMsg').html(msg);
 }
