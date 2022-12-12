@@ -82,7 +82,7 @@
 
         <div class="container col-6 p-5">
             <div class="row justify-content-center">
-                <div class="card">
+                <div class="card1">
 
                     <h2> Articulos Vendidos </h2>
 

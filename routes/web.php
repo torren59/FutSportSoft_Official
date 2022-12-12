@@ -172,7 +172,7 @@ Route::controller(ProgramacionesController::class)->middleware('auth')->group(
 
 Route::controller(VentasController::class)->middleware('auth')->group(
     function(){
-        Route::get('venta/listar', 'index')->middleware('IsAuthorized:112');
+        Route::get('venta/listar/{status?}', 'index')->middleware('IsAuthorized:112');
         Route::get('venta/crear', 'create')->middleware('IsAuthorized:131');
         Route::post('venta/store', 'store');
         Route::get('venta/getDetalle/{id?}','getDetalle')->middleware('IsAuthorized:118');
@@ -198,7 +198,7 @@ Route::controller(ProveedoresController::class)->middleware('auth')->group(
 
 Route::controller(ProductosController::class)->middleware('auth')->group(
     function () {
-        Route::get('producto/listar', 'index')->middleware('IsAuthorized:104');
+        Route::get('producto/listar/{status?}', 'index')->middleware('IsAuthorized:104');
         Route::post('producto/crear', 'create')->middleware('IsAuthorized:123');
         Route::get('producto/editar/{id}', 'edit')->middleware('IsAuthorized:135');
         Route::post('producto/actualizar/{id}','update');

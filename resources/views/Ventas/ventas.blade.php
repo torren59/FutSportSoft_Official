@@ -5,6 +5,8 @@
 @section('title', 'Ventas')
 
 @push('styles')
+    {{-- Csrf para funcionamiento de Ajax --}}
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href=" {{ asset('./css/layouts/datatable.css') }} ">
     <link rel="stylesheet" href="{{ asset('./css/layouts/cruds.css') }} ">
     <link href="https://unpkg.com/vanilla-datatables@latest/dist/vanilla-dataTables.min.css" rel="stylesheet" type="text/css">
@@ -53,8 +55,8 @@
                     <tr>
                         <td>
                             @if (in_array(118, $permisos))
-                                <a href="{{ url('venta/getDetalle/' . $item->VentaId) }}"><button class="btn btn-outline-primary"><i
-                                            class="fa-solid fa-circle-info"></i></button></a>
+                                <a href="{{ url('venta/getDetalle/' . $item->VentaId) }}"><button
+                                        class="btn btn-outline-primary"><i class="fa-solid fa-circle-info"></i></button></a>
                             @endif
                         </td>
                         <td>{{ $item->VentaId }}</td>
@@ -76,7 +78,8 @@
 
                                 <div class="form-check form-switch">
                                     <input class="form-check-input" type="checkbox" role="switch"
-                                        id="flexSwitchCheckChecked" {{ $checkstate }}>
+                                        id="flexSwitchCheckChecked" {{ $checkstate }}
+                                        onclick="changeState({{ $item->VentaId }})">
                                 </div>
                             @endif
                         </td>
@@ -100,10 +103,21 @@
                 {{-- Aquí se imprime el contenido de detalles enviado desde JS --}}
             </div>
             <button type="button" class="btn btn-outline-secondary"
-                        onclick="switchadicion2('detalleventa')">Cerrar</i></button>
+                onclick="switchadicion2('detalleventa')">Cerrar</i></button>
 
         </div>
     </div>
+
+    {{-- Mensajes personalizados --}}
+    @if (isset($sweet_setAll))
+        <script>
+            setTimeout(() => {
+                swal_setAll("{{ $sweet_setAll['title'] }}", "{{ $sweet_setAll['msg'] }}",
+                    "{{ $sweet_setAll['type'] }}");
+            }, 500);
+        </script>
+    @endif
+
 @endsection
 
 
@@ -114,4 +128,5 @@
     </script>
 
     <script src=" {{ asset('./js/layouts/cruds.js') }} "></script>
+    <script src=" {{ asset('./js/Ventas/ventaestado.js') }} "></script>
 @endpush

@@ -179,7 +179,7 @@
                         {{-- Acá se imprime error en caso de validación  --}}
                     </div>
                     <div class="botonesconf p-5">
-                        <button class="btn btn-outline-primary" onclick="openSendButton()">
+                        <button  type="button" class="btn btn-outline-primary" onclick="openSendButton()">
                             Guardar
                         </button>
                         <button class="btn btn-outline-secondary" onclick="closeModal('ConfirmationModal')">

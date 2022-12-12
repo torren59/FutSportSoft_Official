@@ -30,7 +30,7 @@ class deportistaFactory extends Factory
             'Celular' => strval(random_int(3003213245,3999999999)),
             'Correo' => $this->faker->email(),
             'Estado' => true,
-            'UltimoPago' => '2022-11-11'
+
         ];
     }
 }

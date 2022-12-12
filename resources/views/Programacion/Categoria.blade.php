@@ -67,8 +67,8 @@
 
                                 <div class="form-check form-switch">
                                     <input class="form-check-input" type="checkbox" role="switch"
-                                        id="check_{{ $item->CategoriaId }}" {{ $checkstate }}
-                                        onclick="tryChange('{{ $item->CategoriaId }}', 'errorsEstado')">
+                                        id="flexSwitchCheckChecked" {{ $checkstate }}
+                                        onclick="changeState({{ $item->VentaId }})">
                                 </div>
                             @endif
                         </td>
@@ -110,12 +110,12 @@
                                 @endforeach
                             </select>
                             @error('DeporteId')
-                            <div>
-                                @foreach ($errors->get('DeporteId') as $item)
-                                    <small> {{ $item }} </small>
-                                @endforeach
-                            </div>
-                        @enderror
+                                <div>
+                                    @foreach ($errors->get('DeporteId') as $item)
+                                        <small> {{ $item }} </small>
+                                    @endforeach
+                                </div>
+                            @enderror
                         </div>
                         <div class="col-6">
                             <label for="RangoEdad" class="form-label">Rango de Edad</label>
@@ -146,15 +146,15 @@
                 <h2>Operación cancelada</h2>
                 <div>
                     <h4>* No fue posible realizar el cambio de estado. <br>
-                    Esta categoria está vinculada a grupos activos.</h4>
+                        Esta categoria está vinculada a grupos activos.</h4>
                 </div>
                 <div id="errorsEstadoMsg">
                     {{-- Acá se imprimen las programaciones vinculadas --}}
                 </div>
 
                 <div class="botonescategoria p-3">
-                <button type="button" class="btn btn-outline-secondary"
-                    onclick="alterModal('errorsEstado')">Cancelar</i></button> <br>
+                    <button type="button" class="btn btn-outline-secondary"
+                        onclick="alterModal('errorsEstado')">Cancelar</i></button> <br>
                 </div>
             </div>
         </div>
@@ -167,15 +167,15 @@
             </script>
         @endif
 
-         {{-- Mensajes personalizados --}}
-         @if (isset($sweet_setAll))
-         <script>
-             setTimeout(() => {
-                 swal_setAll("{{ $sweet_setAll['title'] }}", "{{ $sweet_setAll['msg'] }}",
-                     "{{ $sweet_setAll['type'] }}");
-             }, 500);
-         </script>
-     @endif
+        {{-- Mensajes personalizados --}}
+        @if (isset($sweet_setAll))
+            <script>
+                setTimeout(() => {
+                    swal_setAll("{{ $sweet_setAll['title'] }}", "{{ $sweet_setAll['msg'] }}",
+                        "{{ $sweet_setAll['type'] }}");
+                }, 500);
+            </script>
+        @endif
 
     </div>
 @endsection
@@ -189,5 +189,4 @@
 
     <script src=" {{ asset('./js/layouts/cruds.js') }} "></script>
     <script src=" {{ asset('./js/Programacion/categorias.js') }} "></script>
-
 @endpush
