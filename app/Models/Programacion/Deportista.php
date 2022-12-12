@@ -27,8 +27,7 @@ class Deportista extends Model
         'Direccion',
         'Celular',
         'Correo',
-        'Estado',
-        'UltimoPago',
+        'Estado'
     ];
 
     protected $attributes = [

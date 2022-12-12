@@ -209,7 +209,8 @@ Route::controller(ProductosController::class)->middleware('auth')->group(
 Route::controller(DeportistasController::class)->middleware('auth')->group(
     function () {
         Route::get('deportista/listar', 'index')->middleware('IsAuthorized:107');
-        Route::post('deportista/crear', 'create')->middleware('IsAuthorized:126');
+        Route::get('deportista/crear', 'create')->middleware('IsAuthorized:126');
+        Route::any('deportista/upData','saveData')->middleware('IsAuthorized:126');
         Route::get('deportista/editar/{id}', 'edit')->middleware('IsAuthorized:138');
         Route::post('deportista/actualizar/{id}','update');
         Route::post('deportista/cambiarEstado','changeState');

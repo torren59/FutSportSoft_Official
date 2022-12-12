@@ -71,46 +71,6 @@ class DashboardController extends Controller
 
         return $periodo;
     }
-    /*
-    public function index(Request $request){
-        $intervalos = [];
-        $dash1 = [];
-        $meses = [];
-        $inscritos = [];
-
-        // Determinando periodo para consulta
-        if(!isset($request->InitialYear)){
-            // $year = date('Y');
-            // $intervalos = $this->getIntervals($year.'-1', date('Y-m')); NO BORRAR
-            $intervalos = $this->getIntervals('1969-12', '1970-12');
-        }
-        else{
-            $initialDate = $request->initialYear.'-'.$request->initialMonth;
-            $finalDate = $request->finalYear.'-'.$request->finalMonth;
-
-            $intervalos = $this->getIntervals($initialDate, $finalDate);
-        }
-
-        //Consultando estadística y almacenando resultados --Todo queda guardado en la variable dash1
-        foreach($intervalos as $intervalo){
-            array_push($meses,$intervalo['mes']);
-
-            $inscritoMes = DB::table('grupos_deportistas')
-            ->distinct(['grupos_deportistas.Documento'])
-            ->join('grupos','grupos_deportistas.GrupoId','=','grupos.GrupoId')
-            ->join('programacion','grupos.GrupoId','=','programacion.GrupoId')
-            ->where('grupos_deportistas.Estado','=',true)
-            ->where('programacion.FechaFinalizacion','>=',$intervalo['fecha'])
-            ->count();
-
-            array_push($inscritos,$inscritoMes);
-        }
-
-        $dash1 = ['inscritos' => $inscritos, 'meses' => $meses]; 
-
-        return view('Dashboard.dashboard')->with('dash1',$dash1);
-    }
-    */
 
     public function index()
     {
@@ -137,8 +97,7 @@ class DashboardController extends Controller
         $inscritos = [];
 
         $year = date('Y');
-        //$intervalos = $this->getIntervals($year.'-1', date('Y-m')); NO BORRAR
-        $intervalos = $this->getIntervals('1970-1', '1970-12');
+        $intervalos = $this->getIntervals($year.'-1', date('Y-m'));
 
 
         //Consultando estadística y almacenando resultados --Todo queda guardado en la variable dash1
