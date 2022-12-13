@@ -24,15 +24,15 @@
             </div>
 
             <h1>Editar deportista</h1>
-            @foreach ($deportistaData as $item)
-                <form action=" {{ url('deportista/actualizar/' . $item->Documento) }} " method="post"> @csrf
+            @foreach ($deportistaData as $deportista)
+                <form action=" {{ url('deportista/actualizar/' . $deportista->Documento) }} " method="post"> @csrf
                     <div class="col-12">
                         <label for="Nombre" class="form-label">Nombre</label>
                         <input type="text" class="form-control" name="Nombre"
                         @if ($errors->any()) 
                         value = "{{ old('Nombre') }}"
                         @else
-                        value="{{ $item->Nombre }}" @endif>
+                        value="{{ $deportista->Nombre }}" @endif>
                         @error('Nombre')
                             <div>
                                 @foreach ($errors->get('Nombre') as $errorNombre)
@@ -44,7 +44,7 @@
 
                     <div class="col-12">
                         <label for="Documento" class="form-label">Documento</label>
-                        <input readonly type="number" class="form-control" name="Documento" value="{{ $item->Documento }}">
+                        <input readonly type="number" class="form-control" name="Documento" value="{{ $deportista->Documento }}">
                     </div>
 
 
@@ -54,7 +54,7 @@
                             <input type="date" class="form-control" name="FechaNacimiento"
                                 @if ($errors->any()) value = "{{ old('FechaNacimiento') }}"
                         @else
-                        value="{{ $item->FechaNacimiento }}" @endif>
+                        value="{{ $deportista->FechaNacimiento }}" @endif>
                             @error('FechaNacimiento')
                                 <div>
                                     @foreach ($errors->get('FechaNacimiento') as $item)
@@ -69,7 +69,7 @@
                             <input type="number" class="form-control" name="Celular"
                                 @if ($errors->any()) value = "{{ old('Celular') }}"
                         @else
-                        value="{{ $item->Celular }}" @endif>
+                        value="{{ $deportista->Celular }}" @endif>
                             @error('Celular')
                                 <div>
                                     @foreach ($errors->get('Celular') as $item)
@@ -84,7 +84,7 @@
                             <input type="text" class="form-control" name="Direccion"
                                 @if ($errors->any()) value = "{{ old('Direccion') }}"
                         @else
-                        value="{{ $item->Direccion }}" @endif>
+                        value="{{ $deportista->Direccion }}" @endif>
                             @error('Direccion')
                                 <div>
                                     @foreach ($errors->get('Direccion') as $item)
@@ -99,7 +99,7 @@
                         <input type="text" class="form-control" name="Correo"
                             @if ($errors->any()) value = "{{ old('Correo') }}"
                     @else
-                    value="{{ $item->Correo }}" @endif>
+                    value="{{ $deportista->Correo }}" @endif>
                         @error('Correo')
                             <div>
                                 @foreach ($errors->get('Correo') as $errorCorreo)
@@ -111,7 +111,7 @@
 
                     @php
                         $newAccTabSt = '';
-                        $choiceAccTabSt = '';
+                        $choiceAccTabSt = 'checked';
                         
                         if ($errors->any() && !$errors->has('howAcc')) {
                             if (old('howAcc') == 'newAccTab') {
@@ -154,7 +154,7 @@
 
                     @php
                         $newAccTabCl = 'oneOptionHide';
-                        $choiceAccTabCl = 'oneOptionHide';
+                        $choiceAccTabCl = 'oneOptionShow';
                         
                         if ($errors->any() && !$errors->has('howAcc')) {
                             if (old('howAcc') == 'newAccTab') {
@@ -254,12 +254,13 @@
                                 <label for="CurrentDocumentoAcc" class="form-label">Seleccionar acudiente</label>
                                 @error('CurrentDocumentoAcc')
                                     <div>
-                                        @foreach ($errors->get('CurrentDocumentoAcc') as $item)
-                                            <small> {{ $item }} </small>
+                                        @foreach ($errors->get('CurrentDocumentoAcc') as $errorDocAcc)
+                                            <small> {{ $errorDocAcc }} </small>
                                         @endforeach
                                     </div>
                                 @enderror
                                 <select class="form-select" name="CurrentDocumentoAcc">
+                                    <option selected value="{{ $deportista->DocumentoAcudiente }}"> {{$deportista->NombreAcudiente}} - {{ $deportista->DocumentoAcudiente }}</option>
                                     @foreach ($Acudientes as $Acudiente)
                                         <option value="{{ $Acudiente->DocumentoAcudiente }}">
                                             {{ $Acudiente->NombreAcudiente }}- {{ $Acudiente->DocumentoAcudiente }}

@@ -26,9 +26,9 @@ class GruposController extends Controller
             ->join('users', 'grupos.Documento', '=', 'users.Documento')
             ->join('categorias', 'grupos.CategoriaId', '=', 'categorias.CategoriaId')
             ->get();
-        $ListadoCategoria = Categoria::all();
-        $ListadoUsuario = User::all();
-        $Deportista = Deportista::select(['Documento', 'Nombre', 'FechaNacimiento'])->get();
+        $ListadoCategoria = Categoria::all()->where('Estado','=',true  );
+        $ListadoUsuario = User::all()->where('Estado','=',true);
+        $Deportista = Deportista::select(['Documento', 'Nombre', 'FechaNacimiento'])->where('Estado','=',true)->get();
         $Listados = ['ListadoGrupos' => $ListadoGrupos, 'ListadoCategoria' => $ListadoCategoria, 'ListadoUsuario' => $ListadoUsuario];
 
 

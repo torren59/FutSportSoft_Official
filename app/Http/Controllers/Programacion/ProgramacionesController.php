@@ -28,9 +28,9 @@ class ProgramacionesController extends Controller
         ->join('horarios','horarios.HorarioId','=','Programacion.HorarioId')
         ->orderbydesc('ProgramacionId')->get();
 
-        $sedes = Sede::all(['SedeId','NombreSede']);
-        $deportes = Deporte::all(['DeporteId','NombreDeporte']);
-        $horarios = Horario::all(['HorarioId','NombreHorario','HoraInicio','HoraFinalizacion']);
+        $sedes = Sede::select(['SedeId','NombreSede'])->where('Estado','=',true)->get();
+        $deportes = Deporte::select(['DeporteId','NombreDeporte'])->where('Estado','=',true)->get();
+        $horarios = Horario::select(['HorarioId','NombreHorario','HoraInicio','HoraFinalizacion'])->where('Estado','=',true)->get();
         $progData = ['sedes'=>$sedes, 'horarios'=>$horarios, 'deportes'=>$deportes, 'horarios'=>$horarios,'programaciones'=>$programaciones];
 
         switch($status){
@@ -80,27 +80,6 @@ class ProgramacionesController extends Controller
         return redirect('programacion/listar/1');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
     public function changeState(Request $request){
         $progId = json_decode($request->progId);
@@ -117,39 +96,5 @@ class ProgramacionesController extends Controller
 
         return json_encode($Programacion);
 
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

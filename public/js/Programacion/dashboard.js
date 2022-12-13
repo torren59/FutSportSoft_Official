@@ -28,12 +28,18 @@ function setFirstInterval(){
 
 function setNewInterval(){
     let inferiorMonth = $('#inferiorMonth').val();
+    console.log(inferiorMonth);
     let inferiorYear = $('#inferiorYear').val();
+    console.log(inferiorYear);
     let superiorMonth = $('#superiorMonth').val();
+    console.log(superiorMonth);
     let superiorYear = $('#superiorYear').val();
+    console.log(superiorYear);
+
 
     if(inferiorYear > superiorYear){
-        console.log('Organice los años');
+        let Message = 'Seleccione una fecha final superior a la fecha inicial';
+        $('#ConfirmationError').html(Message);        
         return;
     }
     else if(inferiorYear == superiorYear &&  parseInt(inferiorMonth) > parseInt(superiorMonth)){
@@ -60,7 +66,9 @@ function setNewInterval(){
             'superiorYear': JSON.stringify(superiorYear),
         },
         success: function (data) {
-            window.ctx.destroy(); 
+            window.ctx.destroy();
+            console.log('Aqui'); 
+            console.log(data);
             showDash(data);
         },
         error: function (error) {

@@ -30,7 +30,7 @@ class ProductosController extends Controller
 
 
         $tallas = Talla::all();
-        $Proveedores = Proveedor::all();
+        $Proveedores = Proveedor::all()->where('Estado','=',true);
         $Tipos = Tipo_Producto::all();
 // return $Productos;
 

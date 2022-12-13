@@ -22,7 +22,7 @@ class CategoriaController extends Controller
         $ListadoCategoria = Categoria::select(['CategoriaId', 'NombreCategoria', 'deportes.NombreDeporte', 'RangoEdad', 'categorias.Estado'])
             ->join('deportes', 'categorias.DeporteId', '=', 'deportes.DeporteId')
             ->get();
-        $ListadoDeporte = Deporte::all();
+        $ListadoDeporte = Deporte::all()->where('Estado','=',true);
         $Listados = ['ListadoCategoria' => $ListadoCategoria, 'ListadoDeporte' => $ListadoDeporte];
 
 
@@ -106,7 +106,7 @@ class CategoriaController extends Controller
         $Selected =  Categoria::select(['categorias.CategoriaId', 'deportes.DeporteId', 'deportes.NombreDeporte', 'NombreCategoria', 'RangoEdad'])
             ->join('deportes', 'categorias.DeporteId', '=', 'deportes.DeporteId')->where('categorias.CategoriaId', '=', $id)
             ->get();
-        $Deporte = Deporte::select(['DeporteId', 'NombreDeporte'])->get();
+        $Deporte = Deporte::select(['DeporteId', 'NombreDeporte'])->where('Estado','=',true)->get();
         $data = ['categorias' => $Selected, 'deportes' => $Deporte];
         return view('Programacion.editarcategoria')->with('data', $data);
 
