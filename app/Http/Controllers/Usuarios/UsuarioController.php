@@ -37,7 +37,7 @@ class UsuarioController extends Controller
                 ->get();
         }
 
-        $ListadoRoles = Roles::all();
+        $ListadoRoles = Roles::all()->where('Estado','=',true);
         $Listados = ['ListadoUsuario' => $ListadoUsuario, 'ListadoRoles' => $ListadoRoles];
 
         switch ($status) {

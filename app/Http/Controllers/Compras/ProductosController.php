@@ -30,7 +30,7 @@ class ProductosController extends Controller
 
 
         $tallas = Talla::all();
-        $Proveedores = Proveedor::all();
+        $Proveedores = Proveedor::all()->where('Estado','=',true);
         $Tipos = Tipo_Producto::all();
         return view('Compras.productos')->with('listado',$Productos)->with('tallas',$tallas)->with('tipos_productos',$Tipos)->with('proveedores',$Proveedores);
     }

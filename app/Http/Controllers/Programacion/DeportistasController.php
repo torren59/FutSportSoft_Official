@@ -18,44 +18,29 @@ class DeportistasController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($status = null)
     {
-        $Deportista = new Deportista();
-        $ListadoDeportista = $Deportista->all();
-        return view('Programacion.deportistas')->with('listado',$ListadoDeportista);
+        $ListadoDeportista = Deportista::select(['Documento', 'acudientes.NombreAcudiente','tipos_documentos.Descripcion as TipoDocumento','Nombre',
+        'FechaNacimiento','Direccion','Celular','Correo','Estado'])
+        ->join('acudientes','acudientes.DocumentoAcudiente','=','deportistas.DocumentoAcudiente')
+        ->join('tipos_documentos','tipos_documentos.TipoDocumento','=','deportistas.TipoDocumento')
+        ->get();
+
+        switch ($status) {
+            case 1:
+                $sweet_setAll = ['title' => 'Registro guardado', 'msg' => 'El registro se guardó exitosamente', 'type' => 'success'];
+                return view('Programacion.deportistas')->with('listado',$ListadoDeportista)->with('sweet_setAll', $sweet_setAll);
+                break;
+            case 2:
+                $sweet_setAll = ['title' => 'Registro editado', 'msg' => 'El registro se editó exitosamente', 'type' => 'success'];
+                return view('Programacion.deportistas')->with('listado',$ListadoDeportista)->with('sweet_setAll', $sweet_setAll);
+                break;
+            default:
+            return view('Programacion.deportistas')->with('listado',$ListadoDeportista);
+            break;
+        }
+
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    /*
-    public function create(Request $request)
-    {
-        $validator = Validator::make($request->all(), 
-        ['Documento'=>'min:1|unique:deportistas,Documento|max:10','DocumentoAcudiente'=>'min:1|unique:deportistas,DocumentoAcudiente|max:10','TipoDocumento'=>'min:1|max:4','Nombre'=>'min:1|max:100','FechaNacimiento'=>'min:1|max:10','Direccion'=>'min:1|unique:deportistas,Direccion|max:80','Celular'=>'min:1|max:11','Correo'=>'min:1|max:70','UltimoPago'=>'min:1|max:10'],
-        ['unique'=>'Este campo no acepta información que ya se ha registrado','min'=>'No puedes enviar este campo vacío','max'=>'Máximo de :max dígitos']);
-       
-        if($validator->fails()){
-            return back()->withErrors($validator)->withInput();
-        }
-        $Deportista = new Deportista();
-        $Campos = ['Documento','DocumentoAcudiente','TipoDocumento','Nombre','FechaNacimiento','Direccion','Celular','Correo','UltimoPago'];
-        foreach($Campos as $item){
-            $Deportista->$item = $request->$item;
-        }
-
-        $Acudiente = new Acudiente();
-        $Campos = ['DocumentoAcudiente','NombreAcudiente','CorreoAcudiente','CelularAcudiente'];
-        foreach($Campos as $item){
-            $Acudiente->$item = $request->$item;
-        }
-
-        $Deportista->save();
-        return redirect('deportista/listar');
-    }
-    */
 
     public function create(){
         $TiposDocumentos = tipo_documento::all();
@@ -107,7 +92,7 @@ class DeportistasController extends Controller
             }
             $deportista->DocumentoAcudiente = '10001';
             $deportista->save();
-            return redirect('deportista/listar');
+            return redirect('deportista/listar/1');
         }
 
         if($request->howAcc == 'newAccTab'){
@@ -125,7 +110,7 @@ class DeportistasController extends Controller
             }
             $deportista->DocumentoAcudiente = $request->DocumentoAcc;
             $deportista->save();
-            return redirect('deportista/listar');
+            return redirect('deportista/listar/1');
         }
 
         if($request->howAcc == 'choiceAccTab'){
@@ -135,7 +120,7 @@ class DeportistasController extends Controller
             }
             $deportista->DocumentoAcudiente = $request->CurrentDocumentoAcc;
             $deportista->save();
-            return redirect('deportista/listar');
+            return redirect('deportista/listar/1');
         }
 
 
@@ -177,8 +162,15 @@ class DeportistasController extends Controller
      */
     public function edit($id)
     {
-        $Selected =  Deportista::all()->where('Documento','=',$id);
+        $Selected = Deportista::select(['Documento','deportistas.DocumentoAcudiente','Nombre','FechaNacimiento','Direccion',
+        'Celular','Correo','acudientes.NombreAcudiente','acudientes.CorreoAcudiente','acudientes.CelularAcudiente'])
+        ->join('acudientes','acudientes.DocumentoAcudiente','=','deportistas.DocumentoAcudiente')
+        ->get();
+
+        // return $Selected;
+
         $Acudientes = Acudiente::all();
+
         $TiposDocumentosAcc = tipo_documento::all()->where('TipoDocumento','!=',3);
 
         return view('Programacion.editardeportista')->with('deportistaData',$Selected)
@@ -240,7 +232,7 @@ class DeportistasController extends Controller
             }
             $deportista->DocumentoAcudiente = $request->DocumentoAcc;
             $deportista->save();
-            return redirect('deportista/listar');
+            return redirect('deportista/listar/2');
         }
 
         if($request->howAcc == 'choiceAccTab'){
@@ -250,7 +242,7 @@ class DeportistasController extends Controller
             }
             $deportista->DocumentoAcudiente = $request->CurrentDocumentoAcc;
             $deportista->save();
-            return redirect('deportista/listar');
+            return redirect('deportista/listar/2');
         }
     }
 
@@ -263,5 +255,18 @@ class DeportistasController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function getDetalle($id){
+        $ListadoDeportista = Deportista::select(['Documento','acudientes.DocumentoAcudiente','acudientes.NombreAcudiente',
+        'acudientes.CorreoAcudiente','acudientes.CelularAcudiente','tipos_documentos.Descripcion','Nombre',
+        'FechaNacimiento','Direccion','Celular','Correo','Estado'])
+        ->join('acudientes','acudientes.DocumentoAcudiente','=','deportistas.DocumentoAcudiente')
+        ->join('tipos_documentos','tipos_documentos.TipoDocumento','=','deportistas.TipoDocumento')
+        ->where('Documento','=',$id)
+        ->get();
+
+        // return $ListadoDeportista;
+        return view('Programacion.detalledeportista')->with('listadoDeportista',$ListadoDeportista);
     }
 }

@@ -39,9 +39,9 @@
                                 <div class="col-2">
                                     <h3>-></h3>
                                     <select type="number" name="inferiorYear" id="inferiorYear" class="form-select">
-                                        <option value=" {{ $currentYear }} "> {{ $currentYear }} </option>
+                                        <option value="{{ $currentYear }}"> {{ $currentYear }} </option>
                                         @foreach ($ofertedYears as $year)
-                                            <option value=" {{ $year }} "> {{ $year }} </option>
+                                            <option value="{{ $year }}"> {{ $year }} </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -70,7 +70,7 @@
                                     <select type="number" name="superiorYear" id="superiorYear" class="form-select">
                                         <option value="{{ $currentYear }}"> {{ $currentYear }} </option>
                                         @foreach ($ofertedYears as $year)
-                                            <option value=" {{ $year }} "> {{ $year }} </option>
+                                            <option value="{{ $year }}"> {{ $year }} </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -83,6 +83,9 @@
                                         type="button">Consultar</button>
 
                                 </div>
+                            </div>
+                            <div class="col-12" style="display: flex; justify-content:center">
+                                <div  id="ConfirmationError" ></div>
                             </div>
                             <div class="col-12 p-5" style="width:70%;margin-left:15%">
                                 <canvas id="myChart"></canvas>

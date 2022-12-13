@@ -25,7 +25,7 @@ class ComprasController extends Controller
         session()->forget('NitProveedor');
         $ListadoCompras = Compras::select(['NumeroFactura', 'proveedores.NombreEmpresa', 'FechaCompra', 'ValorCompra', 'SubTotal', 'Iva', 'Descuento', 'compras.Estado'])
             ->join('proveedores', 'compras.Nit', '=', 'proveedores.Nit')->get();
-        $ListadoProveedor = Proveedor::all();
+        $ListadoProveedor = Proveedor::all()->where('Estado','=',true);
         $Listados = ['ListadoCompras' => $ListadoCompras, 'ListadoProveedor' => $ListadoProveedor];
 
 

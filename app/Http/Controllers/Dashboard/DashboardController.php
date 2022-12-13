@@ -78,6 +78,7 @@ class DashboardController extends Controller
         $firstYear = date('Y', strtotime(Programacion::min('FechaInicio')));
         $currentYear = date('Y');
         $currentMonth = date('m');
+        // return $currentMonth;
         $currentMonthName = $ofertedMonths[$currentMonth - 1];
 
         $ofertedYears = [];
@@ -128,7 +129,7 @@ class DashboardController extends Controller
         $inferiorMonth = json_decode($request->inferiorMonth);
         $guion = '-';
         $inferiorDate = $inferiorYear.$guion.$inferiorMonth;
-        $fragA = substr($inferiorDate,1,4);
+        $fragA = substr($inferiorDate,0,7);
         $fragB = 0;
         if(strlen($inferiorDate) > 8){
             $fragB = substr($inferiorDate,6,3);
@@ -141,7 +142,7 @@ class DashboardController extends Controller
         $superiorYear = json_decode($request->superiorYear);
         $superiorMonth = json_decode($request->superiorMonth);
         $superiorDate = $superiorYear.$guion.$superiorMonth;
-        $fragA2 = substr($superiorDate,1,4);
+        $fragA2 = substr($superiorDate,0,7);
         $fragB2 = 0;
         if(strlen($superiorDate) > 8){
             $fragB2 = substr($superiorDate,6,3);
@@ -151,7 +152,7 @@ class DashboardController extends Controller
         }
         $fragC2 = $fragA2.$fragB2;
 
-        $intervalos = $this->getIntervals($fragC, $fragC2);
+        $intervalos = $this->getIntervals($fragA, $fragA2);
 
         //Consultando estadística y almacenando resultados --Todo queda guardado en la variable dash1
         foreach ($intervalos as $intervalo) {

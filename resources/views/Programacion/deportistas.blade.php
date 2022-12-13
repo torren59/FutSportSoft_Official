@@ -5,6 +5,8 @@
 @section('title', 'Deportistas')
 
 @push('styles')
+    {{-- Csrf para funcionamiento de Ajax --}}
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href=" {{ asset('./css/layouts/datatable.css') }} ">
     <link rel="stylesheet" href="{{ asset('./css/layouts/cruds.css') }} ">
     <link href="https://unpkg.com/vanilla-datatables@latest/dist/vanilla-dataTables.min.css" rel="stylesheet" type="text/css">
@@ -23,30 +25,22 @@
             </div>
         </center>
 
-        {{-- @if (in_array(126, $permisos))
-            <div class="addbtn">
-                <button class="btn btn-outline-secondary col-2" onclick="switchadicion2('deportistaadicion')">Nuevo
-                    Deportista <i class="fa-solid fa-circle-plus"></i></button>
-            </div>
-        @endif  --}}
+
 
         @if (in_array(126, $permisos))
-        
-            <a href=" {{url('deportista/crear')}} ">
+            <a href=" {{ url('deportista/crear') }} ">
                 <div class="addbtn">
-                <button class="btn btn-outline-secondary col-2">Nuevo Deportista <i class="fa-solid fa-circle-plus"></i></button>
-            </div>
+                    <button class="btn btn-outline-secondary col-2">Nuevo Deportista <i
+                            class="fa-solid fa-circle-plus"></i></button>
+                </div>
             </a>
-        
-    @endif
+        @endif
 
         <table id="tabla">
             <thead>
                 <tr>
                     <td>Acción</td>
                     <td>Documento</td>
-                    <td>Documento Acudiente</td>
-                    <td>Tipo Documento</td>
                     <td>Nombre</td>
                     <td>Fecha de Nacimiento</td>
                     <td>Direccion</td>
@@ -69,8 +63,6 @@
                             @endif
                         </td>
                         <td>{{ $item->Documento }}</td>
-                        <td>{{ $item->DocumentoAcudiente }}</td>
-                        <td>{{ $item->TipoDocumento }}</td>
                         <td>{{ $item->Nombre }}</td>
                         <td>{{ $item->FechaNacimiento }}</td>
                         <td>{{ $item->Direccion }}</td>
@@ -86,7 +78,7 @@
                                     }
                                 @endphp
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" role="switch"
+                                    <input class="form-check-input" type="checkbox" role="switch" onclick="changeState('{{$item->Documento}}')"
                                         id="flexSwitchCheckChecked" {{ $checkstate }}>
                                 </div>
                             @endif
@@ -98,128 +90,15 @@
             </tbody>
         </table>
 
-
-        {{-- Creacion de productos --}}
-
-        <div id="deportistaadicion" class="adicion_off" style="width:800px;height:500px">
-            <div class="floatcontent">
-                <h4 style="padding-top:5%;">Nuevo Deportista</h4>
-                <hr>
-
-                <form action={{ url('deportista/crear') }} method="post"> @csrf
-
-                    <label for="Documento" class="form-label">Documento</label>
-                    <input type="number" class="form-control" name="Documento" value="{{ old('Documento') }}">
-                    @error('Documento')
-                        <div>
-                            @foreach ($errors->get('Documento') as $item)
-                                <small> {{ $item }} </small>
-                            @endforeach
-                        </div>
-                    @enderror
-
-                    <div class="row">
-                        <div class="col-6">
-                            <label for="DocumentoAcudiente" class="form-label">Documento Acudiente</label>
-                            <input type="number" class="form-control" name="DocumentoAcudiente" value=" {{ old('DocumentoAcudiente') }} ">
-                            @error('DocumentoAcudiente')
-                                <div>
-                                    @foreach ($errors->get('DocumentoAcudiente') as $item)
-                                        <small> {{ $item }} </small>
-                                    @endforeach
-                                </div>
-                            @enderror
-                        </div>
-                        <div class="col-6">
-                            <label for="TipoDocumento" class="form-label">Tipo Documento</label>
-                            <input type="text" class="form-control" name="TipoDocumento"
-                                value=" {{ old('TipoDocumento') }} ">
-                            @error('TipoDocumento')
-                                <div>
-                                    @foreach ($errors->get('TipoDocumento') as $item)
-                                        <small> {{ $item }} </small>
-                                    @endforeach
-                                </div>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <label for="Nombre" class="form-label">Nombre</label>
-                    <input type="text" class="form-control" name="Nombre" value=" {{ old('Nombre') }} ">
-                    @error('Nombre')
-                        <div>
-                            @foreach ($errors->get('Nombre') as $item)
-                                <small> {{ $item }} </small>
-                            @endforeach
-                        </div>
-                    @enderror
-
-                    <label for="FechaNacimiento" class="form-label">FechaNacimiento</label>
-                    <input type="date" class="form-control" name="FechaNacimiento"
-                        value=" {{ old('FechaNacimiento') }} ">
-                    @error('FechaNacimiento')
-                        <div>
-                            @foreach ($errors->get('FechaNacimiento') as $item)
-                                <small> {{ $item }} </small>
-                            @endforeach
-                        </div>
-                    @enderror
-
-                    <label for="Direccion" class="form-label">Direccion</label>
-                    <input type="text" class="form-control" name="Direccion" value=" {{ old('Direccion') }} ">
-                    @error('Direccion')
-                        <div>
-                            @foreach ($errors->get('Direccion') as $item)
-                                <small> {{ $item }} </small>
-                            @endforeach
-                        </div>
-                    @enderror
-
-                    <label for="Celular" class="form-label">Celular</label>
-                    <input type="number" class="form-control" name="Celular" value=" {{ old('Celular') }} ">
-                    @error('Celular')
-                        <div>
-                            @foreach ($errors->get('Celular') as $item)
-                                <small> {{ $item }} </small>
-                            @endforeach
-                        </div>
-                    @enderror
-
-                    <label for="Correo" class="form-label">Correo</label>
-                    <input type="mail" class="form-control" name="Correo" value=" {{ old('Correo') }} ">
-                    @error('Correo')
-                        <div>
-                            @foreach ($errors->get('Correo') as $item)
-                                <small> {{ $item }} </small>
-                            @endforeach
-                        </div>
-                    @enderror
-
-                    <label for="UltimoPago" class="form-label">UltimoPago</label>
-                    <input type="date" class="form-control" name="UltimoPago" value=" {{ old('UltimoPago') }} ">
-                    @error('UltimoPago')
-                        <div>
-                            @foreach ($errors->get('UltimoPago') as $item)
-                                <small> {{ $item }} </small>
-                            @endforeach
-                        </div>
-                    @enderror
-                    <br>
-                    <button type="submit" class="btn btn-primary btn-success">Guardar</i></button>
-                    <button type="button" class="btn btn-primary btn-danger"
-                        onclick="switchadicion2('deportistaadicion')">Cancelar</i></button>
-
-                </form>
-            </div>
-        </div>
-
-        @if ($errors->any())
-            <script>
-                setTimeout(() => {
-                    switchadicion2('deportistaadicion');
-                }, 500);
-            </script>
-        @endif
+                {{-- Mensajes personalizados --}}
+                @if (isset($sweet_setAll))
+                <script>
+                    setTimeout(() => {
+                        swal_setAll("{{ $sweet_setAll['title'] }}", "{{ $sweet_setAll['msg'] }}",
+                            "{{ $sweet_setAll['type'] }}");
+                    }, 500);
+                </script>
+            @endif
 
     </div>
 @endsection
@@ -232,4 +111,6 @@
     </script>
 
     <script src=" {{ asset('./js/layouts/cruds.js') }} "></script>
+    <script src=" {{ asset('./js/Programacion/deportista.js') }} "></script>
+
 @endpush

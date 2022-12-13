@@ -138,14 +138,14 @@ class DeportesController extends Controller
     public function getcategorias(Request $request)
     {
         $DeporteId = $request->DeporteId;
-        $categorias = Categoria::select(['CategoriaId', 'NombreCategoria'])->where('DeporteId', '=', $DeporteId)->get();
+        $categorias = Categoria::select(['CategoriaId', 'NombreCategoria'])->where('DeporteId', '=', $DeporteId)->where('Estado','=',true)->get();
         return json_encode($categorias);
     }
 
     public function getgrupos(Request $request)
     {
         $CategoriaId = $request->CategoriaId;
-        $grupos = Grupo::select(['GrupoId', 'NombreGrupo'])->where('CategoriaId', '=', $CategoriaId)->get();
+        $grupos = Grupo::select(['GrupoId', 'NombreGrupo'])->where('CategoriaId', '=', $CategoriaId)->where('Estado','=',true)->get();
         return json_encode($grupos);
     }
 

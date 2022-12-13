@@ -34,6 +34,7 @@ class VentasController extends Controller
     {
         $Productos = Producto::select(['ProductoId', 'NombreProducto', 'TipoProducto', 'Talla', 'PrecioVenta', 'Cantidad', 'proveedores.NombreEmpresa'])
             ->join('proveedores', 'proveedores.Nit', '=', 'productos.Nit')
+            ->where('productos.Estado','=',true)
             ->get();
         // ->where('productos.Estado','=',1)
 
