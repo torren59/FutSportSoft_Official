@@ -5,8 +5,8 @@
 @section('title', 'Productos')
 
 @push('styles')
-{{-- Csrf para funcionamiento de Ajax --}}
-<meta name="csrf-token" content="{{ csrf_token() }}">
+    {{-- Csrf para funcionamiento de Ajax --}}
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href=" {{ asset('./css/layouts/datatable.css') }} ">
     <link rel="stylesheet" href="{{ asset('./css/layouts/cruds.css') }} ">
     <link href="https://unpkg.com/vanilla-datatables@latest/dist/vanilla-dataTables.min.css" rel="stylesheet" type="text/css">
@@ -38,7 +38,7 @@
                 <tr>
                     <td>Acción</td>
                     <td>ProductoId</td>
-                    <td>Nit</td>
+                    <td>Empresa</td>
                     <td>Nombre Producto</td>
                     <td>Tipo Producto</td>
                     <td>Talla</td>
@@ -54,7 +54,7 @@
                         <td>
                             @if (in_array(135, $permisos))
                                 <a href="{{ url('producto/editar/' . $item->ProductoId) }}"><button
-                                        class="btn btn-primary"><i class="fa-solid fa-pen"></i></button></a>
+                                        class="btn btn-outline-primary"><i class="fa-solid fa-pen"></i></button></a>
                             @endif
                         </td>
                         <td>{{ $item->ProductoId }}</td>
@@ -76,7 +76,8 @@
 
                                 <div class="form-check form-switch">
                                     <input class="form-check-input" type="checkbox" role="switch"
-                                        id="flexSwitchCheckChecked" {{ $checkstate }} onclick="changeState('{{$item->ProductoId}}')">
+                                        id="flexSwitchCheckChecked" {{ $checkstate }}
+                                        onclick="changeState('{{ $item->ProductoId }}')">
                                 </div>
                             @endif
                         </td>
@@ -90,31 +91,32 @@
 
         <div id="productoadicion" class="adicion_off" style="width:600px;height:400px">
             <div class="floatcontent">
-                <h4 style="padding-top:5%;">Nuevo Producto</h4>
-                <hr>
+                <h2>Nuevo Producto</h2>
+
 
                 <form action={{ url('producto/crear') }} method="post"> @csrf
-
-                    <label for="Nit" class="form-label">Proveedor</label>
-                    <select name="Nit" class="form-select deporte_select">
-                        <option value="">Seleccione el Proveedor</option>
-                        @foreach ($proveedores as $item)
-                            <option value=' {{ $item->Nit }} '>{{ $item->NombreEmpresa }}</option>
-                        @endforeach
-                    </select>
-                    @error('Nit')
-                        <div>
-                            @foreach ($errors->get('Nit') as $item)
-                                <small> {{ $item }} </small>
-                            @endforeach
-                        </div>
-                    @enderror
-
                     <div class="row">
+                        <div class="col-6">
+                            <label for="Nit" class="form-label">Proveedor</label>
+                            <select name="Nit" class="form-select deporte_select">
+                                <option value="">Seleccione el Proveedor</option>
+                                @foreach ($proveedores as $item)
+                                    <option value=' {{ $item->Nit }} '>{{ $item->NombreEmpresa }}</option>
+                                @endforeach
+                            </select>
+                            @error('Nit')
+                                <div>
+                                    @foreach ($errors->get('Nit') as $item)
+                                        <small> {{ $item }} </small>
+                                    @endforeach
+                                </div>
+                            @enderror
+                        </div>
+
                         <div class="col-6">
                             <label for="NombreProducto" class="form-label">Nombre Producto</label>
                             <input type="text" class="form-control" name="NombreProducto"
-                                value=" {{ old('NombreProducto') }} ">
+                                value="{{ old('NombreProducto') }}">
                             @error('NombreProducto')
                                 <div>
                                     @foreach ($errors->get('NombreProducto') as $item)
@@ -128,7 +130,7 @@
                             <select name="TipoProducto" class="form-select deporte_select">
                                 <option>Seleccione el Tipo</option>
                                 @foreach ($tipos_productos as $item)
-                                    <option value=' {{ $item->TipoId }} '>{{ $item->Tipo }}</option>
+                                    <option value='{{ $item->TipoId }}'>{{ $item->Tipo }}</option>
                                 @endforeach
                             </select>
                             @error('TipoProducto')
@@ -139,47 +141,52 @@
                                 </div>
                             @enderror
                         </div>
+
+                        <div class="col-6">
+                            <label for="Talla" class="form-label">Talla</label>
+                            <select name="Talla" class="form-select deporte_select">
+                                <option value="">Selecciona Talla</option>
+                                @foreach ($tallas as $item)
+                                    <option value=' {{ $item->TallaId }} '>{{ $item->Talla }}</option>
+                                @endforeach
+                            </select>
+                            @error('Talla')
+                                <div>
+                                    @foreach ($errors->get('Talla') as $item)
+                                        <small> {{ $item }} </small>
+                                    @endforeach
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="col-6">
+                            <label for="PrecioVenta" class="form-label">Precio Venta</label>
+                            <input type="number" class="form-control" name="PrecioVenta"
+                                value=" {{ old('PrecioVenta') }} ">
+                            @error('PrecioVenta')
+                                <div>
+                                    @foreach ($errors->get('PrecioVenta') as $item)
+                                        <small> {{ $item }} </small>
+                                    @endforeach
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="col-6">
+                            <label for="Cantidad" class="form-label">Cantidad</label>
+                            <input type="number" class="form-control" name="Cantidad" value=" {{ old('Cantidad') }} ">
+                            @error('Cantidad')
+                                <div>
+                                    @foreach ($errors->get('Cantidad') as $item)
+                                        <small> {{ $item }} </small>
+                                    @endforeach
+                                </div>
+                            @enderror
+                        </div>
                     </div>
-
-                    <label for="Talla" class="form-label">Talla</label>
-                    <select name="Talla" class="form-select deporte_select">
-                        <option value="">Selecciona Talla</option>
-                        @foreach ($tallas as $item)
-                            <option value=' {{ $item->TallaId }} '>{{ $item->Talla }}</option>
-                        @endforeach
-                    </select>
-                    @error('Talla')
-                        <div>
-                            @foreach ($errors->get('Talla') as $item)
-                                <small> {{ $item }} </small>
-                            @endforeach
-                        </div>
-                    @enderror
-
-                    <label for="PrecioVenta" class="form-label">Precio Venta</label>
-                    <input type="number" class="form-control" name="PrecioVenta" value=" {{ old('PrecioVenta') }} ">
-                    @error('PrecioVenta')
-                        <div>
-                            @foreach ($errors->get('PrecioVenta') as $item)
-                                <small> {{ $item }} </small>
-                            @endforeach
-                        </div>
-                    @enderror
-
-                    <label for="Cantidad" class="form-label">Cantidad</label>
-                    <input type="number" class="form-control" name="Cantidad" value=" {{ old('Cantidad') }} ">
-                    @error('Cantidad')
-                        <div>
-                            @foreach ($errors->get('Cantidad') as $item)
-                                <small> {{ $item }} </small>
-                            @endforeach
-                        </div>
-                    @enderror
-                    <br>
-                    <button type="submit" class="btn btn-primary btn-success">Guardar</i></button>
-                    <button type="button" class="btn btn-primary btn-danger"
-                        onclick="switchadicion2('productoadicion')">Cancelar</i></button>
-
+                    <div class="botonesproductos p-5">
+                        <button type="submit" class="btn btn-outline-primary">Guardar</i></button>
+                        <button type="button" class="btn btn-outline-secondary"
+                            onclick="switchadicion2('productoadicion')">Cancelar</i></button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -193,6 +200,16 @@
         @endif
 
     </div>
+
+    {{-- Mensajes personalizados --}}
+    @if (isset($sweet_setAll))
+    <script>
+        setTimeout(() => {
+            swal_setAll("{{ $sweet_setAll['title'] }}", "{{ $sweet_setAll['msg'] }}",
+                "{{ $sweet_setAll['type'] }}");
+        }, 500);
+    </script>
+@endif
 @endsection
 
 

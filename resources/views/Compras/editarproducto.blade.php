@@ -19,99 +19,97 @@
     @endforeach
 
     @csrf
-    <div class="grid_triple_center">
-        <div class="grid_span_2a3">
-            <div class="adicion_title">
+
+    <div class="container col-4 p-5 text-center">
+        <div class="row justify content center p-2">
+            <div class="card">
                 <h1>Editar Producto</h1>
-            </div>
-            @foreach ($productodata as $item)
-                <div class="col-12">
-                    <label for="Nit" class="form-label">Nit Proveedor</label>
-                    <input type="number" class="form-control" name="Nit" value="{{ old('Nit', $item->Nit) }}">
-                    @error('Nit')
-                        <div>
-                            @foreach ($errors->get('Nit') as $item)
-                                <small> {{ $item }} </small>
-                            @endforeach
-                        </div>
-                    @enderror
-                </div>
 
-                <div class="row col-12">
-                    <div class="col-6">
-                        <label for="NombreProducto" class="form-label">Nombre Producto</label>
-                        <input type="text" class="form-control" name="NombreProducto"
-                            value=" {{ old('NombreProducto', $item->NombreProducto) }}">
-                        @error('NombreProducto')
-                            <div>
-                                @foreach ($errors->get('NombreProducto') as $item)
-                                    <small> {{ $item }} </small>
+                @foreach ($productodata as $item)
+                    <div class="row justify-content-center">
+                        <div class="col-6">
+                            <label for="Nit" class="form-label">Empresa</label>
+                            <select class="form-select" name="Nit" aria-label="Default select example">
+                                <option selected value="{{ $item->Nit }}">{{ $item->NombreEmpresa}}</option>
+                                @foreach ($proveedores as $item2)
+                                    <option value="{{ $item2['proveedores.Nit'] }}">{{ $item2->NombreEmpresa }}</option>
                                 @endforeach
-                            </div>
-                        @enderror
-                    </div>
-                    <div class="col-6">
-                        <label for="TipoProducto" class="form-label">Tipo Producto</label>
-                        <input type="text" class="form-control" name="TipoProducto"
-                            value=" {{ old('TipoProducto', $item->TipoProducto) }} ">
-                        @error('TipoProducto')
-                            <div>
-                                @foreach ($errors->get('TipoProducto') as $item)
-                                    <small> {{ $item }} </small>
+                            </select>
+                        </div>
+
+
+                        <div class="col-6">
+                            <label for="NombreProducto" class="form-label">Nombre Producto</label>
+                            <input type="text" class="form-control" name="NombreProducto"
+                                value="{{ old('NombreProducto', $item->NombreProducto) }}">
+                            @error('NombreProducto')
+                                <div>
+                                    @foreach ($errors->get('NombreProducto') as $item)
+                                        <small> {{ $item }} </small>
+                                    @endforeach
+                                </div>
+                            @enderror
+                        </div>
+
+                        <div class="col-6">
+                            <label for="TipoProducto" class="form-label">Tipo</label>
+                            <select class="form-select" name="TipoProducto" aria-label="Default select example">
+                                <option selected value="{{ $item->TipoProducto}}">{{ $item->Tipo}}</option>
+                                @foreach ($proveedores as $item2)
+                                    <option value="{{ $item2->TipoId }}">{{ $item2->Tipo }}</option>
                                 @endforeach
-                            </div>
-                        @enderror
+                            </select>
+                        </div>
+
+
+                        <div class="col-6">
+                            <label for="TipoProducto" class="form-label">Talla</label>
+                            <select class="form-select" name="Talla" aria-label="Default select example">
+                                <option selected value="{{ $item->Talla}}">{{ $item->Talla}}</option>
+                                @foreach ($proveedores as $item2)
+                                    <option value="{{ $item2->TallaId }}">{{ $item2->Talla }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-6">
+                            <label for="PrecioVenta" class="form-label">PrecioVenta</label>
+                            <input type="number" class="form-control" name="PrecioVenta"
+                                value="{{ old('PrecioVenta', $item->PrecioVenta) }}">
+                            @error('PrecioVenta')
+                                <div>
+                                    @foreach ($errors->get('PrecioVenta') as $item)
+                                        <small> {{ $item }} </small>
+                                    @endforeach
+                                </div>
+                            @enderror
+                        </div>
+
+                        <div class="col-6">
+                            <label for="Cantidad" class="form-label">Cantidad</label>
+                            <input type="number" class="form-control" name="Cantidad"
+                                value="{{ old('Cantidad', $item->Cantidad) }}">
+                            @error('Cantidad')
+                                <div>
+                                    @foreach ($errors->get('Cantidad') as $item)
+                                        <small> {{ $item }} </small>
+                                    @endforeach
+                                </div>
+                            @enderror
+                        </div>
+
                     </div>
+                @endforeach
+                <div class="botonesproductos p-5">
+                    <button type="submit" class="btn btn-outline-primary">Guardar</i></button>
+                    <a href=" {{ url('producto/listar') }} "><button type="button"
+                            class="btn btn-outline-secondary">Cancelar</i></button></a>
                 </div>
 
-                <div class="col-12">
-                    <label for="Talla" class="form-label">Talla</label>
-                    <input type="text" class="form-control" name="Talla" value=" {{ old('Talla', $item->Talla) }} ">
-                    @error('Talla')
-                        <div>
-                            @foreach ($errors->get('Talla') as $item)
-                                <small> {{ $item }} </small>
-                            @endforeach
-                        </div>
-                    @enderror
-                </div>
-
-                <div class="col-12">
-                    <label for="PrecioVenta" class="form-label">PrecioVenta</label>
-                    <input type="text" class="form-control" name="PrecioVenta"
-                        value=" {{ old('PrecioVenta', $item->PrecioVenta) }} ">
-                    @error('PrecioVenta')
-                        <div>
-                            @foreach ($errors->get('PrecioVenta') as $item)
-                                <small> {{ $item }} </small>
-                            @endforeach
-                        </div>
-                    @enderror
-                </div>
-
-                <div class="col-12">
-                    <label for="Cantidad" class="form-label">Cantidad</label>
-                    <input type="text" class="form-control" name="Cantidad"
-                        value=" {{ old('Cantidad', $item->Cantidad) }} ">
-                    @error('Cantidad')
-                        <div>
-                            @foreach ($errors->get('Cantidad') as $item)
-                                <small> {{ $item }} </small>
-                            @endforeach
-                        </div>
-                    @enderror
-                </div>
-            @endforeach
-
-            <div class="col-12">
-                <button type="submit" class="btn btn-primary btn-success">Guardar</i></button>
-                <a href=" {{ url('producto/listar') }} "><button type="button"
-                        class="btn btn-primary btn-danger">Cancelar</i></button></a>
             </div>
-
-
         </div>
     </div>
+
 
     </form>
 @endsection

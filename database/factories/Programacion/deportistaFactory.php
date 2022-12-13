@@ -29,7 +29,8 @@ class deportistaFactory extends Factory
             'Direccion' => $this->faker->sentence(5),
             'Celular' => strval(random_int(3003213245,3999999999)),
             'Correo' => $this->faker->email(),
-            'Estado' => true
+            'Estado' => true,
+
         ];
     }
 }

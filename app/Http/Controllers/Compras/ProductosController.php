@@ -9,7 +9,7 @@ use App\Models\Compras\Proveedor;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rules\Unique;
+
 
 class ProductosController extends Controller
 {
@@ -18,7 +18,7 @@ class ProductosController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($status = null)
     {
         $Productos = Producto::select('ProductoId','tipos_productos.Tipo','proveedores.NombreEmpresa','NombreProducto','tallas.Talla','PrecioVenta','Cantidad','productos.Estado')
         ->join('proveedores','proveedores.Nit','=','productos.Nit')
@@ -26,13 +26,27 @@ class ProductosController extends Controller
         ->join('tipos_productos','tipos_productos.TipoId','=','productos.TipoProducto')
         ->get();
 
-
-
-
         $tallas = Talla::all();
         $Proveedores = Proveedor::all()->where('Estado','=',true);
         $Tipos = Tipo_Producto::all();
-        return view('Compras.productos')->with('listado',$Productos)->with('tallas',$tallas)->with('tipos_productos',$Tipos)->with('proveedores',$Proveedores);
+// return $Productos;
+
+        switch ($status) {
+            case 1:
+                $sweet_setAll = ['title' => 'Registro guardado', 'msg' => 'El registro se guardó exitosamente', 'type' => 'success'];
+                return view('Compras.productos')->with('listado',$Productos)->with('tallas',$tallas)
+                ->with('tipos_productos',$Tipos)->with('proveedores',$Proveedores)->with('sweet_setAll', $sweet_setAll);
+                break;
+            case 2:
+                $sweet_setAll = ['title' => 'Registro editado', 'msg' => 'El registro se editó exitosamente', 'type' => 'success'];
+                return view('Compras.productos')->with('listado',$Productos)->with('tallas',$tallas)
+                ->with('tipos_productos',$Tipos)->with('proveedores',$Proveedores)->with('sweet_setAll', $sweet_setAll);
+                break;
+            default:
+            return view('Compras.productos')->with('listado',$Productos)->with('tallas',$tallas)
+        ->with('tipos_productos',$Tipos)->with('proveedores',$Proveedores);
+                break;
+        }
     }
 
     /**
@@ -43,14 +57,14 @@ class ProductosController extends Controller
     public function create(Request $request)
     {
         $validator = Validator::make($request->all(),
-        ['Nit'=>'min:1|max:11','NombreProducto'=>'min:1|max:50','TipoProducto'=>'min:1|max:10','Talla'=>'min:1|max:6','PrecioVenta'=>'min:1|max:8','Cantidad'=>'min:1|max:4'],
+        ['NombreProducto'=>'min:1|max:50','TipoProducto'=>'min:1|max:10','Talla'=>'min:1|max:6','PrecioVenta'=>'min:1|max:8','Cantidad'=>'min:1|max:4'],
         ['unique'=>'* Este campo no acepta información que ya se ha registrado','* min'=>'No puedes enviar este campo vacío','max'=>'* Máximo de :max dígitos']);
 
         if($validator->fails()){
             return back()->withErrors($validator)->withInput();
         }
         $Producto = new Producto();
-        $id = $Producto::creadorPK($Producto,100000);
+        $id = $Producto::creadorPK($Producto,100);
         $Producto->ProductoId = $id;
         $Campos = ['Nit','NombreProducto','TipoProducto','Talla','PrecioVenta','Cantidad'];
         foreach($Campos as $item){
@@ -58,7 +72,7 @@ class ProductosController extends Controller
         }
 
         $Producto->save();
-        return redirect('producto/listar');
+        return redirect('producto/listar/1');
     }
 
     /**
@@ -108,8 +122,17 @@ class ProductosController extends Controller
      */
     public function edit($id)
     {
-        $Selected =  Producto::all()->where('ProductoId','=',$id);
-        return view('Compras.editarproducto')->with('productodata',$Selected);
+        $Selected =   Producto::select('productos.Nit','TipoProducto','ProductoId','tipos_productos.Tipo','proveedores.NombreEmpresa','NombreProducto','tallas.Talla','PrecioVenta','Cantidad',)
+        ->where('ProductoId','=',$id)
+        ->join('proveedores','proveedores.Nit','=','productos.Nit')
+        ->join('tallas','tallas.TallaId','=','productos.Talla')
+        ->join('tipos_productos','tipos_productos.TipoId','=','productos.TipoProducto')
+        ->get();
+        $tallas = Talla::all();
+        $Proveedores = Proveedor::all();
+        $Tipos = Tipo_Producto::all();
+        return view('Compras.editarproducto')->with('productodata',$Selected)->with('tallas',$tallas)
+        ->with('tipos_productos',$Tipos)->with('proveedores',$Proveedores);
     }
 
     /**
@@ -122,9 +145,9 @@ class ProductosController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(),
-        ['Nit'=>'min:1|max:11','NombreProducto'=>'min:1|max:100','TipoProducto'=>'min:1|max:2','Talla'=>'min:1|max:6','PrecioVenta'=>'min:1|max:8','Cantidad'=>'min:1|max:4'],
+        ['Nit'=>'min:1|max:50','NombreProducto'=>'min:1|max:100','TipoProducto'=>'min:1|max:2','Talla'=>'min:1|max:6','PrecioVenta'=>'min:1|max:8','Cantidad'=>'min:1|max:4'],
         ['unique'=>'Este campo no acepta información que ya se ha registrado','min'=>'No puedes enviar este campo vacío','max'=>'Máximo de :max dígitos']);
-        // ,'Municipio'=>70,'Barrio'=>70,'Direccion'=>100
+// return $request->all();
         if($validator->fails()){
             return back()->withErrors($validator)->withInput();
 
@@ -135,7 +158,8 @@ class ProductosController extends Controller
             $Producto->$item = $request->$item;
         }
         $Producto->save();
-        return redirect('producto/listar');
+        return redirect('producto/listar/2');
+
     }
 
     /**

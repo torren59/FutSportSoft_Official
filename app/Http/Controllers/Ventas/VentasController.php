@@ -19,10 +19,21 @@ class VentasController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($status = null)
     {
         $ListadoVenta = Venta::all();
-        return view('Ventas.ventas')->with('listado', $ListadoVenta);
+
+
+        switch ($status) {
+            case 1:
+                $sweet_setAll = ['title' => 'Registro guardado', 'msg' => 'El registro se guardó exitosamente', 'type' => 'success'];
+                return view('Ventas.ventas')->with('listado', $ListadoVenta)->with('sweet_setAll', $sweet_setAll);
+                break;
+
+            default:
+            return view('Ventas.ventas')->with('listado', $ListadoVenta);
+                break;
+        }
     }
 
     /**
@@ -105,7 +116,7 @@ class VentasController extends Controller
             $Producto->save();
             $i += 1;
         }
-        return redirect('venta/listar');
+        return redirect('venta/listar/1');
     }
 
     public function listselected(Request $request)
@@ -132,8 +143,8 @@ class VentasController extends Controller
 
     public function changeState(Request $request){
         $VentaId = json_decode($request->VentaId);
-        $ventas = deportista::find($VentaId);
-        
+        $ventas = Venta::find($VentaId);
+
         if($ventas->Estado == true){
             $ventas->Estado = false;
         }
@@ -163,7 +174,7 @@ class VentasController extends Controller
 
     public function getDetalle($id)
     {
-        
+
         $detalleVenta = Venta::select(['ventas.FechaVenta','ventas.ValorVenta','ventas.VentaId','ventas.SubTotal','ventas.Iva','ventas.Descuento','ventas.Estado','deportistas.Documento','deportistas.Nombre'])
         ->join('deportistas','deportistas.Documento','=','ventas.Documento')
         ->where('ventas.VentaId','=',$id)
@@ -174,9 +185,9 @@ class VentasController extends Controller
         ->where('articulos_vendidos.VentaId','=',$detalleVenta[0]['VentaId'])
         ->get();
        return view('Ventas.detalleventa')->with('detalleventa',$detalleVenta)->with('articulosVendidos',$articulosVendidos);
-       
-        
-        
+
+
+
     }
 
 
@@ -374,4 +385,11 @@ class VentasController extends Controller
         }
         return json_encode(0);
     }
+
+
+
+
+
+
+
 }
