@@ -32,7 +32,7 @@
                             <select class="form-select" name="Nit" aria-label="Default select example">
                                 <option selected value="{{ $item->Nit }}">{{ $item->NombreEmpresa}}</option>
                                 @foreach ($proveedores as $item2)
-                                    <option value="{{ $item2['proveedores.Nit'] }}">{{ $item2->NombreEmpresa }}</option>
+                                    <option value="{{ $item2->Nit}}">{{ $item2->NombreEmpresa }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -55,7 +55,7 @@
                             <label for="TipoProducto" class="form-label">Tipo</label>
                             <select class="form-select" name="TipoProducto" aria-label="Default select example">
                                 <option selected value="{{ $item->TipoProducto}}">{{ $item->Tipo}}</option>
-                                @foreach ($proveedores as $item2)
+                                @foreach ($tipos_productos as $item2)
                                     <option value="{{ $item2->TipoId }}">{{ $item2->Tipo }}</option>
                                 @endforeach
                             </select>
@@ -65,8 +65,8 @@
                         <div class="col-6">
                             <label for="TipoProducto" class="form-label">Talla</label>
                             <select class="form-select" name="Talla" aria-label="Default select example">
-                                <option selected value="{{ $item->Talla}}">{{ $item->Talla}}</option>
-                                @foreach ($proveedores as $item2)
+                                <option selected value="{{ $item->TallaId}}">{{ $item->Talla}}</option>
+                                @foreach ($tallas as $item2)
                                     <option value="{{ $item2->TallaId }}">{{ $item2->Talla }}</option>
                                 @endforeach
                             </select>
