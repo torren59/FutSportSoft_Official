@@ -154,6 +154,14 @@ class VentasController extends Controller
 
         $ventas->save();
 
+        $articulos = Articulo_Vendido::select(['ProductoId','Cantidad'])->where('VentaId','=',$VentaId)->get();
+
+        foreach($articulos as $articulo){
+            $producto = Producto::find($articulo->ProductoId);
+            $cantidadInicial = $producto->Cantidad;
+            $nuevaCantidad = $cantidadInicial
+        }
+
         return json_encode($ventas);
 
     }
