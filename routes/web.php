@@ -83,6 +83,7 @@ Route::controller(ComprasController::class)->middleware('auth')->group(
         Route::get('compras/getDetalle/{NumeroFactura?}','getDetalle')->middleware('IsAuthorized:116');
         Route::post('/compras/listaseleccionados','listselected');
         Route::post('compras/cambiarEstado','changeState');
+        Route::post('compra/puedeCambiar','canChange');
 
 
     }

@@ -182,39 +182,29 @@ class ComprasController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+   public function canChange(Request $request){
+    $CompraId = json_decode($request->CompraId);
+    $articulos = articulo_comprado::select(['ProductoId','Cantidad'])->where('NumeroFactura','=',$CompraId)->get();
+    $sinExistencias = [];
+
+    foreach($articulos as $articulo){
+        $producto = Producto::find($articulo->ProductoId);
+        if(intval($producto->Cantidad)<intval($articulo->Cantidad)){
+            $insuficiente = ['ProductoId'=>$producto->ProductoId ,'NombreProducto'=>$producto->NombreProducto ,'Cantidad'=>$producto->Cantidad];
+            array_push($sinExistencias,$insuficiente);
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
+    $Estado = true;
+
+    if(sizeof($sinExistencias)>0){
+        $Estado = false;
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+    $resultado = ['Estado'=>$Estado,'ausencias' => $sinExistencias];
+
+    return json_encode($resultado);
+   }
 
     public function getDetalle(Request $request)
     {
@@ -252,6 +242,17 @@ class ComprasController extends Controller
 
         $Compra->save();
 
+        $articulos = articulo_comprado::select(['ProductoId','Cantidad'])->where('NumeroFactura','=',$NumeroFactura)->get();
+
+        foreach($articulos as $articulo){
+            $producto = Producto::find($articulo->ProductoId);
+            $cantidadInicial = $producto->Cantidad;
+            $nuevaCantidad = intval($cantidadInicial) - intval($articulo->Cantidad);
+            $producto->Cantidad = $nuevaCantidad;
+            $producto->save();
+        }
+
         return json_encode($Compra);
     }
 }
+

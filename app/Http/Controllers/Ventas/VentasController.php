@@ -159,7 +159,9 @@ class VentasController extends Controller
         foreach($articulos as $articulo){
             $producto = Producto::find($articulo->ProductoId);
             $cantidadInicial = $producto->Cantidad;
-            $nuevaCantidad = $cantidadInicial
+            $nuevaCantidad = intval($cantidadInicial) + intval($articulo->Cantidad);
+            $producto->Cantidad = $nuevaCantidad;
+            $producto->save();
         }
 
         return json_encode($ventas);

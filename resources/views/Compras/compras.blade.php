@@ -3,8 +3,8 @@
 @section('title', 'Compras')
 
 @push('styles')
-{{-- Csrf para funcionamiento de Ajax --}}
-<meta name="csrf-token" content="{{ csrf_token() }}">
+    {{-- Csrf para funcionamiento de Ajax --}}
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href=" {{ asset('./css/layouts/datatable.css') }} ">
     <link rel="stylesheet" href="{{ asset('./css/layouts/cruds.css') }} ">
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -60,7 +60,7 @@
                         <td>
                             @if (in_array(145, $permisos))
                                 {{-- Definiendo estado --}}
-                                @php
+                                {{-- @php
                                     $checkstate = '';
                                     if ($item->Estado == true) {
                                         $checkstate = 'checked';
@@ -70,8 +70,23 @@
                                 <div class="form-check form-switch">
                                     <input class="form-check-input" type="checkbox" role="switch"
                                         id="flexSwitchCheckChecked" {{ $checkstate }}
-                                        onclick="changeState2({{ $item->NumeroFactura }})">
-                                </div>
+                                        onclick="tryChange({{ $item->NumeroFactura }})">
+                                </div> --}}
+
+                                {{-- Definiendo estado --}}
+                                @if ($item->Estado == true)
+                                    <div id="check_{{ $item->NumeroFactura }}">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" role="switch" checked
+                                                onclick="tryChange({{ $item->NumeroFactura }})"
+                                                id="check_state{{ $item->NumeroFactura }}">
+                                        </div>
+                                    </div>
+                                @else
+                                    <div>
+                                        <button disabled class="btn btn-danger btn-sm">Cancelada</button>
+                                    </div>
+                                @endif
                             @endif
                         </td>
 
@@ -98,6 +113,24 @@
                     onclick="switchadicion2('detallecompra')">Cerrar</i></button>
             </div>
 
+        </div>
+    </div>
+
+    {{-- Alerta cambio de estado --}}
+    <div class="adicion_off" id="errorsEstado" style="width:550px">
+        <div class="floatcontent">
+            <h2>*Operacion cancelada</h2>
+            <div>
+                <h4>* No fue posible realizar el cambio de estado. <br>
+                    Unidades insuficientes.</h4>
+            </div>
+            <div id="errorsEstadoMsg">
+                {{-- Acá se imprimen las programaciones vinculadas --}}
+            </div>
+
+            <div class="botonalerta p-3">
+                <button type="button" class="btn btn-outline-secondary" onclick="alterModal()">Cancelar</i></button> <br>
+            </div>
         </div>
     </div>
 
@@ -128,13 +161,13 @@
 
     {{-- Mensajes personalizados --}}
     @if (isset($sweet_setAll))
-    <script>
-        setTimeout(() => {
-            swal_setAll("{{ $sweet_setAll['title'] }}", "{{ $sweet_setAll['msg'] }}",
-                "{{ $sweet_setAll['type'] }}");
-        }, 500);
-    </script>
-@endif
+        <script>
+            setTimeout(() => {
+                swal_setAll("{{ $sweet_setAll['title'] }}", "{{ $sweet_setAll['msg'] }}",
+                    "{{ $sweet_setAll['type'] }}");
+            }, 500);
+        </script>
+    @endif
 @endsection
 
 

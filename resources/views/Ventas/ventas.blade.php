@@ -69,18 +69,18 @@
                         <td>
                             @if (in_array(155, $permisos))
                                 {{-- Definiendo estado --}}
-                                @php
-                                    $checkstate = '';
-                                    if ($item->Estado == true) {
-                                        $checkstate = 'checked';
-                                    }
-                                @endphp
-
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" role="switch"
-                                        id="flexSwitchCheckChecked" {{ $checkstate }}
-                                        onclick="changeState({{ $item->VentaId }})">
+                                @if ($item->Estado == true)
+                                <div  id="check_{{ $item->VentaId }}">
+                                    <div class="form-check form-switch" >
+                                        <input class="form-check-input" type="checkbox" role="switch" checked
+                                            onclick="tryChange({{ $item->VentaId }})">
+                                    </div>
                                 </div>
+                                @else
+                                    <div>
+                                        <button disabled class="btn btn-danger btn-sm">Cancelada</button>
+                                    </div>
+                                @endif
                             @endif
                         </td>
 
@@ -88,8 +88,6 @@
                 @endforeach
             </tbody>
         </table>
-
-
 
 
     </div>
