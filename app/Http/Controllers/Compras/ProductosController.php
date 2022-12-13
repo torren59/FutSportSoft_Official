@@ -20,11 +20,14 @@ class ProductosController extends Controller
      */
     public function index($status = null)
     {
-        $Productos = Producto::select('ProductoId','tipos_productos.Tipo','proveedores.NombreEmpresa','NombreProducto','tallas.Talla','PrecioVenta','Cantidad','productos.Estado')
-        ->join('proveedores','proveedores.Nit','=','productos.Nit')
-        ->join('tallas','tallas.TallaId','=','productos.Talla')
-        ->join('tipos_productos','tipos_productos.TipoId','=','productos.TipoProducto')
+        $Productos = Producto::select(['ProductoId','proveedores.NombreEmpresa','tipos_productos.Tipo','tallas.Talla','NombreProducto','PrecioVenta','Cantidad','productos.Estado'])
+         ->join('proveedores','proveedores.Nit','=','productos.Nit')
+         ->join('tallas','tallas.TallaId','=','productos.Talla')
+         ->join('tipos_productos','tipos_productos.TipoId','=','productos.TipoProducto')
         ->get();
+        //    return $Productos;
+
+
 
         $tallas = Talla::all();
         $Proveedores = Proveedor::all()->where('Estado','=',true);
@@ -122,11 +125,11 @@ class ProductosController extends Controller
      */
     public function edit($id)
     {
-        $Selected =   Producto::select('productos.Nit','TipoProducto','ProductoId','tipos_productos.Tipo','proveedores.NombreEmpresa','NombreProducto','tallas.Talla','PrecioVenta','Cantidad',)
+        $Selected =   Producto::select('tallas.TallaId','productos.Nit','TipoProducto','ProductoId','tipos_productos.Tipo','proveedores.NombreEmpresa','NombreProducto','tallas.Talla','PrecioVenta','Cantidad',)
         ->where('ProductoId','=',$id)
         ->join('proveedores','proveedores.Nit','=','productos.Nit')
-        ->join('tallas','tallas.TallaId','=','productos.Talla')
-        ->join('tipos_productos','tipos_productos.TipoId','=','productos.TipoProducto')
+         ->join('tallas','tallas.TallaId','=','productos.Talla')
+         ->join('tipos_productos','tipos_productos.TipoId','=','productos.TipoProducto')
         ->get();
         $tallas = Talla::all();
         $Proveedores = Proveedor::all();
